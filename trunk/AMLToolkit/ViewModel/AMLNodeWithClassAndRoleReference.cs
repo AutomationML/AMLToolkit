@@ -22,7 +22,7 @@ namespace AMLToolkit.ViewModel
 {
     /// <summary>
     /// Class AMLNodeWithClassAndRoleReference is the ViewModel for all CAEX-Elements, which may have references to CAEX-Classes and Roles.
-    /// The ViewModel provides an additional property <see cref="AMLNodeWithClassReference.RoleReference"/> for these Elements. The RoleReference
+    /// The ViewModel provides an additional property <see cref="AMLNodeWithClassAndRoleReference.RoleReference"/> for these Elements. The RoleReference
     /// is build from the first RoleRequirement found in the Children Collection of the Element.
     /// </summary>
     public class AMLNodeWithClassAndRoleReference : AMLNodeWithClassReference

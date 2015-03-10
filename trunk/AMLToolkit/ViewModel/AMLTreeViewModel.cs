@@ -41,8 +41,8 @@ namespace AMLToolkit.ViewModel
         ///    Initializes a new instance of the <see cref="AMLTreeViewModel"/> class.
         /// </summary>
         /// <param name="RootNode">   The root node for the TreeView.</param>
-        /// <param name="CaexTagName">
-        ///    Name of the caex tag, this can be any CAEX-Element name.
+        /// <param name="CaexTagNames">
+        ///    List of CAEX-Names, which define the visible Elements in the TreeView. A Name in the List can be any CAEX-Element Name.
         /// </param>
         public AMLTreeViewModel(XmlElement RootNode, List<string> CaexTagNames)
             : base(null, RootNode, false)

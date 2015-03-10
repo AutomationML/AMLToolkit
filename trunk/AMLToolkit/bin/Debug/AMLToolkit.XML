@@ -645,7 +645,7 @@
         <member name="T:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference">
             <summary>
             Class AMLNodeWithClassAndRoleReference is the ViewModel for all CAEX-Elements, which may have references to CAEX-Classes and Roles.
-            The ViewModel provides an additional property <see cref="!:AMLNodeWithClassReference.RoleReference"/> for these Elements. The RoleReference
+            The ViewModel provides an additional property <see cref="P:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference.RoleReference"/> for these Elements. The RoleReference
             is build from the first RoleRequirement found in the Children Collection of the Element.
             </summary>
         </member>
@@ -768,8 +768,8 @@
                Initializes a new instance of the <see cref="T:AMLToolkit.ViewModel.AMLTreeViewModel"/> class.
             </summary>
             <param name="RootNode">   The root node for the TreeView.</param>
-            <param name="CaexTagName">
-               Name of the caex tag, this can be any CAEX-Element name.
+            <param name="CaexTagNames">
+               List of CAEX-Names, which define the visible Elements in the TreeView. A Name in the List can be any CAEX-Element Name.
             </param>
         </member>
         <member name="F:AMLToolkit.ViewModel.AMLTreeViewModel.treeViewLayout">
