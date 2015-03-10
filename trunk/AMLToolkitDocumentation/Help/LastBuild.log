@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shfbBuild product="Sandcastle Help File Builder" version="2015.1.12.0" projectFile="D:\Benutzer\Prinz\Dokumente\Visual Studio 2013\Projects\AMLToolkit\AMLToolkitDocumentation\AMLToolkitDocumentation.shfbproj" started="10.03.2015 14:38:26">
+<buildStep step="Initializing">
+Finding tools...
+The Sandcastle tools are located in &#39;C:\Program Files (x86)\Sandcastle Help File Builder\&#39;
+Searching for HTML Help 1 compiler...
+Found HTML Help 1 compiler in &#39;C:\Program Files (x86)\HTML Help Workshop\&#39;
+Locating components in the following folder(s):
+   D:\Benutzer\Prinz\Dokumente\Visual Studio 2013\Projects\AMLToolkit\AMLToolkitDocumentation
+Using presentation style &#39;VS2010&#39; located in &#39;C:\Program Files (x86)\Sandcastle Help File Builder\PresentationStyles\VS2010&#39;
+</buildStep>
+<buildStep step="ValidatingDocumentationSources">
+Validating and copying documentation source information
+Source: D:\Benutzer\Prinz\Dokumente\Visual Studio 2013\Projects\AMLToolkit\AMLToolkit\AMLToolkit.csproj
+    Found project &#39;D:\Benutzer\Prinz\Dokumente\Visual Studio 2013\Projects\AMLToolkit\AMLToolkit\AMLToolkit.csproj&#39;
+
+Parsing project files
+    Last step completed in 00:00:00,0030
+</buildStep>
+<buildStep step="Failed">
+
+SHFB: Error BE0040: Project assembly does not exist: D:\Benutzer\Prinz\Dokumente\Visual Studio 2013\Projects\AMLToolkit\AMLToolkit\bin\Release\AMLToolkit.dll
+   bei SandcastleBuilder.Utils.BuildEngine.BuildProcess.ValidateDocumentationSources()
+   bei SandcastleBuilder.Utils.BuildEngine.BuildProcess.Build()
+
+</buildStep>
+</shfbBuild>

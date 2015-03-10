@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<topic id="cecb8fa6-3222-40cd-9625-230fa9fa8295" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<introduction>
+			<para>Starting Point for the integration of the AMLToolkit into your Solution or Project.</para>
+		</introduction>
+
+		<section>
+			<title>Getting Started</title>
+			<content>
+				<para>To get started, add the AMLToolkit to the project (a Visual Studio solution or project file). The AMLToolkit can be added via Nuget or as a Project, 
+        containing the sources, which are available from the GitHub Project side.
+        The AMLToolkit has the following dependencies, which will be automatically included if the integration is done with nuget:</para>
+
+				<list class="bullet">
+					<listItem>
+						<para>
+              <ddue:externalLink xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
+                <ddue:linkText>AMLEngine</ddue:linkText>
+                <ddue:linkUri>https://www.nuget.org/packages/AMLEngine/</ddue:linkUri>
+                <ddue:linkTarget>_blank</ddue:linkTarget>
+              </ddue:externalLink>              
+            </para>
+					</listItem>
+          <listItem>
+            <para>
+              <ddue:externalLink xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
+                <ddue:linkText>MVVM Light Toolkit</ddue:linkText>
+                <ddue:linkUri>https://www.nuget.org/packages/MvvmLightLibs/</ddue:linkUri>
+                <ddue:linkTarget>_blank</ddue:linkTarget>
+              </ddue:externalLink>
+            </para>
+          </listItem>
+
+				</list>
+
+				
+			</content>
+		</section>
+
+		<relatedTopics>
+			<link xlink:href="eb5426d1-6292-4833-aaa4-eda9c0774d05" />
+		</relatedTopics>
+	</developerConceptualDocument>
+</topic>

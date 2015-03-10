@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="eb5426d1-6292-4833-aaa4-eda9c0774d05" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<introduction>
+			<para>The topics in this section describe the various changes made to the AutomationML Toolkit over the
+life of the project.</para>
+		</introduction>
+
+		<section>
+			<title>Version History</title>
+			<content>
+				<para>Select a version below to see a description of its changes.</para>
+
+				<list class="bullet">
+					<listItem>
+						<para><link xlink:href="10fdf5f0-d759-4390-94e1-925b6c2631a2" /></para>
+					</listItem>
+
+					<!--<listItem>
+						<para>[TODO: Add links to each specific version page]</para>
+					</listItem>-->
+
+				</list>
+
+			</content>
+		</section>
+
+		<relatedTopics>
+			<link xlink:href="cecb8fa6-3222-40cd-9625-230fa9fa8295" />
+		</relatedTopics>
+
+	</developerConceptualDocument>
+</topic>
