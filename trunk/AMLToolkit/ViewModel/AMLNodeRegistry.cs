@@ -30,74 +30,74 @@ namespace AMLToolkit.ViewModel
     /// has a special ViewModel with a special constructor. Currently, the following associations are created for the 
     /// static Instance:
     /// 
-    /// <list type="table">
+    /// <list type="table" keepSeeTags="true">
     /// <listheader>
     /// <term>CAEX-Element</term>
     /// <description>Associated ViewModel-Constructor.> </description>
     /// </listheader>
     /// <item>
     /// <term>InstanceHierarchy</term>
-    /// <description>Basic ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeViewModel, System.Xml.XmlElement, System.Boolean)"/></description>
+    /// <description>Basic ViewModel: <see cref="AMLNodeViewModel(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
     /// </item>
     /// <item>
     /// <term>SystemUnitClassLibrary</term>
-    /// <description>Basic ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeViewModel, System.Xml.XmlElement, System.Boolean)"/></description>
+    /// <description>Basic ViewModel: <see cref="AMLNodeViewModel(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
     /// </item>
     /// <item>
     /// <term>RoleClassLibrary</term>
-    /// <description>Basic ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeViewModel, System.Xml.XmlElement, System.Boolean)"/></description>
+    /// <description>Basic ViewModel: <see cref="AMLNodeViewModel(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
     /// </item>
     /// <item>
     /// <term>InterfaceClassLibrary</term>
-    /// <description>Basic ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeViewModel, System.Xml.XmlElement, System.Boolean)"/></description>
+    /// <description>Basic ViewModel: <see cref="AMLNodeViewModel(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
     /// </item>
     /// <item>
     /// <term>InternalLink</term>
-    /// <description>Basic ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeViewModel, System.Xml.XmlElement, System.Boolean)"/></description>
+    /// <description>Basic ViewModel: <see cref="AMLNodeViewModel(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
     /// </item>
     /// <item>
     /// <term>InternalElement [has Class- and Role-Reference]</term>
-    /// <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithClassAndRoleReference, System.Xml.XmlElement, System.Boolean)"/></description>
+    /// <description>Derived ViewModel: <see cref="AMLNodeWithClassAndRoleReference(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
     /// </item>
     /// <item>
     /// <term>SystemUnitClass [has Class-Reference]</term>
-    /// <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithClassReference, System.Xml.XmlElement, System.Boolean)"/></description>
+    /// <description>Derived ViewModel: <see cref="AMLNodeWithClassReference(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
     /// </item>
     /// <item>
     /// <term>RoleClass [has Class-Reference]</term>
-    /// <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithClassReference, System.Xml.XmlElement, System.Boolean)"/></description>
+    /// <description>Derived ViewModel: <see cref="AMLNodeWithClassReference(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
     /// </item>
     /// <item>
     /// <term>InterfaceClass [has Class-Reference]</term>
-    /// <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithClassReference, System.Xml.XmlElement, System.Boolean)"/></description>
+    /// <description>Derived ViewModel: <see cref="AMLNodeWithClassReference(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
     /// </item>
     /// <item>
     /// <term>ExternalInterface [has Class-Reference]</term>
-    /// <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithClassReference, System.Xml.XmlElement, System.Boolean)"/></description>
+    /// <description>Derived ViewModel: <see cref="AMLNodeWithClassReference(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
     /// </item>
     /// <item>
     /// <term>CaexFile [has no Name-Attribute]</term>
-    /// <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithoutName, System.Xml.XmlElement, System.Boolean)"/></description>
+    /// <description>Derived ViewModel: <see cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
     /// </item>
     /// <item>
     /// <term>RoleRequirement [has no Name-Attribute]</term>
-    /// <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithoutName, System.Xml.XmlElement, System.Boolean)"/></description>
+    /// <description>Derived ViewModel: <see cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
     /// </item>
     /// <item>
     /// <term>SupportedRoleClass [has no Name-Attribute]</term>
-    /// <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithoutName, System.Xml.XmlElement, System.Boolean)"/></description>
+    /// <description>Derived ViewModel: <see cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
     /// </item>
     /// <item>
     /// <term>MappingObject [has no Name-Attribute]</term>
-    /// <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithoutName, System.Xml.XmlElement, System.Boolean)"/></description>
+    /// <description>Derived ViewModel: <see cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
     /// </item>
     /// <item>
     /// <term>AttributeNameMapping [has no Name-Attribute]</term>
-    /// <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithoutName, System.Xml.XmlElement, System.Boolean)"/></description>
+    /// <description>Derived ViewModel: <see cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
     /// </item>
     /// <item>
     /// <term>InterfaceNameMapping [has no Name-Attribute]</term>
-    /// <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithoutName, System.Xml.XmlElement, System.Boolean)"/></description>
+    /// <description>Derived ViewModel: <see cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
     /// </item>
     /// </list>     
     /// </summary>

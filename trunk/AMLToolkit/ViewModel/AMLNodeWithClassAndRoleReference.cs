@@ -1,29 +1,63 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// ***********************************************************************
+// Assembly         : AMLToolkit
+// Author           : Josef Prinz
+// Created          : 03-10-2015
+//
+// Last Modified By : Josef Prinz
+// Last Modified On : 03-10-2015
+// ***********************************************************************
+// <copyright file="AMLNodeWithClassAndRoleReference.cs" company="inpro">
+//     Copyright (c) AutomationML e.V. All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 using System.Linq;
-using System.Text;
-using AMLEngineExtensions;
 using AMLToolkit.Model;
 using CAEX_ClassModel;
 
+/// <summary>
+/// The ViewModel namespace.
+/// </summary>
 namespace AMLToolkit.ViewModel
 {
-    public class AMLNodeWithClassAndRoleReference: AMLNodeWithClassReference
+    /// <summary>
+    /// Class AMLNodeWithClassAndRoleReference is the ViewModel for all CAEX-Elements, which may have references to CAEX-Classes and Roles.
+    /// The ViewModel provides an additional property <see cref="AMLNodeWithClassReference.RoleReference"/> for these Elements. The RoleReference
+    /// is build from the first RoleRequirement found in the Children Collection of the Element.
+    /// </summary>
+    public class AMLNodeWithClassAndRoleReference : AMLNodeWithClassReference
     {
+        #region Private Fields
+
+        /// <summary>
+        /// <see cref="RoleReference" />
+        /// </summary>
+        private string _roleReference;
+
+        #endregion Private Fields
+
+        #region Public Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AMLNodeWithClassAndRoleReference" /> class.
+        /// </summary>
+        /// <param name="parent">The parent.</param>
+        /// <param name="CaexNode">The caex node.</param>
+        /// <param name="lazyLoadChildren">if set to <c>true</c> [lazy load children].</param>
         public AMLNodeWithClassAndRoleReference(AMLNodeViewModel parent, System.Xml.XmlElement CaexNode, bool lazyLoadChildren) :
-            base (parent, CaexNode, lazyLoadChildren)
+            base(parent, CaexNode, lazyLoadChildren)
         {
             RefreshNodeInformation();
         }
 
-        /// <summary>
-        ///  <see cref="RoleReference"/>
-        /// </summary>    
-        private string _roleReference;
+        #endregion Public Constructors
+
+        #region Public Properties
 
         /// <summary>
-        ///  Gets and sets the RoleReference
+        /// Gets and sets the RoleReference
         /// </summary>
+        /// <value>The role reference.</value>
         public string RoleReference
         {
             get
@@ -39,17 +73,20 @@ namespace AMLToolkit.ViewModel
             }
         }
 
+        #endregion Public Properties
+
+        #region Public Methods
 
         /// <summary>
-        /// Refreshes the node information. This Method can be overridden in derived classes. The Method
-        /// should be called, if the CAEX-Elements Data has changed and the Changes should be visible in any
-        /// View, that has a binding to this ViewModel.
+        /// Refreshes the node information. This Method can be overridden in derived
+        /// classes. The Method should be called, if the CAEX-Elements Data has changed
+        /// and the Changes should be visible in any View, that has a binding to this ViewModel.
         /// </summary>
         public override void RefreshNodeInformation()
         {
             base.RefreshNodeInformation();
 
-            if (CAEXNode != null  && CAEXNode.HasChildNodes)
+            if (CAEXNode != null && CAEXNode.HasChildNodes)
             {
                 var role = CAEXNode.ChildElements(CAEX_CLASSModel_TagNames.ROLEREQUIREMENTS_STRING).FirstOrDefault();
                 if (role != null)
@@ -62,6 +99,7 @@ namespace AMLToolkit.ViewModel
                 }
             }
         }
-        
+
+        #endregion Public Methods
     }
 }

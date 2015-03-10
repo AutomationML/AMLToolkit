@@ -29,7 +29,7 @@ namespace AMLToolkit.ViewModel
         #region Public Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AMLNodeViewModel" /> class.
+        /// Initializes a new instance of the <see cref="AMLNodeWithoutName" /> class.
         /// </summary>
         /// <param name="parent">The parent.</param>
         /// <param name="CaexNode">The caex node.</param>

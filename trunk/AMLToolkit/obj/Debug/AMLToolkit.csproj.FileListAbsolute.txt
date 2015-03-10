@@ -43,7 +43,6 @@ D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\GalaSof
 D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
 D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\Microsoft.Practices.ServiceLocation.xml
 D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\System.Windows.Interactivity.xml
-D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\obj\Debug\AMLToolkit.csprojResolveAssemblyReference.cache
 D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\obj\Debug\GeneratedInternalTypeHelper.g.cs
 D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\obj\Debug\AMLToolkit_MarkupCompile.cache
 D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\obj\Debug\AMLToolkit_MarkupCompile.lref

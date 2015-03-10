@@ -391,74 +391,74 @@
             has a special ViewModel with a special constructor. Currently, the following associations are created for the 
             static Instance:
             
-            <list type="table">
+            <list type="table" keepSeeTags="true">
             <listheader>
             <term>CAEX-Element</term>
             <description>Associated ViewModel-Constructor.&gt; </description>
             </listheader>
             <item>
             <term>InstanceHierarchy</term>
-            <description>Basic ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeViewModel, System.Xml.XmlElement, System.Boolean)"/></description>
+            <description>Basic ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeViewModel.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
             </item>
             <item>
             <term>SystemUnitClassLibrary</term>
-            <description>Basic ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeViewModel, System.Xml.XmlElement, System.Boolean)"/></description>
+            <description>Basic ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeViewModel.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
             </item>
             <item>
             <term>RoleClassLibrary</term>
-            <description>Basic ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeViewModel, System.Xml.XmlElement, System.Boolean)"/></description>
+            <description>Basic ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeViewModel.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
             </item>
             <item>
             <term>InterfaceClassLibrary</term>
-            <description>Basic ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeViewModel, System.Xml.XmlElement, System.Boolean)"/></description>
+            <description>Basic ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeViewModel.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
             </item>
             <item>
             <term>InternalLink</term>
-            <description>Basic ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeViewModel, System.Xml.XmlElement, System.Boolean)"/></description>
+            <description>Basic ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeViewModel.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
             </item>
             <item>
             <term>InternalElement [has Class- and Role-Reference]</term>
-            <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithClassAndRoleReference, System.Xml.XmlElement, System.Boolean)"/></description>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
             </item>
             <item>
             <term>SystemUnitClass [has Class-Reference]</term>
-            <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithClassReference, System.Xml.XmlElement, System.Boolean)"/></description>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithClassReference.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
             </item>
             <item>
             <term>RoleClass [has Class-Reference]</term>
-            <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithClassReference, System.Xml.XmlElement, System.Boolean)"/></description>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithClassReference.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
             </item>
             <item>
             <term>InterfaceClass [has Class-Reference]</term>
-            <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithClassReference, System.Xml.XmlElement, System.Boolean)"/></description>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithClassReference.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
             </item>
             <item>
             <term>ExternalInterface [has Class-Reference]</term>
-            <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithClassReference, System.Xml.XmlElement, System.Boolean)"/></description>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithClassReference.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
             </item>
             <item>
             <term>CaexFile [has no Name-Attribute]</term>
-            <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithoutName, System.Xml.XmlElement, System.Boolean)"/></description>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithoutName.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
             </item>
             <item>
             <term>RoleRequirement [has no Name-Attribute]</term>
-            <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithoutName, System.Xml.XmlElement, System.Boolean)"/></description>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithoutName.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
             </item>
             <item>
             <term>SupportedRoleClass [has no Name-Attribute]</term>
-            <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithoutName, System.Xml.XmlElement, System.Boolean)"/></description>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithoutName.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
             </item>
             <item>
             <term>MappingObject [has no Name-Attribute]</term>
-            <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithoutName, System.Xml.XmlElement, System.Boolean)"/></description>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithoutName.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
             </item>
             <item>
             <term>AttributeNameMapping [has no Name-Attribute]</term>
-            <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithoutName, System.Xml.XmlElement, System.Boolean)"/></description>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithoutName.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
             </item>
             <item>
             <term>InterfaceNameMapping [has no Name-Attribute]</term>
-            <description>Derived ViewModel: <see cref="M:AMLNodeViewModel.#ctor(AMLNodeWithoutName, System.Xml.XmlElement, System.Boolean)"/></description>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithoutName.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
             </item>
             </list>     
             </summary>
@@ -642,6 +642,13 @@
             </summary>
             <value>The parent.</value>
         </member>
+        <member name="T:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference">
+            <summary>
+            Class AMLNodeWithClassAndRoleReference is the ViewModel for all CAEX-Elements, which may have references to CAEX-Classes and Roles.
+            The ViewModel provides an additional property <see cref="!:AMLNodeWithClassReference.RoleReference"/> for these Elements. The RoleReference
+            is build from the first RoleRequirement found in the Children Collection of the Element.
+            </summary>
+        </member>
         <member name="T:AMLToolkit.ViewModel.AMLNodeWithClassReference">
             <summary>
             Class AMLNodeWithClassReference is the ViewModel for all CAEX-Elements, which may have references to CAEX-Classes.
@@ -655,7 +662,7 @@
         </member>
         <member name="M:AMLToolkit.ViewModel.AMLNodeWithClassReference.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)">
             <summary>
-            Initializes a new instance of the <see cref="T:AMLToolkit.ViewModel.AMLNodeViewModel"/> class.
+            Initializes a new instance of the <see cref="T:AMLToolkit.ViewModel.AMLNodeWithClassReference"/> class.
             </summary>
             <param name="parent">The parent.</param>
             <param name="CaexNode">The caex node.</param>
@@ -688,20 +695,29 @@
         </member>
         <member name="F:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference._roleReference">
             <summary>
-             <see cref="P:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference.RoleReference"/>
-            </summary>    
+            <see cref="P:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference.RoleReference"/>
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference"/> class.
+            </summary>
+            <param name="parent">The parent.</param>
+            <param name="CaexNode">The caex node.</param>
+            <param name="lazyLoadChildren">if set to <c>true</c> [lazy load children].</param>
         </member>
         <member name="M:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference.RefreshNodeInformation">
             <summary>
-            Refreshes the node information. This Method can be overridden in derived classes. The Method
-            should be called, if the CAEX-Elements Data has changed and the Changes should be visible in any
-            View, that has a binding to this ViewModel.
+            Refreshes the node information. This Method can be overridden in derived
+            classes. The Method should be called, if the CAEX-Elements Data has changed
+            and the Changes should be visible in any View, that has a binding to this ViewModel.
             </summary>
         </member>
         <member name="P:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference.RoleReference">
             <summary>
-             Gets and sets the RoleReference
+            Gets and sets the RoleReference
             </summary>
+            <value>The role reference.</value>
         </member>
         <member name="T:AMLToolkit.ViewModel.AMLNodeWithoutName">
             <summary>
@@ -712,7 +728,7 @@
         </member>
         <member name="M:AMLToolkit.ViewModel.AMLNodeWithoutName.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)">
             <summary>
-            Initializes a new instance of the <see cref="T:AMLToolkit.ViewModel.AMLNodeViewModel"/> class.
+            Initializes a new instance of the <see cref="T:AMLToolkit.ViewModel.AMLNodeWithoutName"/> class.
             </summary>
             <param name="parent">The parent.</param>
             <param name="CaexNode">The caex node.</param>
@@ -1092,7 +1108,7 @@
             The AMLTreeView is a Control, which arranges CAEX-ElementTrees in a TreeView and assigns a default icon for each distinctive CAEX-Element
             <example>This is a code example which shows, how to create a ViewModel with AMLDocument Data, which can be bound to a TreeView. The
             example uses the AMLEngine.
-            <code keepSeeTags="true"> 
+            <code keepSeeTags="true" title="c#"> 
             {
                // read the AMLDocument
                var doc = CAEXDocument.LoadFromFile("myFile.aml");
@@ -1173,6 +1189,36 @@
         <member name="P:AMLToolkit.Properties.Resources.Role">
             <summary>
               Sucht eine lokalisierte Zeichenfolge, die Role ähnelt.
+            </summary>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
             </summary>
         </member>
     </members>

@@ -24,7 +24,7 @@ namespace AMLToolkit.View
     /// The AMLTreeView is a Control, which arranges CAEX-ElementTrees in a TreeView and assigns a default icon for each distinctive CAEX-Element
     /// <example>This is a code example which shows, how to create a ViewModel with AMLDocument Data, which can be bound to a TreeView. The
     /// example uses the AMLEngine.
-    /// <code keepSeeTags="true"> 
+    /// <code keepSeeTags="true" title="c#"> 
     /// {
     ///    // read the AMLDocument
     ///    var doc = CAEXDocument.LoadFromFile("myFile.aml");
