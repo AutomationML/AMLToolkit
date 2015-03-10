@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CAEXFile FileName="Test1.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AdditionalInformation AutomationMLVersion="2.0" />
+	<AdditionalInformation>
+		<WriterHeader>
+			<WriterName>AutomationML Editor</WriterName>
+			<WriterID>916578CA-FE0D-474E-A4FC-9E1719892369</WriterID>
+			<WriterVendor>AutomationML e.V.</WriterVendor>
+			<WriterVendorURL>www.AutomationML.org</WriterVendorURL>
+			<WriterVersion>4.1.4</WriterVersion>
+			<WriterRelease>4.1.4.0</WriterRelease>
+			<LastWritingDateTime>10.03.2015 14:47:08</LastWritingDateTime>
+			<WriterProjectTitle>unspecified</WriterProjectTitle>
+			<WriterProjectID>unspecified</WriterProjectID>
+		</WriterHeader>
+	</AdditionalInformation>
+	<InstanceHierarchy Name="InstanceHierarchy1">
+		<Version>1.0.0</Version>
+		<InternalElement Name="InternalElement1" ID="2822e010-a236-458c-a6de-3af7ec8516b7">
+			<InternalElement Name="InstanceOfSystemUnitClass2" RefBaseSystemUnitPath="SystemUnitClassLib1/SystemUnitClass2" ID="8938f588-f54e-489c-8b2a-28f0e3da37dd">
+				<InternalElement Name="InstanceOfSystemUnitClass1" RefBaseSystemUnitPath="SystemUnitClassLib1/SystemUnitClass1" ID="a048f648-94c3-4e45-ba89-64b623a6a8a6">
+					<ExternalInterface Name="InstanceOfInterfaceClass1" RefBaseClassPath="InterfaceClassLib1/InterfaceClass1" ID="5a2d5eb5-0f90-44f8-a1bb-67cb9cac967f" />
+					<SupportedRoleClass RefRoleClassPath="RoleClassLib1/RoleClass1" />
+				</InternalElement>
+			</InternalElement>
+			<InternalElement Name="Instance2OfSystemUnitClass2" RefBaseSystemUnitPath="SystemUnitClassLib1/SystemUnitClass2" ID="e7c8764d-9be6-438a-937a-13ce1fdd5311">
+				<InternalElement Name="InstanceOfSystemUnitClass1" RefBaseSystemUnitPath="SystemUnitClassLib1/SystemUnitClass1" ID="fcd49cf9-45b8-40b0-8d85-7bbee98d4fe8">
+					<ExternalInterface Name="InstanceOfInterfaceClass1" RefBaseClassPath="InterfaceClassLib1/InterfaceClass1" ID="73f2857c-a1e7-4756-aa02-d20e591c7f0b" />
+					<SupportedRoleClass RefRoleClassPath="RoleClassLib1/RoleClass1" />
+				</InternalElement>
+			</InternalElement>
+			<InternalLink Name="link1" RefPartnerSideA="a048f648-94c3-4e45-ba89-64b623a6a8a6:InstanceOfInterfaceClass1" RefPartnerSideB="fcd49cf9-45b8-40b0-8d85-7bbee98d4fe8:InstanceOfInterfaceClass1" />
+		</InternalElement>
+	</InstanceHierarchy>
+	<InterfaceClassLib Name="InterfaceClassLib1">
+		<Version>1.0.0</Version>
+		<InterfaceClass Name="InterfaceClass1" />
+	</InterfaceClassLib>
+	<RoleClassLib Name="RoleClassLib1">
+		<Version>1.0.0</Version>
+		<RoleClass Name="RoleClass1" />
+	</RoleClassLib>
+	<SystemUnitClassLib Name="SystemUnitClassLib1">
+		<Version>1.0.0</Version>
+		<SystemUnitClass Name="SystemUnitClass1">
+			<ExternalInterface Name="InstanceOfInterfaceClass1" RefBaseClassPath="InterfaceClassLib1/InterfaceClass1" ID="278e6408-abcc-40a9-8eeb-c7cadbcdd471" />
+			<SupportedRoleClass RefRoleClassPath="RoleClassLib1/RoleClass1" />
+		</SystemUnitClass>
+		<SystemUnitClass Name="SystemUnitClass2">
+			<InternalElement Name="InstanceOfSystemUnitClass1" RefBaseSystemUnitPath="SystemUnitClassLib1/SystemUnitClass1" ID="fab67ef8-e2c7-4cf4-80e4-28c11abe7588">
+				<ExternalInterface Name="InstanceOfInterfaceClass1" RefBaseClassPath="InterfaceClassLib1/InterfaceClass1" ID="32bff808-b500-4d44-b12c-6ca4eef47a7b" />
+				<SupportedRoleClass RefRoleClassPath="RoleClassLib1/RoleClass1" />
+			</InternalElement>
+		</SystemUnitClass>
+	</SystemUnitClassLib>
+</CAEXFile>
