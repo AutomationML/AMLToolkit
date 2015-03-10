@@ -25,3 +25,31 @@ D:\Benutzer\Prinz\Dokumente\Visual Studio 2013\Projects\AMLToolkit\AMLToolkit\ob
 D:\Benutzer\Prinz\Dokumente\Visual Studio 2013\Projects\AMLToolkit\AMLToolkit\obj\Debug\AMLToolkit.Properties.Resources.resources
 D:\Benutzer\Prinz\Dokumente\Visual Studio 2013\Projects\AMLToolkit\AMLToolkit\obj\Debug\AMLToolkit.csproj.GenerateResource.Cache
 D:\Benutzer\Prinz\Dokumente\Visual Studio 2013\Projects\AMLToolkit\AMLToolkit\bin\Debug\AMLToolkit.XML
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\AMLToolkit.dll
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\AMLToolkit.pdb
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\AMLToolkit.XML
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\Altova.dll
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\AltovaXML.dll
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\AMLEngine.dll
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\AMLEngineExtensions.dll
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\GalaSoft.MvvmLight.dll
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\GalaSoft.MvvmLight.Extras.dll
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\System.Windows.Interactivity.dll
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\GalaSoft.MvvmLight.pdb
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\GalaSoft.MvvmLight.xml
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\GalaSoft.MvvmLight.Extras.pdb
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\GalaSoft.MvvmLight.Extras.xml
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\bin\Debug\System.Windows.Interactivity.xml
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\obj\Debug\AMLToolkit.csprojResolveAssemblyReference.cache
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\obj\Debug\AMLToolkit_MarkupCompile.cache
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\obj\Debug\AMLToolkit_MarkupCompile.lref
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\obj\Debug\Themes\Generic.baml
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\obj\Debug\AMLToolkit.g.resources
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\obj\Debug\AMLToolkit.Properties.Resources.resources
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\obj\Debug\AMLToolkit.csproj.GenerateResource.Cache
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\obj\Debug\AMLToolkit.dll
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\obj\Debug\AMLToolkit.pdb

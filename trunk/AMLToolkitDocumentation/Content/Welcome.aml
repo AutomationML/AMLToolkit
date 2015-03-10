@@ -8,8 +8,21 @@
 		<section>
 			<title>Getting Started</title>
 			<content>
-				<para>To get started, add the AMLToolkit to the project (a Visual Studio solution or project file). The AMLToolkit can be added via Nuget or as a Project, 
-        containing the sources, which are available from the GitHub Project side.
+				<para>To get started, add the AMLToolkit to the project (a Visual Studio solution or project file). The AMLToolkit can be added via 
+        <ddue:externalLink xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
+          <ddue:linkText>nuget</ddue:linkText>
+          <ddue:linkUri>https://www.nuget.org/packages/AMLToolkit/</ddue:linkUri>
+          <ddue:linkTarget>_blank</ddue:linkTarget>
+        </ddue:externalLink>
+
+        or as a Project, containing the sources, which are available from the GitHub 
+       
+       <ddue:externalLink xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5">
+          <ddue:linkText>GitHub Project side</ddue:linkText>
+          <ddue:linkUri>https://github.com/AutomationML/AMLToolkit/tree/master/trunk/</ddue:linkUri>
+          <ddue:linkTarget>_blank</ddue:linkTarget>
+        </ddue:externalLink>
+             
         The AMLToolkit has the following dependencies, which will be automatically included if the integration is done with nuget:</para>
 
 				<list class="bullet">

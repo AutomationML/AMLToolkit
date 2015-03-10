@@ -7,7 +7,7 @@
 // Last Modified On : 03-09-2015
 // ***********************************************************************
 // <copyright file="AMLNodeRegistry.cs" company="inpro">
-//     Copyright (c) inpro. All rights reserved.
+//     Copyright (c) AutomationML e.V.. All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************

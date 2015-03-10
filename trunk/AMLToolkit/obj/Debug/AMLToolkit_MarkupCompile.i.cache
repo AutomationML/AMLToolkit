@@ -4,7 +4,7 @@
 library
 C#
 .cs
-D:\Benutzer\Prinz\Dokumente\Visual Studio 2013\Projects\AMLToolkit\AMLToolkit\obj\Debug\
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\AMLToolkit\obj\Debug\
 AMLToolkit
 none
 false
@@ -13,8 +13,8 @@ DEBUG;TRACE
 1-731644535
 
 21-1217362257
-20240097188
+20-1614879557
 Themes\Generic.xaml;
 
-False
+True
 
