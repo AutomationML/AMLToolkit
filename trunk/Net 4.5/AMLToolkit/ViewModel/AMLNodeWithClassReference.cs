@@ -46,7 +46,7 @@ namespace AMLToolkit.ViewModel
             base(parent, CaexNode, lazyLoadChildren)
         {
             SetClassPathReferenceAttribute(this);
-            RefreshNodeInformation();            
+            RefreshNodeInformation(false);            
         }
 
         #endregion Public Constructors
@@ -83,9 +83,9 @@ namespace AMLToolkit.ViewModel
         /// should be called, if the CAEX-Elements Data has changed and the Changes should be visible in any
         /// View, that has a binding to this ViewModel.
         /// </summary>
-        public override void RefreshNodeInformation()
+        public override void RefreshNodeInformation(bool expand)
         {
-            base.RefreshNodeInformation();
+            base.RefreshNodeInformation(expand);
 
             if (CAEXNode != null && CAEXNode.HasAttribute(ClassPathReferenceAttribute))
             {

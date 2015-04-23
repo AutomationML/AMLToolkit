@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
+using AMLToolkit.ViewModel;
 using CAEX_ClassModel;
 
 namespace AmlToolkitTestUI
@@ -49,7 +50,41 @@ namespace AmlToolkitTestUI
             dispatcherTimer2.Tick += new EventHandler(testReferenceDisplay);
             dispatcherTimer2.Interval = new TimeSpan(0, 0, 7);
             //dispatcherTimer2.Start();
-            
+
+            this.IHTree.AllowDrop = true;
+            this.SUCTree.AllowDrop = true;
+
+            AMLToolkit.ViewModel.AMLTreeViewModel.CanDragDropPredicate CanDragDrop =  delegate  ( AMLTreeViewModel tree, AMLNodeViewModel source, AMLNodeViewModel target)
+            {                
+                    return (source.CAEXNode.Name == CAEX_ClassModel.CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING &&
+                            target.CAEXNode.Name == CAEX_ClassModel.CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING) ||
+                           (source.CAEXNode.Name == CAEX_ClassModel.CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING &&
+                            target.CAEXNode.Name == CAEX_ClassModel.CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING) ||
+                           (source.CAEXNode.Name == CAEX_ClassModel.CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING &&
+                            target.CAEXNode.Name == CAEX_ClassModel.CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING);
+
+            };
+
+            AMLToolkit.ViewModel.AMLTreeViewModel.DoDragDropAction DoDragDrop = delegate(AMLTreeViewModel tree, AMLNodeViewModel source, AMLNodeViewModel target)
+            {
+                var copy = source.CAEXNode.CloneNode(true);
+
+                InternalElementType parent = CAEXBasicObject.CreateCAEXWrapper<InternalElementType>(target.CAEXNode);
+                InternalElementType child = CAEXBasicObject.CreateCAEXWrapper<InternalElementType>(copy);
+                parent.Insert_InternalElement(child, false);
+
+                target.RefreshNodeInformation(true);
+
+                MessageBox.Show(string.Format("{0} dropped on {1}!", source.Name, target.Name));
+            };
+
+            this.IHTree.TreeViewModel.CanDragDrop = CanDragDrop;
+            this.IHTree.TreeViewModel.DoDragDrop = DoDragDrop;
+
+            this.SUCTree.TreeViewModel.DoDragDrop = DoDragDrop;
+            this.SUCTree.TreeViewModel.CanDragDrop = CanDragDrop;
+
+
         }
 
         bool set = false;

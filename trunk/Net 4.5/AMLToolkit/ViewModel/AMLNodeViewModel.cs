@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Windows.Threading;
 using System.Xml;
+using System.Linq;
 using AMLToolkit.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -155,9 +156,40 @@ namespace AMLToolkit.ViewModel
         /// should be called, if the CAEX-Elements Data has changed and the Changes should be visible in any
         /// View, that has a binding to this ViewModel.
         /// </summary>
-        public virtual void RefreshNodeInformation ()
-        {
+        public virtual void RefreshNodeInformation (bool expand)
+        {          
 
+            // if the childs are loaded 
+            if (!HasDummyChild )
+            {
+                var modelChilds  = this.CAEXNode.ChildNodes.Cast<XmlElement>().Where ( n=> this.CAEXTagNames.Contains(n.Name) );
+
+                if (modelChilds.Count() != this.Children.Count())
+                {
+                    foreach (AMLNodeViewModel obsoleteChild in this.Children.Where (n=> !modelChilds.Contains(n.CAEXNode)).ToList())
+                    {
+                        this.Children.Remove(obsoleteChild);
+                    }
+                  
+                    int position = this.Children.Count;
+
+                    foreach (XmlNode node in modelChilds)
+                    {                        
+                        var loadedChild = this.Children.FirstOrDefault(item => item.CAEXNode.Equals(node));
+                        if (loadedChild != null)
+                        {
+                            position = this.Children.IndexOf(loadedChild) + 1;
+                        }
+                        else
+                        {
+                            var constructor = AMLNodeRegistry.Instance[node.Name];
+                            var item = constructor.Invoke(new object[] { this, node, true }) as AMLNodeViewModel;
+                            this.Children.Insert(position++, item);
+                        }
+                    }
+                }
+            }
+            this.IsExpanded = expand;
         }
 
         /// <summary>
@@ -328,6 +360,10 @@ namespace AMLToolkit.ViewModel
                 }
             }
         }
+
+
+        
+
 
         #endregion Public Methods
 

@@ -1,19 +1,22 @@
 ﻿// ***********************************************************************
 // Assembly         : AMLToolkit
 // Author           : Josef Prinz
-// Created          : 03-09-2015
+// Created          : 03-10-2015
 //
 // Last Modified By : Josef Prinz
-// Last Modified On : 03-09-2015
+// Last Modified On : 04-23-2015
 // ***********************************************************************
-// <copyright file="AMLTreeView.cs" company="inpro">
-//     Copyright (c) AutomationML e.V.. All rights reserved.
+// <copyright file="AMLTreeView.cs" company="AutomationML e.V.">
+//     Copyright © AutomationML e.V. 2015
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using AMLToolkit.ViewModel;
+using AMLToolkit.XamlClasses;
 
 /// <summary>
 /// The AMLToolkit namespace.
@@ -21,24 +24,22 @@ using AMLToolkit.ViewModel;
 namespace AMLToolkit.View
 {
     /// <summary>
-    /// The AMLTreeView is a Control, which arranges CAEX-ElementTrees in a TreeView and assigns a default icon for each distinctive CAEX-Element
-    /// <example>This is a code example which shows, how to create a ViewModel with AMLDocument Data, which can be bound to a TreeView. The
-    /// example uses the AMLEngine.
-    /// <code keepSeeTags="true" title="c#"> 
+    /// The AMLTreeView is a Control, which arranges CAEX-ElementTrees in a TreeView
+    /// and assigns a default icon for each distinctive CAEX-Element <example>This is a
+    /// code example which shows, how to create a ViewModel with AMLDocument Data,
+    /// which can be bound to a TreeView. The example uses the AMLEngine.
+    /// <code keepSeeTags="true" title="c#">
     /// {
-    ///    // read the AMLDocument
-    ///    var doc = CAEXDocument.LoadFromFile("myFile.aml");
-    ///    
-    ///    // create a viewModel, using the TreeView Template <see cref="AMLToolkit.ViewModel.AMLTreeViewTemplate.CompleteInstanceHierarchyTree"/>
-    ///    var viewModel = new AMLToolkit.ViewModel.AMLTreeViewModel(
-    ///             (XmlElement)doc.CAEXFile.Node,
-    ///             AMLToolkit.ViewModel.AMLTreeViewTemplate.CompleteInstanceHierarchyTree);
-    ///             
-    ///    var treeView = new AMLTreeView ();
-    ///    treeView.TreeViewModel = viewModel;
+    /// // read the AMLDocument
+    /// var doc = CAEXDocument.LoadFromFile("myFile.aml");
+    /// // create a viewModel, using the TreeView Template <see cref="AMLToolkit.ViewModel.AMLTreeViewTemplate.CompleteInstanceHierarchyTree" />
+    /// var viewModel = new AMLToolkit.ViewModel.AMLTreeViewModel(
+    /// (XmlElement)doc.CAEXFile.Node,
+    /// AMLToolkit.ViewModel.AMLTreeViewTemplate.CompleteInstanceHierarchyTree);
+    /// var treeView = new AMLTreeView ();
+    /// treeView.TreeViewModel = viewModel;
     /// }
-    /// </code>
-    /// </example>  
+    /// </code></example>
     /// </summary>
     public class AMLTreeView : Control
     {
@@ -54,14 +55,23 @@ namespace AMLToolkit.View
         /// The TreeView model property, used to populate the TreeView
         /// </summary>
         public static readonly DependencyProperty TreeViewModelProperty =
-            DependencyProperty.Register("TreeViewModel", typeof(AMLTreeViewModel), typeof(AMLTreeView), new PropertyMetadata(null, treeViewModelChanged));
+            DependencyProperty.Register("TreeViewModel", typeof(AMLTreeViewModel), typeof(AMLTreeView), new PropertyMetadata(null));
 
         #endregion Public Fields
+
+        #region Private Fields
+             
+        /// <summary>
+        /// The _last mouse down
+        /// </summary>
+        private Point _lastMouseDown;
+        
+        #endregion Private Fields
 
         #region Public Constructors
 
         /// <summary>
-        /// Initializes static members of the <see cref="AMLTreeView"/> class.
+        /// Initializes static members of the <see cref="AMLTreeView" /> class.
         /// </summary>
         static AMLTreeView()
         {
@@ -69,6 +79,15 @@ namespace AMLToolkit.View
         }
 
         #endregion Public Constructors
+
+        #region Public Events
+
+        /// <summary>
+        /// Wird ausgelöst, wenn sich das selektierte Objekt ändert.
+        /// </summary>
+        public event EventHandler<AmlNodeEventArgs> SelectedItemChanged;
+
+        #endregion Public Events
 
         #region Public Properties
 
@@ -83,7 +102,8 @@ namespace AMLToolkit.View
         }
 
         /// <summary>
-        /// Gets or sets the TreeView model. The TreeView's ItemsSource Property is bound to the Root's Children Collection of the TreeViewModel
+        /// Gets or sets the TreeView model. The TreeView's ItemsSource Property is
+        /// bound to the Root's Children Collection of the TreeViewModel
         /// </summary>
         /// <value>The TreeView model.</value>
         public AMLTreeViewModel TreeViewModel
@@ -97,13 +117,20 @@ namespace AMLToolkit.View
         #region Public Methods
 
         /// <summary>
-        /// Wird bei einer Überschreibung in einer abgeleiteten Klasse stets aufgerufen, wenn <see cref="M:System.Windows.FrameworkElement.ApplyTemplate" /> 
-        /// von Anwendungscode oder internem Prozesscode aufgerufen wird.
+        /// Wird bei einer Überschreibung in einer abgeleiteten Klasse stets
+        /// aufgerufen, wenn <see cref="M:System.Windows.FrameworkElement.ApplyTemplate" /> von Anwendungscode
+        /// oder internem Prozesscode aufgerufen wird.
         /// </summary>
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             SetValue(TheTreeViewProperty, GetTemplateChild("TheTreeView") as TreeView);
+
+            TheTreeView.SelectedItemChanged += SelectedItemOfTreeViewChanged;
+            TheTreeView.DragOver += TheTreeView_DragOver;
+            TheTreeView.Drop += TheTreeView_Drop;
+            TheTreeView.MouseMove += TheTreeView_MouseMove;
+            TheTreeView.MouseDown += TheTreeView_MouseDown;
         }
 
         #endregion Public Methods
@@ -111,15 +138,118 @@ namespace AMLToolkit.View
         #region Private Methods
 
         /// <summary>
-        /// Sets the TreeViewModel as the Control's DataContext.
+        /// Selektion eines Elements im TreeView wird an das Control durchgereicht
         /// </summary>
-        /// <param name="d">The d.</param>
-        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
-        private static void treeViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
+        private void SelectedItemOfTreeViewChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (d is AMLTreeView)
+            var selectedItem = TheTreeView.SelectedItem as AMLNodeViewModel;
+            if (this.SelectedItemChanged != null)
+                this.SelectedItemChanged(this, new AmlNodeEventArgs ( selectedItem));
+        }
+
+        /// <summary>
+        /// Handles the DragOver event of the TheTreeView control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
+        private void TheTreeView_DragOver(object sender, DragEventArgs e)
+        {
+            try
             {
-                (d as AMLTreeView).DataContext = e.NewValue;
+                e.Effects = DragDropEffects.None;
+
+                // Verify that this is a valid drop and then store the drop target
+                TreeViewItem item = VisualTreeUtilities.FindVisualParent<TreeViewItem>(e.OriginalSource as UIElement);
+                if (item != null)
+                {
+                    var targetItem = item.DataContext as AMLNodeViewModel;
+                    var draggedItem = e.Data.GetData(typeof(AMLNodeViewModel)) as AMLNodeViewModel;
+
+                    if (draggedItem != null && TreeViewModel.CanDragDrop != null && TreeViewModel.CanDragDrop( TreeViewModel, draggedItem, targetItem))
+                    {
+                        e.Effects = DragDropEffects.Move;
+                    }
+                }
+                e.Handled = true;
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        /// <summary>
+        /// Handles the Drop event of the TheTreeView control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
+        private void TheTreeView_Drop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                e.Effects = DragDropEffects.None;
+                e.Handled = true;
+
+                // Verify that this is a valid drop and then store the drop target
+                TreeViewItem TargetItem = VisualTreeUtilities.FindVisualParent<TreeViewItem>(e.OriginalSource as UIElement);
+                var draggedItem = e.Data.GetData(typeof(AMLNodeViewModel)) as AMLNodeViewModel; 
+
+                if (TargetItem != null && draggedItem != null)
+                {
+                    var targetItem = TargetItem.DataContext as AMLNodeViewModel;
+
+                    if (targetItem != null)
+                    {
+                        if (TreeViewModel.CanDragDrop != null && TreeViewModel.CanDragDrop(TreeViewModel, draggedItem, targetItem))
+                        {
+                            if (TreeViewModel.DoDragDrop != null)
+                            {
+                                TreeViewModel.DoDragDrop(TreeViewModel, draggedItem, targetItem);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        /// <summary>
+        /// Handles the MouseDown event of the TheTreeView control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Windows.Input.MouseButtonEventArgs"/> instance containing the event data.</param>
+        private void TheTreeView_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                _lastMouseDown = e.GetPosition(TheTreeView);
+            }
+        }
+
+        /// <summary>
+        /// Handles the MouseMove event of the TheTreeView control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Windows.Input.MouseEventArgs"/> instance containing the event data.</param>
+        private void TheTreeView_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                Point currentPosition = e.GetPosition(TheTreeView);
+
+                if ((Math.Abs(currentPosition.X - _lastMouseDown.X) > 10.0) ||
+                    (Math.Abs(currentPosition.Y - _lastMouseDown.Y) > 10.0))
+                {
+                    var _draggedItem = (AMLNodeViewModel)TheTreeView.SelectedItem;
+                    if (_draggedItem != null)
+                    {
+                        var dragData = new DataObject(typeof(AMLNodeViewModel), _draggedItem);
+                        DragDropEffects finalDropEffect = DragDrop.DoDragDrop(TheTreeView, dragData, DragDropEffects.Move);                        
+                    }
+                }
             }
         }
 

@@ -190,8 +190,10 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <TreeView Name="TheTreeView"
+                                  DataContext="{TemplateBinding TreeViewModel}"
                                   ItemTemplateSelector="{StaticResource CAEXDataTemplateSelector}"
                                   ItemsSource="{Binding Root.Children}"
+                                  AllowDrop="{TemplateBinding AllowDrop}"
                                   ScrollViewer.IsDeferredScrollingEnabled="True"
                                   VirtualizingStackPanel.IsVirtualizing="True"
                                   VirtualizingStackPanel.VirtualizationMode="Recycling">

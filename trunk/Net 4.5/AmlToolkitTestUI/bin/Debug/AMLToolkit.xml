@@ -1,0 +1,1279 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AMLToolkit</name>
+    </assembly>
+    <members>
+        <member name="T:AMLToolkit.Model.XmlElementExtension">
+            <summary>
+               Class XmlElementExtension provides some Extension Methods to access CAEX
+               Elements via an XmlElement. This Methods don't need a CAEXWrapper.
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.AllElements(System.Xml.XmlElement,System.String,System.Boolean)">
+            <summary>
+               Alls the elements.
+            </summary>
+            <param name="element">  The element.</param>
+            <param name="Name">     The name.</param>
+            <param name="matchSelf">if set to <c>true</c> [match self].</param>
+            <returns>IEnumerable&lt;XmlElement&gt;.</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.CAEXIDOfElement(System.Xml.XmlElement)">
+            <summary>
+               Returns the CAEX ID of a the XmlElement if such an Attribute exists
+            </summary>
+            <param name="element">The XmlElement.</param>
+            <returns>The Name or string.empty if the ID-Attribute is missing</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.CAEXNameOfElement(System.Xml.XmlElement)">
+            <summary>
+               Returns the CAEX Name of a the XmlElement if such an Attribute exists
+            </summary>
+            <param name="element">The XmlElement.</param>
+            <returns>The Name or string.empty if the Name-Attribute is missing</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.CAEXNameOfParent(System.Xml.XmlElement)">
+            <summary>
+               Returns the CAEX Name of a parent XmlElement if such an Attribute exists
+            </summary>
+            <param name="element">The XmlElement.</param>
+            <returns>
+               The Name or string.empty if the Parent or the Name-Attribute is missing
+            </returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.RoleReferenceToMapping(System.Xml.XmlElement)">
+            <summary>
+               Gets th RoleReference for a mapping.
+            </summary>
+            <param name="mappingAttribute">The mapping attribute.</param>
+            <returns>XmlElement.</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.SystemUnitClassReferenceToMapping(System.Xml.XmlElement)">
+            <summary>
+               Gets the SystemUnitClass-Reference for a mapping.
+            </summary>
+            <param name="mappingAttribute">The mapping attribute.</param>
+            <returns>XmlElement.</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.CAEXPath(System.Xml.XmlElement)">
+            <summary>
+               Returns the CAEX path of this object, search able with FindFastByID or
+               FindFastByPath methods. Examples: "plant/unit/tank" or GUID:interface. If
+               the full hierarchical Path is required, use the method HierarchyPath
+               instead which delivers the full node path.
+            </summary>
+            <param name="element">The element.</param>
+            <returns>
+               For classes, it returns the XML full Node Path. For Interface Instances, it
+               returns GUID:InterfaceName.
+            </returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.InternalLinkReferencePath(System.Xml.XmlElement,System.Xml.XmlElement)">
+            <summary>
+               gets the reference path for an Interface-Reference in an InternalLink
+            </summary>
+            <param name="interfaceParent">  
+               The interface Parent (SystemUnitClass or InternalElement)
+            </param>
+            <param name="externalInterface">The external Interface.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.PathPart(System.Xml.XmlElement,System.Boolean)">
+            <summary>
+               transforms the name of the defined element to a path Part (special
+               characters are escaped).
+            </summary>
+            <param name="element">The element.</param>
+            <param name="UseId">  
+               if set to <c>true</c> use the Elements ID, otherwise use its name.
+            </param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.PathPartName(System.String)">
+            <summary>
+               transforms a name to a path Part (special characters are escaped).
+            </summary>
+            <param name="name">The name.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.ChildElements(System.Xml.XmlElement,System.String)">
+            <summary>
+               get all child Elements of the specified element with the specified name.
+            </summary>
+            <param name="element">The element.</param>
+            <param name="Name">   The name.</param>
+            <returns>IEnumerable&lt;XmlElement&gt;.</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.CloneWhenNotDerived(System.Xml.XmlElement,System.Xml.XmlElement,System.String,System.String)">
+            <summary>
+               The ChildElements in the specified 'baseElement', which have the defined
+               ElementName are cloned, if there is not yet a child Element in the
+               specified 'cloneElement' with that ElementName and an equal AttributeValue
+               for the Attribute, specified with the 'AttributeName'.
+            </summary>
+            <param name="cloneElement"> The clone element.</param>
+            <param name="baseElement">  The base element.</param>
+            <param name="ElementName">  Name of the element.</param>
+            <param name="AttributeName">Name of the attribute.</param>
+            <returns>IEnumerable&lt;XmlElement&gt;.</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.GetAttributeValue(System.Xml.XmlElement,System.String)">
+            <summary>
+               Gets the attribute value.
+            </summary>
+            <param name="element">      The element.</param>
+            <param name="AttributeName">The attribute name.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.GetReferencedCAEXClassFromClassLibrary(System.Xml.XmlElement,System.String,System.String)">
+            <summary>
+               Gets the referenced caex class from a class library, which is any of the
+               Libraries with the defined LibraryTagName in the Document
+            </summary>
+            <param name="element">            The element.</param>
+            <param name="referencedClassPath">The referenced class path.</param>
+            <param name="LibraryTagName">     The CAEX TagName of the Library.</param>
+            <returns>The referenced XmlNode, if it is found or null if not.</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.InternalElementReference(System.Xml.XmlElement)">
+            <summary>
+               Get the InternalElementReferences if this is an InternalLink
+            </summary>
+            <param name="element">The element.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.InternalElementReferenceInInternalLink(System.Xml.XmlElement,System.String)">
+            <summary>
+               Get the InternalElementReferences if this is an InternalLink
+            </summary>
+            <param name="element">                 The element.</param>
+            <param name="nameOfReferenceAttribute">The Attribute Name of the Reference-Attribute</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.IsCAEXClass(System.Xml.XmlElement)">
+            <summary>
+               Determines whether the Element is a CAEXClass: RoleClass, SystemUnitClass
+               or InterfaceClass
+            </summary>
+            <param name="element">The element.</param>
+            <returns>
+               <c>true</c> if the specified element is a CAEXClass; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.IsDerived(System.Xml.XmlElement,System.Xml.XmlElement,System.String,System.String)">
+            <summary>
+               Determines whether the specified elementWithDerivedAttributes has a child
+               Element, which has the same ElementName and AttributeValue for the named
+               Attribute as the specified elementWithAttribute
+            </summary>
+            <param name="elementWithAttribute">        
+               The element With Attribute which is tested for derivations.
+            </param>
+            <param name="elementWithDerivedAttributes">The element With Derived Attributes.</param>
+            <param name="ElementName">                 Name of the element.</param>
+            <param name="AttributeName">               Name of the attribute.</param>
+            <returns>
+               <c>true</c> if the specified attribute element is derived; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.IsExternalInterface(System.Xml.XmlElement)">
+            <summary>
+               Determines whether [is external interface] [the specified element].
+            </summary>
+            <param name="element">The element.</param>
+            <returns>
+               <c>true</c> if [is external interface] [the specified element]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.IsIEMirror(System.Xml.XmlElement)">
+            <summary>
+               Determines whether [is ie mirror] [the specified element].
+            </summary>
+            <param name="element">The element.</param>
+            <returns>
+               <c>true</c> if [is ie mirror] [the specified element]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.IsInterfaceClass(System.Xml.XmlElement)">
+            <summary>
+               Determines whether [is interface class] [the specified element].
+            </summary>
+            <param name="element">The element.</param>
+            <returns>
+               <c>true</c> if [is interface class] [the specified element]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.IsInternalElement(System.Xml.XmlElement)">
+            <summary>
+               Determines whether [is internal element] [the specified element].
+            </summary>
+            <param name="element">The element.</param>
+            <returns>
+               <c>true</c> if [is internal element] [the specified element]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.IsInternalLink(System.Xml.XmlElement)">
+            <summary>
+               Determines whether [is internal link] [the specified element].
+            </summary>
+            <param name="element">The element.</param>
+            <returns>
+               <c>true</c> if [is internal link] [the specified element]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.IsRoleClass(System.Xml.XmlElement)">
+            <summary>
+               Determines whether [is role class] [the specified element].
+            </summary>
+            <param name="element">The element.</param>
+            <returns>
+               <c>true</c> if [is role class] [the specified element]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.IsRoleRequirement(System.Xml.XmlElement)">
+            <summary>
+               Determines whether [is role requirement] [the specified element].
+            </summary>
+            <param name="element">The element.</param>
+            <returns>
+               <c>true</c> if [is role requirement] [the specified element]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.IsSupportedRoleClass(System.Xml.XmlElement)">
+            <summary>
+               Determines whether [is supported role class] [the specified element].
+            </summary>
+            <param name="element">The element.</param>
+            <returns>
+               <c>true</c> if [is supported role class] [the specified element];
+               otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.IsMappingElement(System.Xml.XmlElement)">
+            <summary>
+               Determines whether [is mapping element] [the specified element].
+            </summary>
+            <param name="element">The element.</param>
+            <returns>
+               <c>true</c> if [is mapping element] [the specified element]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.IsSystemUnitClass(System.Xml.XmlElement)">
+            <summary>
+               Determines whether [is system unit class] [the specified element].
+            </summary>
+            <param name="element">The element.</param>
+            <returns>
+               <c>true</c> if [is system unit class] [the specified element]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.InternalElementMasterID(System.Xml.XmlElement)">
+            <summary>
+               Get the ID of the Master InternalElement if this is a Mirror.
+            </summary>
+            <param name="element">The element.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.RoleReference(System.Xml.XmlElement)">
+            <summary>
+               Get the RoleReference if this is a RoleRequirement or a SupportedRoleClass
+            </summary>
+            <param name="element">The element.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.SetAttributeValue(System.Xml.XmlElement,System.String,System.String)">
+            <summary>
+               Sets the attribute value.
+            </summary>
+            <param name="element">      The element.</param>
+            <param name="AttributeName">The attribute name.</param>
+            <param name="value">        The value.</param>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.SetOrCreateAttributeValue(System.Xml.XmlElement,System.String,System.String)">
+            <summary>
+               Sets the or create attribute value.
+            </summary>
+            <param name="element">      The element.</param>
+            <param name="AttributeName">The attribute name.</param>
+            <param name="value">        The value.</param>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlElementExtension.SystemUnitClassReference(System.Xml.XmlElement)">
+            <summary>
+               Get the RoleReference if this is a RoleRequirement or a SupportedRoleClass
+            </summary>
+            <param name="element">The element.</param>
+            <returns>System.String.</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlNodeExtensions.CreateCAEXWrapper(System.Xml.XmlNode)">
+            <summary>
+               creates CAEX object out of an XML node
+            </summary>
+            <param name="node">XML node</param>
+            <returns>CAEXBasicObject</returns>
+        </member>
+        <member name="M:AMLToolkit.Model.XmlNodeExtensions.getFullNodePath(System.Xml.XmlNode)">
+            <summary>
+               Getting the full path from document root to the specified XmlNode. As name
+               of an XmlNode is the value of the contained attribute "name" taken.
+               Hierarchies are separated via the path separator (slash '/'). The name of
+               the document root element CAEXFile is not contained in the path.
+            </summary>
+            <param name="xmlNode">The XmlNode to get the full path for</param>
+            <returns>
+               The full path from the document root element to the given XmlNode. The path
+               contains of values of the "name" attribute of the XmlNodes. If no such
+               attribute exists in the current node, the xml tag name is used instead.
+            </returns>
+        </member>
+        <member name="T:AMLToolkit.NamespaceDoc">
+            <summary>
+            The AMLToolkit provides UI-Controls to view and edit AutomationML Content and some Templates for AutomationML Document creation and interpretation.
+            </summary>
+        </member>
+        <member name="T:AMLToolkit.ViewModel.AMLLayout">
+            <summary>
+            Class AMLLayout provides Properties which effect the display of AmlNodes <see cref="T:AMLToolkit.ViewModel.AMLNodeViewModel"/>
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLLayout.DefaultLayout">
+            <summary>
+            The default layout, which sets the visual properties of the layout to default values
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLLayout._namesOfVisibleElements">
+            <summary>
+            <see cref="P:AMLToolkit.ViewModel.AMLLayout.NamesOfVisibleElements"/>
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLLayout._showClassReference">
+            <summary>
+            <see cref="P:AMLToolkit.ViewModel.AMLLayout.ShowClassReference"/>
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLLayout._showRoleReference">
+            <summary>
+            <see cref="P:AMLToolkit.ViewModel.AMLLayout.ShowRoleReference"/>
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLLayout.#cctor">
+            <summary>
+            Initializes static members of the <see cref="T:AMLToolkit.ViewModel.AMLLayout"/> class. The Default behavior is, that all CAEX-Elements are visible.
+            </summary>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLLayout.NamesOfVisibleElements">
+            <summary>
+            Gets and sets the NamesOfVisibleElements. This Collection may be used as a filter to show/hide Elements with 
+            specific names. If the Collection contains a name, the Element gets visible. If the Name is removed from the
+            collection, the element is hidden. <see cref="M:AMLToolkit.ViewModel.AMLNodeViewModel.ApplyFilterWithName(System.Collections.Generic.IList{System.String})"/>
+            </summary>
+            <value>The names of visible elements.</value>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLLayout.ShowClassReference">
+            <summary>
+            Gets and sets the ShowClassReference. Setting this Option to true, makes the ClassReference
+            of an Element visible <see cref="P:AMLToolkit.ViewModel.AMLNodeWithClassReference.ClassReference"/> 
+            </summary>
+            <value><c>true</c> the ClassReference becomes visible and invisible if <c>false</c>.</value>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLLayout.ShowRoleReference">
+            <summary>
+            Gets and sets the ShowRoleReference. Setting this Option to true, makes the ClassReference
+            of an Element visible <see cref="P:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference.RoleReference"/> 
+            </summary>
+            <value><c>true</c> the RoleReference becomes visible and invisible if <c>false</c>.</value>
+        </member>
+        <member name="T:AMLToolkit.ViewModel.AMLNodeRegistry">
+            <summary>
+            Class AMLNodeRegistry defines a dictionary, containing CAEX-TagNames and associated ConstructionInfo for the CAEX-Element,
+            identifiable by the CAEX-TagName. The Class implements the Singleton Pattern. The Static <see cref="P:AMLToolkit.ViewModel.AMLNodeRegistry.Instance"/> contains default
+            ConstructionInfo for each CAEX-Element. The Default Dictionary Entries may be changed by an application, if a CAEX-Element
+            has a special ViewModel with a special constructor. Currently, the following associations are created for the 
+            static Instance:
+            
+            <list type="table" keepSeeTags="true">
+            <listheader>
+            <term>CAEX-Element</term>
+            <description>Associated ViewModel-Constructor.&gt; </description>
+            </listheader>
+            <item>
+            <term>InstanceHierarchy</term>
+            <description>Basic ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeViewModel.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
+            </item>
+            <item>
+            <term>SystemUnitClassLibrary</term>
+            <description>Basic ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeViewModel.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
+            </item>
+            <item>
+            <term>RoleClassLibrary</term>
+            <description>Basic ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeViewModel.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
+            </item>
+            <item>
+            <term>InterfaceClassLibrary</term>
+            <description>Basic ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeViewModel.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
+            </item>
+            <item>
+            <term>InternalLink</term>
+            <description>Basic ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeViewModel.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
+            </item>
+            <item>
+            <term>InternalElement [has Class- and Role-Reference]</term>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
+            </item>
+            <item>
+            <term>SystemUnitClass [has Class-Reference]</term>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithClassReference.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
+            </item>
+            <item>
+            <term>RoleClass [has Class-Reference]</term>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithClassReference.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
+            </item>
+            <item>
+            <term>InterfaceClass [has Class-Reference]</term>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithClassReference.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
+            </item>
+            <item>
+            <term>ExternalInterface [has Class-Reference]</term>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithClassReference.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
+            </item>
+            <item>
+            <term>CaexFile [has no Name-Attribute]</term>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithoutName.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
+            </item>
+            <item>
+            <term>RoleRequirement [has no Name-Attribute]</term>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithoutName.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
+            </item>
+            <item>
+            <term>SupportedRoleClass [has no Name-Attribute]</term>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithoutName.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
+            </item>
+            <item>
+            <term>MappingObject [has no Name-Attribute]</term>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithoutName.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
+            </item>
+            <item>
+            <term>AttributeNameMapping [has no Name-Attribute]</term>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithoutName.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
+            </item>
+            <item>
+            <term>InterfaceNameMapping [has no Name-Attribute]</term>
+            <description>Derived ViewModel: <see cref="M:AMLToolkit.ViewModel.AMLNodeWithoutName.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)"/></description>
+            </item>
+            </list>     
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLNodeRegistry.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:AMLToolkit.ViewModel.AMLNodeRegistry"/> class from being created.
+            </summary>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLNodeRegistry.Instance">
+            <summary>
+            Gets the static instance of the AMLNodeRegistry
+            </summary>
+            <value>The instance.</value>
+        </member>
+        <member name="T:AMLToolkit.ViewModel.AMLNodeViewModel">
+            <summary>
+            Class AMLNodeViewModel is the Base-ViewModel for CAEX-Elements in an AutomationML Document. The ViewModel
+            supports LazyLoading. If a Node has not yet been expanded to view the Children, a DummyNode exists to mark the
+            Node as a Node with Children. The DummyNode will be replaced by the Nodes Children, if it is expanded for the
+            first time.
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLNodeViewModel.DummyChild">
+            <summary>
+            The dummy child
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLNodeViewModel._children">
+            <summary>
+            The _children
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLNodeViewModel._parent">
+            <summary>
+            The _parent
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLNodeViewModel._caexNode">
+            <summary>
+            The _caex node
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLNodeViewModel._expandAllCommand">
+            <summary>
+            <see cref="P:AMLToolkit.ViewModel.AMLNodeViewModel.ExpandAllCommand"/>
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLNodeViewModel._isExpanded">
+            <summary>
+            The _is expanded
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLNodeViewModel._isSelected">
+            <summary>
+            The _is selected
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLNodeViewModel._name">
+            <summary>
+            <see cref="P:AMLToolkit.ViewModel.AMLNodeViewModel.Name"/>
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLNodeViewModel.caexTagNames">
+            <summary>
+            <see cref="P:AMLToolkit.ViewModel.AMLNodeViewModel.CAEXTagNames"/>
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLNodeViewModel.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AMLToolkit.ViewModel.AMLNodeViewModel"/> class.
+            </summary>
+            <param name="parent">The parent.</param>
+            <param name="CaexNode">The caex node.</param>
+            <param name="lazyLoadChildren">if set to <c>true</c> [lazy load children].</param>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLNodeViewModel.#ctor">
+            <summary>
+            This is used to create the DummyChild instance. Prevents a default instance
+            of the <see cref="T:AMLToolkit.ViewModel.AMLNodeViewModel"/> class from being created.
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLNodeViewModel.RefreshNodeInformation(System.Boolean)">
+            <summary>
+            Refreshes the node information. This Method can be overridden in derived classes. The Method 
+            should be called, if the CAEX-Elements Data has changed and the Changes should be visible in any
+            View, that has a binding to this ViewModel.
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLNodeViewModel.ApplyFilterWithName(System.Collections.Generic.IList{System.String})">
+            <summary>
+            Applies the Name filter to the <see cref="P:AMLToolkit.ViewModel.AMLNodeViewModel.ChildrenView"/>. This Method is
+            called, when the <see cref="P:AMLToolkit.ViewModel.AMLLayout.NamesOfVisibleElements"/> of the
+            associated Layout Object changes. The Method is put on the current
+            Dispatcher Thread for asynchronous execution. The Method ic recursively
+            called for all Children's, that pass the Filter.
+            </summary>
+            <param name="VisibleNames">The visible names.</param>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLNodeViewModel.LoadChildren">
+            <summary>
+            Invoked when the child items need to be loaded on demand. Subclasses can
+            override this to populate the Children collection.
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLNodeViewModel.ExpandAllCommandCanExecute(System.Object)">
+            <summary>
+            Test, if the <see cref="P:AMLToolkit.ViewModel.AMLNodeViewModel.ExpandAllCommand"/> can execute.
+            </summary>
+            <param name="parameter">unused parameter.</param>
+            <returns>true, if command can execute</returns>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLNodeViewModel.ExpandAllCommandExecute(System.Object)">
+            <summary>
+            The <see cref="P:AMLToolkit.ViewModel.AMLNodeViewModel.ExpandAllCommand"/> Execution Action.
+            </summary>
+            <param name="parameter">unused parameter.</param>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLNodeViewModel.CAEXNode">
+            <summary>
+            Gets the CAEXNode
+            </summary>
+            <value>The caex node.</value>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLNodeViewModel.CAEXTagNames">
+            <summary>
+            Gets and sets the List of CAEXTagNames for valid child's, which are loaded
+            to the TreeView. If this is not set for a Node, the List of the actual
+            parent is used.
+            </summary>
+            <value>The name of the caex tag.</value>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLNodeViewModel.Children">
+            <summary>
+            Returns the logical child items of this object.
+            </summary>
+            <value>The children.</value>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLNodeViewModel.ChildrenView">
+            <summary>
+            Gets the children view. Binding to this Property enables filtering and
+            ordering of the Children Collection
+            </summary>
+            <value>The children view.</value>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLNodeViewModel.ExpandAllCommand">
+            <summary>
+            The ExpandAllCommand - Command. Execution of this Command results in the Expansion of the
+            Node and all it's descendants. The Execution method is queued on the current Dispatcher Thread
+            for asynchronous Execution.
+            </summary>
+            <value>The expand all command.</value>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLNodeViewModel.HasDummyChild">
+            <summary>
+            Returns true if this object's Children have not yet been populated.
+            </summary>
+            <value><c>true</c> if this instance has dummy child; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLNodeViewModel.IsExpanded">
+            <summary>
+            Gets/sets whether the TreeViewItem associated with this object is expanded.
+            </summary>
+            <value><c>true</c> if this instance is expanded; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLNodeViewModel.IsSelected">
+            <summary>
+            Gets/sets whether the TreeViewItem associated with this object is selected.
+            </summary>
+            <value><c>true</c> if this instance is selected; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLNodeViewModel.Name">
+            <summary>
+            Gets and sets the Name
+            </summary>
+            <value>The name.</value>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLNodeViewModel.Parent">
+            <summary>
+            Gets the parent.
+            </summary>
+            <value>The parent.</value>
+        </member>
+        <member name="T:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference">
+            <summary>
+            Class AMLNodeWithClassAndRoleReference is the ViewModel for all CAEX-Elements, which may have references to CAEX-Classes and Roles.
+            The ViewModel provides an additional property <see cref="P:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference.RoleReference"/> for these Elements. The RoleReference
+            is build from the first RoleRequirement found in the Children Collection of the Element.
+            </summary>
+        </member>
+        <member name="T:AMLToolkit.ViewModel.AMLNodeWithClassReference">
+            <summary>
+            Class AMLNodeWithClassReference is the ViewModel for all CAEX-Elements, which may have references to CAEX-Classes.
+            The ViewModel provides an additional property <see cref="P:AMLToolkit.ViewModel.AMLNodeWithClassReference.ClassReference"/> for these Elements.
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLNodeWithClassReference.classReference">
+            <summary>
+            <see cref="P:AMLToolkit.ViewModel.AMLNodeWithClassReference.ClassReference"/>
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLNodeWithClassReference.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AMLToolkit.ViewModel.AMLNodeWithClassReference"/> class.
+            </summary>
+            <param name="parent">The parent.</param>
+            <param name="CaexNode">The caex node.</param>
+            <param name="lazyLoadChildren">if set to <c>true</c> [lazy load children].</param>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLNodeWithClassReference.RefreshNodeInformation(System.Boolean)">
+            <summary>
+            Refreshes the node information. This Method can be overridden in derived classes. The Method
+            should be called, if the CAEX-Elements Data has changed and the Changes should be visible in any
+            View, that has a binding to this ViewModel.
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLNodeWithClassReference.SetClassPathReferenceAttribute(AMLToolkit.ViewModel.AMLNodeWithClassReference)">
+            <summary>
+            Sets the name of the class path reference attribute, used to get the value for the <see cref="P:AMLToolkit.ViewModel.AMLNodeWithClassReference.ClassReference"/>.
+            </summary>
+            <param name="node">The node.</param>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLNodeWithClassReference.ClassPathReferenceAttribute">
+            <summary>
+            Gets or sets the name of the class path reference attribute. 
+            </summary>
+            <value>The class path reference attribute.</value>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLNodeWithClassReference.ClassReference">
+            <summary>
+            Gets and sets the ClassReference
+            </summary>
+            <value>The class reference.</value>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference._roleReference">
+            <summary>
+            <see cref="P:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference.RoleReference"/>
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference"/> class.
+            </summary>
+            <param name="parent">The parent.</param>
+            <param name="CaexNode">The caex node.</param>
+            <param name="lazyLoadChildren">if set to <c>true</c> [lazy load children].</param>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference.RefreshNodeInformation(System.Boolean)">
+            <summary>
+            Refreshes the node information. This Method can be overridden in derived
+            classes. The Method should be called, if the CAEX-Elements Data has changed
+            and the Changes should be visible in any View, that has a binding to this ViewModel.
+            </summary>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLNodeWithClassAndRoleReference.RoleReference">
+            <summary>
+            Gets and sets the RoleReference
+            </summary>
+            <value>The role reference.</value>
+        </member>
+        <member name="T:AMLToolkit.ViewModel.AMLNodeWithoutName">
+            <summary>
+            Class AMLNodeWithoutName is the ViewModel for all CAEX-Elements, which don't have a Name-Attribute. The
+            DisplayName for these Elements is generated, using the Value of the Attribute, which Name is defined in
+            the <see cref="P:AMLToolkit.ViewModel.AMLNodeWithoutName.NameSubstituteAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLNodeWithoutName.#ctor(AMLToolkit.ViewModel.AMLNodeViewModel,System.Xml.XmlElement,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AMLToolkit.ViewModel.AMLNodeWithoutName"/> class.
+            </summary>
+            <param name="parent">The parent.</param>
+            <param name="CaexNode">The caex node.</param>
+            <param name="lazyLoadChildren">if set to <c>true</c> [lazy load children].</param>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLNodeWithoutName.SetNameSubstituteAttribute(AMLToolkit.ViewModel.AMLNodeWithoutName)">
+            <summary>
+            Sets the name substitute attribute for the specified node.         /// 
+            </summary>
+            <param name="node">The node.</param>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLNodeWithoutName.Name">
+            <summary>
+            Gets the DisplayName for the Caex-Element. The Display-Name is build from the Caex-Name of the Element and the
+            Value of the Attribute, which Name is defined in the <see cref="P:AMLToolkit.ViewModel.AMLNodeWithoutName.NameSubstituteAttribute"/>.
+            </summary>
+            <value>The name.</value>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLNodeWithoutName.NameSubstituteAttribute">
+            <summary>
+            Gets or sets the name of the substitute attribute, used to build the DisplayName <see cref="P:AMLToolkit.ViewModel.AMLNodeWithoutName.Name"/>.
+            </summary>
+            <value>The name substitute attribute.</value>
+        </member>
+        <member name="T:AMLToolkit.ViewModel.AMLTreeViewModel">
+            <summary>
+               Class AMLTreeViewModel can build AMLNode-Trees for any CAEX-Element
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLTreeViewModel._CanDragDrop">
+            <summary>
+               <see cref="P:AMLToolkit.ViewModel.AMLTreeViewModel.CanDragDrop"/>
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLTreeViewModel._DoDragDrop">
+            <summary>
+               <see cref="P:AMLToolkit.ViewModel.AMLTreeViewModel.DoDragDrop"/>
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLTreeViewModel.root">
+            <summary>
+               <see cref="P:AMLToolkit.ViewModel.AMLTreeViewModel.Root"/>
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLTreeViewModel.treeViewLayout">
+            <summary>
+               <see cref="P:AMLToolkit.ViewModel.AMLTreeViewModel.TreeViewLayout"/>
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.ViewModel.AMLTreeViewModel.#ctor(System.Xml.XmlElement,System.Collections.Generic.List{System.String})">
+            <summary>
+               Initializes a new instance of the <see cref="T:AMLToolkit.ViewModel.AMLTreeViewModel"/> class.
+            </summary>
+            <param name="RootNode">    The root node for the TreeView.</param>
+            <param name="CaexTagNames">
+               List of CAEX-Names, which define the visible Elements in the TreeView. A
+               Name in the List can be any CAEX-Element Name.
+            </param>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLTreeViewModel.CanDragDrop">
+            <summary>
+               Gets and sets the CanDragDropPredicate.
+            </summary>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLTreeViewModel.DoDragDrop">
+            <summary>
+               Gets and sets the TheDragDropAction
+            </summary>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLTreeViewModel.Root">
+            <summary>
+               Gets and sets the Root
+            </summary>
+        </member>
+        <member name="P:AMLToolkit.ViewModel.AMLTreeViewModel.TreeViewLayout">
+            <summary>
+               Gets and sets the TreeViewLayout
+            </summary>
+        </member>
+        <member name="T:AMLToolkit.ViewModel.AMLTreeViewModel.CanDragDropPredicate">
+            <summary>
+               Delegate CanDragDropPredicate
+            </summary>
+            <param name="treeView">The TreeView where the target is located</param>
+            <param name="source">The source which is dragged.</param>
+            <param name="target">The target for the drop.</param>
+            <returns>
+               <c>true</c> if source drop on target is allowed, <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="T:AMLToolkit.ViewModel.AMLTreeViewModel.DoDragDropAction">
+            <summary>
+               Delegate DoDragDropAction
+            </summary>
+            <param name="treeView">The TreeView where the target is located</param>
+            <param name="source">The source which is dragged.</param>
+            <param name="target">The target for the drop.</param>
+        </member>
+        <member name="T:AMLToolkit.ViewModel.AMLTreeViewTemplate">
+            <summary>
+            Class AMLTreeViewTemplate defines default TreeViewTemplates for CAEX-Elements, that can be displayed in a TreeView.
+            If a TreeView is build with one of the defined Templates, it is still possible to configure the TreeView, using a
+            Node-Filter.
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLTreeViewTemplate.CompleteInstanceHierarchyTree">
+            <summary>
+            The complete InstanceHierarchyTree contains the following Element-Names:
+            <list type="number">       
+            <item>
+            <term>InstanceHierarchy</term>
+            </item> 
+            <item>
+            <term>InternalElement</term>
+            </item> 
+            <item>
+            <term>InternalLink</term>
+            </item>  
+            <item>
+            <term>ExternalInterface</term>
+            </item> 
+            <item>
+            <term>RoleRequirements</term>
+            </item> 
+            <item>
+            <term>SupportedRoleClass</term>
+            </item> 
+            <item>
+            <term>MappingObject</term>
+            </item> 
+            <item>
+            <term>AttributeNameMapping</term>
+            </item> 
+            <item>
+            <term>InterfaceNameMapping</term>
+            </item>
+            </list>
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLTreeViewTemplate.CompleteSystemUnitClassLibTree">
+            <summary>
+            The complete SystemUnitClassLibrary-Tree contains the following Element-Names:
+            <list type="number">        
+            <item>
+            <term>SystemUnitClassLibrary</term>
+            </item>        
+            <item>
+            <term>SystemUnitClass</term>
+            </item> 
+            <item>
+            <term>InternalElement</term>
+            </item>  
+            <item>
+            <term>InternalLink</term>
+            </item> 
+            <item>
+            <term>ExternalInterface</term>
+            </item> 
+            <item>
+            <term>RoleRequirements</term>
+            </item> 
+            <item>
+            <term>SupportedRoleClass</term>
+            </item> 
+            <item>
+            <term>MappingObject</term>
+            </item> 
+            <item>
+            <term>AttributeNameMapping</term>
+            </item> 
+            <item>
+            <term>InterfaceNameMapping</term>
+            </item>
+            </list>
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLTreeViewTemplate.ExtendedInstanceHierarchyTree">
+            <summary>
+            The extended InstanceHierarchyTree, which is a subset of the <see cref="F:AMLToolkit.ViewModel.AMLTreeViewTemplate.CompleteInstanceHierarchyTree"/> contains the following Element-Names:
+            <list type="number">       
+            <item>
+            <term>InstanceHierarchy</term>
+            </item> 
+            <item>
+            <term>InternalElement</term>
+            </item> 
+            <item>
+            <term>ExternalInterface</term>
+            </item> 
+            <item>
+            <term>RoleRequirements</term>
+            </item> 
+            </list>
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLTreeViewTemplate.ExtendedRoleClassLibTree">
+            <summary>
+            The extended RoleClassLibrary-Tree contains the following Element-Names:
+            <list type="number">       
+            <item>
+            <term>RoleClassLibrary</term>
+            </item> 
+            <item>
+            <term>RoleClass</term>
+            </item> 
+            <item>
+            <term>ExternalInterface</term>
+            </item>
+            </list>
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLTreeViewTemplate.ExtendedSystemUnitClassLibTree">
+            <summary>
+            The extended SystemUnitClassLibrary-Tree contains the following Element-Names:
+            <list type="number">       
+            <item>
+            <term>SystemUnitClassLibrary</term>
+            </item>        
+            <item>
+            <term>SystemUnitClass</term>
+            </item> 
+            <item>
+            <term>InternalElement</term>
+            </item> 
+            <item>
+            <term>ExternalInterface</term>
+            </item> 
+            </list> 
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLTreeViewTemplate.InterfaceClassLibTree">
+            <summary>
+            The InterfaceClassLibrary-Tree contains the following Element-Names:
+            <list type="number">       
+            <item>
+            <term>InterfaceClassLibrary</term>
+            </item>        
+            <item>
+            <term>InterfaceClass</term>
+            </item>
+            </list> 
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLTreeViewTemplate.SimpleInstanceHierarchyTree">
+            <summary>
+            The simple InstanceHierarchyTree, which is a subset of the <see cref="F:AMLToolkit.ViewModel.AMLTreeViewTemplate.ExtendedInstanceHierarchyTree"/> contains the following Element-Names:
+            <list type="number">       
+            <item>
+            <term>InstanceHierarchy</term>
+            </item> 
+            <item>
+            <term>InternalElement</term>
+            </item> 
+            </list>
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLTreeViewTemplate.SimpleRoleClassLibTree">
+            <summary>
+            The simple RoleClassLibrary-Tree contains the following Element-Names:
+            <list type="number">       
+            <item>
+            <term>RoleClassLibrary</term>
+            </item> 
+            <item>
+            <term>RoleClass</term>
+            </item> 
+            </list>
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.ViewModel.AMLTreeViewTemplate.SimpleSystemUnitClassLibTree">
+            <summary>
+            The simple SystemUnitClassLibrary-Tree contains the following Element-Names:
+            <list type="number">    
+            <item>
+            <term>SystemUnitClassLibrary</term>
+            </item>        
+            <item>
+            <term>SystemUnitClass</term>
+            </item> 
+            </list> 
+            </summary>
+        </member>
+        <member name="T:AMLToolkit.ViewModel.NamespaceDoc">
+            <summary>
+            The AMLToolkit.ViewModel provides ViewModels which are used to bind AutomationML Content to UI-Controls.
+            </summary>
+        </member>
+        <member name="T:AMLToolkit.View.NamespaceDoc">
+            <summary>
+            The AMLToolkit.View provides UI-Controls to view and edit AutomationML Content.
+            </summary>
+        </member>
+        <member name="T:AMLToolkit.XamlClasses.BooleanOrToVisibilityConverter">
+            <summary>
+            Class BooleanOrToVisibilityConverter converts an array of boolean values to <see cref="F:System.Windows.Visibility.Visible"/> if at least one of the values is <c>true</c>.
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.XamlClasses.BooleanOrToVisibilityConverter.Convert(System.Object[],System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Konvertiert Quellwerte in einen Wert für das Bindungsziel.Das Datenbindungsmodul ruft diese Methode auf, wenn es Werte aus den Quellbindungen an das Bindungsziel weitergibt.
+            </summary>
+            <param name="values">Der Wertearray, den die Quellbindungen in dem <see cref="T:System.Windows.Data.MultiBinding" /> erzeugen.Der Wert <see cref="F:System.Windows.DependencyProperty.UnsetValue" /> gibt an, dass die Quellbindung keinen Wert für die Konvertierung bereitstellen kann.</param>
+            <param name="targetType">Der Typ der Bindungsziel-Eigenschaft.</param>
+            <param name="parameter">Der zu verwendende Konverterparameter.</param>
+            <param name="culture">Die im Konverter zu verwendende Kultur.</param>
+            <returns>Ein konvertierter Wert.Wenn die Methode null zurückgibt, wird der gültige null-Wert verwendet.Der Rückgabewert <see cref="T:System.Windows.DependencyProperty" />.<see cref="F:System.Windows.DependencyProperty.UnsetValue" /> gibt an, dass der Konverter keinen Wert erstellt und dass die Bindung den <see cref="P:System.Windows.Data.BindingBase.FallbackValue" /> verwendet, falls vorhanden, oder andernfalls den Standardwert.Der Rückgabewert <see cref="T:System.Windows.Data.Binding" />.<see cref="F:System.Windows.Data.Binding.DoNothing" /> gibt an, dass die Bindung den Wert nicht überträgt oder den <see cref="P:System.Windows.Data.BindingBase.FallbackValue" /> oder den Standardwert verwendet.</returns>
+        </member>
+        <member name="M:AMLToolkit.XamlClasses.BooleanOrToVisibilityConverter.ConvertBack(System.Object,System.Type[],System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Konvertiert einen Bindungsziel-Wert in Werte für die Quellbindung.
+            </summary>
+            <param name="value">Der Wert, den das Bindungsziel erzeugt.</param>
+            <param name="targetTypes">Das Array der Typen, in die konvertiert werden soll.Die Arraylänge gibt die Anzahl und die Typen der Werte an, die der Methode für die Rückgabe vorgeschlagen werden.</param>
+            <param name="parameter">Der zu verwendende Konverterparameter.</param>
+            <param name="culture">Die im Konverter zu verwendende Kultur.</param>
+            <returns>Ein Array von Werten, die aus dem Zielwert in die Quellwerte zurückkonvertiert wurden.</returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:AMLToolkit.XamlClasses.CAEXTemplateSelector">
+            <summary>
+            Class CAEXTemplateSelector selects DataTemplates to view CAEX-Elements, based on the Element's Name <seealso cref="T:CAEX_ClassModel.CAEX_CLASSModel_TagNames"/>
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.XamlClasses.CAEXTemplateSelector.SelectTemplate(System.Object,System.Windows.DependencyObject)">
+            <summary>
+            Gibt beim Überschreiben in einer abgeleiteten Klasse ein <see cref="T:System.Windows.DataTemplate" />-Objekt auf der Grundlage einer benutzerdefinierten Logik zurück.
+            </summary>
+            <param name="item">Das Datenobjekt, für das die Vorlage ausgewählt werden soll.</param>
+            <param name="container">Das datengebundene Objekt.</param>
+            <returns>Gibt eine <see cref="T:System.Windows.DataTemplate" /> oder null zurück.Der Standardwert ist null.</returns>
+        </member>
+        <member name="P:AMLToolkit.XamlClasses.CAEXTemplateSelector.AttributeMappingTemplate">
+            <summary>
+            Gets or sets the DataTemplate to display an AttributeNameMapping Caex-Element.
+            </summary>
+            <value>The attribute mapping template.</value>
+        </member>
+        <member name="P:AMLToolkit.XamlClasses.CAEXTemplateSelector.InstanceHierarchyTemplate">
+            <summary>
+            Gets or sets the DataTemplate to display an InstanceHierarchy Caex-Element.
+            </summary>
+            <value>The instance hierarchy template.</value>
+        </member>
+        <member name="P:AMLToolkit.XamlClasses.CAEXTemplateSelector.InterfaceClassLibTemplate">
+            <summary>
+            Gets or sets the DataTemplate to display an InterfaceClassLib Caex-Element.
+            </summary>
+            <value>The interface class library template.</value>
+        </member>
+        <member name="P:AMLToolkit.XamlClasses.CAEXTemplateSelector.InterfaceClassTemplate">
+            <summary>
+            Gets or sets the DataTemplate to display an InterfaceClass Caex-Element.
+            </summary>
+            <value>The interface class template.</value>
+        </member>
+        <member name="P:AMLToolkit.XamlClasses.CAEXTemplateSelector.InternalLinkTemplate">
+            <summary>
+            Gets or sets the DataTemplate to display an InternalLink Caex-Element.
+            </summary>
+            <value>The internal link template.</value>
+        </member>
+        <member name="P:AMLToolkit.XamlClasses.CAEXTemplateSelector.InterfaceMappingTemplate">
+            <summary>
+            Gets or sets the DataTemplate to display an InterfaceNameMapping Caex-Element.
+            </summary>
+            <value>The interface mapping template.</value>
+        </member>
+        <member name="P:AMLToolkit.XamlClasses.CAEXTemplateSelector.InternalElementTemplate">
+            <summary>
+            Gets or sets the DataTemplate to display an InternalElement Caex-Element.
+            </summary>
+            <value>The internal element template.</value>
+        </member>
+        <member name="P:AMLToolkit.XamlClasses.CAEXTemplateSelector.MappingObjectTemplate">
+            <summary>
+            Gets or sets the DataTemplate to display a MappingObject Caex-Element.
+            </summary>
+            <value>The mapping object template.</value>
+        </member>
+        <member name="P:AMLToolkit.XamlClasses.CAEXTemplateSelector.RoleClassLibTemplate">
+            <summary>
+            Gets or sets the DataTemplate to display a RoleClassLib Caex-Element.
+            </summary>
+            <value>The role class library template.</value>
+        </member>
+        <member name="P:AMLToolkit.XamlClasses.CAEXTemplateSelector.RoleClassTemplate">
+            <summary>
+            Gets or sets the DataTemplate to display a RoleClass Caex-Element.
+            </summary>
+            <value>The role class template.</value>
+        </member>
+        <member name="P:AMLToolkit.XamlClasses.CAEXTemplateSelector.RoleRequirementTemplate">
+            <summary>
+            Gets or sets the DataTemplate to display a RoleRequirement Caex-Element.
+            </summary>
+            <value>The role requirement template.</value>
+        </member>
+        <member name="P:AMLToolkit.XamlClasses.CAEXTemplateSelector.SupportedRoleClassTemplate">
+            <summary>
+            Gets or sets the DataTemplate to display a SupportedRoleClass Caex-Element.
+            </summary>
+            <value>The supported role class template.</value>
+        </member>
+        <member name="P:AMLToolkit.XamlClasses.CAEXTemplateSelector.SystemUnitClassLibTemplate">
+            <summary>
+            Gets or sets the DataTemplate to display a SystemUnitClassLib Caex-Element.
+            </summary>
+            <value>The system unit class library template.</value>
+        </member>
+        <member name="P:AMLToolkit.XamlClasses.CAEXTemplateSelector.SystemUnitClassTemplate">
+            <summary>
+            Gets or sets the DataTemplate to display a SystemUnitClass Caex-Element.
+            </summary>
+            <value>The system unit class template.</value>
+        </member>
+        <member name="T:AMLToolkit.XamlClasses.NamespaceGroupDoc">
+            <summary>
+            The AMLToolkit.XamlClasses provides Xaml related classes, used in the WPF - Custom Controls to convert ans associate ModelData to RepresentationData
+            </summary>
+        </member>
+        <member name="T:AMLToolkit.View.AMLTreeView">
+            <summary>
+            The AMLTreeView is a Control, which arranges CAEX-ElementTrees in a TreeView
+            and assigns a default icon for each distinctive CAEX-Element <example>This is a
+            code example which shows, how to create a ViewModel with AMLDocument Data,
+            which can be bound to a TreeView. The example uses the AMLEngine.
+            <code keepSeeTags="true" title="c#">
+            {
+            // read the AMLDocument
+            var doc = CAEXDocument.LoadFromFile("myFile.aml");
+            // create a viewModel, using the TreeView Template <see cref="F:AMLToolkit.ViewModel.AMLTreeViewTemplate.CompleteInstanceHierarchyTree"/>
+            var viewModel = new AMLToolkit.ViewModel.AMLTreeViewModel(
+            (XmlElement)doc.CAEXFile.Node,
+            AMLToolkit.ViewModel.AMLTreeViewTemplate.CompleteInstanceHierarchyTree);
+            var treeView = new AMLTreeView ();
+            treeView.TreeViewModel = viewModel;
+            }
+            </code></example>
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.View.AMLTreeView.TheTreeViewProperty">
+            <summary>
+            The TreeView property
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.View.AMLTreeView.TreeViewModelProperty">
+            <summary>
+            The TreeView model property, used to populate the TreeView
+            </summary>
+        </member>
+        <member name="F:AMLToolkit.View.AMLTreeView._lastMouseDown">
+            <summary>
+            The _last mouse down
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.View.AMLTreeView.#cctor">
+            <summary>
+            Initializes static members of the <see cref="T:AMLToolkit.View.AMLTreeView"/> class.
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.View.AMLTreeView.OnApplyTemplate">
+            <summary>
+            Wird bei einer Überschreibung in einer abgeleiteten Klasse stets
+            aufgerufen, wenn <see cref="M:System.Windows.FrameworkElement.ApplyTemplate" /> von Anwendungscode
+            oder internem Prozesscode aufgerufen wird.
+            </summary>
+        </member>
+        <member name="M:AMLToolkit.View.AMLTreeView.SelectedItemOfTreeViewChanged(System.Object,System.Windows.RoutedPropertyChangedEventArgs{System.Object})">
+            <summary>
+            Selektion eines Elements im TreeView wird an das Control durchgereicht
+            </summary>
+            <param name="sender">The sender.</param>
+            <param name="e">The e.</param>
+        </member>
+        <member name="M:AMLToolkit.View.AMLTreeView.TheTreeView_DragOver(System.Object,System.Windows.DragEventArgs)">
+            <summary>
+            Handles the DragOver event of the TheTreeView control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.Windows.DragEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:AMLToolkit.View.AMLTreeView.TheTreeView_Drop(System.Object,System.Windows.DragEventArgs)">
+            <summary>
+            Handles the Drop event of the TheTreeView control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.Windows.DragEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:AMLToolkit.View.AMLTreeView.TheTreeView_MouseDown(System.Object,System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Handles the MouseDown event of the TheTreeView control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.Windows.Input.MouseButtonEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="M:AMLToolkit.View.AMLTreeView.TheTreeView_MouseMove(System.Object,System.Windows.Input.MouseEventArgs)">
+            <summary>
+            Handles the MouseMove event of the TheTreeView control.
+            </summary>
+            <param name="sender">The source of the event.</param>
+            <param name="e">The <see cref="T:System.Windows.Input.MouseEventArgs"/> instance containing the event data.</param>
+        </member>
+        <member name="E:AMLToolkit.View.AMLTreeView.SelectedItemChanged">
+            <summary>
+            Wird ausgelöst, wenn sich das selektierte Objekt ändert.
+            </summary>
+        </member>
+        <member name="P:AMLToolkit.View.AMLTreeView.TheTreeView">
+            <summary>
+            Gets the internal TreeView Control Object
+            </summary>
+            <value>The TreeView.</value>
+        </member>
+        <member name="P:AMLToolkit.View.AMLTreeView.TreeViewModel">
+            <summary>
+            Gets or sets the TreeView model. The TreeView's ItemsSource Property is
+            bound to the Root's Children Collection of the TreeViewModel
+            </summary>
+            <value>The TreeView model.</value>
+        </member>
+        <member name="T:AMLToolkit.Properties.Resources">
+            <summary>
+              Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
+            </summary>
+        </member>
+        <member name="P:AMLToolkit.Properties.Resources.ResourceManager">
+            <summary>
+              Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
+            </summary>
+        </member>
+        <member name="P:AMLToolkit.Properties.Resources.Culture">
+            <summary>
+              Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
+              Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
+            </summary>
+        </member>
+        <member name="P:AMLToolkit.Properties.Resources.Class">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Class ähnelt.
+            </summary>
+        </member>
+        <member name="P:AMLToolkit.Properties.Resources.Role">
+            <summary>
+              Sucht eine lokalisierte Zeichenfolge, die Role ähnelt.
+            </summary>
+        </member>
+    </members>
+</doc>

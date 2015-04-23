@@ -1,0 +1,12 @@
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\Net 4.0\AMLToolkit\obj\Release4.0\GeneratedInternalTypeHelper.g.cs
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\Net 4.0\AMLToolkit\obj\Release4.0\AMLToolkit_MarkupCompile.cache
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\Net 4.0\AMLToolkit\obj\Release4.0\AMLToolkit_MarkupCompile.lref
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\Release\4.0\AMLToolkit.dll
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\Release\4.0\AMLToolkit.pdb
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\Net 4.0\AMLToolkit\obj\Release4.0\Generic.baml
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\Net 4.0\AMLToolkit\obj\Release4.0\AMLToolkit.g.resources
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\Net 4.0\AMLToolkit\obj\Release4.0\AMLToolkit.Properties.Resources.resources
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\Net 4.0\AMLToolkit\obj\Release4.0\AMLToolkit.csproj.GenerateResource.Cache
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\Net 4.0\AMLToolkit\obj\Release4.0\AMLToolkit.dll
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\Net 4.0\AMLToolkit\obj\Release4.0\AMLToolkit.pdb
+D:\Benutzer\Prinz\Dokumente\GitHub\AMLToolkit\trunk\Net 4.0\AMLToolkit\obj\Release4.0\AMLToolkit.csprojResolveAssemblyReference.cache

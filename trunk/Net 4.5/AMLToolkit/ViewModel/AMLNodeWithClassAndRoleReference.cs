@@ -47,7 +47,7 @@ namespace AMLToolkit.ViewModel
         public AMLNodeWithClassAndRoleReference(AMLNodeViewModel parent, System.Xml.XmlElement CaexNode, bool lazyLoadChildren) :
             base(parent, CaexNode, lazyLoadChildren)
         {
-            RefreshNodeInformation();
+            RefreshNodeInformation(false);
         }
 
         #endregion Public Constructors
@@ -82,9 +82,9 @@ namespace AMLToolkit.ViewModel
         /// classes. The Method should be called, if the CAEX-Elements Data has changed
         /// and the Changes should be visible in any View, that has a binding to this ViewModel.
         /// </summary>
-        public override void RefreshNodeInformation()
+        public override void RefreshNodeInformation(bool expand)
         {
-            base.RefreshNodeInformation();
+            base.RefreshNodeInformation(expand);
 
             if (CAEXNode != null && CAEXNode.HasChildNodes)
             {
