@@ -13,20 +13,20 @@ IF "%1%"=="H21" GOTO HelpViewer21
 IF "%1%"=="h21" GOTO HelpViewer21
 
 REM Help Viewer 1.0
-HelpLibraryManagerLauncher.exe /product "VS" /version "100" /locale en-us /uninstall /silent /vendor "Vendor Name" /productName "AMLToolkit Documentation" /mediaBookList "AMLToolkit Documentation"
+HelpLibraryManagerLauncher.exe /product "VS" /version "100" /locale en-us /uninstall /silent /vendor "AutomationML" /productName "AMLToolkit" /mediaBookList "AMLToolkit Documentation"
 
 GOTO Exit
 
 :HelpViewer2
 
 REM Help Viewer 2.0
-HelpLibraryManagerLauncher.exe /viewerVersion 2.0 /catalogName VisualStudio11 /locale en-us /wait 0 /operation uninstall /vendor "Vendor Name" /productName "AMLToolkit Documentation" /bookList "AMLToolkit Documentation"
+HelpLibraryManagerLauncher.exe /viewerVersion 2.0 /catalogName VisualStudio11 /locale en-us /wait 0 /operation uninstall /vendor "AutomationML" /productName "AMLToolkit" /bookList "AMLToolkit Documentation"
 
 GOTO Exit
 
 :HelpViewer21
 
 REM Help Viewer 2.1
-HelpLibraryManagerLauncher.exe /viewerVersion 2.1 /catalogName VisualStudio11 /locale en-us /wait 0 /operation uninstall /vendor "Vendor Name" /productName "AMLToolkit Documentation" /bookList "AMLToolkit Documentation"
+HelpLibraryManagerLauncher.exe /viewerVersion 2.1 /catalogName VisualStudio11 /locale en-us /wait 0 /operation uninstall /vendor "AutomationML" /productName "AMLToolkit" /bookList "AMLToolkit Documentation"
 
 :Exit

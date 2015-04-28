@@ -17,16 +17,20 @@ using CAEX_ClassModel;
 
 namespace AMLToolkit.Model
 {
-    internal static class XmlNodeExtensions
+
+    /// <summary>
+    /// Class XmlNodeExtensions provides CAEX - related Extensions on XmlNode Type
+    /// </summary>
+    public static class XmlNodeExtensions
     {
-        #region Internal Methods
+        #region public Methods
 
         /// <summary>
         ///    creates CAEX object out of an XML node
         /// </summary>
         /// <param name="node">XML node</param>
         /// <returns>CAEXBasicObject</returns>
-        internal static CAEXBasicObject CreateCAEXWrapper(this XmlNode node)
+        public static CAEXBasicObject CreateCAEXWrapper(this XmlNode node)
         {
             if (!CAEXTypeDict.Instance.ContainsKey(node.Name))
                 throw new ArgumentException("Don't know how to wrap XML node of type " + CAEXTypeDict.Instance[node.Name], "node");
@@ -52,7 +56,7 @@ namespace AMLToolkit.Model
         ///    contains of values of the "name" attribute of the XmlNodes. If no such
         ///    attribute exists in the current node, the xml tag name is used instead.
         /// </returns>
-        internal static string getFullNodePath(this XmlNode xmlNode)
+        public static string getFullNodePath(this XmlNode xmlNode)
         {
             XmlNode currentElement = xmlNode;
             XmlAttribute nameAttribute = (xmlNode != null && xmlNode.Attributes != null) ? xmlNode.Attributes["Name"] : null;
@@ -75,6 +79,6 @@ namespace AMLToolkit.Model
             return pathString;
         }
 
-        #endregion Internal Methods
+        #endregion public Methods
     }
 }

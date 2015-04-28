@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{08922E
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "AMLToolkitDocumentation", "..\AMLToolkitDocumentation\AMLToolkitDocumentation.shfbproj", "{59CA0106-FE29-4759-A8C4-642B41CC7D4F}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -42,6 +44,14 @@ Global
 		{503ED028-1596-496B-9D45-47554368B9E8}.Release4.0|Any CPU.Build.0 = Release4.0|Any CPU
 		{503ED028-1596-496B-9D45-47554368B9E8}.Release4.5|Any CPU.ActiveCfg = Release4.5|Any CPU
 		{503ED028-1596-496B-9D45-47554368B9E8}.Release4.5|Any CPU.Build.0 = Release4.5|Any CPU
+		{59CA0106-FE29-4759-A8C4-642B41CC7D4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59CA0106-FE29-4759-A8C4-642B41CC7D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59CA0106-FE29-4759-A8C4-642B41CC7D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59CA0106-FE29-4759-A8C4-642B41CC7D4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59CA0106-FE29-4759-A8C4-642B41CC7D4F}.Release4.0|Any CPU.ActiveCfg = Release4.0|Any CPU
+		{59CA0106-FE29-4759-A8C4-642B41CC7D4F}.Release4.0|Any CPU.Build.0 = Release4.0|Any CPU
+		{59CA0106-FE29-4759-A8C4-642B41CC7D4F}.Release4.5|Any CPU.ActiveCfg = Release4.5|Any CPU
+		{59CA0106-FE29-4759-A8C4-642B41CC7D4F}.Release4.5|Any CPU.Build.0 = Release4.5|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

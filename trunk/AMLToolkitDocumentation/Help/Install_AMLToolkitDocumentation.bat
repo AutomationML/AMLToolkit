@@ -15,7 +15,7 @@ IF "%1%"=="h21" GOTO HelpViewer21
 REM Help Viewer 1.0
 REM Uninstall first in case it is already there.  If not, it won't install below.  We'll ignore any error output
 REM by redirecting it to NUL.
-HelpLibraryManagerLauncher.exe /product "VS" /version "100" /locale en-us /uninstall /silent /vendor "Vendor Name" /productName "AMLToolkit Documentation" /mediaBookList "AMLToolkit Documentation" > NUL
+HelpLibraryManagerLauncher.exe /product "VS" /version "100" /locale en-us /uninstall /silent /vendor "AutomationML" /productName "AMLToolkit" /mediaBookList "AMLToolkit Documentation" > NUL
 
 REM For Help Viewer 1.0. the setup name must be HelpContentSetup.msha so make sure we copy the setup file to that
 REM name.  SHFB names it after the help file so that multiple files can be deployed to the same output older at
@@ -32,7 +32,7 @@ GOTO Exit
 REM Help Viewer 2.0
 REM Uninstall first in case it is already there.  If not, it won't install below.  We'll ignore any error output
 REM by redirecting it to NUL.
-HelpLibraryManagerLauncher.exe /viewerVersion 2.0 /catalogName VisualStudio11 /locale en-us /wait 0 /operation uninstall /vendor "Vendor Name" /productName "AMLToolkit Documentation" /bookList "AMLToolkit Documentation" > NUL
+HelpLibraryManagerLauncher.exe /viewerVersion 2.0 /catalogName VisualStudio11 /locale en-us /wait 0 /operation uninstall /vendor "AutomationML" /productName "AMLToolkit" /bookList "AMLToolkit Documentation" > NUL
 
 REM Install the new content.
 HelpLibraryManagerLauncher.exe /viewerVersion 2.0 /catalogName VisualStudio11 /locale en-us /wait 0 /operation install /sourceUri "%CD%\AMLToolkitDocumentation.msha"
@@ -44,7 +44,7 @@ GOTO Exit
 REM Help Viewer 2.1
 REM Uninstall first in case it is already there.  If not, it won't install below.  We'll ignore any error output
 REM by redirecting it to NUL.
-HelpLibraryManagerLauncher.exe /viewerVersion 2.1 /catalogName VisualStudio11 /locale en-us /wait 0 /operation uninstall /vendor "Vendor Name" /productName "AMLToolkit Documentation" /bookList "AMLToolkit Documentation" > NUL
+HelpLibraryManagerLauncher.exe /viewerVersion 2.1 /catalogName VisualStudio11 /locale en-us /wait 0 /operation uninstall /vendor "AutomationML" /productName "AMLToolkit" /bookList "AMLToolkit Documentation" > NUL
 
 REM Install the new content.
 HelpLibraryManagerLauncher.exe /viewerVersion 2.1 /catalogName VisualStudio11 /locale en-us /wait 0 /operation install /sourceUri "%CD%\AMLToolkitDocumentation.msha"

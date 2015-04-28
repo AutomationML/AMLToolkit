@@ -87,6 +87,18 @@
     <Compile Include="..\..\Net 4.5\AMLToolkit\Model\XmlNodeExtensions.cs">
       <Link>Model\XmlNodeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Net 4.5\AMLToolkit\Tools\AMLInsertCopyFromSourceCommand.cs">
+      <Link>Tools\AMLInsertCopyFromSourceCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Net 4.5\AMLToolkit\Tools\AMLUndoRedoManager.cs">
+      <Link>Tools\AMLUndoRedoManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Net 4.5\AMLToolkit\Tools\IAMLCommand.cs">
+      <Link>Tools\IAMLCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Net 4.5\AMLToolkit\Tools\NamespaceDoc.cs">
+      <Link>Tools\NamespaceDoc.cs</Link>
+    </Compile>
     <Compile Include="..\..\Net 4.5\AMLToolkit\ViewModel\AMLLayout.cs">
       <Link>ViewModel\AMLLayout.cs</Link>
     </Compile>
@@ -119,6 +131,15 @@
     </Compile>
     <Compile Include="..\..\Net 4.5\AMLToolkit\XamlClasses\CAEXTemplateSelector.cs">
       <Link>XamlClasses\CAEXTemplateSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Net 4.5\AMLToolkit\XamlClasses\DraggableMarkupHelper.cs">
+      <Link>XamlClasses\DraggableMarkupHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Net 4.5\AMLToolkit\XamlClasses\NamespaceDoc.cs">
+      <Link>XamlClasses\NamespaceDoc.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Net 4.5\AMLToolkit\XamlClasses\NullToVisibilityConverter.cs">
+      <Link>XamlClasses\NullToVisibilityConverter.cs</Link>
     </Compile>
     <Compile Include="..\..\Net 4.5\AMLToolkit\XamlClasses\VisualTreeUtilities.cs">
       <Link>XamlClasses\VisualTreeUtilities.cs</Link>

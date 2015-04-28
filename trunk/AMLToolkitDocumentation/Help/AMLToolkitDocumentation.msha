@@ -4,9 +4,9 @@
 </head>
 <body class="vendor-book">
     <div class="details">
-        <span class="vendor">Vendor Name</span>
+        <span class="vendor">AutomationML</span>
         <span class="locale">en-us</span>
-        <span class="product">AMLToolkit Documentation</span>
+        <span class="product">AMLToolkit</span>
         <span class="name">AMLToolkit Documentation</span>
     </div>
     <div class="package-list">

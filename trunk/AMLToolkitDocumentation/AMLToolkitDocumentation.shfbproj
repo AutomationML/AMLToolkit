@@ -13,7 +13,7 @@
     <RootNamespace>AMLToolkitDocumentation</RootNamespace>
     <Name>AMLToolkitDocumentation</Name>
     <!-- SHFB properties -->
-    <FrameworkVersion>.NET Framework 4.0</FrameworkVersion>
+    <FrameworkVersion>.NET Framework 4.5</FrameworkVersion>
     <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>AMLToolkitDocumentation</HtmlHelpName>
     <Language>en-US</Language>
@@ -28,12 +28,11 @@
       <Argument Key="defaultLanguage" Value="cs" />
     </TransformComponentArguments>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\AMLToolkit\AMLToolkit.csproj" />
-      <DocumentationSource sourceFile="AMLToolkit.XML" />
+      <DocumentationSource sourceFile="..\Net 4.5\AMLToolkit\AMLToolkit.csproj" />
     </DocumentationSources>
     <MaximumGroupParts>2</MaximumGroupParts>
     <NamespaceGrouping>True</NamespaceGrouping>
-    <SyntaxFilters>C#, Visual Basic, Managed C++, F#, ASP.NET</SyntaxFilters>
+    <SyntaxFilters>Standard</SyntaxFilters>
     <SdkLinkTarget>Blank</SdkLinkTarget>
     <RootNamespaceTitle>AutomationML Toolkit</RootNamespaceTitle>
     <RootNamespaceContainer>False</RootNamespaceContainer>
@@ -57,7 +56,7 @@
         </component>
       </ComponentConfig>
     </ComponentConfigurations>
-    <VisibleItems>Attributes, InheritedMembers, Protected, SealedProtected, ProtectedInternalAsProtected</VisibleItems>
+    <VisibleItems>Attributes, Protected, SealedProtected, ProtectedInternalAsProtected</VisibleItems>
     <ProjectSummary>The AMLToolkit provides a set of tools, as UI-Controls and Templates to view and edit AutomationML Content and for Importer and Exporter Development.</ProjectSummary>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <HelpFileFormat>HtmlHelp1, MSHelpViewer</HelpFileFormat>
@@ -66,6 +65,16 @@
     <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
     <CppCommentsFixup>False</CppCommentsFixup>
     <CleanIntermediates>True</CleanIntermediates>
+    <CatalogName>VisualStudio11</CatalogName>
+    <TocParentId>-1</TocParentId>
+    <TocParentVersion>100</TocParentVersion>
+    <TopicVersion>100</TopicVersion>
+    <TocOrder>-1</TocOrder>
+    <ProductTitle>AMLToolkit</ProductTitle>
+    <VendorName>AutomationML</VendorName>
+    <MSHelpViewerSdkLinkType>Msdn</MSHelpViewerSdkLinkType>
+    <CatalogVersion>100</CatalogVersion>
+    <CatalogProductId>VS</CatalogProductId>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->
@@ -89,7 +98,7 @@
     <OutputPath>bin\Release4.0\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release4.5' ">
-    <OutputPath>bin\Release4.5\</OutputPath>
+    <OutputPath>Help\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Content" />
@@ -99,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\VersionHistory\v1.0.0.0.aml" />
+    <None Include="Content\VersionHistory\v1.2.0.0.aml" />
     <None Include="Content\VersionHistory\VersionHistory.aml" />
     <None Include="Content\Welcome.aml" />
   </ItemGroup>

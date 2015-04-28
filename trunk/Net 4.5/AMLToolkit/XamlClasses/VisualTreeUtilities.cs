@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace AMLToolkit.XamlClasses
 {
-    public static class VisualTreeUtilities
+    internal static class VisualTreeUtilities
     {
         public static TObject FindVisualParent<TObject>(UIElement child) where TObject : UIElement
         {

@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml;
+using AMLToolkit.Tools;
 using AMLToolkit.ViewModel;
 using CAEX_ClassModel;
 
@@ -22,6 +23,8 @@ namespace AmlToolkitTestUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        AMLUndoRedoManager undoRedoManager ;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -32,7 +35,7 @@ namespace AmlToolkitTestUI
             var path = System.IO.Path.Combine(Environment.CurrentDirectory, @"TestFile/Test1.aml");
 
             var doc = CAEXDocument.LoadFromFile(path);
-            
+            undoRedoManager = new AMLToolkit.Tools.AMLUndoRedoManager();
             
             this.IHTree.TreeViewModel = new AMLToolkit.ViewModel.AMLTreeViewModel((XmlElement)doc.CAEXFile.Node, AMLToolkit.ViewModel.AMLTreeViewTemplate.CompleteInstanceHierarchyTree);
             this.ICTree.TreeViewModel = new AMLToolkit.ViewModel.AMLTreeViewModel((XmlElement)doc.CAEXFile.Node, AMLToolkit.ViewModel.AMLTreeViewTemplate.InterfaceClassLibTree);
@@ -64,18 +67,11 @@ namespace AmlToolkitTestUI
                             target.CAEXNode.Name == CAEX_ClassModel.CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING);
 
             };
+                       
 
             AMLToolkit.ViewModel.AMLTreeViewModel.DoDragDropAction DoDragDrop = delegate(AMLTreeViewModel tree, AMLNodeViewModel source, AMLNodeViewModel target)
             {
-                var copy = source.CAEXNode.CloneNode(true);
-
-                InternalElementType parent = CAEXBasicObject.CreateCAEXWrapper<InternalElementType>(target.CAEXNode);
-                InternalElementType child = CAEXBasicObject.CreateCAEXWrapper<InternalElementType>(copy);
-                parent.Insert_InternalElement(child, false);
-
-                target.RefreshNodeInformation(true);
-
-                MessageBox.Show(string.Format("{0} dropped on {1}!", source.Name, target.Name));
+                AMLInsertCopyFromSourceCommand.ExcuteAndInsertCommand(undoRedoManager, target, source);
             };
 
             this.IHTree.TreeViewModel.CanDragDrop = CanDragDrop;
@@ -112,6 +108,18 @@ namespace AmlToolkitTestUI
             }
 
             remove = !remove;
+        }
+
+        private void Undo_Click(object sender, RoutedEventArgs e)
+        {
+            if (undoRedoManager.CanUndo)
+                undoRedoManager.Undo(1);
+        }
+
+        private void Redo_Click(object sender, RoutedEventArgs e)
+        {
+            if (undoRedoManager.CanRedo)
+                undoRedoManager.Redo(1);
         }
     }
 }

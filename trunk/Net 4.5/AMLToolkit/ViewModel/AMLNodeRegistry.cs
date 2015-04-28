@@ -1,113 +1,102 @@
-﻿// ***********************************************************************
-// Assembly         : AMLToolkit
-// Author           : Josef Prinz
-// Created          : 03-09-2015
-//
-// Last Modified By : Josef Prinz
-// Last Modified On : 03-09-2015
-// ***********************************************************************
+﻿// *********************************************************************** Assembly :
+// AMLToolkit Author : Josef Prinz Created : 03-09-2015
+// 
+// Last Modified By : Josef Prinz Last Modified On : 03-09-2015 ***********************************************************************
 // <copyright file="AMLNodeRegistry.cs" company="inpro">
-//     Copyright (c) AutomationML e.V.. All rights reserved.
+//    Copyright (c) AutomationML e.V.. All rights reserved.
 // </copyright>
-// <summary></summary>
+// <summary>
+//    </summary>
 // ***********************************************************************
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using CAEX_ClassModel;
 
 /// <summary>
-/// The ViewModel namespace.
+///    The ViewModel namespace.
 /// </summary>
 namespace AMLToolkit.ViewModel
 {
     /// <summary>
-    /// Class AMLNodeRegistry defines a dictionary, containing CAEX-TagNames and associated ConstructionInfo for the CAEX-Element,
-    /// identifiable by the CAEX-TagName. The Class implements the Singleton Pattern. The Static <see cref="AMLNodeRegistry.Instance"/> contains default
-    /// ConstructionInfo for each CAEX-Element. The Default Dictionary Entries may be changed by an application, if a CAEX-Element
-    /// has a special ViewModel with a special constructor. Currently, the following associations are created for the 
-    /// static Instance:
+    ///    Class AMLNodeRegistry defines a dictionary, containing CAEX-TagNames and
+    ///    associated ConstructionInfo for the CAEX-Element, identifiable by the
+    ///    CAEX-TagName. The Class implements the Singleton Pattern. The Static <see
+    ///    cref="AMLNodeRegistry.Instance"/> contains default ConstructionInfo for each
+    ///    CAEX-Element. The Default Dictionary Entries may be changed by an application,
+    ///    if a CAEX-Element has a special ViewModel with a special constructor.
+    ///    Currently, the following associations are created for the static Instance:
     /// 
-    /// <list type="table" keepSeeTags="true">
-    /// <listheader>
-    /// <term>CAEX-Element</term>
-    /// <description>Associated ViewModel-Constructor.> </description>
-    /// </listheader>
-    /// <item>
-    /// <term>InstanceHierarchy</term>
-    /// <description>Basic ViewModel: <see cref="AMLNodeViewModel(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
-    /// </item>
-    /// <item>
-    /// <term>SystemUnitClassLibrary</term>
-    /// <description>Basic ViewModel: <see cref="AMLNodeViewModel(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
-    /// </item>
-    /// <item>
-    /// <term>RoleClassLibrary</term>
-    /// <description>Basic ViewModel: <see cref="AMLNodeViewModel(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
-    /// </item>
-    /// <item>
-    /// <term>InterfaceClassLibrary</term>
-    /// <description>Basic ViewModel: <see cref="AMLNodeViewModel(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
-    /// </item>
-    /// <item>
-    /// <term>InternalLink</term>
-    /// <description>Basic ViewModel: <see cref="AMLNodeViewModel(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
-    /// </item>
-    /// <item>
-    /// <term>InternalElement [has Class- and Role-Reference]</term>
-    /// <description>Derived ViewModel: <see cref="AMLNodeWithClassAndRoleReference(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
-    /// </item>
-    /// <item>
-    /// <term>SystemUnitClass [has Class-Reference]</term>
-    /// <description>Derived ViewModel: <see cref="AMLNodeWithClassReference(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
-    /// </item>
-    /// <item>
-    /// <term>RoleClass [has Class-Reference]</term>
-    /// <description>Derived ViewModel: <see cref="AMLNodeWithClassReference(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
-    /// </item>
-    /// <item>
-    /// <term>InterfaceClass [has Class-Reference]</term>
-    /// <description>Derived ViewModel: <see cref="AMLNodeWithClassReference(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
-    /// </item>
-    /// <item>
-    /// <term>ExternalInterface [has Class-Reference]</term>
-    /// <description>Derived ViewModel: <see cref="AMLNodeWithClassReference(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
-    /// </item>
-    /// <item>
-    /// <term>CaexFile [has no Name-Attribute]</term>
-    /// <description>Derived ViewModel: <see cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
-    /// </item>
-    /// <item>
-    /// <term>RoleRequirement [has no Name-Attribute]</term>
-    /// <description>Derived ViewModel: <see cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
-    /// </item>
-    /// <item>
-    /// <term>SupportedRoleClass [has no Name-Attribute]</term>
-    /// <description>Derived ViewModel: <see cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
-    /// </item>
-    /// <item>
-    /// <term>MappingObject [has no Name-Attribute]</term>
-    /// <description>Derived ViewModel: <see cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
-    /// </item>
-    /// <item>
-    /// <term>AttributeNameMapping [has no Name-Attribute]</term>
-    /// <description>Derived ViewModel: <see cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
-    /// </item>
-    /// <item>
-    /// <term>InterfaceNameMapping [has no Name-Attribute]</term>
-    /// <description>Derived ViewModel: <see cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description>
-    /// </item>
-    /// </list>     
+    ///    <list type="table"
+    ///    keepSeeTags="true"><listheader><term>CAEX-Element</term><description>Associated
+    ///    ViewModel-Constructor.&gt;</description></listheader><item><term>InstanceHierarchy</term><description>Basic
+    ///    ViewModel: <see cref="AMLNodeViewModel(AMLNodeViewModel, System.Xml.XmlElement,
+    ///    bool)"/></description></item><item><term>SystemUnitClassLibrary</term><description>Basic
+    ///    ViewModel: <see cref="AMLNodeViewModel(AMLNodeViewModel, System.Xml.XmlElement,
+    ///    bool)"/></description></item><item><term>RoleClassLibrary</term><description>Basic
+    ///    ViewModel: <see cref="AMLNodeViewModel(AMLNodeViewModel, System.Xml.XmlElement,
+    ///    bool)"/></description></item><item><term>InterfaceClassLibrary</term><description>Basic
+    ///    ViewModel: <see cref="AMLNodeViewModel(AMLNodeViewModel, System.Xml.XmlElement,
+    ///    bool)"/></description></item><item><term>InternalLink</term><description>Basic
+    ///    ViewModel: <see cref="AMLNodeViewModel(AMLNodeViewModel, System.Xml.XmlElement,
+    ///    bool)"/></description></item><item><term>InternalElement [has Class- and
+    ///    Role-Reference]</term><description>Derived ViewModel: <see
+    ///    cref="AMLNodeWithClassAndRoleReference(AMLNodeViewModel, System.Xml.XmlElement,
+    ///    bool)"/></description></item><item><term>SystemUnitClass [has
+    ///    Class-Reference]</term><description>Derived ViewModel: <see
+    ///    cref="AMLNodeWithClassReference(AMLNodeViewModel, System.Xml.XmlElement,
+    ///    bool)"/></description></item><item><term>RoleClass [has
+    ///    Class-Reference]</term><description>Derived ViewModel: <see
+    ///    cref="AMLNodeWithClassReference(AMLNodeViewModel, System.Xml.XmlElement,
+    ///    bool)"/></description></item><item><term>InterfaceClass [has
+    ///    Class-Reference]</term><description>Derived ViewModel: <see
+    ///    cref="AMLNodeWithClassReference(AMLNodeViewModel, System.Xml.XmlElement,
+    ///    bool)"/></description></item><item><term>ExternalInterface [has
+    ///    Class-Reference]</term><description>Derived ViewModel: <see
+    ///    cref="AMLNodeWithClassReference(AMLNodeViewModel, System.Xml.XmlElement,
+    ///    bool)"/></description></item><item><term>CaexFile [has no
+    ///    Name-Attribute]</term><description>Derived ViewModel: <see
+    ///    cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement,
+    ///    bool)"/></description></item><item><term>RoleRequirement [has no
+    ///    Name-Attribute]</term><description>Derived ViewModel: <see
+    ///    cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement,
+    ///    bool)"/></description></item><item><term>SupportedRoleClass [has no
+    ///    Name-Attribute]</term><description>Derived ViewModel: <see
+    ///    cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement,
+    ///    bool)"/></description></item><item><term>MappingObject [has no
+    ///    Name-Attribute]</term><description>Derived ViewModel: <see
+    ///    cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement,
+    ///    bool)"/></description></item><item><term>AttributeNameMapping [has no
+    ///    Name-Attribute]</term><description>Derived ViewModel: <see
+    ///    cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement,
+    ///    bool)"/></description></item><item><term>InterfaceNameMapping [has no
+    ///    Name-Attribute]</term><description>Derived ViewModel: <see
+    ///    cref="AMLNodeWithoutName(AMLNodeViewModel, System.Xml.XmlElement, bool)"/></description></item></list>
     /// </summary>
-    public class AMLNodeRegistry: Dictionary<string, ConstructorInfo>
+    public class AMLNodeRegistry : Dictionary<string, ConstructorInfo>
     {
+        #region Private Fields
+
         private static AMLNodeRegistry m_Instance;
 
+        #endregion Private Fields
+
+        #region Private Constructors
 
         /// <summary>
-        /// Gets the static instance of the AMLNodeRegistry
+        ///    Prevents a default instance of the <see cref="AMLNodeRegistry"/> class from
+        ///    being created.
+        /// </summary>
+        private AMLNodeRegistry()
+        {
+        }
+
+        #endregion Private Constructors
+
+        #region Public Properties
+
+        /// <summary>
+        ///    Gets the static instance of the AMLNodeRegistry
         /// </summary>
         /// <value>The instance.</value>
         public static AMLNodeRegistry Instance
@@ -116,7 +105,7 @@ namespace AMLToolkit.ViewModel
             {
                 if (m_Instance == null)
                 {
-                    var baseType = typeof(AMLNodeViewModel).GetConstructor(new[] { typeof(AMLNodeViewModel), typeof (System.Xml.XmlElement), typeof(bool) });
+                    var baseType = typeof(AMLNodeViewModel).GetConstructor(new[] { typeof(AMLNodeViewModel), typeof(System.Xml.XmlElement), typeof(bool) });
                     var classAndRoleRefType = typeof(AMLNodeWithClassAndRoleReference).GetConstructor(new[] { typeof(AMLNodeViewModel), typeof(System.Xml.XmlElement), typeof(bool) });
                     var classRefType = typeof(AMLNodeWithClassReference).GetConstructor(new[] { typeof(AMLNodeViewModel), typeof(System.Xml.XmlElement), typeof(bool) });
                     var noNameType = typeof(AMLNodeWithoutName).GetConstructor(new[] { typeof(AMLNodeViewModel), typeof(System.Xml.XmlElement), typeof(bool) });
@@ -151,11 +140,33 @@ namespace AMLToolkit.ViewModel
             }
         }
 
+        #endregion Public Properties
+
+        #region Public Methods
+
         /// <summary>
-        /// Prevents a default instance of the <see cref="AMLNodeRegistry"/> class from being created.
+        ///    Changes the registered constructor for the view model of a CAEX-TagName.
+        ///    The defined Type should be derived from the registered type. A List of
+        ///    ViewModels, which are registered for specific CAEX-TagNames is listed at
+        ///    the Class Documentation.
         /// </summary>
-        private AMLNodeRegistry ()
+        /// <param name="TagName">  
+        ///    Name of the CAEX-Element-Tag, which is represented in the specified ViewModel.
+        /// </param>
+        /// <param name="ViewModel">The view model for the CAEX-Element.</param>
+        public void ChangeRegisteredViewModelForNode(string TagName, Type ViewModel)
         {
+            ConstructorInfo viewModelConstructor = ViewModel.GetConstructor(new[] { ViewModel, typeof(System.Xml.XmlElement), typeof(bool) });
+            if (m_Instance.ContainsKey(TagName))
+            {
+                ConstructorInfo registeredConstructor = m_Instance[TagName];
+                if (ViewModel.IsSubclassOf(registeredConstructor.DeclaringType))
+                {
+                    m_Instance[TagName] = viewModelConstructor;
+                }
+            }
         }
+
+        #endregion Public Methods
     }
 }

@@ -27,11 +27,17 @@ namespace AMLToolkit.Model
     ///    Class XmlElementExtension provides some Extension Methods to access CAEX
     ///    Elements via an XmlElement. This Methods don't need a CAEXWrapper.
     /// </summary>
-    internal static class XmlElementExtension
+    public static class XmlElementExtension
     {
-        #region Internal Methods
+        #region public Methods
 
-        internal static XmlElement GetAncestor(this XmlElement element, string name)
+        /// <summary>
+        /// Gets the ancestor with the specified XmlNode Name
+        /// </summary>
+        /// <param name="element">The element.</param>
+        /// <param name="name">The name.</param>
+        /// <returns>XmlElement.</returns>
+        public static XmlElement GetAncestor(this XmlElement element, string name)
         {
             var navigator = element.CreateNavigator();
             var iterator = navigator.SelectAncestors(name, "", false);
@@ -48,7 +54,7 @@ namespace AMLToolkit.Model
         /// <param name="Name">     The name.</param>
         /// <param name="matchSelf">if set to <c>true</c> [match self].</param>
         /// <returns>IEnumerable&lt;XmlElement&gt;.</returns>
-        internal static IEnumerable<XmlElement> AllElements(this XmlElement element, string Name, bool matchSelf)
+        public static IEnumerable<XmlElement> AllElements(this XmlElement element, string Name, bool matchSelf)
         {
             var navigator = element.CreateNavigator();
             var iterator = navigator.SelectDescendants(Name, string.Empty, matchSelf);
@@ -62,7 +68,7 @@ namespace AMLToolkit.Model
         /// </summary>
         /// <param name="element">The XmlElement.</param>
         /// <returns>The Name or string.empty if the ID-Attribute is missing</returns>
-        internal static string CAEXIDOfElement(this XmlElement element)
+        public static string CAEXIDOfElement(this XmlElement element)
         {
             if (element != null && element.HasAttribute("ID"))
                 return element.Attributes["ID"].Value;
@@ -75,7 +81,7 @@ namespace AMLToolkit.Model
         /// </summary>
         /// <param name="element">The XmlElement.</param>
         /// <returns>The Name or string.empty if the Name-Attribute is missing</returns>
-        internal static string CAEXNameOfElement(this XmlElement element)
+        public static string CAEXNameOfElement(this XmlElement element)
         {
             if (element != null && element.HasAttribute("Name"))
                 return element.Attributes["Name"].Value;
@@ -90,7 +96,7 @@ namespace AMLToolkit.Model
         /// <returns>
         ///    The Name or string.empty if the Parent or the Name-Attribute is missing
         /// </returns>
-        internal static string CAEXNameOfParent(this XmlElement element)
+        public static string CAEXNameOfParent(this XmlElement element)
         {
             if (element != null && element.ParentNode is XmlElement)
             {
@@ -99,7 +105,12 @@ namespace AMLToolkit.Model
             return string.Empty;
         }
 
-        internal static string MappingPathToRoleReference(this XmlElement mappingAttribute)
+        /// <summary>
+        /// get the Mappings path to role reference.
+        /// </summary>
+        /// <param name="mappingAttribute">The mapping attribute.</param>
+        /// <returns>System.String.</returns>
+        public static string MappingPathToRoleReference(this XmlElement mappingAttribute)
         {
             string roleAttribute = string.Empty;
 
@@ -159,7 +170,13 @@ namespace AMLToolkit.Model
             return string.Empty;
         }
 
-        internal static string MappingPathToSystemUnitClassReference(this XmlElement mappingAttribute)
+
+        /// <summary>
+        /// return the Mapping Path to a system unit class reference.
+        /// </summary>
+        /// <param name="mappingAttribute">The mapping attribute.</param>
+        /// <returns>System.String.</returns>
+        public static string MappingPathToSystemUnitClassReference(this XmlElement mappingAttribute)
         {
             XmlElement MappingObject = mappingAttribute.ParentNode as XmlElement;
             XmlElement MappingParent = (MappingObject != null) ? MappingObject.ParentNode as XmlElement : null;
@@ -179,19 +196,35 @@ namespace AMLToolkit.Model
             return string.Empty;
         }
 
-        internal static bool HasChildNodes(this XmlElement element, string childElementName)
+        /// <summary>
+        /// Determines whether [has child nodes] [the specified child element name].
+        /// </summary>
+        /// <param name="element">The element.</param>
+        /// <param name="childElementName">Name of the child element.</param>
+        /// <returns><c>true</c> if [has child nodes] [the specified child element name]; otherwise, <c>false</c>.</returns>
+        public static bool HasChildNodes(this XmlElement element, string childElementName)
         {
             var navigator = element.CreateNavigator();
             var iterator = navigator.SelectChildren(childElementName, string.Empty);
             return iterator.MoveNext();
         }
 
-        internal static bool IsAttributeNameMapping(this XmlElement element)
+        /// <summary>
+        /// Determines whether [is attribute name mapping] [the specified element].
+        /// </summary>
+        /// <param name="element">The element.</param>
+        /// <returns><c>true</c> if [is attribute name mapping] [the specified element]; otherwise, <c>false</c>.</returns>
+        public static bool IsAttributeNameMapping(this XmlElement element)
         {
             return element.Name == CAEX_CLASSModel_TagNames.MAPPINGOBJECT_ATTRIBUTENAME_STRING;
         }
 
-        internal static bool IsInterfaceNameMapping(this XmlElement element)
+        /// <summary>
+        /// Determines whether [is interface name mapping] [the specified element].
+        /// </summary>
+        /// <param name="element">The element.</param>
+        /// <returns><c>true</c> if [is interface name mapping] [the specified element]; otherwise, <c>false</c>.</returns>
+        public static bool IsInterfaceNameMapping(this XmlElement element)
         {
             return element.Name == CAEX_CLASSModel_TagNames.MAPPINGOBJECT_INTERFACENAME_STRING;
         }
@@ -201,7 +234,7 @@ namespace AMLToolkit.Model
         /// </summary>
         /// <param name="mappingAttribute">The mapping attribute.</param>
         /// <returns>XmlElement.</returns>
-        internal static XmlElement RoleReferenceToMapping(this XmlElement mappingAttribute)
+        public static XmlElement RoleReferenceToMapping(this XmlElement mappingAttribute)
         {
             string roleAttribute = string.Empty;
 
@@ -266,7 +299,7 @@ namespace AMLToolkit.Model
         /// </summary>
         /// <param name="mappingAttribute">The mapping attribute.</param>
         /// <returns>XmlElement.</returns>
-        internal static XmlElement SystemUnitClassReferenceToMapping(this XmlElement mappingAttribute)
+        public static XmlElement SystemUnitClassReferenceToMapping(this XmlElement mappingAttribute)
         {
             //string sucAttribute = string.Empty;
 
@@ -312,7 +345,7 @@ namespace AMLToolkit.Model
         ///    For classes, it returns the XML full Node Path. For Interface Instances, it
         ///    returns GUID:InterfaceName.
         /// </returns>
-        internal static string CAEXPath(this XmlElement element)
+        public static string CAEXPath(this XmlElement element)
         {
             //check if Obj is Interface instance
             if (element.Name == CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING)
@@ -328,7 +361,7 @@ namespace AMLToolkit.Model
 
                         if (idAttribute != null && !string.IsNullOrEmpty(idAttribute.Value))
                         {
-                            path = InternalLinkReferencePath(parent, element);
+                            path = internalLinkReferencePath(parent, element);
                             return path;
                         }
                     }
@@ -343,14 +376,14 @@ namespace AMLToolkit.Model
         }
 
         /// <summary>
-        ///    gets the reference path for an Interface-Reference in an InternalLink
+        ///    gets the reference path for an Interface-Reference in an internalLink
         /// </summary>
         /// <param name="interfaceParent">  
-        ///    The interface Parent (SystemUnitClass or InternalElement)
+        ///    The interface Parent (SystemUnitClass or publicElement)
         /// </param>
         /// <param name="externalInterface">The external Interface.</param>
         /// <returns>System.String.</returns>
-        internal static string InternalLinkReferencePath(System.Xml.XmlElement interfaceParent, System.Xml.XmlElement externalInterface)
+        public static string internalLinkReferencePath(System.Xml.XmlElement interfaceParent, System.Xml.XmlElement externalInterface)
         {
             string APath = PathPart(interfaceParent, true);
             string BPath = PathPart(externalInterface, false);
@@ -372,7 +405,7 @@ namespace AMLToolkit.Model
         ///    if set to <c>true</c> use the Elements ID, otherwise use its name.
         /// </param>
         /// <returns>System.String.</returns>
-        internal static string PathPart(XmlElement element, bool UseId = false)
+        public static string PathPart(XmlElement element, bool UseId = false)
         {
             if (!UseId)
             {
@@ -405,7 +438,7 @@ namespace AMLToolkit.Model
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns>System.String.</returns>
-        internal static string PathPartName(string name)
+        public static string PathPartName(string name)
         {
             if (name.Contains(CAEXPathBuilder.PathPartBegin))
             {
@@ -433,7 +466,7 @@ namespace AMLToolkit.Model
         /// <param name="element">The element.</param>
         /// <param name="Name">   The name.</param>
         /// <returns>IEnumerable&lt;XmlElement&gt;.</returns>
-        internal static IEnumerable<XmlElement> ChildElements(this XmlElement element, string Name)
+        public static IEnumerable<XmlElement> ChildElements(this XmlElement element, string Name)
         {
             var navigator = element.CreateNavigator();
             var iterator = navigator.SelectChildren(Name, string.Empty);
@@ -453,7 +486,7 @@ namespace AMLToolkit.Model
         /// <param name="ElementName">  Name of the element.</param>
         /// <param name="AttributeName">Name of the attribute.</param>
         /// <returns>IEnumerable&lt;XmlElement&gt;.</returns>
-        internal static IEnumerable<XmlElement> CloneWhenNotDerived(this XmlElement cloneElement, XmlElement baseElement, string ElementName, string AttributeName)
+        public static IEnumerable<XmlElement> CloneWhenNotDerived(this XmlElement cloneElement, XmlElement baseElement, string ElementName, string AttributeName)
         {
             foreach (XmlElement child in baseElement.ChildElements(ElementName))
             {
@@ -470,7 +503,7 @@ namespace AMLToolkit.Model
         /// <param name="element">      The element.</param>
         /// <param name="AttributeName">The attribute name.</param>
         /// <returns>System.String.</returns>
-        internal static string GetAttributeValue(this XmlElement element, string AttributeName)
+        public static string GetAttributeValue(this XmlElement element, string AttributeName)
         {
             if (element.HasAttribute(AttributeName))
             {
@@ -487,7 +520,7 @@ namespace AMLToolkit.Model
         /// <param name="referencedClassPath">The referenced class path.</param>
         /// <param name="LibraryTagName">     The CAEX TagName of the Library.</param>
         /// <returns>The referenced XmlNode, if it is found or null if not.</returns>
-        internal static XmlNode GetReferencedCAEXClassFromClassLibrary(this XmlElement element, string referencedClassPath, string LibraryTagName)
+        public static XmlNode GetReferencedCAEXClassFromClassLibrary(this XmlElement element, string referencedClassPath, string LibraryTagName)
         {
             // if tables are managed by an application, a fast access to the referenced
             // object is possible
@@ -547,23 +580,23 @@ namespace AMLToolkit.Model
         }
 
         /// <summary>
-        ///    Get the InternalElementReferences if this is an InternalLink
+        ///    Get the publicElementReferences if this is an internalLink
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>System.String.</returns>
-        internal static IEnumerable<string> InternalElementReference(this XmlElement element)
+        public static IEnumerable<string> publicElementReference(this XmlElement element)
         {
-            yield return element.InternalElementReferenceInInternalLink(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REF_PARTNER_SIDE_A);
-            yield return element.InternalElementReferenceInInternalLink(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REF_PARTNER_SIDE_B);
+            yield return element.publicElementReferenceIninternalLink(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REF_PARTNER_SIDE_A);
+            yield return element.publicElementReferenceIninternalLink(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REF_PARTNER_SIDE_B);
         }
 
         /// <summary>
-        ///    Get the InternalElementReferences if this is an InternalLink
+        ///    Get the publicElementReferences if this is an internalLink
         /// </summary>
         /// <param name="element">                 The element.</param>
         /// <param name="nameOfReferenceAttribute">The Attribute Name of the Reference-Attribute</param>
         /// <returns>System.String.</returns>
-        internal static string InternalElementReferenceInInternalLink(this XmlElement element, string nameOfReferenceAttribute)
+        public static string publicElementReferenceIninternalLink(this XmlElement element, string nameOfReferenceAttribute)
         {
             if (element.IsInternalLink())
             {
@@ -586,7 +619,7 @@ namespace AMLToolkit.Model
         /// <returns>
         ///    <c>true</c> if the specified element is a CAEXClass; otherwise, <c>false</c>.
         /// </returns>
-        internal static bool IsCAEXClass(this XmlElement element)
+        public static bool IsCAEXClass(this XmlElement element)
         {
             return element.IsRoleClass() || element.IsInterfaceClass() || element.IsSystemUnitClass();
         }
@@ -605,7 +638,7 @@ namespace AMLToolkit.Model
         /// <returns>
         ///    <c>true</c> if the specified attribute element is derived; otherwise, <c>false</c>.
         /// </returns>
-        internal static bool IsDerived(this XmlElement elementWithAttribute, XmlElement elementWithDerivedAttributes, string ElementName, string AttributeName)
+        public static bool IsDerived(this XmlElement elementWithAttribute, XmlElement elementWithDerivedAttributes, string ElementName, string AttributeName)
         {
             string name = elementWithAttribute.GetAttributeValue(AttributeName);
             if (!string.IsNullOrEmpty(name))
@@ -624,12 +657,17 @@ namespace AMLToolkit.Model
         /// <returns>
         ///    <c>true</c> if [is external interface] [the specified element]; otherwise, <c>false</c>.
         /// </returns>
-        internal static bool IsExternalInterface(this XmlElement element)
+        public static bool IsExternalInterface(this XmlElement element)
         {
             return element.Name == CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING;
         }
 
-        internal static bool IsExternalReference(this XmlElement element)
+        /// <summary>
+        /// Determines whether [is external reference] [the specified element].
+        /// </summary>
+        /// <param name="element">The element.</param>
+        /// <returns><c>true</c> if [is external reference] [the specified element]; otherwise, <c>false</c>.</returns>
+        public static bool IsExternalReference(this XmlElement element)
         {
             return element.Name == CAEX_CLASSModel_TagNames.EXTERNALREFERENCE_STRING;
         }
@@ -642,7 +680,7 @@ namespace AMLToolkit.Model
         /// <returns>
         ///    <c>true</c> if [is ic mirror] [the specified element]; otherwise, <c>false</c>.
         /// </returns>
-        internal static bool IsICMirror(this XmlElement element)
+        public static bool IsICMirror(this XmlElement element)
         {
             if (element.HasAttribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH))
             {
@@ -659,7 +697,7 @@ namespace AMLToolkit.Model
         /// <returns>
         ///    <c>true</c> if [is ie mirror] [the specified element]; otherwise, <c>false</c>.
         /// </returns>
-        internal static bool IsIEMirror(this XmlElement element)
+        public static bool IsIEMirror(this XmlElement element)
         {
             if (element.HasAttribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASESYSTEMUNITPATH))
             {
@@ -675,31 +713,31 @@ namespace AMLToolkit.Model
         /// <returns>
         ///    <c>true</c> if [is interface class] [the specified element]; otherwise, <c>false</c>.
         /// </returns>
-        internal static bool IsInterfaceClass(this XmlElement element)
+        public static bool IsInterfaceClass(this XmlElement element)
         {
             return element.Name == CAEX_CLASSModel_TagNames.INTERFACECLASS_STRING;
         }
 
         /// <summary>
-        ///    Determines whether [is internal element] [the specified element].
+        ///    Determines whether the specified element is an InternalElement.
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>
-        ///    <c>true</c> if [is internal element] [the specified element]; otherwise, <c>false</c>.
+        ///    <c>true</c> if the specified element is an InternalElement; otherwise, <c>false</c>.
         /// </returns>
-        internal static bool IsInternalElement(this XmlElement element)
+        public static bool IsInternalElement(this XmlElement element)
         {
             return element.Name == CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING;
         }
 
         /// <summary>
-        ///    Determines whether [is internal link] [the specified element].
+        ///    Determines whether the specified element is an internal link.
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>
-        ///    <c>true</c> if [is internal link] [the specified element]; otherwise, <c>false</c>.
+        ///    <c>true</c> if the specified element is an internal link; otherwise, <c>false</c>.
         /// </returns>
-        internal static bool IsInternalLink(this XmlElement element)
+        public static bool IsInternalLink(this XmlElement element)
         {
             return element.Name == CAEX_CLASSModel_TagNames.INTERNALLINK_STRING;
         }
@@ -711,7 +749,7 @@ namespace AMLToolkit.Model
         /// <returns>
         ///    <c>true</c> if [is role class] [the specified element]; otherwise, <c>false</c>.
         /// </returns>
-        internal static bool IsRoleClass(this XmlElement element)
+        public static bool IsRoleClass(this XmlElement element)
         {
             return element.Name == CAEX_CLASSModel_TagNames.ROLECLASS_STRING;
         }
@@ -723,7 +761,7 @@ namespace AMLToolkit.Model
         /// <returns>
         ///    <c>true</c> if [is role requirement] [the specified element]; otherwise, <c>false</c>.
         /// </returns>
-        internal static bool IsRoleRequirement(this XmlElement element)
+        public static bool IsRoleRequirement(this XmlElement element)
         {
             return element.Name == CAEX_CLASSModel_TagNames.ROLEREQUIREMENTS_STRING;
         }
@@ -736,7 +774,7 @@ namespace AMLToolkit.Model
         ///    <c>true</c> if [is supported role class] [the specified element];
         ///    otherwise, <c>false</c>.
         /// </returns>
-        internal static bool IsSupportedRoleClass(this XmlElement element)
+        public static bool IsSupportedRoleClass(this XmlElement element)
         {
             return element.Name == CAEX_CLASSModel_TagNames.SUPPORTEDROLECLASS_STRING;
         }
@@ -748,7 +786,7 @@ namespace AMLToolkit.Model
         /// <returns>
         ///    <c>true</c> if [is mapping element] [the specified element]; otherwise, <c>false</c>.
         /// </returns>
-        internal static bool IsMappingElement(this XmlElement element)
+        public static bool IsMappingElement(this XmlElement element)
         {
             return element.Name == CAEX_CLASSModel_TagNames.MAPPINGOBJECT_ATTRIBUTENAME_STRING ||
                    element.Name == CAEX_CLASSModel_TagNames.MAPPINGOBJECT_INTERFACENAME_STRING;
@@ -761,17 +799,17 @@ namespace AMLToolkit.Model
         /// <returns>
         ///    <c>true</c> if [is system unit class] [the specified element]; otherwise, <c>false</c>.
         /// </returns>
-        internal static bool IsSystemUnitClass(this XmlElement element)
+        public static bool IsSystemUnitClass(this XmlElement element)
         {
             return element.Name == CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING;
         }
 
         /// <summary>
-        ///    Get the ID of the Master InternalElement if this is a Mirror.
+        ///    Get the ID of the Master publicElement if this is a Mirror.
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>System.String.</returns>
-        internal static string InternalElementMasterID(this XmlElement element)
+        public static string publicElementMasterID(this XmlElement element)
         {
             if (element.HasAttribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASESYSTEMUNITPATH))
             {
@@ -787,7 +825,7 @@ namespace AMLToolkit.Model
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>System.String.</returns>
-        internal static string InterfaceClassMasterID(this XmlElement element)
+        public static string InterfaceClassMasterID(this XmlElement element)
         {
             if (element.HasAttribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH))
             {
@@ -803,7 +841,7 @@ namespace AMLToolkit.Model
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>System.String.</returns>
-        internal static string RoleReference(this XmlElement element)
+        public static string RoleReference(this XmlElement element)
         {
             if (element.IsRoleRequirement())
             {
@@ -823,7 +861,7 @@ namespace AMLToolkit.Model
         /// <param name="element">      The element.</param>
         /// <param name="AttributeName">The attribute name.</param>
         /// <param name="value">        The value.</param>
-        internal static void SetAttributeValue(this XmlElement element, string AttributeName, string value)
+        public static void SetAttributeValue(this XmlElement element, string AttributeName, string value)
         {
             if (element.HasAttribute(AttributeName))
             {
@@ -837,7 +875,7 @@ namespace AMLToolkit.Model
         /// <param name="element">      The element.</param>
         /// <param name="AttributeName">The attribute name.</param>
         /// <param name="value">        The value.</param>
-        internal static void SetOrCreateAttributeValue(this XmlElement element, string AttributeName, string value)
+        public static void SetOrCreateAttributeValue(this XmlElement element, string AttributeName, string value)
         {
             if (!element.HasAttribute(AttributeName))
             {
@@ -851,7 +889,7 @@ namespace AMLToolkit.Model
         /// </summary>
         /// <param name="element">The element.</param>
         /// <returns>System.String.</returns>
-        internal static string SystemUnitClassReference(this XmlElement element)
+        public static string SystemUnitClassReference(this XmlElement element)
         {
             if (element.IsInternalElement())
             {
@@ -860,6 +898,6 @@ namespace AMLToolkit.Model
             return string.Empty;
         }
 
-        #endregion Internal Methods
+        #endregion public Methods
     }
 }

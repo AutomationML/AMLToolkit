@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="8718a7bf-01f4-4cac-b2e1-6986e5b9ccf6" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <introduction>
+      <para>
+        Version 1.2 was released on April 28th. 2015
+      </para>
+    </introduction>
+
+    <section>
+      <title>Changes in This Release</title>
+      <content>
+
+        <list class="bullet">
+          <listItem>
+            <para>added basic Undo Redo capability based on command pattern</para>
+          </listItem>
+          <listItem>
+            <para>Property AdditionalInformation in AMLNodeViewModel allows adding of visualizations to AMLNodeViews </para>
+          </listItem>
+          <listItem>
+            <para>AMLTreeView has a NodeSelection Event and supports Drag 'n Drop </para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+
+    <relatedTopics>
+      <link xlink:href="eb5426d1-6292-4833-aaa4-eda9c0774d05" />
+    </relatedTopics>
+
+  </developerConceptualDocument>
+</topic>

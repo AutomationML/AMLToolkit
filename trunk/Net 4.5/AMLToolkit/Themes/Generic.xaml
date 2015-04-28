@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
                     xmlns:local="clr-namespace:AMLToolkit.View"
                     xmlns:props="clr-namespace:AMLToolkit.Properties"
                     xmlns:vm="clr-namespace:AMLToolkit.ViewModel"
@@ -23,6 +24,7 @@
 
     <BooleanToVisibilityConverter x:Key="btvc" />
     <xaml:BooleanOrToVisibilityConverter x:Key="obtvc" />
+    <xaml:NullToVisibilityConverter x:Key="ntvc" />
 
     <!--  Textblock für die Anzeige von Klassen-/ Rollenreferenzen hinter Knoten  -->
 
@@ -40,7 +42,9 @@
     </TextBlock>
 
     <StackPanel x:Key="ClassRoleReferenceText"
-                Style="{StaticResource TreeNodePanel}"
+                Style="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                               AncestorType={x:Type local:AMLTreeView}},
+                                Path=AmlNodeStyle}"
                 x:Shared="False">
         <StackPanel.Visibility>
             <MultiBinding Converter="{StaticResource obtvc}">
@@ -65,103 +69,243 @@
 
 
     <HierarchicalDataTemplate x:Key="IHTemplate" ItemsSource="{Binding ChildrenView}">
-        <StackPanel Style="{StaticResource TreeNodePanel}">
+        <StackPanel Style="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AMLTreeView}}, Path=AmlNodeStyle}">
             <Image Source="/AMLToolkit;component/Resource/IH.png" Style="{StaticResource NodeImageStyle}" />
+            <ContentPresenter Content="{Binding AdditionalInformation}" Visibility="{Binding AdditionalInformation, Converter={StaticResource ntvc}}">
+                <ContentPresenter.Resources>
+                    <DataTemplate DataType="{x:Type System:String}">
+                        <TextBox BorderThickness="0" Text="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type ImageSource}">
+                        <Image Source="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+            </ContentPresenter>
             <TextBlock Style="{StaticResource NodeNameStyle}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate x:Key="IETemplate" ItemsSource="{Binding ChildrenView}">
-        <StackPanel Style="{StaticResource TreeNodePanel}">
+        <StackPanel Style="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AMLTreeView}}, Path=AmlNodeStyle}">
             <Image Source="/AMLToolkit;component/Resource/IE.png" Style="{StaticResource NodeImageStyle}" />
+            <ContentPresenter Content="{Binding AdditionalInformation}" Visibility="{Binding AdditionalInformation, Converter={StaticResource ntvc}}">
+                <ContentPresenter.Resources>
+                    <DataTemplate DataType="{x:Type System:String}">
+                        <TextBox BorderThickness="0" Text="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type ImageSource}">
+                        <Image Source="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+            </ContentPresenter>
             <TextBlock Style="{StaticResource NodeNameStyle}" />
             <ContentPresenter Content="{StaticResource ClassRoleReferenceText}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate x:Key="ICTemplate" ItemsSource="{Binding ChildrenView}">
-        <StackPanel Style="{StaticResource TreeNodePanel}">
+        <StackPanel Style="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AMLTreeView}}, Path=AmlNodeStyle}">
             <Image Source="/AMLToolkit;component/Resource/IC.png" Style="{StaticResource NodeImageStyle}" />
+            <ContentPresenter Content="{Binding AdditionalInformation}" Visibility="{Binding AdditionalInformation, Converter={StaticResource ntvc}}">
+                <ContentPresenter.Resources>
+                    <DataTemplate DataType="{x:Type System:String}">
+                        <TextBox BorderThickness="0" Text="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type ImageSource}">
+                        <Image Source="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+            </ContentPresenter>
             <TextBlock Style="{StaticResource NodeNameStyle}" />
             <ContentPresenter Content="{StaticResource ClassReferenceText}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate x:Key="ICLibTemplate" ItemsSource="{Binding ChildrenView}">
-        <StackPanel Style="{StaticResource TreeNodePanel}">
+        <StackPanel Style="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AMLTreeView}}, Path=AmlNodeStyle}">
             <Image Source="/AMLToolkit;component/Resource/ICLib.png" Style="{StaticResource NodeImageStyle}" />
+            <ContentPresenter Content="{Binding AdditionalInformation}" Visibility="{Binding AdditionalInformation, Converter={StaticResource ntvc}}">
+                <ContentPresenter.Resources>
+                    <DataTemplate DataType="{x:Type System:String}">
+                        <TextBox BorderThickness="0" Text="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type ImageSource}">
+                        <Image Source="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+            </ContentPresenter>
             <TextBlock Style="{StaticResource NodeNameStyle}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate x:Key="RCLibTemplate" ItemsSource="{Binding ChildrenView}">
-        <StackPanel Style="{StaticResource TreeNodePanel}">
+        <StackPanel Style="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AMLTreeView}}, Path=AmlNodeStyle}">
             <Image Source="/AMLToolkit;component/Resource/RCLib.png" Style="{StaticResource NodeImageStyle}" />
+            <ContentPresenter Content="{Binding AdditionalInformation}" Visibility="{Binding AdditionalInformation, Converter={StaticResource ntvc}}">
+                <ContentPresenter.Resources>
+                    <DataTemplate DataType="{x:Type System:String}">
+                        <TextBox BorderThickness="0" Text="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type ImageSource}">
+                        <Image Source="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+            </ContentPresenter>
             <TextBlock Style="{StaticResource NodeNameStyle}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate x:Key="RCTemplate" ItemsSource="{Binding ChildrenView}">
-        <StackPanel Style="{StaticResource TreeNodePanel}">
+        <StackPanel Style="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AMLTreeView}}, Path=AmlNodeStyle}">
             <Image Source="/AMLToolkit;component/Resource/RC.png" Style="{StaticResource NodeImageStyle}" />
+            <ContentPresenter Content="{Binding AdditionalInformation}" Visibility="{Binding AdditionalInformation, Converter={StaticResource ntvc}}">
+                <ContentPresenter.Resources>
+                    <DataTemplate DataType="{x:Type System:String}">
+                        <TextBox BorderThickness="0" Text="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type ImageSource}">
+                        <Image Source="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+            </ContentPresenter>
             <TextBlock Style="{StaticResource NodeNameStyle}" />
             <ContentPresenter Content="{StaticResource ClassReferenceText}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate x:Key="SUCLibTemplate" ItemsSource="{Binding ChildrenView}">
-        <StackPanel Style="{StaticResource TreeNodePanel}">
+        <StackPanel Style="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AMLTreeView}}, Path=AmlNodeStyle}">
             <Image Source="/AMLToolkit;component/Resource/SUCLib.png" Style="{StaticResource NodeImageStyle}" />
+            <ContentPresenter Content="{Binding AdditionalInformation}" Visibility="{Binding AdditionalInformation, Converter={StaticResource ntvc}}">
+                <ContentPresenter.Resources>
+                    <DataTemplate DataType="{x:Type System:String}">
+                        <TextBox BorderThickness="0" Text="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type ImageSource}">
+                        <Image Source="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+            </ContentPresenter>
             <TextBlock Style="{StaticResource NodeNameStyle}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate x:Key="SUCTemplate" ItemsSource="{Binding ChildrenView}">
-        <StackPanel Style="{StaticResource TreeNodePanel}">
+        <StackPanel Style="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AMLTreeView}}, Path=AmlNodeStyle}">
             <Image Source="/AMLToolkit;component/Resource/SUC.png" Style="{StaticResource NodeImageStyle}" />
+            <ContentPresenter Content="{Binding AdditionalInformation}" Visibility="{Binding AdditionalInformation, Converter={StaticResource ntvc}}">
+                <ContentPresenter.Resources>
+                    <DataTemplate DataType="{x:Type System:String}">
+                        <TextBox BorderThickness="0" Text="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type ImageSource}">
+                        <Image Source="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+            </ContentPresenter>
             <TextBlock Style="{StaticResource NodeNameStyle}" />
             <ContentPresenter Content="{StaticResource ClassReferenceText}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate x:Key="MOTemplate" ItemsSource="{Binding ChildrenView}">
-        <StackPanel Style="{StaticResource TreeNodePanel}">
+        <StackPanel Style="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AMLTreeView}}, Path=AmlNodeStyle}">
             <Image Source="/AMLToolkit;component/Resource/MO.png" Style="{StaticResource NodeImageStyle}" />
+            <ContentPresenter Content="{Binding AdditionalInformation}" Visibility="{Binding AdditionalInformation, Converter={StaticResource ntvc}}">
+                <ContentPresenter.Resources>
+                    <DataTemplate DataType="{x:Type System:String}">
+                        <TextBox BorderThickness="0" Text="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type ImageSource}">
+                        <Image Source="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+            </ContentPresenter>
             <TextBlock Style="{StaticResource NodeNameStyle}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate x:Key="INMTemplate" ItemsSource="{Binding ChildrenView}">
-        <StackPanel Style="{StaticResource TreeNodePanel}">
+        <StackPanel Style="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AMLTreeView}}, Path=AmlNodeStyle}">
             <Image Source="/AMLToolkit;component/Resource/INM.png" Style="{StaticResource NodeImageStyle}" />
+            <ContentPresenter Content="{Binding AdditionalInformation}" Visibility="{Binding AdditionalInformation, Converter={StaticResource ntvc}}">
+                <ContentPresenter.Resources>
+                    <DataTemplate DataType="{x:Type System:String}">
+                        <TextBox BorderThickness="0" Text="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type ImageSource}">
+                        <Image Source="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+            </ContentPresenter>
             <TextBlock Style="{StaticResource NodeNameStyle}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate x:Key="INTLTemplate" ItemsSource="{Binding ChildrenView}">
-        <StackPanel Style="{StaticResource TreeNodePanel}">
+        <StackPanel Style="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AMLTreeView}}, Path=AmlNodeStyle}">
             <Image Source="/AMLToolkit;component/Resource/InternalLink.png" Style="{StaticResource NodeImageStyle}" />
+            <ContentPresenter Content="{Binding AdditionalInformation}" Visibility="{Binding AdditionalInformation, Converter={StaticResource ntvc}}">
+                <ContentPresenter.Resources>
+                    <DataTemplate DataType="{x:Type System:String}">
+                        <TextBox BorderThickness="0" Text="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type ImageSource}">
+                        <Image Source="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+            </ContentPresenter>
             <TextBlock Style="{StaticResource NodeNameStyle}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate x:Key="ANMTemplate" ItemsSource="{Binding ChildrenView}">
-        <StackPanel Style="{StaticResource TreeNodePanel}">
+        <StackPanel Style="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AMLTreeView}}, Path=AmlNodeStyle}">
             <Image Source="/AMLToolkit;component/Resource/ANM.png" Style="{StaticResource NodeImageStyle}" />
+            <ContentPresenter Content="{Binding AdditionalInformation}" Visibility="{Binding AdditionalInformation, Converter={StaticResource ntvc}}">
+                <ContentPresenter.Resources>
+                    <DataTemplate DataType="{x:Type System:String}">
+                        <TextBox BorderThickness="0" Text="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type ImageSource}">
+                        <Image Source="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+            </ContentPresenter>
             <TextBlock Style="{StaticResource NodeNameStyle}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate x:Key="RRQTemplate" ItemsSource="{Binding ChildrenView}">
-        <StackPanel Style="{StaticResource TreeNodePanel}">
+        <StackPanel Style="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AMLTreeView}}, Path=AmlNodeStyle}">
             <Image Source="/AMLToolkit;component/Resource/RR.png" Style="{StaticResource NodeImageStyle}" />
+            <ContentPresenter Content="{Binding AdditionalInformation}" Visibility="{Binding AdditionalInformation, Converter={StaticResource ntvc}}">
+                <ContentPresenter.Resources>
+                    <DataTemplate DataType="{x:Type System:String}">
+                        <TextBox BorderThickness="0" Text="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type ImageSource}">
+                        <Image Source="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+            </ContentPresenter>
             <TextBlock Style="{StaticResource NodeNameStyle}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate x:Key="SRCTemplate" ItemsSource="{Binding ChildrenView}">
-        <StackPanel Style="{StaticResource TreeNodePanel}">
+        <StackPanel Style="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AMLTreeView}}, Path=AmlNodeStyle}">
             <Image Source="/AMLToolkit;component/Resource/SRC.png" Style="{StaticResource NodeImageStyle}" />
+            <ContentPresenter Content="{Binding AdditionalInformation}" Visibility="{Binding AdditionalInformation, Converter={StaticResource ntvc}}">
+                <ContentPresenter.Resources>
+                    <DataTemplate DataType="{x:Type System:String}">
+                        <TextBox BorderThickness="0" Text="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type ImageSource}">
+                        <Image Source="{Binding Path=Content, RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}" />
+                    </DataTemplate>
+                </ContentPresenter.Resources>
+            </ContentPresenter>
             <TextBlock Style="{StaticResource NodeNameStyle}" />
         </StackPanel>
     </HierarchicalDataTemplate>
@@ -183,6 +327,7 @@
                                SystemUnitClassTemplate="{StaticResource SUCTemplate}" />
 
     <Style TargetType="{x:Type local:AMLTreeView}">
+        <Setter Property="AmlNodeStyle" Value="{StaticResource TreeNodePanel}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:AMLTreeView}">
@@ -190,13 +335,14 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
                         <TreeView Name="TheTreeView"
+                                  AllowDrop="{TemplateBinding AllowDrop}"
                                   DataContext="{TemplateBinding TreeViewModel}"
                                   ItemTemplateSelector="{StaticResource CAEXDataTemplateSelector}"
                                   ItemsSource="{Binding Root.Children}"
-                                  AllowDrop="{TemplateBinding AllowDrop}"
                                   ScrollViewer.IsDeferredScrollingEnabled="True"
                                   VirtualizingStackPanel.IsVirtualizing="True"
-                                  VirtualizingStackPanel.VirtualizationMode="Recycling">
+                                  VirtualizingStackPanel.VirtualizationMode="Recycling"
+                                  xaml:DraggableMarkupHelper.ScrollOnDragDrop="True">
                             <TreeView.ItemContainerStyle>
                                 <!--
                                     This Style binds a TreeViewItem to a TreeViewItemViewModel.

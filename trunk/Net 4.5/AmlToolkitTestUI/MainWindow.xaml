@@ -7,6 +7,7 @@
         Height="350">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
@@ -16,17 +17,22 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
+        <ToolBar Grid.ColumnSpan="2">
+            <Button Click="Undo_Click" >Undo</Button>
+            <Button Click="Redo_Click" >Redo</Button>
+        </ToolBar>
+        
         <AML:AMLTreeView Name="IHTree"
-                         Grid.Row="0"
+                         Grid.Row="1"
                          Grid.Column="0" />
         <AML:AMLTreeView Name="SUCTree"
-                         Grid.Row="0"
+                         Grid.Row="1"
                          Grid.Column="1" />
         <AML:AMLTreeView Name="RCTree"
-                         Grid.Row="1"
+                         Grid.Row="2"
                          Grid.Column="0" />
         <AML:AMLTreeView Name="ICTree"
-                         Grid.Row="1"
+                         Grid.Row="2"
                          Grid.Column="1" />
     </Grid>
 </Window>

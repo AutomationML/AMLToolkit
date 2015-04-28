@@ -1,84 +1,84 @@
-﻿// ***********************************************************************
-// Assembly         : AMLToolkit
-// Author           : Josef Prinz
-// Created          : 03-09-2015
-//
-// Last Modified By : Josef Prinz
-// Last Modified On : 03-10-2015
+﻿// *********************************************************************** Assembly :
+// AMLToolkit Author : Josef Prinz Created : 03-09-2015
+// 
+// Last Modified By : Josef Prinz Last 
+// Modified On : 03-10-2015 
 // ***********************************************************************
 // <copyright file="AMLNodeViewModel.cs" company="inpro">
-//     Copyright (c) AutomationML e.V.. All rights reserved.
+//    Copyright (c) AutomationML e.V.. All rights reserved.
 // </copyright>
-// <summary></summary>
+// <summary>
+//    </summary>
 // ***********************************************************************
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Data;
 using System.Windows.Threading;
 using System.Xml;
-using System.Linq;
 using AMLToolkit.Model;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 
 /// <summary>
-/// The ViewModel namespace.
+///    The ViewModel namespace.
 /// </summary>
 namespace AMLToolkit.ViewModel
 {
     /// <summary>
-    /// Class AMLNodeViewModel is the Base-ViewModel for CAEX-Elements in an AutomationML Document. The ViewModel
-    /// supports LazyLoading. If a Node has not yet been expanded to view the Children, a DummyNode exists to mark the
-    /// Node as a Node with Children. The DummyNode will be replaced by the Nodes Children, if it is expanded for the
-    /// first time.
+    ///    Class AMLNodeViewModel is the Base-ViewModel for CAEX-Elements in an
+    ///    AutomationML Document. The ViewModel supports LazyLoading. If a Node has not
+    ///    yet been expanded to view the Children, a DummyNode exists to mark the Node as
+    ///    a Node with Children. The DummyNode will be replaced by the Nodes Children, if
+    ///    it is expanded for the first time.
     /// </summary>
     public class AMLNodeViewModel : ViewModelBase
     {
         #region Private Fields
 
         /// <summary>
-        /// The dummy child
+        ///    The dummy child
         /// </summary>
         private static readonly AMLNodeViewModel DummyChild = new AMLNodeViewModel();
 
         /// <summary>
-        /// The _children
+        ///    The _children
         /// </summary>
         private readonly ObservableCollection<AMLNodeViewModel> _children;
 
         /// <summary>
-        /// The _parent
+        ///    The _parent
         /// </summary>
         private readonly AMLNodeViewModel _parent;
 
         /// <summary>
-        /// The _caex node
+        ///    The _caex node
         /// </summary>
         private System.Xml.XmlElement _caexNode;
 
         /// <summary>
-        /// <see cref="ExpandAllCommand" />
+        ///    <see cref="ExpandAllCommand"/>
         /// </summary>
         private RelayCommand<object> _expandAllCommand;
 
         /// <summary>
-        /// The _is expanded
+        ///    The _is expanded
         /// </summary>
         private bool _isExpanded;
 
         /// <summary>
-        /// The _is selected
+        ///    The _is selected
         /// </summary>
         private bool _isSelected;
 
         /// <summary>
-        /// <see cref="Name" />
+        ///    <see cref="Name"/>
         /// </summary>
         private string _name;
 
         /// <summary>
-        /// <see cref="CAEXTagNames" />
+        ///    <see cref="CAEXTagNames"/>
         /// </summary>
         private List<string> caexTagNames = null;
 
@@ -87,10 +87,10 @@ namespace AMLToolkit.ViewModel
         #region Public Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AMLNodeViewModel" /> class.
+        ///    Initializes a new instance of the <see cref="AMLNodeViewModel"/> class.
         /// </summary>
-        /// <param name="parent">The parent.</param>
-        /// <param name="CaexNode">The caex node.</param>
+        /// <param name="parent">          The parent.</param>
+        /// <param name="CaexNode">        The caex node.</param>
         /// <param name="lazyLoadChildren">if set to <c>true</c> [lazy load children].</param>
         public AMLNodeViewModel(AMLNodeViewModel parent, System.Xml.XmlElement CaexNode, bool lazyLoadChildren)
         {
@@ -107,8 +107,8 @@ namespace AMLToolkit.ViewModel
         #region Private Constructors
 
         /// <summary>
-        /// This is used to create the DummyChild instance. Prevents a default instance
-        /// of the <see cref="AMLNodeViewModel" /> class from being created.
+        ///    This is used to create the DummyChild instance. Prevents a default instance
+        ///    of the <see cref="AMLNodeViewModel"/> class from being created.
         /// </summary>
         private AMLNodeViewModel()
         {
@@ -119,7 +119,30 @@ namespace AMLToolkit.ViewModel
         #region Public Properties
 
         /// <summary>
-        /// Gets the CAEXNode
+        ///    Gets or sets the additinoal information which will be visible in the View
+        ///    of the Node. The additional Information is always placed between the Node's
+        ///    Icon and the Name. Overwrite this in a derived class, to define specific
+        ///    representation logic. Currently the <see
+        ///    cref="AMLToolkit.View.AMLTreeView"/> supports Text and Image Sources.
+        ///    <example>
+        ///    <code>
+        ///         // display an additional image
+        ///         AdditionalInformation = new BitmapImage(new Uri("pack://application:,,,/AMLToolkit;component/Resource.IE.png"));
+        ///       
+        ///         // display additional text
+        ///         AdditionalInformation = "Error";
+        ///    </code>
+        ///    </example> 
+        /// </summary>
+        /// <value>The additinoal information.</value>
+        public virtual object AdditionalInformation
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        ///    Gets the CAEXNode
         /// </summary>
         /// <value>The caex node.</value>
         public XmlElement CAEXNode
@@ -131,9 +154,9 @@ namespace AMLToolkit.ViewModel
         }
 
         /// <summary>
-        /// Gets and sets the List of CAEXTagNames for valid child's, which are loaded
-        /// to the TreeView. If this is not set for a Node, the List of the actual
-        /// parent is used.
+        ///    Gets and sets the List of CAEXTagNames for valid child's, which are loaded
+        ///    to the TreeView. If this is not set for a Node, the List of the actual
+        ///    parent is used.
         /// </summary>
         /// <value>The name of the caex tag.</value>
         public List<string> CAEXTagNames
@@ -152,48 +175,7 @@ namespace AMLToolkit.ViewModel
         }
 
         /// <summary>
-        /// Refreshes the node information. This Method can be overridden in derived classes. The Method 
-        /// should be called, if the CAEX-Elements Data has changed and the Changes should be visible in any
-        /// View, that has a binding to this ViewModel.
-        /// </summary>
-        public virtual void RefreshNodeInformation (bool expand)
-        {          
-
-            // if the childs are loaded 
-            if (!HasDummyChild )
-            {
-                var modelChilds  = this.CAEXNode.ChildNodes.Cast<XmlElement>().Where ( n=> this.CAEXTagNames.Contains(n.Name) );
-
-                if (modelChilds.Count() != this.Children.Count())
-                {
-                    foreach (AMLNodeViewModel obsoleteChild in this.Children.Where (n=> !modelChilds.Contains(n.CAEXNode)).ToList())
-                    {
-                        this.Children.Remove(obsoleteChild);
-                    }
-                  
-                    int position = this.Children.Count;
-
-                    foreach (XmlNode node in modelChilds)
-                    {                        
-                        var loadedChild = this.Children.FirstOrDefault(item => item.CAEXNode.Equals(node));
-                        if (loadedChild != null)
-                        {
-                            position = this.Children.IndexOf(loadedChild) + 1;
-                        }
-                        else
-                        {
-                            var constructor = AMLNodeRegistry.Instance[node.Name];
-                            var item = constructor.Invoke(new object[] { this, node, true }) as AMLNodeViewModel;
-                            this.Children.Insert(position++, item);
-                        }
-                    }
-                }
-            }
-            this.IsExpanded = expand;
-        }
-
-        /// <summary>
-        /// Returns the logical child items of this object.
+        ///    Returns the logical child items of this object.
         /// </summary>
         /// <value>The children.</value>
         public ObservableCollection<AMLNodeViewModel> Children
@@ -202,8 +184,8 @@ namespace AMLToolkit.ViewModel
         }
 
         /// <summary>
-        /// Gets the children view. Binding to this Property enables filtering and
-        /// ordering of the Children Collection
+        ///    Gets the children view. Binding to this Property enables filtering and
+        ///    ordering of the Children Collection
         /// </summary>
         /// <value>The children view.</value>
         public ListCollectionView ChildrenView
@@ -212,9 +194,9 @@ namespace AMLToolkit.ViewModel
         }
 
         /// <summary>
-        /// The ExpandAllCommand - Command. Execution of this Command results in the Expansion of the
-        /// Node and all it's descendants. The Execution method is queued on the current Dispatcher Thread
-        /// for asynchronous Execution.
+        ///    The ExpandAllCommand - Command. Execution of this Command results in the
+        ///    Expansion of the Node and all it's descendants. The Execution method is
+        ///    queued on the current Dispatcher Thread for asynchronous Execution.
         /// </summary>
         /// <value>The expand all command.</value>
         public System.Windows.Input.ICommand ExpandAllCommand
@@ -228,7 +210,7 @@ namespace AMLToolkit.ViewModel
         }
 
         /// <summary>
-        /// Returns true if this object's Children have not yet been populated.
+        ///    Returns true if this object's Children have not yet been populated.
         /// </summary>
         /// <value><c>true</c> if this instance has dummy child; otherwise, <c>false</c>.</value>
         public bool HasDummyChild
@@ -237,7 +219,7 @@ namespace AMLToolkit.ViewModel
         }
 
         /// <summary>
-        /// Gets/sets whether the TreeViewItem associated with this object is expanded.
+        ///    Gets/sets whether the TreeViewItem associated with this object is expanded.
         /// </summary>
         /// <value><c>true</c> if this instance is expanded; otherwise, <c>false</c>.</value>
         public bool IsExpanded
@@ -265,7 +247,7 @@ namespace AMLToolkit.ViewModel
         }
 
         /// <summary>
-        /// Gets/sets whether the TreeViewItem associated with this object is selected.
+        ///    Gets/sets whether the TreeViewItem associated with this object is selected.
         /// </summary>
         /// <value><c>true</c> if this instance is selected; otherwise, <c>false</c>.</value>
         public bool IsSelected
@@ -282,7 +264,7 @@ namespace AMLToolkit.ViewModel
         }
 
         /// <summary>
-        /// Gets and sets the Name
+        ///    Gets and sets the Name
         /// </summary>
         /// <value>The name.</value>
         public virtual string Name
@@ -301,7 +283,7 @@ namespace AMLToolkit.ViewModel
         }
 
         /// <summary>
-        /// Gets the parent.
+        ///    Gets the parent.
         /// </summary>
         /// <value>The parent.</value>
         public AMLNodeViewModel Parent
@@ -314,11 +296,11 @@ namespace AMLToolkit.ViewModel
         #region Public Methods
 
         /// <summary>
-        /// Applies the Name filter to the <see cref="ChildrenView" />. This Method is
-        /// called, when the <see cref="AMLLayout.NamesOfVisibleElements" /> of the
-        /// associated Layout Object changes. The Method is put on the current
-        /// Dispatcher Thread for asynchronous execution. The Method ic recursively
-        /// called for all Children's, that pass the Filter.
+        ///    Applies the Name filter to the <see cref="ChildrenView"/>. This Method is
+        ///    called, when the <see cref="AMLLayout.NamesOfVisibleElements"/> of the
+        ///    associated Layout Object changes. The Method is put on the current
+        ///    Dispatcher Thread for asynchronous execution. The Method ic recursively
+        ///    called for all Children's, that pass the Filter.
         /// </summary>
         /// <param name="VisibleNames">The visible names.</param>
         public void ApplyFilterWithName(IList<string> VisibleNames)
@@ -346,8 +328,8 @@ namespace AMLToolkit.ViewModel
         }
 
         /// <summary>
-        /// Invoked when the child items need to be loaded on demand. Subclasses can
-        /// override this to populate the Children collection.
+        ///    Invoked when the child items need to be loaded on demand. Subclasses can
+        ///    override this to populate the Children collection.
         /// </summary>
         public virtual void LoadChildren()
         {
@@ -361,16 +343,54 @@ namespace AMLToolkit.ViewModel
             }
         }
 
+        /// <summary>
+        ///    Refreshes the node information. This Method can be overridden in derived
+        ///    classes. The Method should be called, if the CAEX-Elements Data has changed
+        ///    and the Changes should be visible in any View, that has a binding to this ViewModel.
+        /// </summary>
+        public virtual void RefreshNodeInformation(bool expand)
+        {
+            // if the childs are loaded
+            if (!HasDummyChild)
+            {
+                var modelChilds = this.CAEXNode.ChildNodes.Cast<XmlElement>().Where(n => this.CAEXTagNames.Contains(n.Name));
 
-        
+                if (modelChilds.Count() != this.Children.Count())
+                {
+                    foreach (AMLNodeViewModel obsoleteChild in this.Children.Where(n => !modelChilds.Contains(n.CAEXNode)).ToList())
+                    {
+                        this.Children.Remove(obsoleteChild);
+                    }
 
+                    int position = this.Children.Count;
+
+                    foreach (XmlNode node in modelChilds)
+                    {
+                        var loadedChild = this.Children.FirstOrDefault(item => item.CAEXNode.Equals(node));
+                        if (loadedChild != null)
+                        {
+                            position = this.Children.IndexOf(loadedChild) + 1;
+                        }
+                        else
+                        {
+                            var constructor = AMLNodeRegistry.Instance[node.Name];
+                            var item = constructor.Invoke(new object[] { this, node, true }) as AMLNodeViewModel;
+                            this.Children.Insert(position++, item);
+                        }
+                    }
+                }
+            }
+
+            if (expand)
+                this.IsExpanded = expand;
+        }
 
         #endregion Public Methods
 
         #region Private Methods
 
         /// <summary>
-        /// Test, if the <see cref="ExpandAllCommand" /> can execute.
+        ///    Test, if the <see cref="ExpandAllCommand"/> can execute.
         /// </summary>
         /// <param name="parameter">unused parameter.</param>
         /// <returns>true, if command can execute</returns>
@@ -380,7 +400,7 @@ namespace AMLToolkit.ViewModel
         }
 
         /// <summary>
-        /// The <see cref="ExpandAllCommand" /> Execution Action.
+        ///    The <see cref="ExpandAllCommand"/> Execution Action.
         /// </summary>
         /// <param name="parameter">unused parameter.</param>
         private void ExpandAllCommandExecute(object parameter)
@@ -391,6 +411,11 @@ namespace AMLToolkit.ViewModel
                     foreach (var child in this.Children)
                         child.ExpandAllCommand.Execute(parameter);
                 }));
+        }
+
+        private void XmlNodeChangedEventHandler(object sender, XmlNodeChangedEventArgs e)
+        {
+            RefreshNodeInformation(false);
         }
 
         #endregion Private Methods

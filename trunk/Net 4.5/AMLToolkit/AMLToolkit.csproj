@@ -57,6 +57,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>..\..\AMLToolkitDocumentation\AMLToolkit.XML</DocumentationFile>
+    <NoWarn>1587</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AltovaXML, Version=1.0.5505.24743, Culture=neutral, PublicKeyToken=994749c2bff1fea2, processorArchitecture=MSIL">
@@ -81,9 +83,14 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\NamespaceDoc.cs" />
     <Compile Include="Model\XmlElementExtension.cs" />
     <Compile Include="Model\XmlNodeExtensions.cs" />
     <Compile Include="NamespaceDoc.cs" />
+    <Compile Include="Tools\AMLInsertCopyFromSourceCommand.cs" />
+    <Compile Include="Tools\AMLUndoRedoManager.cs" />
+    <Compile Include="Tools\IAMLCommand.cs" />
+    <Compile Include="Tools\NamespaceDoc.cs" />
     <Compile Include="ViewModel\AMLLayout.cs" />
     <Compile Include="ViewModel\AmlNodeEventArgs.cs" />
     <Compile Include="ViewModel\AMLNodeRegistry.cs" />
@@ -95,8 +102,10 @@
     <Compile Include="ViewModel\AMLTreeViewTemplate.cs" />
     <Compile Include="ViewModel\NamespaceDoc.cs" />
     <Compile Include="View\NamespaceDoc.cs" />
+    <Compile Include="XamlClasses\NullToVisibilityConverter.cs" />
     <Compile Include="XamlClasses\BooleanOrToVisibilityConverter.cs" />
     <Compile Include="XamlClasses\CAEXTemplateSelector.cs" />
+    <Compile Include="XamlClasses\DraggableMarkupHelper.cs" />
     <Compile Include="XamlClasses\NamespaceDoc.cs" />
     <Compile Include="XamlClasses\VisualTreeUtilities.cs" />
     <Page Include="Themes\Generic.xaml">
@@ -172,6 +181,7 @@
   <ItemGroup>
     <Resource Include="Resource\SUCLib.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
