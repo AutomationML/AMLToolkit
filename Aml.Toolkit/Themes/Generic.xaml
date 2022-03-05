@@ -1,0 +1,1690 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Aml.Toolkit.View"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:rule="clr-namespace:Aml.Toolkit.ViewModel.ValidationRules"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:xaml="clr-namespace:Aml.Toolkit.XamlClasses">
+
+    <!--  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"  -->
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Aml.Skins;component/Resources/Icons.xaml" />
+        <ResourceDictionary Source="/Aml.Skins;component/Themes/Light.Styles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <BooleanToVisibilityConverter x:Key="btvc" />
+    <xaml:InverseBoolToVisibilityConverter x:Key="ibtvc" />
+
+    <xaml:RoleGroupNameConverter x:Key="RoleGroupNameConverter" />
+    <xaml:InterfaceGroupNameConverter x:Key="InterfaceGroupNameConverter" />
+    <xaml:NameToImageConverter x:Key="NameToImageConverter" />
+    <xaml:ReferenceVisibilityConverter x:Key="ReferenceVisibilityConverter" />
+    <xaml:LinkCardinalityVisibilityConverter x:Key="LinkCardinalityVisibilityConverter" />
+
+    <Style x:Key="TreeNodePanel" TargetType="{x:Type StackPanel}">
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="ToolTipService.IsEnabled" Value="{Binding ShowToolTip}" />
+        <Setter Property="ToolTip" Value="{Binding ToolTip}" />
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="FrameworkElement.VerticalAlignment" Value="Center" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+
+    <Style x:Key="NodeNameStyle" TargetType="{x:Type TextBlock}">
+
+        <Setter Property="mah:TextBoxHelper.Watermark" Value="no name" />
+        <Setter Property="Margin" Value="2,0,0,0" />
+        <Setter Property="Padding" Value="0,0,0,1" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Text" Value="{Binding Name}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="MaxWidth" Value="{Binding Tree.TreeViewLayout.MaxNameWidth}" />
+        <Style.Triggers>
+            <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
+                <Setter Property="Width" Value="60" />
+                <Setter Property="TextAlignment" Value="Center" />
+            </Trigger>
+            <DataTrigger Binding="{Binding IsReadonly}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource ReadOnlyForegroundBrush}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsMirrored}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource MirrorItemForegroundBrush}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        x:Key="ShortNodeNameStyle"
+        BasedOn="{StaticResource NodeNameStyle}"
+        TargetType="{x:Type TextBlock}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=Tree.TreeViewLayout.ShowFullClassPath}" Value="False">
+                <Setter Property="Text" Value="{Binding ShortName}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="NodeImageStyle" TargetType="{x:Type Image}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="1,0" />
+        <Setter Property="Focusable" Value="False" />
+    </Style>
+
+    <Style x:Key="ModernToolBarItemStyle" TargetType="{x:Type Button}">
+        <Setter Property="Margin" Value="3,1" />
+        <!--<Setter Property="EllipseDiameter" Value="24" />
+		<Setter Property="EllipseStrokeThickness" Value="1" />
+		<Setter Property="IconHeight" Value="15" />
+		<Setter Property="IconWidth" Value="15" />-->
+        <Setter Property="Visibility" Value="{Binding IsActive, Converter={StaticResource btvc}}" />
+        <Setter Property="Command" Value="{Binding Command, Mode=OneWay}" />
+        <Setter Property="CommandParameter" Value="{Binding CommandParameter, Mode=OneWay}" />
+        <Setter Property="ToolTip" Value="{Binding ToolTip, Mode=OneWay}" />
+    </Style>
+
+
+
+    <Style x:Key="ModernToolBarStackPanelStyle" TargetType="{x:Type StackPanel}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Margin" Value="0,5,0,5" />
+        <Setter Property="Orientation" Value="Horizontal" />
+    </Style>
+
+    <Style x:Key="ModernToolBarStyle" TargetType="{x:Type DockPanel}">
+        <Setter Property="Margin" Value="0,-35,0,8" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!--  This part is extracted from Areo.NormalColor.xaml WPF Theme which you can download from locations explained here: http://stackoverflow.com/questions/4158678/where-can-i-download-microsofts-standard-wpf-themes-from/4158681#4158681  -->
+    <PathGeometry x:Key="TreeArrow">
+        <PathGeometry.Figures>
+            <PathFigureCollection>
+                <PathFigure
+                    IsClosed="True"
+                    IsFilled="True"
+                    StartPoint="0 0">
+                    <PathFigure.Segments>
+                        <PathSegmentCollection>
+                            <LineSegment Point="0 6" />
+                            <LineSegment Point="6 0" />
+                        </PathSegmentCollection>
+                    </PathFigure.Segments>
+                </PathFigure>
+            </PathFigureCollection>
+        </PathGeometry.Figures>
+    </PathGeometry>
+
+    <xaml:NullToBoolConverter x:Key="IsNullConverter" />
+
+    <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border
+                        Width="16"
+                        Height="16"
+                        Padding="4"
+                        Background="Transparent">
+                        <Path
+                            x:Name="ExpandPath"
+                            Data="{StaticResource TreeArrow}"
+                            Fill="Transparent"
+                            Stroke="#FF989898">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="135" CenterX="3" CenterY="3" />
+                            </Path.RenderTransform>
+                        </Path>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ExpandPath" Property="Stroke" Value="#FF1BBBFA" />
+                            <Setter TargetName="ExpandPath" Property="Fill" Value="Transparent" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="ExpandPath" Property="RenderTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="180" CenterX="3" CenterY="3" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="ExpandPath" Property="Fill" Value="#FF595959" />
+                            <Setter TargetName="ExpandPath" Property="Stroke" Value="#FF262626" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="ModernStaticResource MahApps.Styles.Button.ToolBar"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="{x:Type Button}">
+        <Setter Property="Margin" Value="8,0" />
+        <Setter Property="Width" Value="31" />
+        <Setter Property="Height" Value="38" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <xaml:BooleanOrToVisibilityConverter x:Key="obtvc" />
+    <xaml:AdditionalInformationVisibilityConverter x:Key="AdditionalInformationVisibilityConverter" />
+
+    <StackPanel
+        x:Key="ClassRoleReferenceText"
+        x:Shared="False"
+        Style="{StaticResource TreeNodePanel}">
+        <StackPanel.Visibility>
+            <MultiBinding Converter="{StaticResource obtvc}">
+                <Binding Path="Tree.TreeViewLayout.ShowRoleReference" />
+                <Binding Path="Tree.TreeViewLayout.ShowClassReference" />
+            </MultiBinding>
+        </StackPanel.Visibility>
+        <TextBlock Margin="4,0,0,0" Visibility="{Binding HasReference, FallbackValue=Collapsed, Converter={StaticResource btvc}}">
+            {
+        </TextBlock>
+
+        <TextBlock
+            x:Name="ClassRef"
+            Margin="1,0,1,0"
+            TextWrapping="Wrap">
+            <Run FontWeight="Bold" Text="{Binding ClassReferenceLabel, Mode=OneWay}" />
+            <Run Text="{Binding ClassReference, Mode=OneWay}" />
+
+            <TextBlock.Visibility>
+                <MultiBinding Converter="{StaticResource ReferenceVisibilityConverter}">
+                    <MultiBinding.Bindings>
+                        <Binding Path="Tree.TreeViewLayout.ShowClassReference" />
+                        <Binding Path="ClassReference" />
+                    </MultiBinding.Bindings>
+                </MultiBinding>
+            </TextBlock.Visibility>
+        </TextBlock>
+
+        <TextBlock
+            x:Name="RoleRef"
+            Margin="1,0,1,0"
+            TextWrapping="Wrap">
+            <Run FontWeight="Bold" Text="Role: " />
+            <Run Text="{Binding RoleReference, Mode=OneWay}" />
+
+            <TextBlock.Visibility>
+                <MultiBinding Converter="{StaticResource ReferenceVisibilityConverter}">
+                    <MultiBinding.Bindings>
+                        <Binding Path="Tree.TreeViewLayout.ShowRoleReference" />
+                        <Binding Path="RoleReference" />
+                    </MultiBinding.Bindings>
+                </MultiBinding>
+            </TextBlock.Visibility>
+        </TextBlock>
+
+        <TextBlock Margin="0,0,1,0" Visibility="{Binding HasReference, FallbackValue=Collapsed, Converter={StaticResource btvc}}">
+            }
+        </TextBlock>
+    </StackPanel>
+
+    <DataTemplate x:Key="TextTemplate">
+        <TextBlock
+            Margin="1,0"
+            VerticalAlignment="Center"
+            Text="{Binding Path=DataContext.AdditionalInformation, RelativeSource={RelativeSource AncestorType={x:Type TreeViewItem}}}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="ImageTemplate">
+        <Image
+            Margin="1,0"
+            VerticalAlignment="Center"
+            Source="{Binding Path=DataContext.AdditionalInformation, RelativeSource={RelativeSource AncestorType={x:Type TreeViewItem}}}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="MirrorTemplate">
+        <Border
+            Name="mirrorSign"
+            Width="14"
+            Height="14"
+            HorizontalAlignment="Left"
+            Opacity="0.9"
+            RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="-1" />
+                    <SkewTransform />
+                    <RotateTransform />
+                    <TranslateTransform />
+                </TransformGroup>
+            </Border.RenderTransform>
+            <Border.OpacityMask>
+                <LinearGradientBrush StartPoint="1,0.5" EndPoint="0,0.5">
+                    <GradientStop Offset="0" Color="Black" />
+                    <GradientStop Offset=".7" Color="Transparent" />
+                </LinearGradientBrush>
+            </Border.OpacityMask>
+            <Border.Background>
+                <VisualBrush Stretch="Uniform" Visual="{Binding ElementName=TreeViewIcon}" />
+            </Border.Background>
+        </Border>
+    </DataTemplate>
+
+    <DataTemplate x:Key="NullTemplate" />
+
+    <xaml:AdditionalInformationTemplateSelector
+        x:Key="ADSelector"
+        ImageTemplate="{StaticResource ImageTemplate}"
+        NullTemplate="{StaticResource NullTemplate}"
+        TextTemplate="{StaticResource TextTemplate}" />
+
+    <StackPanel
+        x:Key="ClassReferenceTemplate"
+        x:Shared="False"
+        Orientation="Horizontal">
+
+        <local:EditableTreeNodeHeader>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource NodeNameStyle}" />
+                <TextBlock Style="{StaticResource NodeNameStyle}">
+                    <TextBlock.Visibility>
+                        <MultiBinding Converter="{StaticResource ReferenceVisibilityConverter}">
+                            <Binding Path="Tree.TreeViewLayout.ShowClassReference" />
+                            <Binding Path="ClassReference" />
+                        </MultiBinding>
+                    </TextBlock.Visibility>
+                    {<Run FontWeight="Bold" Text="{Binding ClassReferenceLabel, Mode=OneWay}" />
+                    <Run Text="{Binding ClassReference, Mode=OneWay}" />
+                    }</TextBlock>
+
+                <!--<TextBlock Margin="4,0" Text="{Binding NumberOfVisualDescendants}" />
+			<TextBlock  Margin="4,0"  Text="{Binding OrdinalNumber}" />-->
+            </StackPanel>
+        </local:EditableTreeNodeHeader>
+    </StackPanel>
+
+    <StackPanel
+        x:Key="TypeReferenceTemplate"
+        x:Shared="False"
+        Orientation="Horizontal">
+
+        <local:EditableTreeNodeHeader>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource NodeNameStyle}" />
+                <TextBlock Style="{StaticResource NodeNameStyle}">
+                    <TextBlock.Visibility>
+                        <MultiBinding Converter="{StaticResource ReferenceVisibilityConverter}">
+                            <Binding Path="Tree.TreeViewLayout.ShowClassReference" />
+                            <Binding Path="ClassReference" />
+                        </MultiBinding>
+                    </TextBlock.Visibility>
+                    {<Run FontWeight="Bold" Text="{Binding ClassReferenceLabel, Mode=OneWay}" />
+                    <Run Text="{Binding ClassReference, Mode=OneWay}" />
+                    }</TextBlock>
+
+                <!--<TextBlock Margin="4,0" Text="{Binding NumberOfVisualDescendants}" />
+			<TextBlock  Margin="4,0"  Text="{Binding OrdinalNumber}" />-->
+            </StackPanel>
+        </local:EditableTreeNodeHeader>
+    </StackPanel>
+
+    <!--<ToggleButton
+		x:Key="ShowLinkButton"
+		VerticalAlignment="Center"
+		x:Shared="false"
+		Background="Transparent"
+		BorderBrush="{x:Null}"
+		ToolTip="Press to show the assigned InternalLink objects.">
+
+		<ToggleButton.Style>
+			<Style TargetType="ToggleButton">
+				<Style.Triggers>
+
+					<MultiDataTrigger>
+						<MultiDataTrigger.Conditions>
+							<Condition Binding="{Binding HasLinks}" Value="True"></Condition>
+							<Condition Binding="{Binding Tree.TreeViewLayout.HideExpander}" Value="False"></Condition>
+						</MultiDataTrigger.Conditions>
+						<Setter Property="Visibility" Value="Visible" />
+					</MultiDataTrigger>
+
+					<DataTrigger Binding="{Binding HasLinks}" Value="False">
+						<Setter Property="Visibility" Value="Collapsed" />
+					</DataTrigger>
+
+					<DataTrigger Binding="{Binding Tree.TreeViewLayout.HideExpander}" Value="True">
+						<Setter Property="Visibility" Value="Collapsed" />
+					</DataTrigger>
+
+					<Trigger Property="IsChecked" Value="true">
+						<Setter Property="Content">
+							<Setter.Value>
+								<Ellipse
+									Width="8"
+									Height="8"
+									Fill="White"
+									Stroke="Blue"
+									StrokeThickness="1" />
+							</Setter.Value>
+						</Setter>
+					</Trigger>
+					<Trigger Property="IsChecked" Value="false">
+						<Setter Property="Content">
+							<Setter.Value>
+								<Ellipse
+									Width="8"
+									Height="8"
+									Fill="Gray"
+									Stroke="Blue"
+									StrokeThickness="1" />
+							</Setter.Value>
+						</Setter>
+					</Trigger>
+				</Style.Triggers>
+			</Style>Bitm
+		</ToggleButton.Style>
+	</ToggleButton>-->
+
+    <StackPanel
+        x:Key="EditableNameTemplate"
+        x:Shared="False"
+        Orientation="Horizontal">
+        <local:EditableTreeNodeHeader>
+            <TextBlock Style="{StaticResource NodeNameStyle}" />
+        </local:EditableTreeNodeHeader>
+    </StackPanel>
+
+    <DataTemplate x:Key="IE" x:Shared="True">
+        <Image Source="{StaticResource IEImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="SUCLib" x:Shared="True">
+        <Image Source="{StaticResource SUCLibImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="ICLib" x:Shared="True">
+        <Image Source="{StaticResource ICLibImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="RCLib" x:Shared="True">
+        <Image Source="{StaticResource RCLibImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="ATLib" x:Shared="True">
+        <Image Source="{StaticResource ATLibImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="RC" x:Shared="True">
+        <Image Source="{StaticResource RCImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="RR" x:Shared="True">
+        <Image Source="{StaticResource RRImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="SUC" x:Shared="True">
+        <Image Source="{StaticResource SUCImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="SRC" x:Shared="True">
+        <Image Source="{StaticResource SRCImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="IC" x:Shared="True">
+        <Image Source="{StaticResource ICImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="EI" x:Shared="True">
+        <Image Source="{StaticResource EIImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="IL" x:Shared="True">
+        <Image Source="{StaticResource ILImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="EIRef" x:Shared="True">
+        <Image Source="{StaticResource EIRefImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="ATT" x:Shared="True">
+        <Image Source="{StaticResource AttributeImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="MO" x:Shared="True">
+        <Image Source="{StaticResource MOImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="ANM" x:Shared="True">
+        <Image Source="{StaticResource ANMImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="INM" x:Shared="True">
+        <Image Source="{StaticResource INMImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="EIs" x:Shared="True">
+        <Image Source="{StaticResource EIGroupImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="RRs" x:Shared="true">
+        <Image Source="{StaticResource RRGroupImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="IH" x:Shared="true">
+        <Image Source="{StaticResource IHImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="AT" x:Shared="true">
+        <Image Source="{StaticResource ATImage}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="IEGroup" x:Shared="true">
+        <Image Source="{StaticResource GroupImage}" />
+    </DataTemplate>
+
+
+    <HierarchicalDataTemplate x:Key="IHTemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource IHImage}" />
+            <ContentPresenter Content="{StaticResource EditableNameTemplate}" />
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="VirtEITemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource EIGroupImage}" />
+            <TextBlock Opacity="0.8">
+                <TextBlock.Style>
+                    <Style BasedOn="{StaticResource NodeNameStyle}" TargetType="TextBlock">
+                        <Setter Property="Text" Value="{Binding Name, Converter={StaticResource InterfaceGroupNameConverter}}" />
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <!--<TextBlock  Margin="4,0"  Text="{Binding NumberOfVisualDescendants}" />
+			<TextBlock  Margin="4,0"  Text="{Binding OrdinalNumber}" />-->
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="VirtRRTemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource RRGroupImage}" />
+            <TextBlock Opacity="0.8">
+                <TextBlock.Style>
+                    <Style BasedOn="{StaticResource NodeNameStyle}" TargetType="TextBlock">
+                        <Setter Property="Text" Value="{Binding Name, Converter={StaticResource RoleGroupNameConverter}}" />
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <!--<TextBlock  Margin="4,0"  Text="{Binding NumberOfVisualDescendants}" />
+			<TextBlock  Margin="4,0"  Text="{Binding OrdinalNumber}" />-->
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="IETemplate" ItemsSource="{Binding ChildrenView}">
+
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+
+            <local:NodeImage>
+                <local:NodeImage.Style>
+                    <Style TargetType="{x:Type local:NodeImage}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsGroup}" Value="True">
+                                <Setter Property="Image" Value="{StaticResource GroupImage}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsGroup}" Value="False">
+                                <Setter Property="Image" Value="{StaticResource IEImage}" />
+                                <!--<Setter Property="Source" Value="{StaticResource IEIconTemplate}" />-->
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </local:NodeImage.Style>
+            </local:NodeImage>
+
+            <local:EditableTreeNodeHeader>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource NodeNameStyle}" />
+                    <ContentPresenter Content="{StaticResource ClassRoleReferenceText}" Visibility="{Binding ShowReference, Converter={StaticResource btvc}}" />
+                </StackPanel>
+            </local:EditableTreeNodeHeader>
+
+            <!--<TextBlock Margin="4,0" Text="{Binding NumberOfVisualDescendants}" />
+			<TextBlock  Margin="4,0"  Text="{Binding OrdinalNumber}" />-->
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <!--  Source="{StaticResource ICIconTemplate}"  -->
+
+    <HierarchicalDataTemplate x:Key="ICTemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource ICImage}" />
+            <ContentPresenter Content="{StaticResource ClassReferenceTemplate}" />
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="EITemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage>
+                <local:NodeImage.Style>
+                    <Style TargetType="{x:Type local:NodeImage}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HasExternalData}" Value="True">
+                                <Setter Property="Image" Value="{StaticResource EIRefImage}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding HasExternalData}" Value="False">
+                                <Setter Property="Image" Value="{StaticResource EIImage}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </local:NodeImage.Style>
+            </local:NodeImage>
+            <ContentPresenter Content="{StaticResource ClassReferenceTemplate}" />
+            <TextBlock Margin="1,-3,0,0" FontSize="9">
+                <Run Text="{Binding MinCardinality, Mode=OneWay}" />
+                <Run
+                    FontWeight="Bold"
+                    Foreground="Red"
+                    Text="{Binding MinCardinalityWarn, Mode=OneWay}" />
+                ..<Run Text="{Binding MaxCardinality, Mode=OneWay}" />
+                <Run
+                    FontWeight="Bold"
+                    Foreground="Red"
+                    Text="{Binding MaxCardinalityWarn, Mode=OneWay}" />
+                <TextBlock.Visibility>
+                    <MultiBinding Converter="{StaticResource LinkCardinalityVisibilityConverter}">
+                        <MultiBinding.Bindings>
+                            <Binding Mode="OneWay" Path="Tree.TreeViewLayout.ShowLinkCardinality" />
+                            <Binding Mode="OneWay" Path="HasCardinality" />
+                        </MultiBinding.Bindings>
+                    </MultiBinding>
+                </TextBlock.Visibility>
+            </TextBlock>
+            <ToggleButton IsChecked="{Binding ShowLinks}">
+                <ToggleButton.Style>
+                    <Style BasedOn="{StaticResource ExpandCollapseToggleStyle}" TargetType="ToggleButton">
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding HasLinks}" Value="True" />
+                                    <Condition Binding="{Binding Tree.TreeViewLayout.HideExpander}" Value="False" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Visibility" Value="Visible" />
+                            </MultiDataTrigger>
+
+                            <DataTrigger Binding="{Binding HasLinks}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Tree.TreeViewLayout.HideExpander}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
+            <Button
+                x:Name="InfoButton"
+                BorderBrush="{x:Null}"
+                Command="{Binding Tree.ShowHiddenLinksCommand}"
+                CommandParameter="{Binding}"
+                ToolTip="There are linked interfaces outside the view. Click here, to view them in the 'Relation' window.">
+                <Image Source="/Aml.Toolkit;component/Resource/StatusInformation.png" />
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding HasMissingLinks}" Value="True" />
+                                    <Condition Binding="{Binding Tree.TreeViewLayout.HideInfo}" Value="False" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Visibility" Value="Visible" />
+                            </MultiDataTrigger>
+                            <DataTrigger Binding="{Binding HasMissingLinks}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Tree.TreeViewLayout.HideInfo}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="ICLibTemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource ICLibImage}" />
+            <ContentPresenter Content="{StaticResource EditableNameTemplate}" />
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="ATLibTemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource ATLibImage}" />
+            <ContentPresenter Content="{StaticResource EditableNameTemplate}" />
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="AttributeTemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource AttributeImage}" />
+            <ContentPresenter Content="{StaticResource TypeReferenceTemplate}" />
+            <TextBlock
+                Padding="1,0,0,1"
+                VerticalAlignment="Center"
+                Visibility="{Binding Path=Tree.TreeViewLayout.ShowAttributeValue, Converter={StaticResource btvc}}">
+                <Run Text=" = " />
+                <Run Text="{Binding AttributeValue, Mode=OneWay}" />
+            </TextBlock>
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="RCLibTemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource RCLibImage}" />
+            <ContentPresenter Content="{StaticResource EditableNameTemplate}" />
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="RCTemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource RCImage}" />
+            <ContentPresenter Content="{StaticResource ClassReferenceTemplate}" />
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="SUCLibTemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource SUCLibImage}" />
+            <ContentPresenter Content="{StaticResource EditableNameTemplate}" />
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="SUCTemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+
+            <local:NodeImage Image="{StaticResource SUCImage}" />
+            <local:EditableTreeNodeHeader>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource NodeNameStyle}" />
+                    <ContentPresenter Content="{StaticResource ClassRoleReferenceText}" Visibility="{Binding ShowReference, Converter={StaticResource btvc}}" />
+                </StackPanel>
+            </local:EditableTreeNodeHeader>
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="ATTemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource ATImage}" />
+            <ContentPresenter Content="{StaticResource TypeReferenceTemplate}" />
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="MOTemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource MOImage}" />
+            <TextBlock Style="{StaticResource NodeNameStyle}" />
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <DataTemplate x:Key="INMTemplate">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource INMImage}" />
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Column="0"
+                    Margin="2,0"
+                    Style="{StaticResource NodeNameStyle}"
+                    Text="{Binding SucName}" />
+
+                <Path
+                    Grid.Column="1"
+                    Margin="1,0"
+                    VerticalAlignment="Center"
+                    Data="M 0 4 L 11 4 L 8 0 M 11 4 L 8 8"
+                    Stroke="DarkBlue" />
+
+                <TextBlock
+                    Grid.Column="2"
+                    Margin="2,0"
+                    Style="{StaticResource NodeNameStyle}"
+                    Text="{Binding RcName}" />
+            </Grid>
+
+        </StackPanel>
+    </DataTemplate>
+
+    <HierarchicalDataTemplate x:Key="INTLTemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource ILImage}" />
+            <ContentPresenter Content="{StaticResource EditableNameTemplate}" />
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <DataTemplate x:Key="ANMTemplate">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource ANMImage}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Column="0"
+                    Margin="2,0"
+                    Style="{StaticResource NodeNameStyle}"
+                    Text="{Binding SucName}" />
+
+                <Path
+                    Grid.Column="1"
+                    Margin="1,0"
+                    VerticalAlignment="Center"
+                    Data="M 0 4 L 11 4 L 8 0 M 11 4 L 8 8"
+                    Stroke="DarkBlue" />
+
+                <TextBlock
+                    Grid.Column="2"
+                    Margin="2,0"
+                    Style="{StaticResource NodeNameStyle}"
+                    Text="{Binding RcName}" />
+            </Grid>
+
+        </StackPanel>
+    </DataTemplate>
+
+    <HierarchicalDataTemplate x:Key="RRQTemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource RRImage}" />
+            <TextBlock Style="{StaticResource ShortNodeNameStyle}" />
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate x:Key="SRCTemplate" ItemsSource="{Binding ChildrenView}">
+        <StackPanel Style="{StaticResource TreeNodePanel}">
+            <local:NodeImage Image="{StaticResource SRCImage}" />
+            <TextBlock Style="{StaticResource ShortNodeNameStyle}" />
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <xaml:CAEXTemplateSelector
+        x:Key="CAEXDataTemplateSelector"
+        AttributeMappingTemplate="{StaticResource ANMTemplate}"
+        AttributeTemplate="{StaticResource AttributeTemplate}"
+        AttributeTypeLibTemplate="{StaticResource ATLibTemplate}"
+        AttributeTypeTemplate="{StaticResource ATTemplate}"
+        ExternalInterfaceTemplate="{StaticResource EITemplate}"
+        InstanceHierarchyTemplate="{StaticResource IHTemplate}"
+        InterfaceClassLibTemplate="{StaticResource ICLibTemplate}"
+        InterfaceClassTemplate="{StaticResource ICTemplate}"
+        InterfaceMappingTemplate="{StaticResource INMTemplate}"
+        InternalElementTemplate="{StaticResource IETemplate}"
+        InternalLinkTemplate="{StaticResource INTLTemplate}"
+        MappingObjectTemplate="{StaticResource MOTemplate}"
+        RoleClassLibTemplate="{StaticResource RCLibTemplate}"
+        RoleClassTemplate="{StaticResource RCTemplate}"
+        RoleRequirementTemplate="{StaticResource RRQTemplate}"
+        SupportedRoleClassTemplate="{StaticResource SRCTemplate}"
+        SystemUnitClassLibTemplate="{StaticResource SUCLibTemplate}"
+        SystemUnitClassTemplate="{StaticResource SUCTemplate}"
+        VirtEITemplate="{StaticResource VirtEITemplate}"
+        VirtRRTemplate="{StaticResource VirtRRTemplate}" />
+
+    <!--<DataTemplate x:Key="buttonTemplate" DataType="{x:Type op:ItemOperationViewModel}">
+		<Button IconData="{Binding IconData}" Style="{StaticResource ModernToolBarItemStyle}" />
+	</DataTemplate>
+
+	<DataTemplate x:Key="CutTemplate" DataType="{x:Type op:ItemOperationViewModel}">
+		<Button IconData="M 530.439,335.5C 564.405,335.5 591.939,361.356 591.939,393.25C 591.939,425.144 564.405,451 530.439,451C 496.474,451 468.939,425.144 468.939,393.25C 468.939,361.356 496.474,335.5 530.439,335.5 Z M 530.439,351.13C 555.212,351.13 575.295,369.988 575.295,393.25C 575.295,416.512 555.212,435.37 530.439,435.37C 505.666,435.37 485.584,416.512 485.584,393.25C 485.584,369.988 505.666,351.13 530.439,351.13 Z M 665.084,335.5C 699.049,335.5 726.584,361.356 726.584,393.25C 726.584,425.144 699.049,451 665.084,451C 631.118,451 603.584,425.144 603.584,393.25C 603.584,361.356 631.118,335.5 665.084,335.5 Z M 665.084,351.13C 689.857,351.13 709.939,369.988 709.939,393.25C 709.939,416.512 689.857,435.37 665.084,435.37C 640.311,435.37 620.228,416.512 620.228,393.25C 620.228,369.988 640.311,351.13 665.084,351.13 Z M 642.21,80.3006L 533.999,326.606L 555.718,340.398L 663.93,94.0923L 642.21,80.3006 Z M 642.21,340.398L 533.999,94.0923L 555.718,80.3007L 663.93,326.606L 642.21,340.398 Z M 597.762,200.843C 602.318,200.843 606.012,204.536 606.012,209.093C 606.012,213.649 602.318,217.343 597.762,217.343C 593.205,217.343 589.512,213.649 589.512,209.093C 589.512,204.536 593.205,200.843 597.762,200.843 Z M 537.512,322.593C 542.068,322.593 545.762,326.286 545.762,330.842C 545.762,335.399 542.068,339.092 537.512,339.092C 532.955,339.092 529.262,335.399 529.262,330.842C 529.262,326.286 532.955,322.593 537.512,322.593 Z M 661.512,324.092C 666.068,324.092 669.762,327.786 669.762,332.342C 669.762,336.899 666.068,340.592 661.512,340.592C 656.955,340.592 653.262,336.899 653.262,332.342C 653.262,327.786 656.955,324.092 661.512,324.092 Z" Style="{StaticResource ModernToolBarItemStyle}" />
+	</DataTemplate>
+
+	<DataTemplate x:Key="CopyTemplate" DataType="{x:Type op:ItemOperationViewModel}">
+		<Button IconData="F1 M 27,20L 38.75,20L 37.75,19L 24,19L 24,50L 27,50L 27,20 Z M 46.25,20L 59,32.75L 59,59L 27,59L 27,54L 20,54L 20,15L 39.25,15L 44.25,20L 46.25,20 Z M 31,24L 31,55L 55,55L 55,37L 42,37L 42,24L 31,24 Z M 46,25.25L 46,33L 53.75,33L 46,25.25 Z" Style="{StaticResource ModernToolBarItemStyle}" />
+	</DataTemplate>
+
+	<DataTemplate x:Key="PasteTemplate" DataType="{x:Type op:ItemOperationViewModel}">
+		<Button IconData="F1 M 34.0001,60C 32.3433,60 31.0001,58.6569 31.0001,57L 31.0001,54.0001L 23,54.0001C 21.3431,54.0001 20,52.6569 20,51.0001L 20,24.0001C 20,22.3432 21.3431,21.0001 23,21.0001L 26.5001,20.9999C 26.5001,20.9999 27.4999,20.8807 27.4999,19.5C 27.4999,18.1193 29.1191,17 30.4999,17L 38.4998,17.0001C 39.8798,17.0001 41.4988,18.6176 41.5,19.9979L 41.4998,19.5024C 41.5009,20.881 42.5,21 42.5,21L 46,21.0001C 47.6569,21.0001 49,22.3432 49,24.0001L 49,31L 56,38L 56.0001,57C 56.0001,58.6569 54.657,60 53.0001,60L 34.0001,60 Z M 33.9999,31.0001L 33.9999,57.0001L 53.0001,57L 53.0001,43L 42.0002,43L 42.0001,31L 33.9999,31.0001 Z M 53,40.0001L 45,32.0001L 45.0001,40L 53,40.0001 Z M 28.5,25L 40.5,25C 40.5,25 39.4998,23.8809 39.4998,22.5002C 39.4998,21.1194 38.3805,20.0002 36.9998,20.0002L 31.9998,20.0002C 30.6191,20.0002 29.4998,21.1194 29.4998,22.5002C 29.4998,23.8809 28.5,25 28.5,25 Z" Style="{StaticResource ModernToolBarItemStyle}" />
+	</DataTemplate>
+
+	<DataTemplate x:Key="UndoTemplate" DataType="{x:Type op:ItemOperationViewModel}">
+		<Button IconData="F1 M 25.3362,20.5864L 25.3348,29.2137C 28.5107,25.8499 33.0116,23.7507 38.0029,23.7507C 47.6232,23.7507 55.422,31.5494 55.422,41.1698C 55.422,45.9799 53.4723,50.3347 50.32,53.4869L 46.401,49.5679C 48.5503,47.4187 49.8796,44.4495 49.8796,41.1699C 49.8796,34.6106 44.5623,29.2932 38.003,29.2932C 34.4855,29.2932 31.3251,30.8224 29.1504,33.2522L 38.0029,33.2531L 33.2529,38.0031L 20.5862,38.0031L 20.5862,25.3364L 25.3362,20.5864 Z" Style="{StaticResource ModernToolBarItemStyle}" />
+	</DataTemplate>
+
+	<DataTemplate x:Key="RedoTemplate" DataType="{x:Type op:ItemOperationViewModel}">
+		<Button IconData="F1 M 50.672,20.5864L 55.4219,25.3364L 55.422,38.0031L 42.7553,38.0031L 38.0053,33.2531L 46.8578,33.2522C 44.6831,30.8224 41.5227,29.2932 38.0052,29.2932C 31.4459,29.2932 26.1285,34.6106 26.1285,41.1699C 26.1285,44.4495 27.4579,47.4187 29.6071,49.5679L 25.6881,53.4869C 22.5359,50.3347 20.5862,45.9799 20.5862,41.1698C 20.5862,31.5494 28.385,23.7507 38.0053,23.7507C 42.9966,23.7507 47.4975,25.8499 50.6734,29.2137L 50.672,20.5864 Z" Style="{StaticResource ModernToolBarItemStyle}" />
+	</DataTemplate>
+
+	<DataTemplate x:Key="DeleteTemplate" DataType="{x:Type op:ItemOperationViewModel}">
+		<Button IconData="F1 M 25.3333,23.75L 50.6667,23.75C 51.5411,23.75 51.8541,27.3125 51.8541,27.3125L 24.1458,27.3125C 24.1458,27.3125 24.4589,23.75 25.3333,23.75 Z M 35.625,19.7917L 40.375,19.7917C 40.8122,19.7917 41.9583,20.9378 41.9583,21.375C 41.9583,21.8122 40.8122,22.9584 40.375,22.9584L 35.625,22.9584C 35.1878,22.9584 34.0416,21.8122 34.0416,21.375C 34.0416,20.9378 35.1878,19.7917 35.625,19.7917 Z M 27.7083,28.5L 48.2916,28.5C 49.1661,28.5 49.875,29.2089 49.875,30.0834L 48.2916,53.8334C 48.2916,54.7078 47.5828,55.4167 46.7083,55.4167L 29.2917,55.4167C 28.4172,55.4167 27.7083,54.7078 27.7083,53.8334L 26.125,30.0834C 26.125,29.2089 26.8339,28.5 27.7083,28.5 Z M 30.0833,31.6667L 30.4792,52.25L 33.25,52.25L 32.8542,31.6667L 30.0833,31.6667 Z M 36.4167,31.6667L 36.4167,52.25L 39.5833,52.25L 39.5833,31.6667L 36.4167,31.6667 Z M 43.1458,31.6667L 42.75,52.25L 45.5208,52.25L 45.9167,31.6667L 43.1458,31.6667 Z" Style="{StaticResource ModernToolBarItemStyle}" />
+	</DataTemplate>
+
+	<DataTemplate x:Key="Clean" DataType="{x:Type op:ItemOperationViewModel}">
+		<Button
+			x:Name="CleanButton"
+			IconData="F1 M 58.5833,45.9167L 58.5833,57L 19,57L 19,45.9167L 28.8998,45.9167C 31.0306,47.2793 33.6795,48.4476 36.6434,49.2418C 40.3467,50.2341 44.7079,50.4746 47.6249,50.0692L 47.6249,45.9167L 58.5833,45.9167 Z M 56.2083,48.2917L 53.4374,48.2917L 53.4374,53.0417L 56.2082,53.0417L 56.2083,48.2917 Z M 45.7433,48.2824C 43.1578,48.6418 39.9938,48.0327 36.7113,47.1532C 31.1866,45.6728 26.8965,42.7258 25.5163,39.7952L 32.2902,33.0213L 45.7433,38.0663L 45.7433,48.2824 Z M 39.2905,28.1719C 39.6351,28.1719 39.9737,28.1941 40.3047,28.2368L 46.0048,17.0498L 49.0712,18.6122L 43.5443,29.4594C 45.1454,30.5622 46.1735,32.2733 46.1735,34.1946C 46.1735,35.0197 45.9839,35.806 45.6407,36.5221L 33.4151,31.7762C 34.4796,29.6541 36.4722,28.1719 39.2905,28.1719 Z"
+			Style="{DynamicResource ModernToolBarItemStyle}" />
+	</DataTemplate>-->
+
+    <DataTemplate x:Key="separatorTemplate">
+        <Rectangle
+            Width="1"
+            Height="24"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Stretch"
+            Fill="#FF6E727C"
+            IsEnabled="False"
+            IsHitTestVisible="False"
+            IsManipulationEnabled="False"
+            Stroke="Black"
+            StrokeDashArray="2,2"
+            StrokeThickness="1" />
+    </DataTemplate>
+
+    <ControlTemplate x:Key="validationTemplate">
+        <Grid ClipToBounds="False" ToolTip="{Binding Path=/ErrorContent}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border BorderBrush="Red" BorderThickness="1">
+                <AdornedElementPlaceholder />
+            </Border>
+            <TextBlock
+                Grid.Row="1"
+                Background="White"
+                FontSize="11"
+                FontWeight="SemiBold"
+                Foreground="Red"
+                Text="{Binding Path=/ErrorContent}"
+                TextWrapping="Wrap" />
+        </Grid>
+    </ControlTemplate>
+
+    <!--<xaml:ToolBarItemTemplateSelector
+		x:Key="toolBarItemTemplateSelector"
+		ButtonTemplate="{StaticResource buttonTemplate}"
+		CopyButtonTemplate="{StaticResource CopyTemplate}"
+		CutButtonTemplate="{StaticResource CutTemplate}"
+		DeleteButtonTemplate="{StaticResource DeleteTemplate}"
+		PasteButtonTemplate="{StaticResource PasteTemplate}"
+		RedoButtonTemplate="{StaticResource RedoTemplate}"
+		SeparatorTemplate="{StaticResource separatorTemplate}"
+		UndoButtonTemplate="{StaticResource UndoTemplate}" />-->
+
+    <Style TargetType="{x:Type local:ModernToolBar}">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ModernToolBar}">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Border
+                            Grid.Row="0"
+                            Margin="0,0,0,8"
+                            BorderBrush="{DynamicResource WindowBorder}"
+                            BorderThickness="0,1">
+
+                            <ItemsControl
+                                x:Name="ToolBarListBoc"
+                                ItemTemplateSelector="{StaticResource toolBarItemTemplateSelector}"
+                                ItemsSource="{TemplateBinding ToolBarOperations}">
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style>
+                                        <Setter Property="Control.Visibility" Value="{Binding IsEnabled, Converter={StaticResource btvc}}" />
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Style="{StaticResource ModernToolBarStackPanelStyle}" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </Border>
+
+                        <ContentPresenter Grid.Row="1" Content="{TemplateBinding Content}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:AMLToolBar}">
+        <Setter Property="DataContext" Value="{Binding}" />
+    </Style>
+
+
+    <Style TargetType="{x:Type local:EditableTreeNodeHeader}">
+
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:EditableTreeNodeHeader}">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsInEditMode}" Value="True">
+                <Setter Property="Padding" Value="3" />
+                <Setter Property="Margin" Value="3" />
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <TextBox
+                                Name="InputTextBox"
+                                Height="28"
+                                MinWidth="140"
+                                Padding="5"
+                                Validation.ErrorTemplate="{StaticResource validationTemplate}">
+
+                                <TextBox.Resources>
+                                    <xaml:BindingProxy x:Key="proxy" Data="{Binding DataContext.CAEXObject}" />
+                                </TextBox.Resources>
+
+                                <TextBox.Text>
+                                    <Binding
+                                        Mode="TwoWay"
+                                        Path="EditText"
+                                        UpdateSourceTrigger="PropertyChanged"
+                                        ValidatesOnDataErrors="True">
+
+                                        <Binding.ValidationRules>
+                                            <rule:NameValidationRule ValidatesOnTargetUpdated="True">
+                                                <rule:NameValidationRule.AssignedObject>
+                                                    <rule:AssignedData CaexObject="{Binding Path=Data.CaexObject, Source={StaticResource proxy}}" />
+                                                </rule:NameValidationRule.AssignedObject>
+                                            </rule:NameValidationRule>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+
+                                <TextBox.Style>
+
+                                    <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
+                                        <Setter Property="Validation.ErrorTemplate" Value="{StaticResource validationTemplate}" />
+                                        <Style.Triggers>
+                                            <Trigger Property="Validation.HasError" Value="True">
+                                                <Setter Property="Margin" Value="0,0,0,18" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type local:NodeImage}">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:NodeImage}">
+                    <StackPanel Orientation="Horizontal">
+
+                        <Image
+                            Name="VerifiedAdorner"
+                            Width="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Focusable="False"
+                            Source="/Aml.Toolkit;component/Resource/verified.png"
+                            ToolTip="Object is signed and digital verified."
+                            Visibility="{Binding IsVerified, FallbackValue=Collapsed, Converter={StaticResource btvc}}" />
+
+                        <Image
+                            Name="NotVerifiedAdorner"
+                            Width="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Focusable="False"
+                            Opacity="0.9"
+                            Source="/Aml.Toolkit;component/Resource/notverified.png"
+                            ToolTip="Object signature not verified."
+                            Visibility="{Binding IsNotVerified, FallbackValue=Collapsed, Converter={StaticResource btvc}}" />
+
+                        <ContentPresenter
+                            x:Name="AddDataIcon"
+                            Width="12"
+                            Height="12"
+                            Margin="-8,0,0,0"
+                            Content="{Binding AdditionalInformation}"
+                            ContentTemplateSelector="{StaticResource ADSelector}"
+                            Focusable="False">
+                            <!--    -->
+
+                            <ContentPresenter.Visibility>
+                                <MultiBinding Converter="{StaticResource AdditionalInformationVisibilityConverter}">
+                                    <Binding Path="DataContext.Tree.TreeViewLayout.ShowAdditionalInformation" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    <Binding Path="DataContext.AdditionalInformation" RelativeSource="{RelativeSource TemplatedParent}" />
+                                </MultiBinding>
+                            </ContentPresenter.Visibility>
+                        </ContentPresenter>
+
+                        <Image
+                            Name="DeleteAdorner"
+                            Width="10"
+                            Margin="0,0,3,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Focusable="False"
+                            Opacity="0.9"
+                            Source="/Aml.Toolkit;component/Resource/DeleteAdorner.png"
+                            ToolTip="Object is marked as deleted."
+                            Visibility="{Binding IsDeleted, FallbackValue=Collapsed, Converter={StaticResource btvc}}" />
+
+
+                        <Rectangle
+                            x:Name="NewVersionIcon"
+                            Width="10"
+                            Height="10"
+                            Margin="0,0,3,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Fill="OrangeRed"
+                            Focusable="False"
+                            Opacity="0.9"
+                            Visibility="{Binding HasNewVersion, FallbackValue=Collapsed, Converter={StaticResource btvc}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill">
+                                    <VisualBrush.Visual>
+                                        <Canvas
+                                            x:Name="Icon"
+                                            Canvas.Left="0"
+                                            Canvas.Top="0"
+                                            Width="76"
+                                            Height="76">
+                                            <Path
+                                                Canvas.Left="17.4167"
+                                                Canvas.Top="18"
+                                                Width="41.1667"
+                                                Height="38"
+                                                Data="F1 M 17.4167,32.25L 32.9107,32.25L 38,18L 43.0893,32.25L 58.5833,32.25L 45.6798,41.4944L 51.4583,56L 38,48.0833L 26.125,56L 30.5979,41.7104L 17.4167,32.25 Z "
+                                                Fill="#FF000000"
+                                                Stretch="Fill" />
+                                        </Canvas>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+
+                        <Rectangle
+                            x:Name="OldVersionIcon"
+                            Grid.Column="1"
+                            Width="10"
+                            Height="10"
+                            Margin="0,0,3,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Fill="DarkGreen"
+                            Focusable="False"
+                            Opacity="0.9"
+                            Visibility="{Binding HasOldVersion, FallbackValue=Collapsed, Converter={StaticResource btvc}}">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill">
+                                    <VisualBrush.Visual>
+                                        <Canvas
+                                            x:Name="Icon2"
+                                            Canvas.Left="0"
+                                            Canvas.Top="0"
+                                            Width="76"
+                                            Height="76">
+                                            <Path
+                                                Canvas.Left="17.4167"
+                                                Canvas.Top="18"
+                                                Width="41.1667"
+                                                Height="38"
+                                                Data="F1 M 17.4167,32.25L 32.9107,32.25L 38,18L 43.0893,32.25L 58.5833,32.25L 45.6798,41.4944L 51.4583,56L 38,48.0833L 26.125,56L 30.5979,41.7104L 17.4167,32.25 Z "
+                                                Fill="#FF000000"
+                                                Stretch="Fill" />
+                                        </Canvas>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+
+                        <Image
+                            x:Name="MasterIcon"
+                            Grid.Column="2"
+                            Width="15"
+                            Height="15"
+                            VerticalAlignment="Center"
+                            Focusable="False"
+                            Source="/Aml.Toolkit;component/Resource/master.png"
+                            Visibility="{Binding IsMaster, FallbackValue=Collapsed, Converter={StaticResource btvc}}" />
+
+                        <Image
+                            x:Name="TreeViewIcon"
+                            Grid.Column="3"
+                            Width="12"
+                            Height="12"
+                            Margin="0,0,2,0"
+                            VerticalAlignment="Center"
+                            Focusable="False"
+                            Source="{TemplateBinding Image}" />
+
+                        <Label
+                            Name="FacetLabel"
+                            Grid.Column="4"
+                            Margin="-3,0,0,0"
+                            Padding="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Content="F"
+                            Focusable="False"
+                            FontSize="9"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                            Visibility="{Binding IsFacetted, FallbackValue=Collapsed, Converter={StaticResource btvc}}" />
+
+                        <Label
+                            Name="TextLabel"
+                            Grid.Column="4"
+                            Margin="-3,0,0,0"
+                            Padding="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Content="{TemplateBinding TextAdorner}"
+                            Focusable="False"
+                            FontSize="9"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                            Visibility="{TemplateBinding TextAdornerVisibility}" />
+
+                        <Label
+                            Name="PortLabel"
+                            Grid.Column="4"
+                            Margin="-3,0,0,0"
+                            Padding="0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Content="P"
+                            Focusable="False"
+                            FontSize="9"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                            Visibility="{Binding IsPort, FallbackValue=Collapsed, Converter={StaticResource btvc}}" />
+
+                        <Image
+                            x:Name="OverrideAdorner"
+                            Grid.Column="4"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Focusable="False"
+                            Source="{StaticResource OverrideIcon}"
+                            ToolTip="This object overrides an inherited object from a base class. To undo the override, delete the object."
+                            Visibility="{Binding IsOverridden, FallbackValue=Collapsed, Converter={StaticResource btvc}}" />
+
+                        <Image
+                            x:Name="DerivedAdorner"
+                            Grid.Column="4"
+                            Height="12"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Focusable="False"
+                            Source="{StaticResource DerivedIcon}"
+                            ToolTip="This object is inherited from a base class."
+                            Visibility="{Binding IsDerived, FallbackValue=Collapsed, Converter={StaticResource btvc}}" />
+
+                        <Border
+                            Name="mirrorSign"
+                            Grid.Column="4"
+                            Width="14"
+                            Height="14"
+                            HorizontalAlignment="Left"
+                            Opacity="0.9"
+                            RenderTransformOrigin="0.5,0.5"
+                            Visibility="{Binding IsMirror, FallbackValue=Collapsed, Converter={StaticResource btvc}}">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="-1" />
+                                    <SkewTransform />
+                                    <RotateTransform />
+                                    <TranslateTransform />
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                            <Border.OpacityMask>
+                                <LinearGradientBrush StartPoint="1,0.5" EndPoint="0,0.5">
+                                    <GradientStop Offset="0" Color="Black" />
+                                    <GradientStop Offset=".7" Color="Transparent" />
+                                </LinearGradientBrush>
+                            </Border.OpacityMask>
+                            <Border.Background>
+                                <VisualBrush Stretch="Uniform" Visual="{Binding ElementName=TreeViewIcon}" />
+                            </Border.Background>
+                        </Border>
+
+
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsDerived}" Value="True">
+                <Setter Property="Opacity" Value="0.8" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type local:ILMover}">
+
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="Template">
+
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ILMover}">
+
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Thumb
+                                x:Name="FromThumb"
+                                Width="10"
+                                Height="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Background="Transparent"
+                                BorderBrush="IndianRed"
+                                BorderThickness="1"
+                                Cursor="Hand" />
+                            <Thumb
+                                x:Name="ToThumb"
+                                Width="10"
+                                Height="10"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                BorderBrush="IndianRed"
+                                BorderThickness="1"
+                                Cursor="Hand" />
+                            <Polyline
+                                x:Name="ILLine"
+                                Points="{Binding Points}"
+                                Stroke="{Binding LineBrush}"
+                                StrokeThickness="{Binding LineThickness}">
+                                <Polyline.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Command="{Binding DeleteInternalLinkCommand}" Header="Delete" />
+                                    </ContextMenu>
+                                </Polyline.ContextMenu>
+                            </Polyline>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    
+     <Style x:Key="TreeViewStyle" TargetType="TreeView">
+        <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.ThemeBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.ThemeForeground}" />
+        <!--  default to 0  -->
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+       
+        <!--<Setter Property="TreeView.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TreeView}">
+                    <ScrollViewer CanContentScroll="True" Focusable="False">
+                        <ItemsPresenter HorizontalAlignment="Stretch" />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TreeView}">
+                    <Border Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding mah:ControlsHelper.CornerRadius}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <ScrollViewer x:Name="TreeViewScrollViewer"
+                                      Padding="{TemplateBinding Padding}"
+                                      CanContentScroll="{TemplateBinding ScrollViewer.CanContentScroll}"
+                                      Focusable="False"
+                                      HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                      VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Style.Triggers>
+            <Trigger Property="VirtualizingStackPanel.IsVirtualizing" Value="True">
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel  HorizontalAlignment="Left" IsItemsHost="True" />
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Gray9}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="TreeView.Virtualized"
+           BasedOn="{StaticResource TreeViewStyle}"
+           TargetType="{x:Type TreeView}">
+        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
+        <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling" />
+    </Style>
+
+    
+
+    <Style TargetType="{x:Type local:AMLTreeView}">
+        <Setter Property="AllowDrop" Value="True"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:AMLTreeView}">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <TreeView
+                                x:Name="InnerTreeView"
+                                xaml:DraggableMarkupHelper.ScrollOnDragDrop="True"
+                                AllowDrop="{TemplateBinding AllowDrop}"                               
+                                DataContext="{TemplateBinding TreeViewModel}"
+                                ItemTemplateSelector="{StaticResource CAEXDataTemplateSelector}"
+                                ItemsSource="{Binding Root.ChildrenView}"
+                                KeyboardNavigation.DirectionalNavigation="Once"
+                                Style="{StaticResource TreeView.Virtualized}">
+
+                                <TreeView.ItemContainerStyle>
+                                    <!--
+                                        This Style binds a TreeViewItem to a TreeViewItemViewModel.
+                                    -->
+
+                                    <Style BasedOn="{StaticResource MahApps.Styles.TreeViewItem}" TargetType="{x:Type TreeViewItem}">
+                                        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                        <!--<Setter Property="MinHeight" Value="0" />-->
+                                        <!--<Setter Property="xaml:TreeViewItemExpanded.Command" Value="{Binding Path=Data.ExpandCommand, Source={StaticResource DataContextProxy}}" />-->
+                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                        <!--<Setter Property="HorizontalAlignment" Value="Left" />-->
+
+                                        <Setter Property="Visibility" Value="{Binding IsVisible, Converter={StaticResource btvc}}" />
+                                        <!--<Setter Property="KeyboardNavigation.DirectionalNavigation" Value="Once"></Setter>-->
+
+                                        
+                                        <Setter Property="VerticalContentAlignment" Value="Center" />
+
+                                        <!--<Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />-->
+                                        <!--<Setter Property="Padding" Value="0,1" />-->
+                                        <Setter Property="ContextMenuService.ShowOnDisabled" Value="False" />
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu Name="ContextMenu" ItemsSource="{Binding EnabledCommands}">
+                                                    <ContextMenu.Resources>
+                                                        <Style BasedOn="{StaticResource MahApps.Styles.MenuItem}" TargetType="MenuItem">
+                                                            <Setter Property="Command" Value="{Binding Command}" />
+                                                            <Setter Property="CommandParameter" Value="{Binding Parameter}" />
+                                                            <Setter Property="Header" Value="{Binding Name}" />
+                                                            <Setter Property="ToolTip" Value="{Binding Info}" />
+                                                            <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
+                                                            <Setter Property="InputGestureText" Value="{Binding InputGesture}" />
+                                                            <Setter Property="ItemsSource" Value="{Binding Commands}" />
+                                                            <Setter Property="Icon" Value="{Binding Icon, Converter={StaticResource NameToImageConverter}}" />
+
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsSeparator}" Value="True">
+                                                                    <Setter Property="Template">
+                                                                        <Setter.Value>
+                                                                            <ControlTemplate>
+                                                                                <Separator />
+                                                                            </ControlTemplate>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ContextMenu.Resources>
+                                                    <ContextMenu.Style>
+                                                        <Style BasedOn="{StaticResource MahApps.Styles.ContextMenu}" TargetType="ContextMenu">
+                                                            <Style.Triggers>
+                                                                <Trigger Property="HasItems" Value="False">
+                                                                    <Setter Property="Height" Value="0" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ContextMenu.Style>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+
+                                        <Style.Triggers>
+
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding Tree.TreeViewLayout.ShowRoleReqNodes}" Value="False" />
+                                                    <Condition Binding="{Binding IsRoleReference, FallbackValue=False}" Value="True" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </MultiDataTrigger>
+
+                                            <MultiDataTrigger>
+                                                <MultiDataTrigger.Conditions>
+                                                    <Condition Binding="{Binding Tree.IsActive}" Value="False" />
+                                                    <Condition Binding="{Binding IsSelected}" Value="True" />
+                                                </MultiDataTrigger.Conditions>
+                                                <Setter Property="mah:ItemHelper.ActiveSelectionBackgroundBrush" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Background.Inactive}" />
+                                                <Setter Property="mah:ItemHelper.SelectedBackgroundBrush" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Background.Inactive}" />
+                                            </MultiDataTrigger>
+
+                                            <DataTrigger Binding="{Binding IsOverridden}" Value="True">
+                                                <Setter Property="ToolTip" Value="This object overrides an inherited object from a base class. To undo the override, delete the object." />
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding IsDerived}" Value="True">
+                                                <Setter Property="ToolTip" Value="This object is inherited from a base class." />
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding IsMarked}" Value="True">
+                                                <Setter Property="Opacity" Value="0.8" />
+                                                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+                                            </DataTrigger>
+
+                                            <Trigger Property="xaml:TreeViewDragOverHighlighter.IsPossibleDropTarget" Value="True">
+                                                <Setter Property="Opacity" Value="0.8" />
+                                                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+                                            </Trigger>
+
+                                            <Trigger Property="Tag" Value="drop">
+                                                <Setter Property="Opacity" Value="0.8" />
+                                                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+                                            </Trigger>
+
+                                        </Style.Triggers>
+                                    </Style>
+                                </TreeView.ItemContainerStyle>
+                            </TreeView>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:AMLTreeViewSearch}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:AMLTreeViewSearch}">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox
+                                Height="22"
+                                mah:TextBoxHelper.ClearTextButton="True"
+                                mah:TextBoxHelper.Watermark="Search..."
+                                Text="{Binding SearchText}"
+                                ToolTip="Find nodes in selected tree containing the text.">
+                                <TextBox.InputBindings>
+                                    <KeyBinding
+                                        Key="Return"
+                                        Command="{Binding SearchCommand, Mode=OneWay}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=TextBox}, Path=Text, Mode=OneWay}" />
+                                </TextBox.InputBindings>
+                            </TextBox>
+
+                            <mah:SplitButton
+                                x:Name="ElementChoiceButton"
+                                Grid.Column="2"
+                                Height="22"
+                                DisplayMemberPath="DisplayName"
+                                ItemsSource="{Binding CaexTagnames}"
+                                Style="{StaticResource ToolBarSplitButtonStyle}"
+                                ToolTip="Select CAEX-Elements to search">
+
+                                <mah:SplitButton.Icon>
+                                    <Image Source="{StaticResource SearchTextIcon}" />
+                                </mah:SplitButton.Icon>
+
+                                <mah:SplitButton.ItemContainerStyle>
+                                    <Style BasedOn="{StaticResource MahApps.Styles.ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate>
+                                                    <MenuItem
+                                                        Header="{Binding DisplayName}"
+                                                        IsCheckable="True"
+                                                        IsChecked="{Binding IsChecked}"
+                                                        StaysOpenOnClick="True">
+                                                        <MenuItem.Style>
+                                                            <Style BasedOn="{StaticResource MahApps.Styles.MenuItem}" TargetType="MenuItem">
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="Header" Value="Separator">
+                                                                        <Setter Property="Template">
+                                                                            <Setter.Value>
+                                                                                <ControlTemplate TargetType="MenuItem">
+                                                                                    <Separator HorizontalAlignment="Stretch" IsEnabled="False" />
+                                                                                </ControlTemplate>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </MenuItem.Style>
+                                                    </MenuItem>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+
+                                    </Style>
+                                </mah:SplitButton.ItemContainerStyle>
+                            </mah:SplitButton>
+
+                            <mah:SplitButton
+                                x:Name="GotoButton"
+                                Grid.Column="3"
+                                Height="22"
+                                Command="{Binding GotoNextCommand}"
+                                ItemsSource="{Binding GotoModes}"
+                                SelectedItem="{Binding GotoMode, Mode=TwoWay}"
+                                Style="{StaticResource ToolBarSplitButtonStyle}">
+
+                                <mah:SplitButton.Icon>
+                                    <Image Width="18" Source="{Binding GotoIcon}" />
+                                </mah:SplitButton.Icon>
+                            </mah:SplitButton>
+
+                            <ToggleButton
+                                Grid.Column="4"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                IsChecked="{Binding IsCaseSensitive}"
+                                Style="{StaticResource MahApps.Styles.ToggleButton.ToolBar}"
+                                ToolTip="change case sensitive for search filter">
+                                <Viewbox Width="16" Height="16">
+                                    <Rectangle Width="16" Height="16">
+                                        <Rectangle.Fill>
+                                            <DrawingBrush>
+                                                <DrawingBrush.Drawing>
+                                                    <DrawingGroup>
+                                                        <DrawingGroup.Children>
+                                                            <GeometryDrawing Brush="#00FFFFFF" Geometry="F1M16,16L0,16 0,0 16,0z" />
+                                                            <GeometryDrawing Brush="#FFF6F6F6" Geometry="F1M14.1758,5.5918C13.6208,4.9918 12.8398,4.6878 11.8538,4.6878 11.5958,4.6878 11.3318,4.7118 11.0698,4.7588 10.8228,4.8038 10.5898,4.8608 10.3688,4.9278 10.1418,4.9988 9.9378,5.0748 9.7558,5.1578 9.5368,5.2568 9.3678,5.3548 9.2448,5.4428L8.8258,5.7408 8.8258,8.4418C8.7408,8.5508,8.6648,8.6658,8.5968,8.7858L6.1468,2.4318 3.7538,2.4318 -0.000199999999999534,12.2358 -0.000199999999999534,12.8338 3.0258,12.8338 3.8628,10.4848 6.0298,10.4848 6.9208,12.8338 10.1578,12.8338 10.1568,12.8308C10.4618,12.9228 10.7908,12.9808 11.1508,12.9808 11.4938,12.9808 11.8218,12.9318 12.1278,12.8338L14.9808,12.8338 14.9808,7.9318C14.9808,6.9568,14.7098,6.1698,14.1758,5.5918" />
+                                                            <GeometryDrawing Brush="#FF424242" Geometry="F1M11.5664,9.0039C11.2934,9.0389 11.0684,9.0889 10.8924,9.1529 10.7164,9.2179 10.5804,9.2969 10.4824,9.3909 10.3844,9.4839 10.3174,9.5959 10.2804,9.7249 10.2434,9.8539 10.2244,9.9999 10.2244,10.1639 10.2244,10.3049 10.2504,10.4359 10.3004,10.5569 10.3514,10.6779 10.4244,10.7829 10.5204,10.8729 10.6164,10.9629 10.7354,11.0329 10.8784,11.0839 11.0204,11.1349 11.1854,11.1599 11.3734,11.1599 11.6154,11.1599 11.8374,11.1149 12.0414,11.0249 12.2444,10.9359 12.4194,10.8119 12.5654,10.6529 12.7124,10.4949 12.8264,10.3099 12.9084,10.0969 12.9904,9.8839 13.0314,9.6539 13.0314,9.4079L13.0314,8.7989z M13.0194,11.8339L13.0194,10.8969 12.9964,10.8969C12.7964,11.2479 12.5404,11.5169 12.2254,11.7019 11.9114,11.8879 11.5524,11.9809 11.1504,11.9809 10.8374,11.9809 10.5624,11.9359 10.3244,11.8459 10.0864,11.7559 9.8864,11.6339 9.7264,11.4799 9.5664,11.3249 9.4454,11.1419 9.3634,10.9289 9.2814,10.7159 9.2404,10.4859 9.2404,10.2399 9.2404,9.9789 9.2794,9.7379 9.3574,9.5199 9.4354,9.3009 9.5554,9.1079 9.7174,8.9399 9.8794,8.7719 10.0854,8.6319 10.3334,8.5209 10.5814,8.4089 10.8774,8.3299 11.2204,8.2829L13.0314,8.0309C13.0314,7.7579 13.0024,7.5249 12.9434,7.3309 12.8844,7.1379 12.8004,6.9809 12.6914,6.8589 12.5824,6.7379 12.4504,6.6499 12.2954,6.5929 12.1414,6.5359 11.9704,6.5079 11.7834,6.5079 11.4204,6.5079 11.0694,6.5719 10.7314,6.7009 10.3934,6.8299 10.0914,7.0099 9.8264,7.2399L9.8264,6.2559C9.9084,6.1969 10.0224,6.1349 10.1694,6.0679 10.3154,6.0019 10.4804,5.9409 10.6644,5.8839 10.8474,5.8269 11.0424,5.7799 11.2474,5.7429 11.4524,5.7059 11.6544,5.6879 11.8534,5.6879 12.5524,5.6879 13.0824,5.8819 13.4414,6.2709 13.8004,6.6589 13.9804,7.2129 13.9804,7.9319L13.9804,11.8339z M4.9454,4.4509L3.4804,8.5939 6.3984,8.5939C6.3984,8.5939,4.9534,4.4859,4.9454,4.4509 M7.6114,11.8339L6.7204,9.4839 3.1584,9.4839 2.3204,11.8339 1.2244,11.8339 4.4414,3.4319 5.4614,3.4319 8.7014,11.8339z" />
+                                                        </DrawingGroup.Children>
+                                                    </DrawingGroup>
+                                                </DrawingBrush.Drawing>
+                                            </DrawingBrush>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Viewbox>
+                            </ToggleButton>
+
+                            <ToggleButton
+                                Grid.Column="5"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                IsChecked="{Binding FilterTree}"
+                                Style="{StaticResource MahApps.Styles.ToggleButton.ToolBar}"
+                                ToolTip="hide / show only nodes found">
+                                <Image
+                                    Width="13"
+                                    Height="13"
+                                    Source="{StaticResource IHImage}" />
+                            </ToggleButton>
+
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
