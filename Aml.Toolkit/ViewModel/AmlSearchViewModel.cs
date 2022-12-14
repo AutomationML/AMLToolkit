@@ -42,8 +42,8 @@ namespace Aml.Toolkit.ViewModel
     /// </summary>
     public class AmlSearchViewModel : ViewModelBase
     {
-        static ImageSource GotoNextIcon = System.Windows.Application.Current.Resources["GotoNextArrowIcon"]  as ImageSource;
-        static ImageSource GotoPrevIcon = System.Windows.Application.Current.Resources["GotoPrevArrowIcon"]  as ImageSource;
+        static readonly ImageSource GotoNextIcon = System.Windows.Application.Current.Resources["GotoNextArrowIcon"]  as ImageSource;
+        static readonly ImageSource GotoPrevIcon = System.Windows.Application.Current.Resources["GotoPrevArrowIcon"]  as ImageSource;
 
         #region Public Constructors
 
@@ -154,8 +154,6 @@ namespace Aml.Toolkit.ViewModel
         ///     <see cref="CancelCommand" />
         /// </summary>
         private RelayCommand<object> _cancelCommand;
-
-        private CancellationTokenSource cancellation;
 
         /// <summary>
         ///     <see cref="CloseCommand" />
@@ -911,31 +909,7 @@ namespace Aml.Toolkit.ViewModel
         private void CancelCommandExecute(object parameter)
         {
             _backgroundWorker.CancelAsync();
-        }
-
-        private async void ChangeFilter()
-        {
-            if (IsBusy)
-            {
-                return;
-            }
-            try
-            {
-                await Task.Delay(1000, cancellation.Token);
-            }
-            catch (TaskCanceledException)
-            {
-                return;
-            }
-
-            if (cancellation.IsCancellationRequested)
-            {
-                return;
-            }
-
-            Reset();
-            StartFilterRequest?.Invoke(this, EventArgs.Empty);
-        }
+        }               
 
         /// <summary>
         ///     Test, if the <see cref="CloseCommand" /> can execute.

@@ -112,9 +112,16 @@ namespace Aml.Toolkit.View
         {
             //Unloaded += AMLTreeView_Unloaded;
             KeyDown += AMLTreeView_KeyDown;
+
+            ContextMenuOpening += AMLTreeView_ContextMenuOpening;
         }
 
-       
+        private void AMLTreeView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            TreeViewModel?.ConfigureContextMenu();
+        }
+
+
         #endregion Public Constructors
 
         #region Public Events
@@ -216,14 +223,12 @@ namespace Aml.Toolkit.View
 
             TreeViewMultipleSelectionAttached.DeSelectAllItems(TheTreeView, null);
 
-            TreeViewModel.SelectedElements?.Clear();
+            if (TreeViewModel?.SelectedElements.Count > 0)
+            {
+                TreeViewModel.SelectedElements?.Clear();
+            }
+
             InternalLinksAdorner?.ClearSelection(true);
-            //if (!IsMultipleSelection && TheTreeView.SelectedItem != null)
-            //{
-            //    TreeViewItem item = TheTreeView.ItemContainerGenerator.ContainerFromItem(TheTreeView.SelectedItem) as TreeViewItem;
-            //    if (item != null)
-            //        item.IsSelected = false;
-            //}
         }
 
         /// <summary>
@@ -275,17 +280,22 @@ namespace Aml.Toolkit.View
             }
 
             SetValue(TheTreeViewProperty, tree);
+           
+            tree.PreviewDragOver -= TheTreeView_DragOver;
+            tree.Drop -= TheTreeView_Drop;
+            tree.MouseMove -= TheTreeView_MouseMove;
+            tree.PreviewMouseDown -= TheTreeView_MouseDown;
+            tree.PreviewMouseUp -= Tree_PreviewMouseUp;
+            tree.MouseUp -= Tree_MouseUp;
+            tree.KeyUp -= Tree_KeyUp;
 
-            tree.SelectedItemChanged += SelectedItemOfTreeViewChanged;
             tree.PreviewDragOver += TheTreeView_DragOver;
             tree.Drop += TheTreeView_Drop;
             tree.MouseMove += TheTreeView_MouseMove;
             tree.PreviewMouseDown += TheTreeView_MouseDown;
             tree.PreviewMouseUp += Tree_PreviewMouseUp;
-
             tree.MouseUp += Tree_MouseUp;
             tree.KeyUp += Tree_KeyUp;
-            //tree.DragEnter += Tree_DragEnter;
         }
 
         #endregion Public Methods
@@ -420,17 +430,23 @@ namespace Aml.Toolkit.View
             }
 
             if (node == null)
+            {
                 return;
+            }
 
             if (e.Key == Key.Left)
             {
                 if (node.HasLinks && node.ShowLinks)
+                {
                     node.ShowLinks = false;
+                }
             }
             else if (e.Key == Key.Right)
             {
                 if (node.HasLinks && !node.ShowLinks)
+                {
                     node.ShowLinks = true;
+                }
             }
         }
 
@@ -478,22 +494,6 @@ namespace Aml.Toolkit.View
             return null;
         }
 
-        /// <summary>
-        ///     Selection of an element in the TreeView is passed to the control
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">     The e.</param>
-        private void SelectedItemOfTreeViewChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            //if (TreeViewModel != null && TheTreeView.SelectedItem is AMLNodeViewModel selectedItem &&
-            //    (selectedItem != TreeViewModel.SelectedElements?.FirstOrDefault()))
-            //{
-            //    _myEventSource.Raise(this, new AmlNodeEventArgs(selectedItem));
-
-            //    TreeViewModel?.SelectedElements.Clear();
-            //    TreeViewModel?.SelectedElements.Add(selectedItem);
-            //}
-        }
 
         private void SelectedItemOfTreeViewChanged()
         {
@@ -504,20 +504,25 @@ namespace Aml.Toolkit.View
             }
 
             selectedItem.CanNavigate = true;
+            RaiseSelectionEvent(selectedItem);
+        }
 
+
+        internal void RaiseSelectionEvent (AMLNodeViewModel node)
+        {
             if (TreeViewModel.SelectedElements != null && TreeViewModel.SelectedElements.Count == 0)
             {
-                TreeViewModel.SelectedElements.Add(selectedItem);
+                TreeViewModel.SelectedElements.Add(node);
             }
             else
             {
                 if (TreeViewModel.SelectedElements != null)
                 {
-                    TreeViewModel.SelectedElements[0] = selectedItem;
+                    TreeViewModel.SelectedElements[0] = node;
                 }
             }
 
-            _myEventSource.Raise(this, new AmlNodeEventArgs(selectedItem));
+            _myEventSource.Raise(this, new AmlNodeEventArgs(node));
         }
 
         private void SetTreeViewModel(AMLTreeViewModel aMLTreeViewModel, bool set)

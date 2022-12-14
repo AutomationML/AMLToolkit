@@ -28,7 +28,7 @@ namespace Aml.Toolkit.ViewModel.Graph
             Edge selectedEdge)
         {
             _adornedElement = adornedElement;
-            _selectedLink = selectedLink;
+            SelectedLink = selectedLink;
             SelectedEdge = selectedEdge;
 
             LineBrush = selectedEdge.Pen.Brush;
@@ -99,6 +99,20 @@ namespace Aml.Toolkit.ViewModel.Graph
 
         #region Public Properties
 
+
+        public InternalLinkType SelectedLink
+        {
+            get => _selectedLink;
+            set
+            {
+                _selectedLink = value;
+                if (_adornedElement is AMLTreeView view && value != null)
+                {
+                    view.RaiseSelectionEvent (new AMLNodeViewModel(null,_selectedLink.Node, false ));
+                }
+            }
+        }
+
         /// <summary>
         ///     The DeleteInternalLinkCommand - Command
         /// </summary>
@@ -165,9 +179,9 @@ namespace Aml.Toolkit.ViewModel.Graph
         internal void DeleteSelectedLink()
         {
             // delete the internal link
-            _selectedLink.Remove();
+            SelectedLink.Remove();
             SelectedEdge.Delete();
-            _selectedLink = null;
+            SelectedLink = null;
             SelectedEdge = null;
 
             ((AMLTreeView)_adornedElement).InternalLinksAdorner?.InvalidateSelection();
@@ -192,11 +206,11 @@ namespace Aml.Toolkit.ViewModel.Graph
                 // korrektur wenn bewegung nicht erkannt wurde
                 if (_movedInterface == null)
                 {
-                    if (extInterface == _selectedLink.AInterface)
+                    if (extInterface == SelectedLink.AInterface)
                     {
                         _movedInterface = tv;
                     }
-                    else if (extInterface.Equals(_selectedLink.BInterface))
+                    else if (extInterface.Equals(SelectedLink.BInterface))
                     {
                         _movedInterface = tv;
                     }
@@ -245,48 +259,48 @@ namespace Aml.Toolkit.ViewModel.Graph
                 return false;
             }
 
-            if (_selectedLink == null)
+            if (SelectedLink == null)
             {
                 return false;
             }
 
-            if (_selectedInterface.CAEXObject.Equals(_selectedLink.AInterface))
+            if (_selectedInterface.CAEXObject.Equals(SelectedLink.AInterface))
             {
                 return false;
             }
 
-            if (_selectedInterface.CAEXObject.Equals(_selectedLink.BInterface))
+            if (_selectedInterface.CAEXObject.Equals(SelectedLink.BInterface))
             {
                 return false;
             }
 
             var started =
-                ServiceLocator.UndoRedoService?.BeginTransaction(_selectedLink.CAEXDocument(),
+                ServiceLocator.UndoRedoService?.BeginTransaction(SelectedLink.CAEXDocument(),
                     "Redirect Internal Link") ?? false;
-            if (_selectedLink.AInterface.Equals(MovedInterface))
+            if (SelectedLink.AInterface.Equals(MovedInterface))
             {
-                _selectedLink.AInterface = SelectedInterface;
+                SelectedLink.AInterface = SelectedInterface;
             }
-            else if (_selectedLink.BInterface.Equals(MovedInterface))
+            else if (SelectedLink.BInterface.Equals(MovedInterface))
             {
-                _selectedLink.BInterface = SelectedInterface;
+                SelectedLink.BInterface = SelectedInterface;
             }
 
-            var linkAnchor = _selectedLink.ASystemUnitClass.LowestCommonParent(_selectedLink.BSystemUnitClass);
+            var linkAnchor = SelectedLink.ASystemUnitClass.LowestCommonParent(SelectedLink.BSystemUnitClass);
             if (linkAnchor == null)
             {
-                linkAnchor = _selectedLink.ASystemUnitClass;
+                linkAnchor = SelectedLink.ASystemUnitClass;
             }
 
-            if (linkAnchor != _selectedLink.CAEXParent)
+            if (linkAnchor != SelectedLink.CAEXParent)
             {
-                _selectedLink.Remove();
-                _ = linkAnchor.Insert(_selectedLink, false);
+                SelectedLink.Remove();
+                _ = linkAnchor.Insert(SelectedLink, false);
             }
 
             if (started)
             {
-                _ = (ServiceLocator.UndoRedoService?.EndTransaction(_selectedLink.CAEXDocument()));
+                _ = (ServiceLocator.UndoRedoService?.EndTransaction(SelectedLink.CAEXDocument()));
             }
 
             SelectedEdge.StartPoint.Item.RefreshNodeInformation(false);
@@ -336,7 +350,7 @@ namespace Aml.Toolkit.ViewModel.Graph
         /// </returns>
         private bool DeleteInternalLinkCommandCanExecute(object parameter)
         {
-            return _selectedLink != null;
+            return SelectedLink != null;
         }
 
         /// <summary>
@@ -406,25 +420,30 @@ namespace Aml.Toolkit.ViewModel.Graph
 
         private bool IsConnectible(ExternalInterfaceType selectedInterface)
         {
+            if (SelectedLink == null)
+            {
+                return false;
+            }
+
             if (selectedInterface == null)
             {
                 return false;
             }
 
-            if (selectedInterface.Equals(_selectedLink.AInterface))
+            if (selectedInterface.Equals(SelectedLink.AInterface))
             {
                 return false;
             }
 
-            return !selectedInterface.Equals(_selectedLink.BInterface) &&
+            return !selectedInterface.Equals(SelectedLink.BInterface) &&
                    CanLinkInterfaces(selectedInterface, UnMovedInterface);
         }
 
         private ExternalInterfaceType MovedInterface => _movedInterface?.CAEXObject as ExternalInterfaceType;
 
-        private ExternalInterfaceType UnMovedInterface => _selectedLink.AInterface.Equals(MovedInterface)
-            ? _selectedLink.BInterface
-            : _selectedLink.AInterface;
+        private ExternalInterfaceType UnMovedInterface => SelectedLink.AInterface.Equals(MovedInterface)
+            ? SelectedLink.BInterface
+            : SelectedLink.AInterface;
 
         private ExternalInterfaceType SelectedInterface => _selectedInterface?.CAEXObject as ExternalInterfaceType;
 

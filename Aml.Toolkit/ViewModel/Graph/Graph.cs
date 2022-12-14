@@ -1,4 +1,5 @@
-﻿using Aml.Toolkit.View;
+﻿using Aml.Engine.CAEX;
+using Aml.Toolkit.View;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -17,6 +18,8 @@ namespace Aml.Toolkit.ViewModel.Graph
     /// </summary>
     public class IlGraph
     {
+        internal static double ZoomFactor=1.0;
+
         #region Public Constructors
 
         static void SetLinkColours (ResourceDictionary dictionary)
@@ -94,7 +97,15 @@ namespace Aml.Toolkit.ViewModel.Graph
                 }
             }
 
-            name = AvailableLinkBrushes[selectedBrush.Item1].ToString();
+            try
+            {
+                name = AvailableLinkBrushes[selectedBrush.Item1].ToString();
+            }
+            catch
+            {
+                name = string.Empty;
+            }
+
             return selectedBrush.Item2;
         }
 
@@ -105,6 +116,7 @@ namespace Aml.Toolkit.ViewModel.Graph
         internal static readonly Dictionary<string, (int, Brush)> InterfaceBrushes =
             new();
 
+        internal static double PenThickness = 0.8;
         internal static Pen defaultPen;
         internal static bool useColor;
         internal readonly Dictionary<Edge, Range<double>> Ranges = new();
@@ -146,14 +158,41 @@ namespace Aml.Toolkit.ViewModel.Graph
 
         private static int yspace = 5;
 
-        private static double zoomFactor;
-
         #endregion Private Fields
 
         #region Internal Properties
 
         internal List<List<Edge>> Edges { get; set; }
         internal Dictionary<AMLNodeViewModel, Vertex> Vertices { get; set; }
+
+
+        
+        public bool HasVertices 
+        {
+            get 
+            {
+                if ( Vertices != null && Vertices.Count > 0)
+                {
+                    var keys = Vertices.Keys;
+                    foreach (var node in keys)
+                    {
+                        if (node.DeletedInDocument)
+                        {
+                            RemoveVertex(node);
+                        }
+
+                        if (node.IsExpanded && node.CAEXObject is not ExternalInterfaceType)
+                        {
+                            RemoveVertex(node);
+                        }
+                    }
+
+                    return Vertices.Count > 0;
+                }
+                return false;
+            }
+        }
+
 
         #endregion Internal Properties
 
@@ -338,10 +377,9 @@ namespace Aml.Toolkit.ViewModel.Graph
             var HorizontalLines = new List<Tuple<Pen, Vector2D, Vector2D>>();
 
             //zoomFactor = (double)Util.AMLConfig.Instance.GetPropertyValue(Util.AMLConfig.SET_ZOOM_FACTOR);
-            useColor = treeView.TreeViewModel.TreeViewLayout.DrawColoredLines;
-            zoomFactor = 1.0;
-
-            defaultPen = new Pen(AvailableLinkBrushes[0], 1 / zoomFactor);
+            useColor = treeView.TreeViewModel.TreeViewLayout.DrawColoredLines;           
+         
+            defaultPen = new Pen(AvailableLinkBrushes[0], 1 / ZoomFactor );
             if (treeView.TreeViewModel.TreeViewLayout.DrawDashedLines)
             {
                 defaultPen.DashStyle = DashStyles.Dash;
@@ -496,7 +534,7 @@ namespace Aml.Toolkit.ViewModel.Graph
                         // Freeze the geometry (make it unmodifiable)
                         // for additional performance benefits.
                         geometry.Freeze();
-                        drawingContext.DrawGeometry(null, new Pen(item1.Brush, 1 / zoomFactor), geometry);
+                        drawingContext.DrawGeometry(null, new Pen(item1.Brush, 1/ZoomFactor), geometry);
                     }
 
                     drawingContext.DrawLine(item1, start, vector2D1.P);
@@ -531,6 +569,16 @@ namespace Aml.Toolkit.ViewModel.Graph
         {
             Edges[sourceVertex.Index][targetVertex.Index] = default;
             Edges[targetVertex.Index][sourceVertex.Index] = default;
+
+            if (Edges[sourceVertex.Index].All(i=>i==default))
+            {
+                sourceVertex.Item.RaisePropertyChanged("HasLinks");
+            }
+
+            if (Edges[sourceVertex.Index].All(i=>i==default))
+            {
+                targetVertex.Item.RaisePropertyChanged("HasLinks");
+            }
         }
 
         internal void RemoveVertex(AMLNodeViewModel item)
@@ -593,6 +641,8 @@ namespace Aml.Toolkit.ViewModel.Graph
             }
         }
 
+        
+
         //    FrameworkElement container = item.AMLTreeViewModel.Parent as FrameworkElement;
         //    Rect bounds = item.TransformToAncestor(container).TransformBounds(new Rect(new Point(0, 0), new Size(item.DesiredSize.Width + widthOffset, item.DesiredSize.Height)));
         //    Rect rect = new Rect(0.0, 0.0, container.ActualWidth, container.ActualHeight);
@@ -614,8 +664,12 @@ namespace Aml.Toolkit.ViewModel.Graph
                         treeView.TreeViewModel.FilteredClasses.FirstOrDefault(ic => ic.Name == name);
                     if (!string.IsNullOrEmpty(Name))
                     {
+                        //edge.StartPoint?.Item?.RaisePropertyChanged("HasLinks");
+                        //edge.EndPoint?.Item?.RaisePropertyChanged("HasLinks");
+                        
                         if (!IsSelected)
                         {
+                            
                             return false;
                         }
 
@@ -623,7 +677,7 @@ namespace Aml.Toolkit.ViewModel.Graph
                         {
                             edge.Pen = new Pen(GetBrushForConnection(
                                     cref.CAEXNode.Attribute(cref.ClassPathReferenceAttribute)?.Value, out _),
-                                1 / zoomFactor);
+                                1/ZoomFactor );
                             if (treeView.TreeViewModel.TreeViewLayout.DrawDashedLines)
                             {
                                 edge.Pen.DashStyle = DashStyles.Dash;
@@ -632,6 +686,9 @@ namespace Aml.Toolkit.ViewModel.Graph
                     }
                 }
             }
+
+           
+            edge.Pen.LineJoin = PenLineJoin.Round;
 
             var from = edge.StartPoint.VisibleItem(out var isFromParent);
             var to = edge.EndPoint.VisibleItem(out var isToParent);

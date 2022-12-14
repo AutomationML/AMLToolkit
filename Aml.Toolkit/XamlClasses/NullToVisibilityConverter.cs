@@ -41,13 +41,17 @@ namespace Aml.Toolkit.XamlClasses
             if (value is string @string)
             {
                 if (string.IsNullOrEmpty(@string))
+                {
                     return Visibility.Collapsed;
+                }
 
                 return Visibility.Visible;
             }
 
             if (value == null)
+            {
                 return Visibility.Collapsed;
+            }
 
             return Visibility.Visible;
         }

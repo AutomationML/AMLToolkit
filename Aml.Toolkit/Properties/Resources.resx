@@ -121,27 +121,27 @@
     <value>Class</value>
   </data>
   <data name="copyTip" xml:space="preserve">
-    <value>copy</value>
+    <value>Copy</value>
   </data>
   <data name="cutTip" xml:space="preserve">
-    <value>cut</value>
+    <value>Cut</value>
   </data>
   <data name="deleteTip" xml:space="preserve">
-    <value>delete</value>
+    <value>Delete</value>
   </data>
   <data name="expandAllTip" xml:space="preserve">
-    <value>expand all</value>
+    <value>Expand all</value>
   </data>
   <data name="pasteTip" xml:space="preserve">
-    <value>paste</value>
+    <value>Paste</value>
   </data>
   <data name="redoTip" xml:space="preserve">
-    <value>redo</value>
+    <value>Redo</value>
   </data>
   <data name="Role" xml:space="preserve">
     <value>Role</value>
   </data>
   <data name="undoTip" xml:space="preserve">
-    <value>undo</value>
+    <value>Undo</value>
   </data>
 </root>

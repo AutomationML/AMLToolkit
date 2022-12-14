@@ -799,9 +799,14 @@ namespace Aml.Toolkit.Tools
                         case NotifyCollectionChangedAction.Replace:
 #if !SILVERLIGHT
                             return new NotifyCollectionChangedEventArgs(_action.Value, _newItems, _oldItems);
+                        
 #else
                             return new NotifyCollectionChangedEventArgs(_action.Value, _newItems, _newIndex);
 #endif
+                         
+                        default:
+                            return new NotifyCollectionChangedEventArgs(_action.Value, _newItems, _oldItems);
+                        
                     }
                 }
             }

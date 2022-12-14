@@ -4,14 +4,17 @@
     {
         #region Internal Methods
 
-        internal bool IsVisible()
+        internal bool IsVisible(bool checkVisited=true)
         {
-            if (isVisited)
+            if (checkVisited)
             {
-                return isVisible;
-            }
+                if (isVisited )
+                {
+                    return isVisible;
+                }
 
-            isVisited = true;
+                isVisited = true;
+            }
 
             isVisible = IsVisible(Item);
             return isVisible;
@@ -37,7 +40,9 @@
         {
             isParent = false;
             if (IsVisible())
+            {
                 return Item;
+            }
 
             isParent = true;
             return VisibleParent(Item);
@@ -74,13 +79,20 @@
                 return null;
             }
 
+            if (treeViewItem.IsExpanded)
+            {
+                return null;
+            }
+
             if (item.CAEXNode.Parent != treeViewItem.CAEXNode)
             {
-                treeViewItem = treeViewItem.Tree.SelectCaexNode(item.CAEXNode.Parent, false);
+                treeViewItem = treeViewItem.Parent;
             }
 
             if (treeViewItem == null)
+            {
                 return null;
+            }
 
             return IsVisible(treeViewItem) ? treeViewItem : VisibleParent(treeViewItem);
         }

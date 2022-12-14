@@ -1,0 +1,561 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Mit XMLSpy v2013 sp1 (http://www.altova.com) von Josef Prinz (INPRO) bearbeitet -->
+<CAEXFile FileName="MasterDatei.aml" SchemaVersion="2.15" xsi:noNamespaceSchemaLocation="CAEX_ClassModel_V2.15.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AdditionalInformation AutomationMLVersion="2.0" />
+	<AdditionalInformation>
+		<WriterHeader>
+			<WriterName>Jessica Settgast</WriterName>
+			<WriterID>AutomationML Editor</WriterID>
+			<WriterVendor>unspecified</WriterVendor>
+			<WriterVendorURL>www.AutomationML.org</WriterVendorURL>
+			<WriterVersion>3.0.0</WriterVersion>
+			<WriterRelease>unspecified</WriterRelease>
+			<LastWritingDateTime>unspecified</LastWritingDateTime>
+			<WriterProjectTitle>unspecified</WriterProjectTitle>
+			<WriterProjectID>unspecified</WriterProjectID>
+		</WriterHeader>
+	</AdditionalInformation>
+	<InstanceHierarchy Name="BeispielIH">
+		<InternalElement Name="Ressourcen" ID="dd1c67ad-1077-4e6a-a558-8a211ec99526" RefBaseSystemUnitPath="AutomotiveResourceClassLib/AutomotiveBaseResource">
+			<InternalElement Name="MeinGebaeude" ID="f5d61632-77fb-4c6e-91e6-061155beb15a" RefBaseSystemUnitPath="AutomotiveResourceClassLib/AutomotiveBaseResource">
+				<InternalElement Name="MeineLinie" ID="d47e6fd4-5d77-4324-96ab-d391fa064ba0" RefBaseSystemUnitPath="AutomotiveResourceClassLib/AutomotiveBaseResource">
+					<Attribute Name="Frame" AttributeDataType="xs:string">
+						<Attribute Name="x" AttributeDataType="xs:string">
+							<Value>0</Value>
+						</Attribute>
+						<Attribute Name="y" AttributeDataType="xs:string">
+							<Value>0</Value>
+						</Attribute>
+						<Attribute Name="z" AttributeDataType="xs:string">
+							<Value>0</Value>
+						</Attribute>
+						<Attribute Name="rx" AttributeDataType="xs:string">
+							<Value>0</Value>
+						</Attribute>
+						<Attribute Name="ry" AttributeDataType="xs:string">
+							<Value>0</Value>
+						</Attribute>
+						<Attribute Name="rz" AttributeDataType="xs:string">
+							<Value>0</Value>
+						</Attribute>
+					</Attribute>
+					<InternalElement Name="Roboter" ID="6caf8a2f-5dfa-4069-856a-6c5c7043aa43" RefBaseSystemUnitPath="AutomotiveResourceClassLib/AutomotiveBaseResource">
+						<Attribute Name="Frame" AttributeDataType="xs:string">
+							<Attribute Name="x" AttributeDataType="xs:string">
+								<Value>9.656741</Value>
+							</Attribute>
+							<Attribute Name="y" AttributeDataType="xs:string">
+								<Value>0</Value>
+							</Attribute>
+							<Attribute Name="z" AttributeDataType="xs:string">
+								<Value>0</Value>
+							</Attribute>
+							<Attribute Name="rx" AttributeDataType="xs:string">
+								<Value>0</Value>
+							</Attribute>
+							<Attribute Name="ry" AttributeDataType="xs:string">
+								<Value>0</Value>
+							</Attribute>
+							<Attribute Name="rz" AttributeDataType="xs:string">
+								<Value>0</Value>
+							</Attribute>
+						</Attribute>
+						<Attribute Name="Bestellnummer" AttributeDataType="xs:int">
+							<Value>852456</Value>
+						</Attribute>
+						<Attribute Name="Typ" AttributeDataType="xs:string">
+							<Value>Gelenkarmroboter</Value>
+						</Attribute>
+						<Attribute Name="Lautstaerke" Unit="dB" AttributeDataType="xs:double">
+							<Value>75</Value>
+						</Attribute>
+						<ExternalInterface Name="PPRConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ResourceProductConnector" ID="e709fd1c-f3d2-461d-815c-8f6852388a6d" />
+						<ExternalInterface Name="AttachmentInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/AttachmentInterface" ID="9be15060-1466-43fd-ac50-faacd30c57db" />
+						<ExternalInterface Name="COLLADAInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface" ID="ec06aa20-ce6a-4263-945b-0c2351f265a7">
+							<Attribute Name="refType" AttributeDataType="xs:string">
+								<Value>explicit</Value>
+							</Attribute>
+							<Attribute Name="target" AttributeDataType="xs:token">
+								<Value>SketchUp/ID6002</Value>
+							</Attribute>
+							<Attribute Name="refURI" AttributeDataType="xs:anyURI">
+								<Value>FB_Rob_mit_SID.dae#ID1</Value>
+							</Attribute>
+						</ExternalInterface>
+						<SupportedRoleClass RefRoleClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Robot" />
+						<SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Frame" />
+						<InternalLink Name="PPRLink1" RefPartnerSideA="6caf8a2f-5dfa-4069-856a-6c5c7043aa43:PPRConnector" RefPartnerSideB="0b93641d-bc04-4388-b074-fec8861b9fc4:PPRConnector" />
+						<InternalLink Name="PPRLink2" RefPartnerSideA="6caf8a2f-5dfa-4069-856a-6c5c7043aa43:PPRConnector" RefPartnerSideB="43767d2e-7a6a-4423-ab52-2e2bb056281d:PPRConnector" />
+						<RoleRequirements RefBaseRoleClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Robot" />
+					</InternalElement>
+					<InternalElement Name="Transportband1" ID="af52fd4a-0ab2-44fc-a904-19b37f8deccd" RefBaseSystemUnitPath="AutomotiveResourceClassLib/AutomotiveBaseResource">
+						<Attribute Name="Frame" AttributeDataType="xs:string">
+							<Attribute Name="x" AttributeDataType="xs:string">
+								<Value>0</Value>
+							</Attribute>
+							<Attribute Name="y" AttributeDataType="xs:string">
+								<Value>-0.3061175</Value>
+							</Attribute>
+							<Attribute Name="z" AttributeDataType="xs:string">
+								<Value>0</Value>
+							</Attribute>
+							<Attribute Name="rx" AttributeDataType="xs:string">
+								<Value>0</Value>
+							</Attribute>
+							<Attribute Name="ry" AttributeDataType="xs:string">
+								<Value>0</Value>
+							</Attribute>
+							<Attribute Name="rz" AttributeDataType="xs:string">
+								<Value>0</Value>
+							</Attribute>
+						</Attribute>
+						<Attribute Name="Bestellnummer" AttributeDataType="xs:int">
+							<Value>456258</Value>
+						</Attribute>
+						<Attribute Name="Lautstaerke" Unit="dB" AttributeDataType="xs:double">
+							<Value>70</Value>
+						</Attribute>
+						<Attribute Name="Transportgewicht" Unit="kg" AttributeDataType="xs:double">
+							<Value>35</Value>
+						</Attribute>
+						<Attribute Name="Geschwindigkeit" Unit="m/s" AttributeDataType="xs:double">
+							<Value>1.5</Value>
+						</Attribute>
+						<ExternalInterface Name="PPRConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ResourceProductConnector" ID="71d51218-41a0-4b55-a611-efb415f2affa" />
+						<ExternalInterface Name="AttachmentInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/AttachmentInterface" ID="38baced8-a840-4788-8ab3-44d58eab017b" />
+						<ExternalInterface Name="COLLADAInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface" ID="ed0587f7-38c8-4969-bbb6-85f321784b99">
+							<Attribute Name="refType" AttributeDataType="xs:string">
+								<Value>explicit</Value>
+							</Attribute>
+							<Attribute Name="target" AttributeDataType="xs:token">
+								<Value>SketchUp/ID6660</Value>
+							</Attribute>
+							<Attribute Name="refURI" AttributeDataType="xs:anyURI">
+								<Value>FB_Rob_mit_SID.dae#ID1</Value>
+							</Attribute>
+						</ExternalInterface>
+						<SupportedRoleClass RefRoleClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Transport" />
+						<SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Frame" />
+						<InternalLink Name="PPRLink3" RefPartnerSideA="af52fd4a-0ab2-44fc-a904-19b37f8deccd:PPRConnector" RefPartnerSideB="43767d2e-7a6a-4423-ab52-2e2bb056281d:PPRConnector" />
+						<RoleRequirements RefBaseRoleClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Transport" />
+					</InternalElement>
+					<InternalElement Name="Transportband2" ID="312f7d9c-4058-466a-a2ea-e905f43a87fb" RefBaseSystemUnitPath="AutomotiveResourceClassLib/AutomotiveBaseResource">
+						<Attribute Name="Frame" AttributeDataType="xs:string">
+							<Attribute Name="x" AttributeDataType="xs:string">
+								<Value>0</Value>
+							</Attribute>
+							<Attribute Name="y" AttributeDataType="xs:string">
+								<Value>0</Value>
+							</Attribute>
+							<Attribute Name="z" AttributeDataType="xs:string">
+								<Value>0</Value>
+							</Attribute>
+							<Attribute Name="rx" AttributeDataType="xs:string">
+								<Value>0</Value>
+							</Attribute>
+							<Attribute Name="ry" AttributeDataType="xs:string">
+								<Value>0</Value>
+							</Attribute>
+							<Attribute Name="rz" AttributeDataType="xs:string">
+								<Value>0</Value>
+							</Attribute>
+						</Attribute>
+						<Attribute Name="Bestellnummer" AttributeDataType="xs:int">
+							<Value>456258</Value>
+						</Attribute>
+						<Attribute Name="Lautstaerke" Unit="dB" AttributeDataType="xs:double">
+							<Value>70</Value>
+						</Attribute>
+						<Attribute Name="Transportgewicht" Unit="kg" AttributeDataType="xs:double">
+							<Value>35</Value>
+						</Attribute>
+						<Attribute Name="Geschwindigkeit" Unit="m/s" AttributeDataType="xs:double">
+							<Value>1.5</Value>
+						</Attribute>
+						<ExternalInterface Name="PPRConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ResourceProductConnector" ID="bcbabb5c-8332-457d-ab84-0213e4924243" />
+						<ExternalInterface Name="COLLADAInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/ExternalDataConnector/COLLADAInterface" ID="d9ed2815-6fd2-435f-a51c-28257c75269b">
+							<Attribute Name="refType" AttributeDataType="xs:string">
+								<Value>explicit</Value>
+							</Attribute>
+							<Attribute Name="target" AttributeDataType="xs:token">
+								<Value>SketchUp/ID2</Value>
+							</Attribute>
+							<Attribute Name="refURI" AttributeDataType="xs:anyURI">
+								<Value>FB_Rob_mit_SID.dae#ID1</Value>
+							</Attribute>
+						</ExternalInterface>
+						<ExternalInterface Name="AttachmentInterface" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/AttachmentInterface" ID="ecb3c325-d03c-4560-beca-f95cebfa8783" />
+						<SupportedRoleClass RefRoleClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Transport" />
+						<SupportedRoleClass RefRoleClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Frame" />
+						<InternalLink Name="PPRLink4" RefPartnerSideA="312f7d9c-4058-466a-a2ea-e905f43a87fb:PPRConnector" RefPartnerSideB="0b93641d-bc04-4388-b074-fec8861b9fc4:PPRConnector" />
+						<RoleRequirements RefBaseRoleClassPath="AutomationMLDMIRoleClassLib/DiscManufacturingEquipment/Transport" />
+					</InternalElement>
+					<RoleRequirements RefBaseRoleClassPath="AutomotiveRoleClassLib/AutomotiveBaseStructure/Line" />
+				</InternalElement>
+				<RoleRequirements RefBaseRoleClassPath="AutomotiveRoleClassLib/AutomotiveBaseStructure/Plant" />
+			</InternalElement>
+			<RoleRequirements RefBaseRoleClassPath="AutomotiveRoleClassLib/AutomotiveResource">
+				<ExternalInterface Name="ResourceProductConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ResourceProductConnector" ID="7ab1bde4-e5f3-4ff7-9598-15625dd416fb" />
+				<ExternalInterface Name="ResourceProcessConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ResourceProcessConnector" ID="eb4dd986-8342-4c63-82de-b559bef30f24" />
+			</RoleRequirements>
+		</InternalElement>
+		<InternalElement Name="Products" ID="9c9f27de-7468-4c72-a6cd-26d423360e8c" RefBaseSystemUnitPath="AutomotiveProductClassLib/AutomotiveBaseProduct">
+			<InternalElement Name="FertigeAutotuer" ID="0b93641d-bc04-4388-b074-fec8861b9fc4" RefBaseSystemUnitPath="AutomotiveProductClassLib/AutomotiveBaseProduct">
+				<ExternalInterface Name="PPRConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ProductResourceConnector" ID="ce95ee18-4385-43e4-aa36-a84e0c1dcb66" />
+				<RoleRequirements RefBaseRoleClassPath="AutomotiveRoleClassLib/AutomotiveProcess">
+					<ExternalInterface Name="ProcessResourceConnector2" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ProcessResourceConnector" ID="b0d4b100-9934-49b0-a355-3383f3fb7c0f" />
+					<ExternalInterface Name="ProcessProductConnector2" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ProcessProductConnector" ID="440e1ab3-958a-47f5-8144-9071540a9f51" />
+				</RoleRequirements>
+			</InternalElement>
+			<InternalElement Name="UngeschweissteAutotuer" ID="43767d2e-7a6a-4423-ab52-2e2bb056281d" RefBaseSystemUnitPath="AutomotiveProductClassLib/AutomotiveBaseProduct">
+				<ExternalInterface Name="PPRConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ProductResourceConnector" ID="f84e611a-07aa-4dcb-aa4e-a95fb3fd0585" />
+				<RoleRequirements RefBaseRoleClassPath="AutomotiveRoleClassLib/AutomotiveProcess">
+					<ExternalInterface Name="ProcessResourceConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ProcessResourceConnector" ID="877426e6-346e-4e79-909e-481ac7e4f91f" />
+					<ExternalInterface Name="ProcessProductConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ProcessProductConnector" ID="3c53bc6e-8804-4e4b-b92c-d8c789b4c6cc" />
+				</RoleRequirements>
+			</InternalElement>
+			<RoleRequirements RefBaseRoleClassPath="AutomotiveRoleClassLib/AutomotiveProduct">
+				<ExternalInterface Name="ProductProcessConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ProcessProductConnector" ID="e9080c41-ebe2-4792-8b40-f7432be8aaaf" />
+				<ExternalInterface Name="ProductResourceConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ProductResourceConnector" ID="737791db-44b9-41cc-b0a2-deb6e5237120" />
+			</RoleRequirements>
+		</InternalElement>
+	</InstanceHierarchy>
+	<InterfaceClassLib Name="AutomationMLInterfaceClassLib">
+		<Description>Standard AutomationML Interface Class Library</Description>
+		<Version>2.1.2</Version>
+		<InterfaceClass Name="AutomationMLBaseInterface">
+			<InterfaceClass Name="Order" RefBaseClassPath="AutomationMLBaseInterface">
+				<Attribute Name="Direction" AttributeDataType="xs:string" />
+			</InterfaceClass>
+			<InterfaceClass Name="InterlockingConnector" RefBaseClassPath="AutomationMLBaseInterface" />
+			<InterfaceClass Name="PPRConnector" RefBaseClassPath="AutomationMLBaseInterface" />
+			<InterfaceClass Name="ExternalDataConnector" RefBaseClassPath="AutomationMLBaseInterface">
+				<Attribute Name="refURI" AttributeDataType="xs:anyURI" />
+				<InterfaceClass Name="COLLADAInterface" RefBaseClassPath="ExternalDataConnector">
+					<Attribute Name="refType" AttributeDataType="xs:string" />
+					<Attribute Name="target" AttributeDataType="xs:token" />
+				</InterfaceClass>
+				<InterfaceClass Name="PLCopenXMLInterface" RefBaseClassPath="ExternalDataConnector" />
+			</InterfaceClass>
+			<InterfaceClass Name="Communication" RefBaseClassPath="AutomationMLBaseInterface">
+				<InterfaceClass Name="SignalInterface" RefBaseClassPath="Communication" />
+			</InterfaceClass>
+			<InterfaceClass Name="AttachmentInterface" />
+		</InterfaceClass>
+	</InterfaceClassLib>
+	<InterfaceClassLib Name="AutomotiveInterfaceClassLib">
+		<InterfaceClass Name="PPRHub" RefBaseClassPath="AutomationMLInterfaceClassLib/AutomationMLBaseInterface/PPRConnector">
+			<AdditionalInformation />
+			<InterfaceClass Name="ProductResourceConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub" />
+			<InterfaceClass Name="ProductProcessConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub" />
+			<InterfaceClass Name="ProcessResourceConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub" />
+			<InterfaceClass Name="ProcessProductConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub" />
+			<InterfaceClass Name="ResourceProductConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub" />
+			<InterfaceClass Name="ResourceProcessConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub" />
+		</InterfaceClass>
+	</InterfaceClassLib>
+	<RoleClassLib Name="AutomationMLBaseRoleClassLib">
+		<Description>AutomationML base role library</Description>
+		<Version>2.1.2</Version>
+		<RoleClass Name="AutomationMLBaseRole">
+			<RoleClass Name="Group" RefBaseClassPath="AutomationMLBaseRole">
+				<Attribute Name="AssociatedFacet" AttributeDataType="xs:string" />
+			</RoleClass>
+			<RoleClass Name="Facet" RefBaseClassPath="AutomationMLBaseRole" />
+			<RoleClass Name="Resource" RefBaseClassPath="AutomationMLBaseRole" />
+			<RoleClass Name="Product" RefBaseClassPath="AutomationMLBaseRole" />
+			<RoleClass Name="Process" RefBaseClassPath="AutomationMLBaseRole" />
+			<RoleClass Name="Structure" RefBaseClassPath="AutomationMLBaseRole">
+				<RoleClass Name="ProductStructure" RefBaseClassPath="Structure" />
+				<RoleClass Name="ProcessStructure" RefBaseClassPath="Structure" />
+				<RoleClass Name="ResourceStructure" RefBaseClassPath="Structure" />
+			</RoleClass>
+			<RoleClass Name="PropertySet" RefBaseClassPath="AutomationMLBaseRole" />
+			<RoleClass Name="Frame" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole" />
+		</RoleClass>
+	</RoleClassLib>
+	<RoleClassLib Name="AutomationMLDMIRoleClassLib">
+		<Description>AutomationML Discrete Manufacturing Industry Role Class Library</Description>
+		<Version>2.3.3</Version>
+		<RoleClass Name="DiscManufacturingEquipment" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource">
+			<RoleClass Name="Transport" RefBaseClassPath="DiscManufacturingEquipment" />
+			<RoleClass Name="Storage" RefBaseClassPath="DiscManufacturingEquipment" />
+			<RoleClass Name="Fixture" RefBaseClassPath="DiscManufacturingEquipment" />
+			<RoleClass Name="Gate" RefBaseClassPath="DiscManufacturingEquipment" />
+			<RoleClass Name="Robot" RefBaseClassPath="DiscManufacturingEquipment" />
+			<RoleClass Name="Tool" RefBaseClassPath="DiscManufacturingEquipment" />
+			<RoleClass Name="Carrier" RefBaseClassPath="DiscManufacturingEquipment" />
+			<RoleClass Name="Machine" RefBaseClassPath="DiscManufacturingEquipment" />
+			<RoleClass Name="StaticObject" RefBaseClassPath="DiscManufacturingEquipment" />
+		</RoleClass>
+	</RoleClassLib>
+	<RoleClassLib Name="AutomotiveRoleClassLib">
+		<Revision>
+			<RevisionDate>2014-09-07T16:13:44.26</RevisionDate>
+			<OldVersion />
+			<NewVersion />
+			<AuthorName>Please enter your name</AuthorName>
+			<Comment />
+		</Revision>
+		<RoleClass Name="ResourceStructureGroup" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Group">
+			<RoleClass Name="ManufacturingArea" RefBaseClassPath="AutomotiveRoleClassLib/ResourceStructureGroup" />
+			<RoleClass Name="AssemblyGroup" RefBaseClassPath="AutomotiveRoleClassLib/ResourceStructureGroup" />
+			<RoleClass Name="PLCArea" RefBaseClassPath="AutomotiveRoleClassLib/ResourceStructureGroup" />
+			<RoleClass Name="EmergencyStopArea" RefBaseClassPath="AutomotiveRoleClassLib/ResourceStructureGroup">
+				<AdditionalInformation>Wie mappen?</AdditionalInformation>
+			</RoleClass>
+			<RoleClass Name="SafetyArea" RefBaseClassPath="AutomotiveRoleClassLib/ResourceStructureGroup" />
+			<RoleClass Name="Station" RefBaseClassPath="AutomotiveRoleClassLib/ResourceStructureGroup" />
+		</RoleClass>
+		<RoleClass Name="ProcessStructureGroup" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Group" />
+		<RoleClass Name="ProductStructureGroup" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Group">
+			<RoleClass Name="AttachmentPart" RefBaseClassPath="AutomotiveRoleClassLib/ProductStructureGroup" />
+			<RoleClass Name="StructurePart" RefBaseClassPath="AutomotiveRoleClassLib/ProductStructureGroup" />
+			<RoleClass Name="BasePart" RefBaseClassPath="AutomotiveRoleClassLib/ProductStructureGroup" />
+		</RoleClass>
+		<RoleClass Name="AutomotiveBaseStructure" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ResourceStructure">
+			<RoleClass Name="Plant" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveBaseStructure" />
+			<RoleClass Name="Building" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveBaseStructure" />
+			<RoleClass Name="Line" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveBaseStructure" />
+		</RoleClass>
+		<RoleClass Name="AutomomtiveBaseProcessStructure" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ProcessStructure" />
+		<RoleClass Name="AutomomtiveBaseProductStructure" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Structure/ProductStructure" />
+		<RoleClass Name="AutomotiveResource" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Resource">
+			<Revision>
+				<RevisionDate>2014-10-01T16:29:35.1772566</RevisionDate>
+				<AuthorName>Please enter your name</AuthorName>
+			</Revision>
+			<ExternalInterface Name="ResourceProductConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ResourceProductConnector" ID="7ab1bde4-e5f3-4ff7-9598-15625dd416fb" />
+			<ExternalInterface Name="ResourceProcessConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ResourceProcessConnector" ID="eb4dd986-8342-4c63-82de-b559bef30f24" />
+			<RoleClass Name="FunctionGroup" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource" />
+			<RoleClass Name="Element" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource" />
+			<RoleClass Name="Fixture" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/FunctionGroup">
+				<RoleClass Name="Storage" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/Fixture" />
+				<RoleClass Name="Geostation" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/Fixture" />
+				<RoleClass Name="RotaryTransferSystem" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/Fixture" />
+				<RoleClass Name="FloorAttachmentEquipment " RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/Fixture" />
+			</RoleClass>
+			<RoleClass Name="Transport" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/FunctionGroup">
+				<RoleClass Name="Turntable" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/Transport" />
+				<RoleClass Name="AccumulatingRollerConveyor" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/Transport" />
+				<RoleClass Name="InAndOutFeedingSystem" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/Transport" />
+				<RoleClass Name="!!!Behaelterbahnhof!!!" />
+			</RoleClass>
+			<RoleClass Name="ManufacturingSystems" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource">
+				<RoleClass Name="Framer" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/ManufacturingSystems">
+					<RoleClass Name="ST-Framer" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/ManufacturingSystems/Framer" />
+					<RoleClass Name="UB-Framerr" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/ManufacturingSystems/Framer" />
+				</RoleClass>
+				<RoleClass Name="StationaryJoining" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/ManufacturingSystems" />
+				<RoleClass Name="LaserCabin" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/ManufacturingSystems" />
+				<RoleClass Name="PartsRemovalStation" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/Transport" />
+			</RoleClass>
+			<RoleClass Name="SubSystem" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/Element">
+				<RoleClass Name="TipDresser" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+				<RoleClass Name="GripperHandling" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+				<RoleClass Name="CapChanger" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+				<RoleClass Name="Robot" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem">
+					<RoleClass Name="RobotSevenAxis" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem/Robot" />
+				</RoleClass>
+				<RoleClass Name="WeldingGun" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+				<RoleClass Name="HemmingDevice" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+				<RoleClass Name="ChainMagazin" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+				<RoleClass Name="LoadingMagazin" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+				<RoleClass Name="StudWeldingGun" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+				<RoleClass Name="ClinchingDevice" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+				<RoleClass Name="Laser" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+				<RoleClass Name="MeasuringSystem" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+				<RoleClass Name="DrawerInFeeding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+				<RoleClass Name="DrawerOutFeeding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+				<RoleClass Name="StampingUnit" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+				<RoleClass Name="!!!Schachtelvorrichtung!!!" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+				<RoleClass Name="!!!Ritzpraeger!!!" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+				<RoleClass Name="!!!LochAggregat!!!" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveResource/SubSystem" />
+			</RoleClass>
+		</RoleClass>
+		<RoleClass Name="AutomotiveProcess" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Process">
+			<ExternalInterface Name="ProcessResourceConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ProcessResourceConnector" ID="df90c890-8d3a-4763-a531-dc304a71ec3c" />
+			<ExternalInterface Name="ProcessProductConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ProcessProductConnector" ID="a6b73879-810f-41b4-b79d-d2944e062dc0" />
+			<RoleClass Name="ManufacturingProcess" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess">
+				<RoleClass Name="PrimaryShaping" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess">
+					<RoleClass Name="Casting" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/PrimaryShaping" />
+					<RoleClass Name="Sintering" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/PrimaryShaping" />
+					<RoleClass Name="SprayCompacting," RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/PrimaryShaping" />
+				</RoleClass>
+				<RoleClass Name="Forming" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess">
+					<RoleClass Name="PressuareForming" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming">
+						<RoleClass Name="Milling" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/PressuareForming" />
+						<RoleClass Name="FreeForming" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/PressuareForming" />
+						<RoleClass Name="Swaging" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/PressuareForming" />
+						<RoleClass Name="Pressing" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/PressuareForming" />
+						<RoleClass Name="Extruding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/PressuareForming" />
+						<RoleClass Name="ShotPeening" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/PressuareForming" />
+					</RoleClass>
+					<RoleClass Name="TensileCompressiveForming" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming">
+						<RoleClass Name="DrawingUnderCombinedTensionAndCompression" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/TensileCompressiveForming" />
+						<RoleClass Name="DeepDrawing" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/TensileCompressiveForming" />
+						<RoleClass Name="DeepDrawingAndCollorForming" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/TensileCompressiveForming" />
+						<RoleClass Name="UpsetBulging" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/TensileCompressiveForming" />
+						<RoleClass Name="Hydroforming" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/TensileCompressiveForming" />
+					</RoleClass>
+					<RoleClass Name="TensileForming" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming">
+						<RoleClass Name="Elongating" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/TensileForming" />
+						<RoleClass Name="Widening" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/TensileForming" />
+						<RoleClass Name="StretchForming" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/TensileForming" />
+					</RoleClass>
+					<RoleClass Name="Bending" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming">
+						<RoleClass Name="BendingWithStraightforwardToolMovement" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/Bending" />
+						<RoleClass Name="BendingWithRotatingToolMovement" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/Bending" />
+					</RoleClass>
+					<RoleClass Name="ShearForming" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming">
+						<RoleClass Name="ShearFormingWithStraightToolMotion" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/ShearForming" />
+						<RoleClass Name="Twisting" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Forming/ShearForming" />
+					</RoleClass>
+				</RoleClass>
+				<RoleClass Name="Separating" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess">
+					<RoleClass Name="Dissecting" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Separating" />
+					<RoleClass Name="ChippingWithAGeometricalDefinedCuttingEdge" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Separating" />
+					<RoleClass Name="ChippingWithGeometricalNotDefinedCuttingEdge" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Separating" />
+					<RoleClass Name="Stripping" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Separating" />
+					<RoleClass Name="Evacuation" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Separating" />
+				</RoleClass>
+				<RoleClass Name="Joining" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess">
+					<RoleClass Name="Welding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining">
+						<RoleClass Name="LaserWelding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Welding">
+							<Attribute Name="Nahtlaenge" AttributeDataType="xs:double" Unit="mm" />
+						</RoleClass>
+						<RoleClass Name="SpotWelding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Welding">
+							<Attribute Name="Zeit pro Punkt" AttributeDataType="xs:double" Unit="ms" />
+							<Attribute Name="Anzahl Punkte" AttributeDataType="xs:decimal" />
+						</RoleClass>
+						<RoleClass Name="StudWelding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Welding" />
+						<RoleClass Name="ProjectionWelding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Welding" />
+						<RoleClass Name="ResistanceSeamWelding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Welding" />
+						<RoleClass Name=" MIG_MAGWelding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Welding" />
+						<RoleClass Name="PlasmaWelding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Welding" />
+						<RoleClass Name="WIGWelding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Welding" />
+					</RoleClass>
+					<RoleClass Name="Soldering" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining">
+						<RoleClass Name="MIG_WIGSoldering" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Soldering" />
+						<RoleClass Name="PlasmaSoldering" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Soldering" />
+						<RoleClass Name="LaserBeamBrazing" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Soldering" />
+					</RoleClass>
+					<RoleClass Name="Bonding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining">
+						<RoleClass Name="HeatBonding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Bonding" />
+						<RoleClass Name="ColdBonding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Bonding" />
+					</RoleClass>
+					<RoleClass Name="Hemming" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining">
+						<RoleClass Name="RollHemming" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Hemming" />
+					</RoleClass>
+					<RoleClass Name="Riveting" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining">
+						<RoleClass Name="PunchRiveting" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Riveting" />
+						<RoleClass Name="BlindRiveting" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Riveting" />
+					</RoleClass>
+					<RoleClass Name="Clinching" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining">
+						<RoleClass Name="ClinchingWithoutCutSection" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Clinching" />
+						<RoleClass Name="ClinchingWithCutSection" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/Clinching" />
+					</RoleClass>
+					<RoleClass Name="ForceFitting" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining" />
+					<RoleClass Name="CombinedMethods" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining">
+						<RoleClass Name="SpotWeldingBonding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/CombinedMethods" />
+						<RoleClass Name="RivetingBonding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/CombinedMethods" />
+						<RoleClass Name="ClinchingBonding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/CombinedMethods" />
+						<RoleClass Name="LaserMIGWelding" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining/CombinedMethods" />
+					</RoleClass>
+					<RoleClass Name="Embossing" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining" />
+					<RoleClass Name="Screwing" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/Joining" />
+				</RoleClass>
+				<RoleClass Name="Coating" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess" />
+				<RoleClass Name="ChangingMaterialProperties" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess">
+					<RoleClass Name="HardingByForming" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/ChangingMaterialProperties" />
+					<RoleClass Name="HeatTreating" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/ChangingMaterialProperties">
+						<RoleClass Name="Tempering" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/ChangingMaterialProperties/HeatTreating" />
+						<RoleClass Name="Hardening" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/ChangingMaterialProperties/HeatTreating" />
+						<RoleClass Name="IsothermalConversion" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/ChangingMaterialProperties/HeatTreating" />
+						<RoleClass Name="HardeningAndTempering" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/ChangingMaterialProperties/HeatTreating" />
+						<RoleClass Name="Refrigeration" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/ChangingMaterialProperties/HeatTreating" />
+						<RoleClass Name="ThermochemicalTreatment" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/ChangingMaterialProperties/HeatTreating" />
+						<RoleClass Name="Curing" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/ChangingMaterialProperties/HeatTreating" />
+					</RoleClass>
+					<RoleClass Name="ThermomechanicalTreatment" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/ChangingMaterialProperties">
+						<RoleClass Name="Ausforming" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/ChangingMaterialProperties/ThermomechanicalTreatment" />
+						<RoleClass Name="HotIsostaticPressing" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/ChangingMaterialProperties/ThermomechanicalTreatment" />
+					</RoleClass>
+					<RoleClass Name="SinteringAndBurning" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/ChangingMaterialProperties" />
+					<RoleClass Name="Magnetization" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/ChangingMaterialProperties" />
+					<RoleClass Name="Irradiation" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/ChangingMaterialProperties" />
+					<RoleClass Name="PhotochemicMethod" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/ManufacturingProcess/ChangingMaterialProperties" />
+				</RoleClass>
+			</RoleClass>
+			<RoleClass Name="MeasurementProcess" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess">
+				<RoleClass Name="InlineLaser" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/MeasurementProcess" />
+			</RoleClass>
+			<RoleClass Name="LogisticAndHandlingProcess" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess">
+				<RoleClass Name="Handling" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/LogisticAndHandlingProcess">
+					<RoleClass Name="Pick" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/LogisticAndHandlingProcess/Handling" />
+					<RoleClass Name="Place" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/LogisticAndHandlingProcess/Handling" />
+				</RoleClass>
+				<RoleClass Name="Transportation " RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/LogisticAndHandlingProcess">
+					<Attribute Name="Transportrichtung" />
+				</RoleClass>
+				<RoleClass Name="Storage" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/LogisticAndHandlingProcess" />
+				<RoleClass Name="Distribution" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/LogisticAndHandlingProcess" />
+				<RoleClass Name="Merging " RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/LogisticAndHandlingProcess" />
+				<RoleClass Name="CombinedFunktion" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/LogisticAndHandlingProcess">
+					<RoleClass Name="PickAndPlace" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/LogisticAndHandlingProcess/CombinedFunktion" />
+					<RoleClass Name="DistributeAndMerge" RefBaseClassPath="AutomotiveRoleClassLib/AutomotiveProcess/LogisticAndHandlingProcess/CombinedFunktion" />
+				</RoleClass>
+			</RoleClass>
+		</RoleClass>
+		<RoleClass Name="AutomotiveProduct" RefBaseClassPath="AutomationMLBaseRoleClassLib/AutomationMLBaseRole/Product">
+			<ExternalInterface Name="ProductProcessConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ProcessProductConnector" ID="e9080c41-ebe2-4792-8b40-f7432be8aaaf" />
+			<ExternalInterface Name="ProductResourceConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ProductResourceConnector" ID="737791db-44b9-41cc-b0a2-deb6e5237120" />
+		</RoleClass>
+	</RoleClassLib>
+	<SystemUnitClassLib Name="AutomotiveProductClassLib">
+		<AdditionalInformation />
+		<SystemUnitClass Name="AutomotiveBaseProduct">
+			<ExternalInterface Name="ProductProcessConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ProductProcessConnector" ID="6cbd9f52-948b-41d1-ab2a-3c965e11554b" />
+			<ExternalInterface Name="ProductResourceConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ProductResourceConnector" ID="6dbf3306-a050-411a-87f9-b08e24b22583" />
+			<SupportedRoleClass RefRoleClassPath="AutomotiveRoleClassLib/AutomotiveProduct" />
+		</SystemUnitClass>
+	</SystemUnitClassLib>
+	<SystemUnitClassLib Name="AutomotiveProcessClassLib">
+		<SystemUnitClass Name="AutomotiveBaseProcess">
+			<ExternalInterface Name="ProcessProductConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ProcessProductConnector" ID="573663c5-bf33-4c84-8000-bc5218118a1f" />
+			<ExternalInterface Name="ProcessResourceConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ProcessResourceConnector" ID="f7bb3434-74fb-4489-93a4-f27491f7d1fb" />
+			<SupportedRoleClass RefRoleClassPath="AutomotiveRoleClassLib/AutomotiveProcess" />
+		</SystemUnitClass>
+	</SystemUnitClassLib>
+	<SystemUnitClassLib Name="AutomotiveResourceClassLib">
+		<Revision>
+			<RevisionDate>2014-09-10T03:10:38.2191529</RevisionDate>
+			<AuthorName>Please enter your name</AuthorName>
+		</Revision>
+		<SystemUnitClass Name="AutomotiveBaseResource">
+			<Attribute Name="Frame" AttributeDataType="xs:string">
+				<Attribute Name="x">
+					<Value>0</Value>
+				</Attribute>
+				<Attribute Name="y">
+					<Value>0</Value>
+				</Attribute>
+				<Attribute Name="z">
+					<Value>0</Value>
+				</Attribute>
+				<Attribute Name="rx">
+					<Value>0</Value>
+				</Attribute>
+				<Attribute Name="ry">
+					<Value>0</Value>
+				</Attribute>
+				<Attribute Name="rz">
+					<Value>0</Value>
+				</Attribute>
+			</Attribute>
+			<ExternalInterface Name="ResourceProcessConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ResourceProcessConnector" ID="b0166f2e-7b88-418f-b2c7-0dc9562b72b8" />
+			<ExternalInterface Name="ResourceProductConnector" RefBaseClassPath="AutomotiveInterfaceClassLib/PPRHub/ResourceProductConnector" ID="16e08a51-8da8-49a1-82df-817b0e4d71da" />
+			<SupportedRoleClass RefRoleClassPath="AutomotiveRoleClassLib/AutomotiveResource" />
+		</SystemUnitClass>
+	</SystemUnitClassLib>
+</CAEXFile>

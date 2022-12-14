@@ -203,12 +203,17 @@ namespace Aml.Toolkit.ViewModel
                 compare = Contains;
             }
 
+            if (string.IsNullOrEmpty(searchText))
+            {
+                return Enumerable.Empty<XElement>();    
+            }
+
             return TagName switch
             {
                 ILReference or 
                 CAEX_CLASSModel_TagNames.INTERNALLINK_STRING => 
                 root.Descendants(root.XName(CAEX_CLASSModel_TagNames.INTERNALLINK_STRING)).Where(lo =>
-                compare(lo.Attribute("Name")?.Value, searchText, !isCaseSensitive)),
+                compare(lo?.Attribute("Name")?.Value, searchText, !isCaseSensitive)),
 
                 CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING or 
                 CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING or 
@@ -216,40 +221,40 @@ namespace Aml.Toolkit.ViewModel
                 CAEX_CLASSModel_TagNames.ATTRIBUTETYPE_STRING or 
                 CAEX_CLASSModel_TagNames.INTERFACECLASS_STRING or 
                 CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING => 
-                root.Descendants(root.XName(TagName)).Where(lo => compare(lo.Attribute("Name")?.Value, searchText, !isCaseSensitive)),
+                root.Descendants(root.XName(TagName)).Where(lo => compare(lo?.Attribute("Name")?.Value, searchText, !isCaseSensitive)),
 
                 RRReference or 
                 CAEX_CLASSModel_TagNames.ROLEREQUIREMENTS_STRING => 
                 root.Descendants(root.XName(CAEX_CLASSModel_TagNames.ROLEREQUIREMENTS_STRING)).Where(lo => 
-                compare(lo.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASEROLECLASSPATH)?.Value, searchText, !isCaseSensitive)),
+                compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASEROLECLASSPATH)?.Value, searchText, !isCaseSensitive)),
 
                 SRReference or CAEX_CLASSModel_TagNames.SUPPORTEDROLECLASS_STRING => 
                 root.Descendants(root.XName(CAEX_CLASSModel_TagNames.SUPPORTEDROLECLASS_STRING)).Where(lo =>
-                compare(lo.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFROLECLASSPATH)?.Value, searchText, !isCaseSensitive)),
+                compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFROLECLASSPATH)?.Value, searchText, !isCaseSensitive)),
 
                 IEClassReference => 
                 root.Descendants(root.XName(CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING)).Where(lo =>
-                compare(lo.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASESYSTEMUNITPATH)?.Value, searchText, !isCaseSensitive)),
+                compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASESYSTEMUNITPATH)?.Value, searchText, !isCaseSensitive)),
 
                 EIClassReference => 
                 root.Descendants(root.XName(CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING)).Where(lo =>
-                compare(lo.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH)?.Value, searchText, !isCaseSensitive)),
+                compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH)?.Value, searchText, !isCaseSensitive)),
 
                 SUCInheritenceRel => 
                 root.Descendants(root.XName(CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING)).Where(lo =>
-                compare(lo.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH)?.Value, searchText, !isCaseSensitive)),
+                compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH)?.Value, searchText, !isCaseSensitive)),
 
                 RCInheritenceRel => 
                 root.Descendants(root.XName(CAEX_CLASSModel_TagNames.ROLECLASS_STRING)).Where(lo =>
-                compare(lo.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH)?.Value, searchText, !isCaseSensitive)),
+                compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH)?.Value, searchText, !isCaseSensitive)),
 
                 ICInheritenceRel => 
                 root.Descendants(root.XName(CAEX_CLASSModel_TagNames.INTERFACECLASS_STRING)).Where(lo =>
-                compare(lo.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH)?.Value, searchText, !isCaseSensitive)),
+                compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH)?.Value, searchText, !isCaseSensitive)),
 
                 ATInheritenceRel => 
                 root.Descendants(root.XName(CAEX_CLASSModel_TagNames.ATTRIBUTETYPE_STRING)).Where(lo =>
-                compare(lo.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFATTRIBUTETYPE)?.Value, searchText, !isCaseSensitive)),
+                compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFATTRIBUTETYPE)?.Value, searchText, !isCaseSensitive)),
 
 
                 ATvalue =>
@@ -368,7 +373,7 @@ namespace Aml.Toolkit.ViewModel
             }
             if (ignoreCase)
             {
-                return s1.IndexOf(s2, StringComparison.OrdinalIgnoreCase) >= 0;
+                return s1.Contains(s2, StringComparison.OrdinalIgnoreCase);
             }
 
             return s1.Contains(s2);

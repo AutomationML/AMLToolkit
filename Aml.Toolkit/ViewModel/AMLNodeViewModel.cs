@@ -177,8 +177,6 @@ namespace Aml.Toolkit.ViewModel
 
         private AMLTreeViewModel _tree;
         private RelayCommand<object> _collapseAllCommand;
-        private bool _isVerified;
-        private bool _isNotVerified;
         private bool _showMirrorData;
 
         #endregion Private Fields
@@ -416,6 +414,9 @@ namespace Aml.Toolkit.ViewModel
             set => Set(ref _description, value, nameof(Description));
         }
 
+
+       
+
         /// <summary>
         /// </summary>
         public ListCollectionView EnabledCommands =>
@@ -476,7 +477,7 @@ namespace Aml.Toolkit.ViewModel
         /// <value>
         ///   <c>true</c> if this instance has new version; otherwise, <c>false</c>.
         /// </value>
-        public bool HasNewVersion => CAEXObject is CAEXObject caex && caex.Revision.Exists &&
+        public virtual bool HasNewVersion => CAEXObject is CAEXObject caex && caex.Revision.Exists &&
                                      caex.Revision.Any(r => !string.IsNullOrEmpty(r.NewVersion));
 
         /// <summary>
@@ -485,7 +486,7 @@ namespace Aml.Toolkit.ViewModel
         /// <value>
         ///   <c>true</c> if this instance has old version; otherwise, <c>false</c>.
         /// </value>
-        public bool HasOldVersion => !HasNewVersion && CAEXObject is CAEXObject caex && caex.Revision.Exists &&
+        public virtual bool HasOldVersion => !HasNewVersion && CAEXObject is CAEXObject caex && caex.Revision.Exists &&
                                      caex.Revision.Any(r => !string.IsNullOrEmpty(r.OldVersion));
 
         /// <summary>
@@ -494,7 +495,14 @@ namespace Aml.Toolkit.ViewModel
         /// <value>
         ///   <c>true</c> if this instance is deleted; otherwise, <c>false</c>.
         /// </value>
-        public bool IsDeleted => (CAEXObject as CAEXBasicObject)?.ChangeMode == ChangeMode.Delete;
+        public virtual bool IsDeleted => (CAEXObject as CAEXBasicObject)?.ChangeMode == ChangeMode.Delete;
+
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is deleted in the current document.
+        /// </summary>
+        internal bool DeletedInDocument => CAEXObject.IsDeleted;
+
 
 
         /// <summary>
@@ -503,7 +511,7 @@ namespace Aml.Toolkit.ViewModel
         /// <value>
         ///   <c>true</c> if this instance is verified; otherwise, <c>false</c>.
         /// </value>
-        public bool IsVerified => Tree?.GetVerificationState(CAEXObject as CAEXObject) == true;
+        public virtual bool IsVerified => Tree?.GetVerificationState(CAEXObject as CAEXObject) == true;
             
 
         /// <summary>
@@ -512,7 +520,7 @@ namespace Aml.Toolkit.ViewModel
         /// <value>
         ///   <c>true</c> if this instance is verified; otherwise, <c>false</c>.
         /// </value>
-        public bool IsNotVerified => Tree?.GetVerificationState(CAEXObject as CAEXObject) == false;
+        public virtual bool IsNotVerified => Tree?.GetVerificationState(CAEXObject as CAEXObject) == false;
 
         /// <summary>
         /// Gets a value indicating whether this instance is derived.
@@ -1049,7 +1057,7 @@ namespace Aml.Toolkit.ViewModel
         /// </summary>
         public override void LoadChildren(bool raise = true)
         {
-            LoadChildren(Tree.ModelChilds(this), raise);
+            LoadChildren(Tree.ModelChilds(this).Distinct(), raise);
         }
 
         /// <summary>
@@ -1093,18 +1101,64 @@ namespace Aml.Toolkit.ViewModel
             RaisePropertyChanged(nameof( IsReadonly));
             RaisePropertyChanged(nameof( HasNewVersion));
             RaisePropertyChanged(nameof( HasOldVersion));
-            
+            RaisePropertyChanged(nameof( NewRevision));
+            RaisePropertyChanged(nameof( OldRevision));
+
             RaisePropertyChanged(nameof( IsVerified));
             RaisePropertyChanged(nameof( IsNotVerified));
             RaisePropertyChanged(nameof( IsMirrored));
+
             if (HasNewVersion)
             {
-                Description = "A new version exists";
+                Description = $"{CAEXObject} A new version exists";
             }
 
             if (expand)
             {
                 RefreshTree(expand);
+            }
+        }
+
+
+        public string NewRevision
+        {
+            get
+            {        
+                if (!HasNewVersion)
+                {
+                    return string.Empty;
+                }
+
+                var rev = ((CAEXObject)CAEXObject).Revision;
+                var last = rev.Aggregate((i1,i2) => (i1.RevisionDate > i2.RevisionDate) && 
+                        !string.IsNullOrEmpty(i1.NewVersion)  ? i1 : i2);
+
+                if (!string.IsNullOrEmpty(last?.NewVersion))
+                {
+                    return $"{last.NewVersion} is a new version for this.";
+                }
+                return "A new version exists";
+            }
+        }
+
+        public string OldRevision
+        {
+            get
+            {   
+                if (!HasOldVersion)
+                {
+                    return string.Empty;
+                }
+
+                var rev = ((CAEXObject)CAEXObject).Revision;
+                var last = rev.Aggregate((i1,i2) => (i1.RevisionDate > i2.RevisionDate) && 
+                        !string.IsNullOrEmpty(i1.OldVersion)  ? i1 : i2);
+
+                if (!string.IsNullOrEmpty(last?.OldVersion))
+                {
+                    return $"This is a new version for {last.OldVersion}.";
+                }
+                return "New version";
             }
         }
 
@@ -1118,10 +1172,18 @@ namespace Aml.Toolkit.ViewModel
             var treeChanged = false;
             var children = LoadedChildrenNotVirtual();
 
-            if (CAEXNode == null)
+            if (CAEXNode == null || Tree == null || children == null)
             {
                 return;
             }
+
+            // avoid recursive call
+            if (_isUpdating)
+            {
+                return;
+            }
+
+            _isUpdating = true;
 
             // if the children are loaded
             if (!HasDummyChild)
@@ -1131,8 +1193,8 @@ namespace Aml.Toolkit.ViewModel
                     Tree.ExpandedLinkNodes = Tree.ExpandedLinks();
                 }
 
-                var modelChilds = Tree.ModelChilds(this).ToList();
-                var obsoletes = children.Where(c => !modelChilds.Contains(c.CAEXNode)).ToList();
+                var modelChilds = Tree.ModelChilds(this).Distinct().ToList();
+                var obsoletes = children.Where(c => c.CAEXNode != null && !modelChilds.Contains(c.CAEXNode)).ToList();
 
                 foreach (var obsoleteChild in obsoletes)
                 {
@@ -1170,10 +1232,16 @@ namespace Aml.Toolkit.ViewModel
                                 treeChanged = true;
                                 children = RenumberedList();
                                 if (children.Count > 0)
+                                {
                                     continue;
+                                }
                             }
 
                             groupNode.IsVisible = groupNode.IsVisibleInLayout;
+                            if (groupNode.Children.Any (x=>x.CAEXNode == modelChilds[i]))
+                            {
+                                continue;
+                            }
                             item = groupNode.CreateNode(modelChilds[i]);
                         }
                         else
@@ -1233,7 +1301,7 @@ namespace Aml.Toolkit.ViewModel
                     }
                     else if (refreshChild )
                     {
-                        loadedChild.RefreshNodeInformation(expand); 
+                        loadedChild.RefreshNodeInformation(false); 
                     }
                 }
 
@@ -1277,6 +1345,8 @@ namespace Aml.Toolkit.ViewModel
                     _ = Tree.SelectedElements.Remove(node);
                 }
             }
+
+            _isUpdating = false;
         }
 
         /// <summary>
@@ -1349,7 +1419,9 @@ namespace Aml.Toolkit.ViewModel
         {
             RefreshNodeInformation(false);
             foreach (var node in Children)
+            {
                 node.RefreshTreeNodes();
+            }
         }
 
         /// <summary>
@@ -1574,6 +1646,7 @@ namespace Aml.Toolkit.ViewModel
         private void CollapseAllCommandExecute(object parameter)
         {
             LoadedChildren.Clear();
+            //Tree.AmlTreeView?.InternalLinksAdorner?.Clear();
             if (HasChilds)
             {
                 _childrenCollection.Source = _lazyLoadChildrenWithDummy;
@@ -1659,6 +1732,7 @@ namespace Aml.Toolkit.ViewModel
         }
 
         private bool? _hasChilds = null;
+        private bool _isUpdating = false;
 
         /// <summary>
         /// </summary>

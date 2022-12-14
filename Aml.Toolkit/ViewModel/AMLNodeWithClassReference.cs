@@ -3,7 +3,6 @@ using Aml.Engine.CAEX;
 using Aml.Engine.CAEX.Extensions;
 using Aml.Engine.Services;
 using Aml.Engine.Xml.Extensions;
-using Aml.Toolkit.ViewModel.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,7 +97,7 @@ namespace Aml.Toolkit.ViewModel
         /// <value>
         /// The class reference label.
         /// </value>
-        public string ClassReferenceLabel => IsMirror ? "Master:" : CAEXObject is AttributeType ? "Type" : "Class:";
+        public string ClassReferenceLabel => IsMirror ? "Master:" : CAEXObject is AttributeType ? "Type:" : "Class:";
 
         /// <summary>
         /// Gets a value indicating whether this instance has external data.
@@ -106,18 +105,21 @@ namespace Aml.Toolkit.ViewModel
         /// <value>
         ///   <c>true</c> if this instance has external data; otherwise, <c>false</c>.
         /// </value>
-        public bool HasExternalData
-        {
-            get
-            {
-                if (CAEXObject is ExternalInterfaceType ie /* && ie.IsExternalDataConnector()*/
-                )
-                {
-                    return !string.IsNullOrEmpty(((ObjectWithAMLAttributes)ie).RefURIAttribute?.FilePath);
-                }
+        public bool HasExternalData => CAEXObject is ExternalInterfaceType ie
+&& !string.IsNullOrEmpty(((ObjectWithAMLAttributes)ie).RefURIAttribute?.FilePath);
 
-                return false;
+
+        private bool HasVisibleInterfaceClass (InternalLinkType il)
+        {
+            var selectedClasses = Tree.FilteredClasses;
+            var interfaceClassInstance = il.AInterface.Equals(CAEXObject) ? il.AInterface : il.BInterface;
+            if (interfaceClassInstance?.InterfaceClass == null)
+            {
+                return true;
             }
+                      
+            var classFilter = selectedClasses.FirstOrDefault(s=>s.Name==interfaceClassInstance.InterfaceClass.Name);
+            return classFilter == default || classFilter.IsSelected;
         }
 
         /// <summary>
@@ -129,6 +131,15 @@ namespace Aml.Toolkit.ViewModel
             {
                 if (CAEXObject is ExternalInterfaceType ie && ie.AssociatedObject is SystemUnitClassType)
                 {
+                    // ToDo check if any class is visible
+                    // current impl. doesnot work because the Filter updates are not in sync with the node update
+
+                    //var filter = Tree.FilteredClasses;
+                    //if (filter != null)
+                    //{
+                    //    return ie.InternalLinksToInterface().Any(il => HasVisibleInterfaceClass(il));
+                    //}
+
                     return ie.InternalLinksToInterface().Any();
                 }
 
@@ -140,10 +151,10 @@ namespace Aml.Toolkit.ViewModel
         {
             get
             {
-                if (CAEXObject is ExternalInterfaceType ie )
+                if (CAEXObject is ExternalInterfaceType ie)
                 {
-                    var cardinality = ie.Attribute.FirstOrDefault (a=> 
-                            AutomationMLBaseAttributeTypeLib.IsCardinality(a));
+                    var cardinality = ie.Attribute.FirstOrDefault(a =>
+                           AutomationMLBaseAttributeTypeLib.IsCardinality(a));
 
                     if (cardinality != null)
                     {
@@ -155,44 +166,46 @@ namespace Aml.Toolkit.ViewModel
             }
         }
 
-      
-
         public string MaxCardinalityWarn
         {
-            get 
-            { 
+            get
+            {
                 var max = MaxCardinality;
-                if (string.IsNullOrEmpty(max) || max== "n")
-                return "";
+                if (string.IsNullOrEmpty(max) || max == "n")
+                {
+                    return "";
+                }
 
                 if (int.TryParse(max, out var maxCardinality))
                 {
                     if (CAEXObject is ExternalInterfaceType ie && ie.AssociatedObject is SystemUnitClassType)
                     {
-                        return (ie.InternalLinksToInterface().Count() > maxCardinality) ? "!" :"";
+                        return (ie.InternalLinksToInterface().Count() > maxCardinality) ? "!" : "";
                     }
                 }
-                
+
                 return "";
             }
         }
 
         public string MinCardinalityWarn
         {
-            get 
-            { 
+            get
+            {
                 var min = MinCardinality;
-                if (string.IsNullOrEmpty(min) || min== "0")
-                return "";
+                if (string.IsNullOrEmpty(min) || min == "0")
+                {
+                    return "";
+                }
 
                 if (int.TryParse(min, out var minCardinality))
                 {
                     if (CAEXObject is ExternalInterfaceType ie && ie.AssociatedObject is SystemUnitClassType)
                     {
-                        return (ie.InternalLinksToInterface().Count() < minCardinality) ? "!" :"";
+                        return (ie.InternalLinksToInterface().Count() < minCardinality) ? "!" : "";
                     }
                 }
-                
+
                 return "";
             }
         }
@@ -201,10 +214,10 @@ namespace Aml.Toolkit.ViewModel
         {
             get
             {
-                if (CAEXObject is ExternalInterfaceType ie )
+                if (CAEXObject is ExternalInterfaceType ie)
                 {
-                    var cardinality = ie.Attribute.FirstOrDefault (a=> 
-                            AutomationMLBaseAttributeTypeLib.IsCardinality(a));
+                    var cardinality = ie.Attribute.FirstOrDefault(a =>
+                           AutomationMLBaseAttributeTypeLib.IsCardinality(a));
 
                     if (cardinality != null)
                     {
@@ -222,12 +235,11 @@ namespace Aml.Toolkit.ViewModel
             {
                 if (CAEXObject is ExternalInterfaceType ie && ie.AssociatedObject is SystemUnitClassType)
                 {
-                    var cardinality = ie.Attribute.FirstOrDefault (a=> 
-                            AutomationMLBaseAttributeTypeLib.IsCardinality(a));
+                    var cardinality = ie.Attribute.FirstOrDefault(a =>
+                           AutomationMLBaseAttributeTypeLib.IsCardinality(a));
 
                     return cardinality != null;
                 }
-                    
 
                 return false;
             }
@@ -247,18 +259,9 @@ namespace Aml.Toolkit.ViewModel
         /// <value>
         ///   <c>true</c> if this instance is master; otherwise, <c>false</c>.
         /// </value>
-        public override bool IsMaster
-        {
-            get
-            {
-                if (CAEXNode.IsInternalElement())
-                {
-                    return new InternalElementType(CAEXNode).IsMaster();
-                }
-
-                return CAEXNode.IsExternalInterface() && new ExternalInterfaceType(CAEXNode).IsMaster();
-            }
-        }
+        public override bool IsMaster => CAEXNode.IsInternalElement()
+                    ? new InternalElementType(CAEXNode).IsMaster()
+                    : CAEXNode.IsExternalInterface() && new ExternalInterfaceType(CAEXNode).IsMaster();
 
         /// <summary>
         /// Gets a value indicating whether this instance is mirror.
@@ -332,24 +335,24 @@ namespace Aml.Toolkit.ViewModel
         {
             if (_showLinks)
             {
-                _ = new Action(() =>
-                      {
-                          if (CAEXObject is ExternalInterfaceType ie)
-                          {
-                              if (ie.AssociatedObject is SystemUnitClassType)
-                              {
-                                  if (ie.InternalLinksToInterface().Any(il => il.AInterface?.Node != partner.CAEXNode &&
-                                                                              il.BInterface?.Node != partner.CAEXNode))
-                                  {
-                                      return;
-                                  }
-                              }
-                          }
+                //_ = new Action(() =>
+                //      {
+                if (CAEXObject is ExternalInterfaceType ie)
+                {
+                    if (ie.AssociatedObject is SystemUnitClassType)
+                    {
+                        if (ie.InternalLinksToInterface().Any(il => il.AInterface?.Node != partner.CAEXNode &&
+                                                                    il.BInterface?.Node != partner.CAEXNode))
+                        {
+                            return;
+                        }
+                    }
+                }
 
-                          _showLinks = false;
-                          RaisePropertyChanged(nameof( ShowLinks));
-                      }
-                ).OnUIThread();
+                _showLinks = false;
+                RaisePropertyChanged(nameof(ShowLinks));
+                //      }
+                //).OnUIThread();
             }
         }
 
@@ -362,19 +365,19 @@ namespace Aml.Toolkit.ViewModel
         {
             base.RefreshNodeInformation(expand);
 
-            RaisePropertyChanged(nameof( ShowReference));
-            RaisePropertyChanged(nameof( IsMaster));
-            RaisePropertyChanged(nameof( IsMirror));
-            RaisePropertyChanged(nameof( ShowLinks));
-            RaisePropertyChanged(nameof( HasLinks));            
-            RaisePropertyChanged(nameof( HasCardinality));
-            RaisePropertyChanged(nameof( ClassReference));
-            RaisePropertyChanged(nameof( HasExternalData));            
-            RaisePropertyChanged(nameof( MaxCardinality));            
-            RaisePropertyChanged(nameof( MinCardinality));
-                     
-            RaisePropertyChanged(nameof( MaxCardinalityWarn));            
-            RaisePropertyChanged(nameof( MinCardinalityWarn));
+            RaisePropertyChanged(nameof(ShowReference));
+            RaisePropertyChanged(nameof(IsMaster));
+            RaisePropertyChanged(nameof(IsMirror));
+            RaisePropertyChanged(nameof(ShowLinks));
+            RaisePropertyChanged(nameof(HasLinks));
+            RaisePropertyChanged(nameof(HasCardinality));
+            RaisePropertyChanged(nameof(ClassReference));
+            RaisePropertyChanged(nameof(HasExternalData));
+            RaisePropertyChanged(nameof(MaxCardinality));
+            RaisePropertyChanged(nameof(MinCardinality));
+
+            RaisePropertyChanged(nameof(MaxCardinalityWarn));
+            RaisePropertyChanged(nameof(MinCardinalityWarn));
             //Tree.TreeViewLayout.RaisePropertyChanged("HideExpander");
 
             if (!HasLinks)
@@ -393,88 +396,82 @@ namespace Aml.Toolkit.ViewModel
         /// <param name="show">if set to <c>true</c> [show].</param>
         /// <param name="invalidate">if set to <c>true</c> [invalidate].</param>
         /// <param name="force">if set to <c>true</c> [force].</param>
-        public void UpdateLinks(bool show, bool invalidate = false, bool force = false)
+        /// <param name="withMirrors"></param>
+        public void UpdateLinks(bool show, bool invalidate = false, bool force = false, bool withMirrors = true)
         {
-            _ = new Action(() =>
-                  {
-                      RaisePropertyChanged(nameof( MinCardinalityWarn));
-                      RaisePropertyChanged(nameof( MaxCardinalityWarn));
+            //_ = new Action(() =>
+            //      {
+            RaisePropertyChanged(nameof(MinCardinalityWarn));
+            RaisePropertyChanged(nameof(MaxCardinalityWarn));
 
-                      if (Tree.AmlTreeView != null && (_showLinks != show || force))
-                      {
-                          _showLinks = show;
+            if (Tree.AmlTreeView != null && (_showLinks != show || force))
+            {
+                _showLinks = show;
+                RaisePropertyChanged(nameof(ShowLinks));
 
-                          RaisePropertyChanged(nameof( ShowLinks));
+                if (_showLinks)
+                {
+                    Tree.AmlTreeView.AddLinksAdorner();
+                    MissingLinkConnections.Clear();
+                    if (CAEXObject is ExternalInterfaceType ie)
+                    {
+                        if (ie.AssociatedObject is SystemUnitClassType)
+                        {
+                            foreach (var il in ie.InternalLinksToInterface())
+                            {
+                                var (from, to) = GetConnectedNodes(il);
+                                if (from == null || to == null)
+                                {
+                                    continue;
+                                }
 
-                          if (_showLinks)
-                          {
-                              Tree.AmlTreeView.AddLinksAdorner();
-                              MissingLinkConnections.Clear();
-                              if (CAEXObject is ExternalInterfaceType ie)
-                              {
-                                  if (ie.AssociatedObject is SystemUnitClassType)
-                                  {
-                                      foreach (var il in ie.InternalLinksToInterface())
-                                      {
-                                          var (from, to) = GetConnectedNodes(il);
-                                          if (from == null || to == null)
-                                          {
-                                              continue;
-                                          }
+                                Tree.AmlTreeView.InternalLinksAdorner.Connect(from, to);
+                                if (Equals(from) && ((ExternalInterfaceType)to.CAEXObject)
+                                    .InternalLinksToInterface().Take(2).Count() == 1)
+                                {
+                                    to.ShowLinks = true;
+                                }
+                                else if (((ExternalInterfaceType)from.CAEXObject).InternalLinksToInterface()
+                                    .Take(2).Count() == 1)
+                                {
+                                    from.ShowLinks = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if (Tree.AmlTreeView.InternalLinksAdorner != null)
+                {
+                    if (CAEXObject is ExternalInterfaceType ie)
+                    {
+                        if (ie.AssociatedObject is SystemUnitClassType)
+                        {
+                            foreach (var il in ie.InternalLinksToInterface())
+                            {
+                                foreach (var partner in GetPartnerNodes(il))
+                                {
+                                    partner.CloseLink(this);
+                                }
+                            }
+                            Tree.AmlTreeView.InternalLinksAdorner.DisConnectAll(this);
+                        }
+                    }
+                }
+            }
 
-                                          Tree.AmlTreeView.InternalLinksAdorner.Connect(from, to);
-                                          if (Equals(from) && ((ExternalInterfaceType)to.CAEXObject)
-                                              .InternalLinksToInterface().Take(2).Count() == 1)
-                                          {
-                                              to.ShowLinks = true;
-                                          }
-                                          else if (((ExternalInterfaceType)from.CAEXObject).InternalLinksToInterface()
-                                              .Take(2).Count() == 1)
-                                          {
-                                              from.ShowLinks = true;
-                                          }
-                                      }
-                                  }
-                              }
-                          }
-                          else if (Tree.AmlTreeView.InternalLinksAdorner != null)
-                          {
-                              if (CAEXObject is ExternalInterfaceType ie)
-                              {
-                                  if (ie.AssociatedObject is SystemUnitClassType)
-                                  {
-                                      foreach (var il in ie.InternalLinksToInterface())
-                                      {
-                                          var (from, to) = GetConnectedNodes(il);
-                                          if (from != this)
-                                          {
-                                              from?.CloseLink(this);
-                                          }
-                                          else if (to != this)
-                                          {
-                                              to?.CloseLink(this);
-                                          }
-                                      }
+            if (invalidate && Tree.AmlTreeView?.InternalLinksAdorner != null)
+            {
+                //_ = Execute.OnUIThread(
+                //    () =>
+                //    {
+                Tree.AmlTreeView.InternalLinksAdorner.Redraw();
+                RaisePropertyChanged(nameof(HasMissingLinks));
+                //});
+            }
 
-                                      Tree.AmlTreeView.InternalLinksAdorner.DisConnectAll(this);
-                                  }
-                              }
-                          }
-                      }
-
-                      if (invalidate && Tree.AmlTreeView?.InternalLinksAdorner != null)
-                      {
-                          _ = Execute.OnUIThread(
-                              () =>
-                              {
-                                  Tree.AmlTreeView.InternalLinksAdorner.Redraw();
-                                  RaisePropertyChanged(nameof( HasMissingLinks));
-                              });
-                      }
-
-                      RaisePropertyChanged(nameof( ShowLinks));
-                  }
-            ).OnUIThread();
+            RaisePropertyChanged(nameof(ShowLinks));
+            //}
+            //).OnUIThread();
         }
 
         #endregion Public Methods
@@ -533,8 +530,8 @@ namespace Aml.Toolkit.ViewModel
                 _ = MissingLinkConnections.Remove(missing);
             }
 
-            RaisePropertyChanged(nameof( MissingLinks));
-            RaisePropertyChanged(nameof( HasMissingLinks));
+            RaisePropertyChanged(nameof(MissingLinks));
+            RaisePropertyChanged(nameof(HasMissingLinks));
         }
 
         internal void RefreshPartners()
@@ -574,6 +571,17 @@ namespace Aml.Toolkit.ViewModel
             return il.AInterface?.Node == CAEXNode
                 ? (this, Tree.SelectCaexNode(il.BInterface?.Node, false, false, true) as AMLNodeWithClassReference)
                 : (Tree.SelectCaexNode(il.AInterface?.Node, false, false, true) as AMLNodeWithClassReference, this);
+        }
+
+        private IEnumerable<AMLNodeWithClassReference> GetPartnerNodes(InternalLinkType il)
+        {
+            if (il.AInterface == null || il.BInterface == null || Tree?.Root == null)
+            {
+                return Enumerable.Empty<AMLNodeWithClassReference>();
+            }
+
+            var partner = il.AInterface.Equals(CAEXObject) ? il.BInterface : il.AInterface;
+            return AMLTreeViewModel.FindTreeViewItemsInTree(Tree.Root.Children, partner.Node).OfType<AMLNodeWithClassReference>();
         }
 
         #endregion Private Methods

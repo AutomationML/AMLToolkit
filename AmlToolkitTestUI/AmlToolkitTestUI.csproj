@@ -1,0 +1,62 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net6.0-windows;net7.0-windows</TargetFrameworks>
+		<Authors>Josef Prinz</Authors>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<Description>The Aml.Toolkit provides basic UI controls based on WPF to visualize AutomationML data. The Toolkit is used in the AutomationML Editor and is available to implement PlugIns for the AutomationML Editor.</Description>
+		<Company>AutomationML</Company>
+		<Copyright>AutomationML e.V. 2017-2022</Copyright>
+		<RepositoryUrl>https://github.com/AutomationML/AMLToolkit</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>		
+		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+		<DelaySign>false</DelaySign>
+		<EnableDynamicLoading>true</EnableDynamicLoading>		
+		<RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
+		<Version>4.0.0</Version>
+		<Platforms>AnyCPU;x64</Platforms>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<Configurations>Debug;Release;ReleaseTest</Configurations>
+		<OutputType>WinExe</OutputType>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\appbar.flag.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Aml.Toolkit\Aml.Toolkit.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Properties\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Aml.Engine" Version="2.0.8" />
+	  <PackageReference Include="Aml.Skins" Version="1.0.4" />
+	  <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Resources\appbar.flag.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="TestFile\large.aml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="TestFile\MasterDatei.aml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="TestFile\Test1.aml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+</Project>

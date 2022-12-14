@@ -157,6 +157,28 @@ namespace Aml.Toolkit.ViewModel
             set => base.MappedValue = value;
         }
 
+        public override bool HasNewVersion => false;
+
+        public override bool HasOldVersion => false;
+
+        public override bool IsDerived => false;
+
+        public override bool IsDeleted => false;
+
+        public override bool IsFacetted => false;
+
+        public override bool IsPort => false;
+
+        public override bool IsGroup => false;
+
+        public override bool IsMaster => false;
+
+        public override bool IsMirror => false;
+
+        public override bool IsOverridden => false;
+
+        public override bool IsRoleReference => false;
+        
         /// <summary>
         /// Gets and sets the Name
         /// </summary>

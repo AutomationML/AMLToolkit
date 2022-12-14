@@ -247,6 +247,8 @@ namespace Aml.Toolkit.ViewModel
             set => Set(ref _drawColoredLines, value, nameof(DrawColoredLines));
         }
 
+
+
         /// <summary>
         ///     Gets and sets the DrawDashedLines
         /// </summary>
@@ -262,7 +264,13 @@ namespace Aml.Toolkit.ViewModel
         public bool HideExpander
         {
             get => _hideExpander;
-            set => Set(ref _hideExpander, value, nameof(HideExpander));
+            set 
+            {
+                if ( Set(ref _hideExpander, value, nameof(HideExpander)) )
+                {
+
+                }
+            }
         }
 
         /// <summary>

@@ -28,6 +28,8 @@ namespace Aml.Toolkit.View
     /// <seealso cref="Adorner"/>
     public class TreeViewLinksAdorner : Adorner
     {
+        private const double Tolerance = 3.0;
+
         #region Private Fields
 
         private readonly AmlTreeViewWithInternalLinkDrawing _ILGraph;
@@ -60,9 +62,9 @@ namespace Aml.Toolkit.View
                     base(amlTree)
         {
             AllowDrop = true;
-
-            //UseLayoutRounding = true;
+            UseLayoutRounding = true;
             SnapsToDevicePixels = true;
+            VisualEdgeMode = EdgeMode.Aliased;
             IsClipEnabled = true;
             ClipWindow = clip;
             RenderOptions.SetEdgeMode(this, EdgeMode.Aliased);
@@ -74,6 +76,12 @@ namespace Aml.Toolkit.View
         }
 
         #endregion Public Constructors
+
+        public static double ZoomFactor
+        {
+            get => IlGraph.ZoomFactor;
+            set => IlGraph.ZoomFactor = value;
+        }
 
         #region Public Properties
 
@@ -119,7 +127,9 @@ namespace Aml.Toolkit.View
         public void Invalidate(bool force)
         {
             if (force)
+            {
                 _isSuspended = false;
+            }
 
             InvalidateVisual();
         }
@@ -143,12 +153,16 @@ namespace Aml.Toolkit.View
             InvalidateVisual();
         }
 
+        int _renderCall = 0;
+
         /// <summary>
         /// Renders the specified drawing context.
         /// </summary>
         /// <param name="drawingContext">The drawing context.</param>
         public void Render(DrawingContext drawingContext)
         {
+            
+
             if (AdornedElement is AMLTreeView treeView && treeView.ScrollViewer.ViewportWidth > 0 && ClipWindow)
             {
                 drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, treeView.ScrollViewer.ViewportWidth,
@@ -158,10 +172,12 @@ namespace Aml.Toolkit.View
             // continue drawing
 
             _isValid = true;
-            if (_ILGraph.Graph.Vertices.Count == 0)
+            if (!_ILGraph.Graph.HasVertices)
             {
                 return;
             }
+
+            Debug.WriteLine ($"{_renderCall++}. Render");
 
             //this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Render, new Action(() =>
             // {
@@ -169,7 +185,9 @@ namespace Aml.Toolkit.View
 
             if (SelectedEdge != null)
             {
-                if (SelectedEdge.StartPoint.IsVisible() && SelectedEdge.EndPoint.IsVisible())
+                Debug.WriteLine (SelectedEdge.StartPoint.Item.Name);
+                Debug.WriteLine (SelectedEdge.EndPoint.Item.Name);
+                if (SelectedEdge.StartPoint.IsVisible(false) && SelectedEdge.EndPoint.IsVisible(false))
                 {
                     HighlightEdge();
                 }
@@ -289,20 +307,21 @@ namespace Aml.Toolkit.View
                     }
 
                     Geometry line = new LineGeometry(edge.Points[0], edge.Points[1]);
+                    
 
-                    var isSelected = line.FillContains(pt, 15.0, ToleranceType.Absolute);
+                    var isSelected = line.FillContains(pt, Tolerance, ToleranceType.Absolute);
                     //isSelected = line.StrokeContains(edge.Pen, pt);
                     if (!isSelected)
                     {
                         line = new LineGeometry(edge.Points[1], edge.Points[2]);
-                        isSelected = line.FillContains(pt, 15.0, ToleranceType.Absolute);
+                        isSelected = line.FillContains(pt, Tolerance, ToleranceType.Absolute);
                     }
 
                     if (!isSelected)
                     {
                         line = new LineGeometry(edge.Points[2], edge.Points[3]);
 
-                        isSelected = line.FillContains(pt, 15.0, ToleranceType.Absolute);
+                        isSelected = line.FillContains(pt, Tolerance, ToleranceType.Absolute);
                         // isSelected = line.StrokeContains(edge.Pen, pt);
                     }
 
@@ -433,6 +452,7 @@ namespace Aml.Toolkit.View
                 {
                     if (!_ilMover.Points[i].Equals(newMover.Points[i]))
                     {
+                        _ilMover.Points[i] = newMover.Points[i];
                         redraw = true;
                     }
                 }
@@ -447,11 +467,19 @@ namespace Aml.Toolkit.View
                 return;
             }
 
-            _ilMover = newMover;
-            _visualChildren = new VisualCollection(this)
+            
+            if (_ilMover == null)
             {
-                new ILMover(this, _ilMover)
-            };
+                _ilMover = newMover;
+                _visualChildren = new VisualCollection(this)
+                {
+                    new ILMover(this, _ilMover)
+                };
+            }
+            else
+            {
+                ((ILMover) _visualChildren[0]).InvalidateArrange();
+            }
             InvalidateArrange();
         }
 
@@ -503,7 +531,9 @@ namespace Aml.Toolkit.View
             {
                 case ScrollViewer sv:
                     if (Math.Abs(sv.VerticalOffset - verticalOffset) < 5)
+                    {
                         return;
+                    }
 
                     verticalOffset = sv.VerticalOffset;
 

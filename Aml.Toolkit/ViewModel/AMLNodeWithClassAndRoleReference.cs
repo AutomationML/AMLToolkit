@@ -113,7 +113,9 @@ namespace Aml.Toolkit.ViewModel
         private bool NodeVisibleFilter(object obj)
         {
             if (obj is not AMLNodeBaseViewModel node)
+            {
                 return false;
+            }
 
             return node switch
             {

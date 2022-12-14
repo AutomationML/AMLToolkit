@@ -27,9 +27,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml.Linq;
 
-/// <summary>
-/// The ViewModel namespace.
-/// </summary>
+
 namespace Aml.Toolkit.ViewModel
 {
     /// <summary>
@@ -77,6 +75,7 @@ namespace Aml.Toolkit.ViewModel
         /// </summary>
         private const CAEXElementChangeMode TreeChangeModes = CAEXElementChangeMode.Moved | CAEXElementChangeMode.Added | CAEXElementChangeMode.Deleted;
 
+
         private readonly Stack<AMLNodeViewModel> _selectionNotifications = new();
         private readonly List<AMLNodeViewModel> registeredPartners = new();
 
@@ -99,6 +98,8 @@ namespace Aml.Toolkit.ViewModel
         /// <see cref="Focused"/>
         /// </summary>
         private bool _focused;
+
+        private bool _isActive;
 
         /// <summary>
         /// <see cref="IsSearchEnabled"/>
@@ -252,6 +253,15 @@ namespace Aml.Toolkit.ViewModel
         }
 
         /// <summary>
+        /// If the model is active
+        /// </summary>
+        public bool IsActive
+        {
+            get => _isActive;
+            set => Set(ref _isActive, value);
+        }
+
+        /// <summary>
         /// Gets and sets the IsSearchEnabled
         /// </summary>
         public bool IsSearchEnabled
@@ -376,11 +386,21 @@ namespace Aml.Toolkit.ViewModel
             Root = null;
         }
 
+        public virtual void ConfigureContextMenu ()
+        {
+           //SelectedNode?.RaisePropertyChanged (nameof(Commands));
+        }
+
         /// <summary>
         /// Clears the selections.
         /// </summary>
         public void ClearSelections()
         {
+            if (SelectedElements?.Count == 0)
+            {
+                return;
+            }
+
             foreach (var item in SelectedElements)
             {
                 item.IsSelected = false;
@@ -527,10 +547,12 @@ namespace Aml.Toolkit.ViewModel
             AMLNodeViewModel amlTreeViewItem = null;
             var currentCollection = Root.VisibleChildren?.ToList();
 
+
             if (currentCollection != null)
             {
                 for (var i = nodes.Count - 1; i >= 0; i--)
                 {
+                    
                     var nextTreeViewItem = FindTreeViewItem(currentCollection, nodes[i]);
                     if (amlTreeViewItem != null && nextTreeViewItem == null && expand)
                     {
@@ -559,7 +581,7 @@ namespace Aml.Toolkit.ViewModel
 
                     if (nextTreeViewItem == null)
                     {
-                        break;
+                        continue;
                     }
                 }
             }
@@ -637,10 +659,15 @@ namespace Aml.Toolkit.ViewModel
             Root.IsExpanded = true;
         }
 
-        public void SetVerified(AMLNodeViewModel node)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        public static void SetVerified(AMLNodeViewModel node)
         {
             node?.RefreshNodeInformation(false);
         }
+
 
         /// <summary>
         /// Use this method, if the tree view layout should be changed
@@ -655,6 +682,26 @@ namespace Aml.Toolkit.ViewModel
             if (updatedLayout.ResolveExternals != oldLayout.ResolveExternals)
             {
                 Root?.RefreshHierarchy();
+            }
+
+            TreeViewLayout.PropertyChanged -= TreeViewLayout_PropertyChanged;  
+            TreeViewLayout.PropertyChanged += TreeViewLayout_PropertyChanged;  
+        }
+
+        private void TreeViewLayout_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            return;
+
+            // has no effect on link lines ???
+            switch (e.PropertyName)
+            {
+                case nameof(AMLLayout.JumpMode):    
+                case nameof(AMLLayout.DrawDashedLines):
+                case nameof(AMLLayout.DrawColoredLines):
+                case nameof(AMLLayout.HideExpander):
+                    AmlTreeView?.InternalLinksAdorner?.InvalidateArrange();
+                    AmlTreeView?.InternalLinksAdorner?.UpdateLayout();
+                    break;
             }
         }
 
@@ -712,13 +759,12 @@ namespace Aml.Toolkit.ViewModel
                     continue;
                 }
 
-                var foundInTree = FindTreeViewItemInTree(item.Children, XElement);
+                var foundInTree = FindTreeViewItemInTree(item.Children.ToList(), XElement);
                 if (foundInTree != null)
                 {
                     return foundInTree;
                 }
             }
-
             return null;
         }
 
@@ -731,7 +777,7 @@ namespace Aml.Toolkit.ViewModel
         internal static IEnumerable<AMLNodeViewModel> FindTreeViewItemsInTree(IEnumerable<AMLNodeViewModel> currentCollection,
             XElement XElement)
         {
-            foreach (var item in currentCollection)
+            foreach (var item in currentCollection.ToList())
             {
                 if (item is not AMLNodeGroupViewModel && item.CAEXNode.Equals(XElement))
                 {
@@ -743,11 +789,13 @@ namespace Aml.Toolkit.ViewModel
                     continue;
                 }
 
-                var foundInTree = FindTreeViewItemsInTree(item.Children, XElement);
+                var foundInTree = FindTreeViewItemsInTree(item.Children, XElement).ToList();
                 foreach (var citem in foundInTree)
                 {
                     if (citem is AMLNodeGroupViewModel)
+                    {
                         continue;
+                    }
 
                     yield return citem;
                 }
@@ -760,6 +808,11 @@ namespace Aml.Toolkit.ViewModel
 
         #region Protected Internal Methods
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="caexObject"></param>
+        /// <returns></returns>
         protected internal virtual bool? GetVerificationState(CAEXObject caexObject)
         {
             return null;
@@ -822,10 +875,13 @@ namespace Aml.Toolkit.ViewModel
             return FindTreeViewItemInTree(Root.Children, xElement);
         }
 
-        // <summary>
+        /// <summary>
         /// Gets the changed tree node according to the provided change event arguments, supplied by
-        /// the AML engine command manager </summary> <param name="e">The <see
-        /// cref="CAEXElementChangeEventArgs" /> instance containing the event data.</param> <returns></returns>
+        /// the AML engine command manager 
+        /// </summary>
+        /// <param name="e">The <see cref="CAEXElementChangeEventArgs" /> instance containing 
+        /// the event data.</param> 
+        /// <returns></returns>
         protected IEnumerable<AMLNodeViewModel> ChangedTreeNodes(CAEXElementChangeEventArgs e)
         {
             if ((e.ChangeMode & CAEXElementChangeMode.ChangedEvent) == CAEXElementChangeMode.None)
@@ -864,6 +920,7 @@ namespace Aml.Toolkit.ViewModel
 
             return FindTreeViewItemsInTree(Root.Children, xElement);
         }
+
 
         /// <summary>
         /// Executes the update.
@@ -917,12 +974,8 @@ namespace Aml.Toolkit.ViewModel
                       return;
                   }
 
-                  if (treeNodes.Count() > 1)
-                  {
-                      ;
-                  }
-
-                  foreach (var treeNode in treeNodes)
+                 
+                  foreach (var treeNode in treeNodes.ToList())
                   {
                       if ((e.ChangeMode & TreeChangeModes) != CAEXElementChangeMode.None)
                       {
@@ -930,15 +983,12 @@ namespace Aml.Toolkit.ViewModel
                           {
                               treeNode.Parent.RefreshTree(true);
                               TreeUpdated?.Invoke(this, new AmlNodeEventArgs(treeNode.Parent));
-
-                              _ = Execute.OnUIThread(
-                                  () => treeNode.Tree.AmlTreeView?.InternalLinksAdorner?.InvalidateVisual());
                           }
                           else
                           {
-                              treeNode.RefreshTree(e.ChangeMode.HasFlag(CAEXElementChangeMode.Added));
+                              treeNode.RefreshTree(e.ChangeMode.HasFlag(CAEXElementChangeMode.Added), true);
                               TreeUpdated?.Invoke(this, new AmlNodeEventArgs(treeNode));
-                          }
+                          }                    
                       }
                       else
                       {
@@ -947,41 +997,83 @@ namespace Aml.Toolkit.ViewModel
 
                       if (treeNode is AMLNodeInheritable)
                       {
+                          if ((e.ChangeMode & CAEXElementChangeMode.NameRefChanged )!=0)
+                          {
+                              if (treeNode.IsOverridden)
+                              {
+                                  treeNode.Parent.RefreshTree(false);
+                              }
+                          }
+
                           UpdateInheritance(treeNode, e.ChangeMode);
                       }
 
-                      UpdateMasterAnMirrorReferences(treeNode, e);
+                      UpdateMasterAnMirrorReferences(treeNode);
                   }
 
-                  if (e.CAEXElement.IsInternalLink())
+                  if ((e.ChangeMode & AcceptedChangeModes) != CAEXElementChangeMode.None)
                   {
-                      var il = new InternalLinkType(e.CAEXElement);
-                      if (il.AInterface?.Node != null)
+                      if (e.CAEXElement.IsInternalLink())
                       {
-                          foreach (var node in GetCaexNodesFromTree(il.AInterface.Node))
+                          var refs = e.CAEXElement.IDReferenceAttributes();
+                          if (refs.Any())
                           {
-                              //var node = GetCaexNodeFromTree(il.AInterface.Node);
-                              //if (node != null)
-                              //{
-                                  node.RefreshNodeInformation(false);
-                                  UpdateMasterAnMirrorReferences(node, e);
-                              //}
+                              foreach (var reference in refs)
+                              {
+                                  var value = e.CAEXElement.Attribute(reference)?.Value;
+                                  if (value == null)
+                                  {
+                                      continue;
+                                  }
+                                  var ilInterface = InterfaceFromAttributeValue(value, e.CAEXDocument);
+                                  if (ilInterface != null)
+                                  {
+                                      foreach (var node in GetCaexNodesFromTree(ilInterface.Node))
+                                      {
+                                          node.RefreshNodeInformation(false);
+                                          UpdateMasterAnMirrorReferences(node);
+                                      }
+                                  }
+                              }
                           }
-                      }
+                      } 
+                      AmlTreeView?.InternalLinksAdorner?.InvalidateVisual();
+                      //_ = Execute.OnUIThread(
+                      //      () => AmlTreeView?.InternalLinksAdorner?.InvalidateVisual());
 
-                      if (il.BInterface?.Node != null)
-                      {
-                          foreach (var node in GetCaexNodesFromTree(il.BInterface.Node))
-                          {
-                              //var node = GetCaexNodeFromTree(il.BInterface.Node);
-                              //if (node != null)
-                              //{
-                              node.RefreshNodeInformation(false);
-                              UpdateMasterAnMirrorReferences(node, e);
-                              //}
-                          }
-                      }
+                      //if ((e.ChangeMode & CAEXElementChangeMode.Added) != 0)
+                      //{
+                      //    AmlTreeView?.InvalidateVisual();
+                      //}
                   }
+
+                  //var il = new InternalLinkType(e.CAEXElement);
+                  //if (il.AInterface?.Node != null)
+                  //{
+                  //    foreach (var node in GetCaexNodesFromTree(il.AInterface.Node))
+                  //    {
+                  //        //var node = GetCaexNodeFromTree(il.AInterface.Node);
+                  //        //if (node != null)
+                  //        //{
+                  //            node.RefreshNodeInformation(false);
+                  //            UpdateMasterAnMirrorReferences(node, e);
+                  //        //}
+                  //    }
+                  //}
+
+                  //if (il.BInterface?.Node != null)
+                  //{
+                  //    foreach (var node in GetCaexNodesFromTree(il.BInterface.Node))
+                  //    {
+                  //        //var node = GetCaexNodeFromTree(il.BInterface.Node);
+                  //        //if (node != null)
+                  //        //{
+                  //        node.RefreshNodeInformation(false);
+                  //        UpdateMasterAnMirrorReferences(node, e);
+                  //        //}
+                  //    }
+                  //}
+                  //}
               });
         }
 
@@ -1058,9 +1150,9 @@ namespace Aml.Toolkit.ViewModel
 
             if (!IsDragging)
             {
-                var selected = e.NewItems?.OfType<AMLNodeViewModel>().FirstOrDefault();
-                if (selected == null)
-                    return;
+                //var selected = e.NewItems?.OfType<AMLNodeViewModel>().FirstOrDefault();
+                //if (selected == null)
+                //    return;
 
                 if (RaiseNotifySelection)
                 {
@@ -1156,6 +1248,46 @@ namespace Aml.Toolkit.ViewModel
         }
 
         /// <summary>
+        ///     Gets the Interface from the provided InternalLink Attribute value, which is from "RefPartnerSideA" or
+        ///     from the "RefPartnerSideB" attribute.
+        /// </summary>
+        /// <param name="internalLinkAttributeValue">The value of the InternalLink attribute, defining the Interface reference.</param>
+        /// <param name="caexDocument"></param>
+        /// <returns>the external interface</returns>
+        private static ExternalInterfaceType InterfaceFromAttributeValue(string internalLinkAttributeValue, CAEXDocument caexDocument )
+        {
+            //ToDo check for ALIAS
+            if (string.IsNullOrEmpty(internalLinkAttributeValue))
+            {
+                return null;
+            }           
+
+            var schema = caexDocument.Schema;
+            if (schema != CAEXDocument.CAEXSchema.CAEX2_15 &&
+                !CAEXPathBuilder.IsInterfaceReference(internalLinkAttributeValue))
+            {
+                return ServiceLocator.QueryService.FindByID(caexDocument,
+                    internalLinkAttributeValue) as ExternalInterfaceType;
+            }
+
+            var pathParts = CAEXPathBuilder.PathNameArray(internalLinkAttributeValue, CAEXDocument.CAEXSchema.CAEX2_15);
+            if (pathParts.Length != 2)
+            {
+                return null;
+            }
+
+            var suc = ServiceLocator.QueryService.FindByID(caexDocument, pathParts[0]);
+            if (suc == null)
+            {
+                return null;
+            }
+
+            var ei = suc.Node?.Elements ( suc.Node.XName ( CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING ))
+                .FirstOrDefault(n => n.CAEXNameOfElement() == pathParts[1]);
+
+            return ei != null ? new ExternalInterfaceType(ei) : null;
+        }
+        /// <summary>
         /// </summary>
         /// <param name="bringIntoView"></param>
         /// <param name="amlTreeViewItem"></param>
@@ -1173,6 +1305,10 @@ namespace Aml.Toolkit.ViewModel
         /// gets the children of the node, which should appear in the list.
         /// </summary>
         /// <param name="node">The node.</param>
+        /// <param name="names"></param>
+        /// <param name="isDerived"></param>
+        /// <param name="showMirrorData"></param>
+        /// <param name="showInheritance"></param>
         /// <returns></returns>
         private IEnumerable<XElement> ModelChilds(CAEXWrapper node, HashSet<string> names,
             bool isDerived, bool showMirrorData, bool showInheritance)
@@ -1307,17 +1443,6 @@ namespace Aml.Toolkit.ViewModel
                 }
             }
         }
-
-
-        private bool _isActive;
-
-        public bool IsActive
-        {
-            get  => _isActive; 
-            set => Set (ref _isActive, value);
-        }
-
-
         /// <summary>
         /// </summary>
         /// <param name="amlTreeViewItem"></param>
@@ -1417,25 +1542,25 @@ namespace Aml.Toolkit.ViewModel
                 }
                 else
                 {
-                    node.RefreshTree(false);
+                    node.RefreshTree(false,true);
                 }
 
                 UpdateInheritance(node, changeMode);
             }
         }
 
-        private void UpdateMasterAnMirrorReferences(AMLNodeViewModel treeNode, CAEXElementChangeEventArgs e)
+        private void UpdateMasterAnMirrorReferences(AMLNodeViewModel treeNode)
         {
             if (treeNode.IsMaster)
             {
-                UpdateMirrorItems(treeNode, e.ChangeMode);
+                UpdateMirrorItems(treeNode);
             }
             else if (treeNode.IsMirrored)
             {
                 var mirror = treeNode.MirrorElement;
                 if (mirror != null)
                 {
-                    UpdateMasterItems(mirror, e.ChangeMode);
+                    UpdateMasterItems(mirror);
                 }
             }
             else
@@ -1443,7 +1568,7 @@ namespace Aml.Toolkit.ViewModel
                 var master = treeNode.MasterElement;
                 if (master != null)
                 {
-                    UpdateMirrorItems(master, e.ChangeMode);
+                    UpdateMirrorItems(master);
                 }
             }
         }
@@ -1451,7 +1576,8 @@ namespace Aml.Toolkit.ViewModel
         /// <summary>
         /// </summary>
         /// <param name="treeNode"></param>
-        private void UpdateMasterItems(AMLNodeViewModel treeNode, CAEXElementChangeMode changeMode)
+        /// 
+        private void UpdateMasterItems(AMLNodeViewModel treeNode)
         {
             if (treeNode.CAEXObject is IMirror mirror)
             {
@@ -1469,7 +1595,7 @@ namespace Aml.Toolkit.ViewModel
                         node.RefreshTree(false, true);
                     }
 
-                    UpdateMirrorItems(node, changeMode);
+                    UpdateMirrorItems(node);
                 }
             }
         }
@@ -1477,7 +1603,8 @@ namespace Aml.Toolkit.ViewModel
         /// <summary>
         /// </summary>
         /// <param name="treeNode"></param>
-        private void UpdateMirrorItems(AMLNodeViewModel treeNode, CAEXElementChangeMode changeMode)
+        /// 
+        private void UpdateMirrorItems(AMLNodeViewModel treeNode)
         {
             void Refresh(XElement mirror)
             {
@@ -1550,7 +1677,7 @@ namespace Aml.Toolkit.ViewModel
                 return;
             }
 
-            _ = Execute.OnUIThread(() =>
+            Execute.OnUIThread(() =>
               {
                   if (Root == null)
                   {
@@ -1564,7 +1691,7 @@ namespace Aml.Toolkit.ViewModel
                       if (updateArgs.ReferencedElement.IsInternalLink())
                       {
                           var ei = new InternalLinkType(updateArgs.ReferencedElement).InterfaceFromAttributeValue(
-                              updateArgs.Reference?.Value);
+                              updateArgs.Reference?.Value());
                           if (ei != null)
                           {
                               treeNode = FindTreeViewItemInTree(Root.Children, ei.Node);
@@ -1574,11 +1701,6 @@ namespace Aml.Toolkit.ViewModel
                       {
                           treeNode = FindTreeViewItemInTree(Root.Children, updateArgs.ReferencedElement);
                       }
-                  }
-
-                  // deleted
-                  if (updateArgs.ReferencedElement?.Document == null)
-                  {
                   }
 
                   if (treeNode != null)
@@ -1607,7 +1729,7 @@ namespace Aml.Toolkit.ViewModel
                               else if (registeredPartners?.Count > 0 && aRef.HasLinks)
                               {
                                   var connected = GetInterfaces((CAEXObject)aRef.CAEXObject).ToList();
-                                  var redirected = registeredPartners.Where(p => connected.Any(c => p.CAEXNode == c.Node))
+                                  var redirected = registeredPartners.Where(p => connected.Any(c => c!= null &&  p.CAEXNode == c.Node))
                                       .ToList();
 
                                   if (redirected.Count > 0)
@@ -1616,6 +1738,8 @@ namespace Aml.Toolkit.ViewModel
                                       _ = registeredPartners.RemoveAll(p => redirected.Contains(p));
                                   }
                               }
+
+                              Tree.AmlTreeView.InternalLinksAdorner.InvalidateVisual();
                           }
 
                           aRef.RefreshPartners();
@@ -1623,11 +1747,13 @@ namespace Aml.Toolkit.ViewModel
                           {
                               aRef.UpdateLinks(true, true, true);
                           }
+
+
                           // aRef.ShowLinks = true;
                       }
 
                       // check for overwriding children if inheritance has changed
-                      else if (updateArgs.Reference.IsInheritanceAttribute())
+                      else if (updateArgs.Reference is XAttribute att && att.IsInheritanceAttribute())
                       {
                           treeNode.RefreshChildNodeInformation(false);
                       }

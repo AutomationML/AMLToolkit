@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-windows;net5.0-windows;net48;netcoreapp3.1</TargetFrameworks>
-		<AssemblyVersion>3.0.0</AssemblyVersion>
+		<TargetFrameworks>net6.0-windows;net7.0-windows</TargetFrameworks>
 		<Authors>Josef Prinz</Authors>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>disable</Nullable>
@@ -12,36 +11,32 @@
 		<PackageId>Aml.Toolkit</PackageId>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<Description>The Aml.Toolkit provides basic UI controls based on WPF to visualize AutomationML data. The Toolkit is used in the AutomationML Editor and is available to implement PlugIns for the AutomationML Editor.</Description>
-		<Company>AutomationML Association</Company>
+		<Company>AutomationML</Company>
 		<Copyright>AutomationML e.V. 2017-2022</Copyright>
 		<PackageProjectUrl>https://www.automationml.org</PackageProjectUrl>
 		<PackageIcon>AML.png</PackageIcon>
 		<RepositoryUrl>https://github.com/AutomationML/AMLToolkit</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageTags>AMLEditor; Aml.Engine; AutomationML; AML</PackageTags>
-		<PackageReleaseNotes>A symbol package (.snupkg) is included. This enables better debugging of the NuGet package. The project creation has been switched to Microsoft.NET.Sdk, so the latest .NET versions are always available for all supported platforms.</PackageReleaseNotes>
+		<PackageTags>AMLEngine; AMLEditor; CAEX; AMLEngine2.1; Aml.Engine; AutomationML; AML</PackageTags>
+		<PackageReleaseNotes>Removed targets .NET 3.1 and NET 5 because end of support by Microsoft; Projects in .NET 3.1 or .NET 5, should migrate to .NET 6 (LTS) or keep using version 3.0.6; .NET 7.0 target added.</PackageReleaseNotes>
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>Toolkit.pfx</AssemblyOriginatorKeyFile>
 		<DelaySign>false</DelaySign>
-		<FileVersion>3.0.0.0</FileVersion>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<ApplicationIcon>AML.ico</ApplicationIcon>
 		<RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
+		<Version>4.0.0</Version>
+		<Platforms>AnyCPU;x64</Platforms>
 		<NeutralLanguage>en-US</NeutralLanguage>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Version>3.0.0</Version>
+		<Configurations>Debug;Release;ReleaseTest</Configurations>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<Compile Remove="Tools\ObservableCollectionEx.cs" />
-	</ItemGroup>
 
 	<ItemGroup>
-		<None Remove="Resource\appbar.edit.png" />
 		<None Remove="Resource\case.png" />
 		<None Remove="Resource\DeleteAdorner.png" />
 		<None Remove="Resource\DerivedAdorner.png" />
@@ -52,40 +47,38 @@
 		<None Remove="Resource\verified.png" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Content Include="AML.ico" />
-	</ItemGroup>
 	
 	<ItemGroup>
-		<Content Include="..\README.md">
-		  <Pack>True</Pack>
-		  <PackagePath>\</PackagePath>
-		</Content>
-		<Content Include="AML.png">
+	  <Page Remove="Resource\Images.xaml" />
+	</ItemGroup>
+
+	
+	<ItemGroup>
+		<None Include="AML.png">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
-		</Content>
+		</None>
 	</ItemGroup>
+		
 	
 	<ItemGroup>
-		<PackageReference Include="Aml.Editor.Plugin.Contract" Version="3.0.0" />
-		<PackageReference Include="Aml.Engine" Version="2.0.0" />
-		<PackageReference Include="Aml.Engine.Services" Version="2.0.0" />
-		<PackageReference Include="Aml.Skins" Version="1.0.0" />
+		<PackageReference Include="Aml.Editor.Plugin.Contract" Version="3.0.6" />
+		<PackageReference Include="Aml.Skins" Version="1.0.4" />
 		<PackageReference Include="MahApps.Metro" Version="2.4.9" />
+		<PackageReference Include="Aml.Engine" Version="2.0.8" />
+		<PackageReference Include="Aml.Engine.Services" Version="2.0.5" />	 	 
 	</ItemGroup>
 	
 	<ItemGroup>
-		<Resource Include="Resource\appbar.edit.png" />
 		<Resource Include="Resource\case.png" />
 		<Resource Include="Resource\DeleteAdorner.png" />
-		<Resource Include="Resource\DerivedAdorner.png" />
 		<Resource Include="Resource\master.png" />
-		<Resource Include="Resource\OverrideAdorner.png" />
 		<Resource Include="Resource\StatusInformation.png" />
 		<Resource Include="Resource\notverified.png" />
 		<Resource Include="Resource\verified.png" />
-	</ItemGroup>	
+	</ItemGroup>
+	
+	
 	
 	<ItemGroup>
 		<Compile Update="Properties\Resources.Designer.cs">
@@ -95,11 +88,14 @@
 		</Compile>
 	</ItemGroup>
 	
+	
+	
 	<ItemGroup>
 		<EmbeddedResource Update="Properties\Resources.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>
+	
 	
 	</Project>

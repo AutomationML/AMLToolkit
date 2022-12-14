@@ -87,7 +87,7 @@ namespace Aml.Toolkit.Operations
         /// <summary>
         /// Gets the copy operation.
         /// </summary>
-        public static ItemOperationViewModel CopyOperation {get; }=
+        public static ItemOperationViewModel CopyOperation { get; } =
             new()
             {
                 Identifier = Copy,
