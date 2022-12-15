@@ -29,11 +29,12 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
-		<Version>4.0.0</Version>
+		<Version>4.0.1</Version>
 		<Platforms>AnyCPU;x64</Platforms>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<Configurations>Debug;Release;ReleaseTest</Configurations>
 		<Title>AutomationML UI elements, used by the AutomationML editor</Title>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
 
 
@@ -55,11 +56,16 @@
 
 	
 	<ItemGroup>
+		<None Include="readme.md">
+		  <Pack>True</Pack>
+		  <PackagePath></PackagePath>
+		</None>
 		<None Include="AML.png">
 			<Pack>True</Pack>
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
+	
 		
 	
 	<ItemGroup>
