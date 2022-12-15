@@ -2,14 +2,14 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net6.0-windows;net7.0-windows</TargetFrameworks>
-		<Authors>Josef Prinz</Authors>
+		<Authors>AutomationML, Josef Prinz</Authors>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>disable</Nullable>
 		<LangVersion>latest</LangVersion>
 		<UseWPF>true</UseWPF>
 		<UseWindowsForms>true</UseWindowsForms>
 		<PackageId>Aml.Toolkit</PackageId>
-		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Description>The Aml.Toolkit provides basic UI controls based on WPF to visualize AutomationML data. The Toolkit is used in the AutomationML Editor and is available to implement PlugIns for the AutomationML Editor.</Description>
 		<Company>AutomationML</Company>
 		<Copyright>AutomationML e.V. 2017-2022</Copyright>
@@ -33,6 +33,7 @@
 		<Platforms>AnyCPU;x64</Platforms>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<Configurations>Debug;Release;ReleaseTest</Configurations>
+		<Title>AutomationML UI elements, used by the AutomationML editor</Title>
 	</PropertyGroup>
 
 
