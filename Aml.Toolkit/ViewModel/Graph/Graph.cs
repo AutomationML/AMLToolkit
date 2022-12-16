@@ -709,33 +709,37 @@ namespace Aml.Toolkit.ViewModel.Graph
             var tFrom = from?.TreeViewItem;
             var tTo = to?.TreeViewItem;
 
-            if (from is AMLNodeWithClassReference aref && tTo == null)
-            {
-                aref.MissingLink(to, true);
-            }
+            
 
-            if (to is AMLNodeWithClassReference bref && tFrom == null)
-            {
-                bref.MissingLink(from, true);
-            }
-
-            if (tFrom == null || tTo == null)
+            if (tFrom == null && tTo == null)
             {
                 return false;
             }
 
-            if (from is AMLNodeWithClassReference fref)
+
+            var a = (tFrom!=null) 
+                ? LocalPosToAncestorPos((ContentPresenter)tFrom.Template.FindName("PART_Header", tFrom), treeView) 
+                : new (0,0);
+            var d = (tTo !=null) 
+                ? LocalPosToAncestorPos((ContentPresenter)tTo.Template.FindName("PART_Header", tTo), treeView) 
+                : new Point(0,0);
+
+            if (tFrom == null)
             {
-                fref.MissingLink(to, false);
+                a.X= d.X;
+                var firstNode = ((AMLTreeViewModel) treeView.DataContext).FirstNode (from,to);
+
+                a.Y = firstNode.Equals(to) ? treeView.ActualHeight : -10;  
             }
 
-            if (to is AMLNodeWithClassReference tref)
+            if (tTo == null)
             {
-                tref.MissingLink(from, false);
+                d.X=a.X; 
+                var firstNode = ((AMLTreeViewModel) treeView.DataContext).FirstNode (from,to);
+
+                d.Y = firstNode.Equals(from) ? treeView.ActualHeight : -10;  
             }
 
-            var a = LocalPosToAncestorPos((ContentPresenter)tFrom.Template.FindName("PART_Header", tFrom), treeView);
-            var d = LocalPosToAncestorPos((ContentPresenter)tTo.Template.FindName("PART_Header", tTo), treeView);
             var b = new Point(a.X, a.Y);
             var c = new Point(d.X, d.Y);
 

@@ -581,33 +581,6 @@
                     </Style>
                 </ToggleButton.Style>
             </ToggleButton>
-            <!--<Button
-                x:Name="InfoButton"
-                BorderBrush="{x:Null}"
-                Command="{Binding Tree.ShowHiddenLinksCommand}"
-                CommandParameter="{Binding}"
-                ToolTip="There are linked interfaces outside the view. Click here, to view them in the 'Relation' window.">
-                <Image Source="/Aml.Toolkit;component/Resource/StatusInformation.png" />
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding HasMissingLinks}" Value="True" />
-                                    <Condition Binding="{Binding Tree.TreeViewLayout.HideInfo}" Value="False" />
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Visibility" Value="Visible" />
-                            </MultiDataTrigger>
-                            <DataTrigger Binding="{Binding HasMissingLinks}" Value="False">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Tree.TreeViewLayout.HideInfo}" Value="True">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>-->
         </StackPanel>
     </HierarchicalDataTemplate>
 

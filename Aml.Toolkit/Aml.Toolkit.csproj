@@ -68,12 +68,17 @@
 	
 		
 	
+	<ItemGroup>		
+		<PackageReference Include="MahApps.Metro" Version="2.4.9" />	 
+	</ItemGroup>
+	
+		
+	
 	<ItemGroup>
-		<PackageReference Include="Aml.Editor.Plugin.Contract" Version="3.0.6" />
-		<PackageReference Include="Aml.Skins" Version="1.0.4" />
-		<PackageReference Include="MahApps.Metro" Version="2.4.9" />
-		<PackageReference Include="Aml.Engine" Version="2.0.8" />
-		<PackageReference Include="Aml.Engine.Services" Version="2.0.5" />	 	 
+	  <ProjectReference Include="..\..\AMLEditorAPI\Aml.Editor.Plugin\Aml.Editor.Plugin.Contract.csproj" />
+	  <ProjectReference Include="..\..\AMLEditorSkins\Aml.Skins.csproj" />
+	  <ProjectReference Include="..\..\AMLEngine\Aml.Engine.Services\Aml.Engine.Services.csproj" />
+	  <ProjectReference Include="..\..\AMLEngine\Aml.Engine\Aml.Engine.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>

@@ -38,8 +38,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Aml.Engine" Version="2.0.8" />
-	  <PackageReference Include="Aml.Skins" Version="1.0.4" />
+	  <PackageReference Include="Aml.Engine" Version="3.0.1" />
+	  <PackageReference Include="Aml.Skins" Version="2.0.0" />
 	  <PackageReference Include="MahApps.Metro" Version="2.4.9" />
 	</ItemGroup>
 

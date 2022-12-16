@@ -10,6 +10,7 @@
 // ***********************************************************************
 
 using Aml.Editor.Plugin.Contracts;
+using Aml.Engine.AmlObjects;
 using Aml.Engine.CAEX;
 using Aml.Engine.CAEX.Commands;
 using Aml.Engine.CAEX.Extensions;
@@ -899,15 +900,32 @@ namespace Aml.Toolkit.ViewModel
             if ((e.ChangeMode & CAEXElementChangeMode.ValueChanged) != CAEXElementChangeMode.None)
             {
                 // some value changes are relevant for node layouts
-                if (e.CAEXParent != null && e.CAEXParent.IsAttribute() && e.CAEXParent.Attribute("Name").Value == "refURI")
+                if (e.CAEXParent != null && e.CAEXParent.IsAttribute())
                 {
-                    xElement = e.CAEXParent.Parent;
+                    switch (e.CAEXParent.Attribute("Name").Value)
+                    {
+                        case AutomationMLBaseAttributeTypeLib.MinOccurrenceAttribute:
+                        case AutomationMLBaseAttributeTypeLib.MaxOccurrenceAttribute:
+                        case RefURIAttributeType.REF_URI_ATTRIBUTE:
+                            xElement = e.CAEXParent.Parent;
+                        break;
+                            default: 
+                        break;
+                    }                    
                 }
             }
 
             if (!CAEXTagNames.Contains(xElement.Name.LocalName))
             {
-                return Enumerable.Empty<AMLNodeViewModel>();
+                while (xElement.Name.LocalName == CAEX_CLASSModel_TagNames.ATTRIBUTE_STRING)
+                {
+                    xElement = xElement.Parent;
+                }
+
+                if (xElement == null || !CAEXTagNames.Contains(xElement.Name.LocalName) )
+                {
+                    return Enumerable.Empty<AMLNodeViewModel>();
+                }
             }
 
             if (e.ChangeMode.HasFlag(CAEXElementChangeMode.Deleted) ||
@@ -959,13 +977,23 @@ namespace Aml.Toolkit.ViewModel
 
                                   default:
                                       // some value changes are relevant for node layouts
-                                      if (e.CAEXParent == null || !e.CAEXParent.IsAttribute() || e.CAEXParent.Attribute("Name").Value != "refURI")
+                                      if (e.CAEXParent == null || !e.CAEXParent.IsAttribute() )
+                                      { 
+                                            return;
+                                      }
+
+                                      switch (e.CAEXParent.Attribute("Name").Value)
                                       {
-                                          return;
+                                          case AutomationMLBaseAttributeTypeLib.MinOccurrenceAttribute:
+                                          case AutomationMLBaseAttributeTypeLib.MaxOccurrenceAttribute:
+                                          case RefURIAttributeType.REF_URI_ATTRIBUTE:
+                                            break;
+                                        default: return;
                                       }
                                       break;
                               }
                           }
+                          
                       }
                   }
 
@@ -1775,6 +1803,7 @@ namespace Aml.Toolkit.ViewModel
                   treeNode.RefreshNodeInformation(false);
               });
         }
+
 
         #endregion Private Methods
 

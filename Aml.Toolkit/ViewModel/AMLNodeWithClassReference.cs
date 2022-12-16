@@ -22,8 +22,6 @@ namespace Aml.Toolkit.ViewModel
     {
         #region Private Fields
 
-        private List<AMLNodeViewModel> _missingLinks;
-
         /// <summary>
         ///     <see cref="ShowLinks" />
         /// </summary>
@@ -147,111 +145,98 @@ namespace Aml.Toolkit.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the minimum cardinality.
+        /// </summary>
+        /// <value>
+        /// The minimum cardinality.
+        /// </value>
         public string MinCardinality
         {
             get
             {
                 if (CAEXObject is ExternalInterfaceType ie)
                 {
-                    var cardinality = ie.Attribute.FirstOrDefault(a =>
-                           AutomationMLBaseAttributeTypeLib.IsCardinality(a));
-
-                    if (cardinality != null)
-                    {
-                        var value = cardinality.Attribute["MinOccur"]?.Value;
-                        return value ?? "0";
-                    }
+                    return ie.MinCardinality()?.ToString() ?? "0";
                 }
-                return "0";
+                return "";
             }
         }
 
+        /// <summary>
+        /// Gets the maximum cardinality warning when violated.
+        /// </summary>
+        /// <value>
+        /// The maximum cardinality warn.
+        /// </value>
         public string MaxCardinalityWarn
         {
             get
             {
-                var max = MaxCardinality;
-                if (string.IsNullOrEmpty(max) || max == "n")
+                if (CAEXObject is ExternalInterfaceType ie)
                 {
-                    return "";
+                    return ie.MaxCardinalityViolation() ? "!" : "";
                 }
-
-                if (int.TryParse(max, out var maxCardinality))
-                {
-                    if (CAEXObject is ExternalInterfaceType ie && ie.AssociatedObject is SystemUnitClassType)
-                    {
-                        return (ie.InternalLinksToInterface().Count() > maxCardinality) ? "!" : "";
-                    }
-                }
-
                 return "";
             }
         }
 
+        /// <summary>
+        /// Gets a warning when the minimum cardinality is violated.
+        /// </summary>
+        /// <value>
+        /// The minimum cardinality warn.
+        /// </value>
         public string MinCardinalityWarn
         {
             get
             {
-                var min = MinCardinality;
-                if (string.IsNullOrEmpty(min) || min == "0")
+                if (CAEXObject is ExternalInterfaceType ie)
                 {
-                    return "";
+                    return ie.MinCardinalityViolation() ? "!" : "";
                 }
-
-                if (int.TryParse(min, out var minCardinality))
-                {
-                    if (CAEXObject is ExternalInterfaceType ie && ie.AssociatedObject is SystemUnitClassType)
-                    {
-                        return (ie.InternalLinksToInterface().Count() < minCardinality) ? "!" : "";
-                    }
-                }
-
                 return "";
             }
         }
 
+        /// <summary>
+        /// Gets the maximum cardinality.
+        /// </summary>
+        /// <value>
+        /// The maximum cardinality.
+        /// </value>
         public string MaxCardinality
         {
             get
             {
                 if (CAEXObject is ExternalInterfaceType ie)
                 {
-                    var cardinality = ie.Attribute.FirstOrDefault(a =>
-                           AutomationMLBaseAttributeTypeLib.IsCardinality(a));
-
-                    if (cardinality != null)
-                    {
-                        var value = cardinality.Attribute["MaxOccur"]?.Value;
-                        return value ?? "n";
-                    }
+                    return ie.MaxCardinality()?.ToString() ?? "n";
                 }
-                return "n";
+                return "";
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance has an assigned cardinality attribute.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance has cardinality; otherwise, <c>false</c>.
+        /// </value>
         public bool HasCardinality
         {
             get
             {
-                if (CAEXObject is ExternalInterfaceType ie && ie.AssociatedObject is SystemUnitClassType)
+                if (CAEXObject is ExternalInterfaceType ie )
                 {
-                    var cardinality = ie.Attribute.FirstOrDefault(a =>
-                           AutomationMLBaseAttributeTypeLib.IsCardinality(a));
-
-                    return cardinality != null;
+                    return ie.HasVerifiableCardinality();
                 }
 
                 return false;
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether this instance has missing links.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance has missing links; otherwise, <c>false</c>.
-        /// </value>
-        public bool HasMissingLinks => ShowLinks && MissingLinks > 0;
+        
 
         /// <summary>
         /// Gets a value indicating whether this instance is master.
@@ -279,22 +264,7 @@ namespace Aml.Toolkit.ViewModel
             }
         }
 
-        /// <summary>
-        /// Gets the missing link connections.
-        /// </summary>
-        /// <value>
-        /// The missing link connections.
-        /// </value>
-        public List<AMLNodeViewModel> MissingLinkConnections =>
-            _missingLinks ??= new List<AMLNodeViewModel>();
 
-        /// <summary>
-        /// Gets the missing links.
-        /// </summary>
-        /// <value>
-        /// The missing links.
-        /// </value>
-        public int MissingLinks => _missingLinks?.Count ?? 0;
 
         /// <summary>
         ///     Gets and sets the ShowLinks
@@ -412,7 +382,6 @@ namespace Aml.Toolkit.ViewModel
                 if (_showLinks)
                 {
                     Tree.AmlTreeView.AddLinksAdorner();
-                    MissingLinkConnections.Clear();
                     if (CAEXObject is ExternalInterfaceType ie)
                     {
                         if (ie.AssociatedObject is SystemUnitClassType)
@@ -465,7 +434,6 @@ namespace Aml.Toolkit.ViewModel
                 //    () =>
                 //    {
                 Tree.AmlTreeView.InternalLinksAdorner.Redraw();
-                RaisePropertyChanged(nameof(HasMissingLinks));
                 //});
             }
 
@@ -519,21 +487,7 @@ namespace Aml.Toolkit.ViewModel
             }
         }
 
-        internal void MissingLink(AMLNodeViewModel missing, bool add)
-        {
-            if (add && GetPartners().Contains(missing.CAEXObject))
-            {
-                MissingLinkConnections.Add(missing);
-            }
-            else
-            {
-                _ = MissingLinkConnections.Remove(missing);
-            }
-
-            RaisePropertyChanged(nameof(MissingLinks));
-            RaisePropertyChanged(nameof(HasMissingLinks));
-        }
-
+   
         internal void RefreshPartners()
         {
             foreach (var partner in GetPartners())

@@ -1894,6 +1894,31 @@ namespace Aml.Toolkit.ViewModel
 
         #endregion Private Classes
 
+
+
+        internal AMLNodeViewModel FirstNode(AMLNodeViewModel from, AMLNodeViewModel to)
+        {
+            foreach (var child in LoadedChildren) 
+            {
+                if (child.Equals(from))
+                {
+                    return from;
+                }
+                if (child.Equals(to))
+                {
+                    return to;
+                }
+
+                var firstChild = child.FirstNode (from, to);
+                if (firstChild != null) 
+                {
+                    return firstChild;
+                }
+            }
+            return null;
+        }
+
+
         //private AMLNodeViewModel PreviousSibling()
         //{
         //    for (int i = NodeIndex - 1; i >= 0; i--)
