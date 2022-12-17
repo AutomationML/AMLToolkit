@@ -18,7 +18,7 @@
 		<RepositoryUrl>https://github.com/AutomationML/AMLToolkit</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>AMLEngine; AMLEditor; CAEX; AMLEngine2.1; Aml.Engine; AutomationML; AML</PackageTags>
-		<PackageReleaseNotes>Removed targets .NET 3.1 and NET 5 because end of support by Microsoft; Projects in .NET 3.1 or .NET 5, should migrate to .NET 6 (LTS) or keep using version 3.0.6; .NET 7.0 target added.</PackageReleaseNotes>
+		<PackageReleaseNotes>Cardinality changes are shown at treeview nodes representing ExternalInterface elements.</PackageReleaseNotes>
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<SignAssembly>True</SignAssembly>
@@ -29,7 +29,7 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
-		<Version>4.0.1</Version>
+		<Version>4.0.2</Version>
 		<Platforms>AnyCPU;x64</Platforms>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<Configurations>Debug;Release;ReleaseTest</Configurations>

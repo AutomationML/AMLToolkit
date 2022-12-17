@@ -38,8 +38,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Aml.Engine" Version="3.0.1" />
-	  <PackageReference Include="Aml.Skins" Version="2.0.0" />
+	  <ProjectReference Include="..\..\AMLEditorSkins\Aml.Skins.csproj" />
+	  <ProjectReference Include="..\..\AMLEngine\Aml.Engine\Aml.Engine.csproj" />
+	</ItemGroup>
+		
+	<ItemGroup>
 	  <PackageReference Include="MahApps.Metro" Version="2.4.9" />
 	</ItemGroup>
 
