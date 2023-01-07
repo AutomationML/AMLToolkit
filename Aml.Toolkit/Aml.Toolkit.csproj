@@ -75,10 +75,10 @@
 		
 	
 	<ItemGroup>
-	  <ProjectReference Include="..\..\AMLEditorAPI\Aml.Editor.Plugin\Aml.Editor.Plugin.Contract.csproj" />
+	  <ProjectReference Include="..\..\Aml.Editor.API\Aml.Editor.Plugin\Aml.Editor.Plugin.Contract.csproj" />
 	  <ProjectReference Include="..\..\AMLEditorSkins\Aml.Skins.csproj" />
-	  <ProjectReference Include="..\..\AMLEngine\Aml.Engine.Services\Aml.Engine.Services.csproj" />
-	  <ProjectReference Include="..\..\AMLEngine\Aml.Engine\Aml.Engine.csproj" />
+	  <ProjectReference Include="..\..\Aml.Engine\Aml.Engine.Services\Aml.Engine.Services.csproj" />
+	  <ProjectReference Include="..\..\Aml.Engine\Aml.Engine\Aml.Engine.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>
