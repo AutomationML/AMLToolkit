@@ -1136,6 +1136,12 @@ namespace Aml.Toolkit.ViewModel
 
         private string _gotoMode = "Go down";
 
+        /// <summary>
+        /// Gets or sets the goto mode.
+        /// </summary>
+        /// <value>
+        /// The goto mode.
+        /// </value>
         public string GotoMode
         {
             get => _gotoMode;
@@ -1146,9 +1152,20 @@ namespace Aml.Toolkit.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the goto modes.
+        /// </summary>
+        /// <value>
+        /// The goto modes.
+        /// </value>
         public List<string> GotoModes  {get;} = new List<string>{"Go down", "Go up"};
 
-
+        /// <summary>
+        /// Gets the goto icon.
+        /// </summary>
+        /// <value>
+        /// The goto icon.
+        /// </value>
         public ImageSource GotoIcon => GotoMode == "Go down" ? GotoNextIcon : GotoPrevIcon;
 
     }

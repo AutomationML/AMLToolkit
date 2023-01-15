@@ -157,26 +157,92 @@ namespace Aml.Toolkit.ViewModel
             set => base.MappedValue = value;
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance has new version.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance has new version; otherwise, <c>false</c>.
+        /// </value>
         public override bool HasNewVersion => false;
 
+        /// <summary>
+        /// Gets a value indicating whether this instance has old version.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance has old version; otherwise, <c>false</c>.
+        /// </value>
         public override bool HasOldVersion => false;
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is derived.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is derived; otherwise, <c>false</c>.
+        /// </value>
         public override bool IsDerived => false;
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is deleted.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is deleted; otherwise, <c>false</c>.
+        /// </value>
         public override bool IsDeleted => false;
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is facetted.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is facetted; otherwise, <c>false</c>.
+        /// </value>
         public override bool IsFacetted => false;
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is port.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is port; otherwise, <c>false</c>.
+        /// </value>
         public override bool IsPort => false;
 
+        /// <summary>
+        /// Gets a value indicating whether this instance represents a group.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance represents a group; otherwise, <c>false</c>.
+        /// </value>
         public override bool IsGroup => false;
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is master.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is master; otherwise, <c>false</c>.
+        /// </value>
         public override bool IsMaster => false;
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is mirror.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is mirror; otherwise, <c>false</c>.
+        /// </value>
         public override bool IsMirror => false;
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is overridden.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is overridden; otherwise, <c>false</c>.
+        /// </value>
         public override bool IsOverridden => false;
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is a role reference.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is role reference; otherwise, <c>false</c>.
+        /// </value>
         public override bool IsRoleReference => false;
         
         /// <summary>

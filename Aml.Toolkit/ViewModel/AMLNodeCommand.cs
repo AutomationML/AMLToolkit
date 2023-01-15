@@ -130,6 +130,12 @@ namespace Aml.Toolkit.ViewModel
             set => Set(ref _name, value, nameof(Name));
         }
 
+        /// <summary>
+        /// Gets or sets the icon.
+        /// </summary>
+        /// <value>
+        /// The icon.
+        /// </value>
         public string Icon
         {
             get => _icon ?? Name;

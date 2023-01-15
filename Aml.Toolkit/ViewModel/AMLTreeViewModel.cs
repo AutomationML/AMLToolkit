@@ -387,6 +387,9 @@ namespace Aml.Toolkit.ViewModel
             Root = null;
         }
 
+        /// <summary>
+        /// Configures the context menu.
+        /// </summary>
         public virtual void ConfigureContextMenu ()
         {
            //SelectedNode?.RaisePropertyChanged (nameof(Commands));
@@ -691,7 +694,7 @@ namespace Aml.Toolkit.ViewModel
 
         private void TreeViewLayout_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            return;
+            //return;
 
             // has no effect on link lines ???
             switch (e.PropertyName)
@@ -1329,6 +1332,18 @@ namespace Aml.Toolkit.ViewModel
             }
         }
 
+        private static IEnumerable<XElement> GetModelElements (CAEXWrapper node, HashSet<string> names)
+        {
+            if (ServiceLocator.GetService<IDatabaseService>() is IDatabaseService service)
+            {
+                foreach (var name in names)
+                {
+                    service.Elements (node.Node,name,true);
+                }
+            }
+            return node.Node.Elements().Where(n => names.Contains(n.Name.LocalName));
+        }
+
         /// <summary>
         /// gets the children of the node, which should appear in the list.
         /// </summary>
@@ -1365,7 +1380,7 @@ namespace Aml.Toolkit.ViewModel
                 }
             }
 
-            var items = node.Node.Elements().Where(n => names.Contains(n.Name.LocalName));
+            var items = AMLTreeViewModel.GetModelElements(node, names);
 
             if (node is SystemUnitFamilyType sucClass && showInheritance)
             {

@@ -859,6 +859,9 @@ namespace Aml.Toolkit.ViewModel
         {
             get
             {
+                if (Tree == null)
+                { return null; }
+
                 if (!Tree.NodeFilters.Filter(this))
                 {
                     return null;
@@ -976,12 +979,28 @@ namespace Aml.Toolkit.ViewModel
         /// </summary>
         internal IList<AMLNodeViewModel> LoadedChildren => _childrenCollection.Source as IList<AMLNodeViewModel>;
 
-
+        /// <summary>
+        /// Gets the master element.
+        /// </summary>
+        /// <value>
+        /// The master element.
+        /// </value>
         public AMLNodeViewModel MasterElement => (Parent != null && Parent.IsMaster) ? Parent : Parent?.MasterElement ?? null;
 
+        /// <summary>
+        /// Gets the mirror element.
+        /// </summary>
+        /// <value>
+        /// The mirror element.
+        /// </value>
         public AMLNodeViewModel MirrorElement => (Parent != null && Parent.IsMirror) ? Parent : Parent?.MirrorElement ?? null;
 
-
+        /// <summary>
+        /// Gets the master.
+        /// </summary>
+        /// <value>
+        /// The master.
+        /// </value>
         public CAEXObject Master => ( CAEXObject is IMirror mirror ) ? mirror.Master : null;
 
         #endregion Internal Properties
@@ -1119,7 +1138,12 @@ namespace Aml.Toolkit.ViewModel
             }
         }
 
-
+        /// <summary>
+        /// Creates new revision.
+        /// </summary>
+        /// <value>
+        /// The new revision.
+        /// </value>
         public string NewRevision
         {
             get
@@ -1141,6 +1165,12 @@ namespace Aml.Toolkit.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the old revision.
+        /// </summary>
+        /// <value>
+        /// The old revision.
+        /// </value>
         public string OldRevision
         {
             get
@@ -1898,8 +1928,12 @@ namespace Aml.Toolkit.ViewModel
 
         internal AMLNodeViewModel FirstNode(AMLNodeViewModel from, AMLNodeViewModel to)
         {
+            
             foreach (var child in LoadedChildren) 
             {
+                // child is not null here but checked
+                if (child == null) continue;
+
                 if (child.Equals(from))
                 {
                     return from;

@@ -166,7 +166,12 @@ namespace Aml.Toolkit.ViewModel.Graph
         internal Dictionary<AMLNodeViewModel, Vertex> Vertices { get; set; }
 
 
-        
+        /// <summary>
+        /// Gets a value indicating whether this instance has vertices.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance has vertices; otherwise, <c>false</c>.
+        /// </value>
         public bool HasVertices 
         {
             get 

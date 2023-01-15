@@ -77,6 +77,12 @@ namespace Aml.Toolkit.View
 
         #endregion Public Constructors
 
+        /// <summary>
+        /// Gets or sets the ui zoom factor.
+        /// </summary>
+        /// <value>
+        /// The zoom factor.
+        /// </value>
         public static double ZoomFactor
         {
             get => IlGraph.ZoomFactor;
@@ -187,7 +193,8 @@ namespace Aml.Toolkit.View
             {
                 Debug.WriteLine (SelectedEdge.StartPoint.Item.Name);
                 Debug.WriteLine (SelectedEdge.EndPoint.Item.Name);
-                if (SelectedEdge.StartPoint.IsVisible(false) && SelectedEdge.EndPoint.IsVisible(false))
+                if (SelectedEdge.StartPoint.IsVisible(false) || 
+                    SelectedEdge.EndPoint.IsVisible(false))
                 {
                     HighlightEdge();
                 }

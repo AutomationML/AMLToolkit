@@ -37,6 +37,54 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|AnyCPU'">
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|AnyCPU'">
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseTest|net6.0-windows|AnyCPU'">
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|x64'">
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|x64'">
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseTest|net6.0-windows|x64'">
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows|AnyCPU'">
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows|AnyCPU'">
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseTest|net7.0-windows|AnyCPU'">
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows|x64'">
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-windows|x64'">
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseTest|net7.0-windows|x64'">
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
 
 	<ItemGroup>
 		<None Remove="Resource\case.png" />

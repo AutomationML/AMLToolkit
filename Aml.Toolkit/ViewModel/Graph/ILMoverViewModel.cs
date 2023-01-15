@@ -99,7 +99,12 @@ namespace Aml.Toolkit.ViewModel.Graph
 
         #region Public Properties
 
-
+        /// <summary>
+        /// Gets or sets the selected link.
+        /// </summary>
+        /// <value>
+        /// The selected link.
+        /// </value>
         public InternalLinkType SelectedLink
         {
             get => _selectedLink;
