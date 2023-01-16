@@ -113,7 +113,10 @@ namespace Aml.Toolkit.ViewModel.Graph
                 _selectedLink = value;
                 if (_adornedElement is AMLTreeView view && value != null)
                 {
-                    view.RaiseSelectionEvent (new AMLNodeViewModel(null,_selectedLink.Node, false ));
+                    view.RaiseSelectionEvent (new AMLNodeViewModel(null,_selectedLink.Node, false ) 
+                    {
+                        Tree = view.DataContext as AMLTreeViewModel
+                    });
                 }
             }
         }

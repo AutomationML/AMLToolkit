@@ -920,7 +920,7 @@ namespace Aml.Toolkit.ViewModel
 
             if (!CAEXTagNames.Contains(xElement.Name.LocalName))
             {
-                while (xElement.Name.LocalName == CAEX_CLASSModel_TagNames.ATTRIBUTE_STRING)
+                while (xElement != null && xElement.Name.LocalName == CAEX_CLASSModel_TagNames.ATTRIBUTE_STRING)
                 {
                     xElement = xElement.Parent;
                 }

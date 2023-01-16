@@ -231,7 +231,7 @@ namespace Aml.Toolkit.View
             _visualChildren = null;
         }
 
-        internal void Connect(AMLNodeViewModel source, AMLNodeViewModel target)
+        public void Connect(AMLNodeViewModel source, AMLNodeViewModel target)
         {
             if (source != target)
             {
@@ -353,6 +353,50 @@ namespace Aml.Toolkit.View
 
             InvalidateVisual();
             return SelectedLink;
+        }
+
+
+        /// <summary>
+        /// Selects the internal link.
+        /// </summary>
+        /// <param name="internalLink">The internal link.</param>
+        public void SelectInternalLink (InternalLinkType internalLink)
+        {
+            ClearSelection(true);
+            SelectedLink = internalLink;
+            for (var i = 0; i < _ILGraph.Graph.Edges.Count; i++)
+            {
+                var edgeList = _ILGraph.Graph.Edges[i];
+                for (var j = 0; j < edgeList.Count; j++)
+                {
+                    var edge = edgeList[j];
+                    if (edge == null)
+                    {
+                        continue;
+                    }
+                    if (edge.StartPoint.Item is not AMLNodeWithClassReference a ||
+                        edge.EndPoint.Item is not AMLNodeWithClassReference b)
+                    {
+                        continue;
+                    }
+
+                    if (a.CAEXObject != null && a.CAEXObject.Equals(internalLink.AInterface) &&
+                        b.CAEXObject != null && b.CAEXObject.Equals(internalLink.BInterface)) 
+                    {
+                        SelectedEdge = edge;
+                        InvalidateVisual();
+                        return;
+                    }
+
+                    if (a.CAEXObject != null && a.CAEXObject.Equals(internalLink.BInterface) &&
+                        b.CAEXObject != null && b.CAEXObject.Equals(internalLink.AInterface)) 
+                    {
+                        SelectedEdge = edge;
+                        InvalidateVisual();
+                        return;
+                    }
+                }
+            }
         }
 
         /// <summary>
