@@ -119,6 +119,7 @@ namespace Aml.Toolkit.View
         private void AMLTreeView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             TreeViewModel?.ConfigureContextMenu();
+            ContextMenu.GetBindingExpression(ContextMenu.ItemsSourceProperty).UpdateTarget();
         }
 
 
