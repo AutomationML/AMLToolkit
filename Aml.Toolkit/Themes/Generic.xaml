@@ -1032,7 +1032,6 @@
 
                         <Image
                             x:Name="OldVersion"
-                            Grid.Column="1"
                             Width="8"
                             Height="8"
                             Margin="0,4,3,0"
@@ -1045,7 +1044,6 @@
 
                         <Image
                             x:Name="NewVersion"
-                            Grid.Column="1"
                             Width="8"
                             Height="8"
                             Margin="0,4,3,0"
@@ -1058,7 +1056,6 @@
 
                         <Image
                             x:Name="MasterIcon"
-                            Grid.Column="2"
                             Width="15"
                             Height="15"
                             VerticalAlignment="Center"
@@ -1069,7 +1066,6 @@
 
                         <Image
                             x:Name="TreeViewIcon"
-                            Grid.Column="3"
                             Width="12"
                             Height="12"
                             Margin="0,0,2,0"
@@ -1079,7 +1075,6 @@
 
                         <Label
                             Name="FacetLabel"
-                            Grid.Column="4"
                             Margin="-3,0,0,0"
                             Padding="0"
                             HorizontalAlignment="Left"
@@ -1093,7 +1088,6 @@
 
                         <Label
                             Name="TextLabel"
-                            Grid.Column="4"
                             Margin="-3,0,0,0"
                             Padding="0"
                             HorizontalAlignment="Left"
@@ -1107,7 +1101,6 @@
 
                         <Label
                             Name="PortLabel"
-                            Grid.Column="4"
                             Margin="-3,0,0,0"
                             Padding="0"
                             HorizontalAlignment="Left"
@@ -1121,7 +1114,6 @@
 
                         <Image
                             x:Name="OverrideAdorner"
-                            Grid.Column="4"
                             Height="12"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
@@ -1135,7 +1127,6 @@
                         </Image>
                         <Image
                             x:Name="DerivedAdorner"
-                            Grid.Column="4"
                             Height="12"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
@@ -1146,7 +1137,6 @@
 
                         <Border
                             Name="mirrorSign"
-                            Grid.Column="4"
                             Width="14"
                             Height="14"
                             HorizontalAlignment="Left"

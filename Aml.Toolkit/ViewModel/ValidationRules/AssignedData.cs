@@ -16,7 +16,7 @@ namespace Aml.Toolkit.ViewModel.ValidationRules
         /// The caex object property
         /// </summary>
         public static readonly DependencyProperty CaexObjectProperty =
-            DependencyProperty.Register("CaexObject", typeof(CAEXBasicObject), typeof(AssignedData),
+            DependencyProperty.Register(nameof(CaexObject), typeof(CAEXBasicObject), typeof(AssignedData),
                 new PropertyMetadata(null, PropertyChangedCallback));
 
         #endregion Public Fields

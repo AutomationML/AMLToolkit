@@ -81,7 +81,7 @@ namespace Aml.Toolkit.Operations
         public virtual ICommand Command
         {
             get => _command;
-            set => Set(ref _command, value, nameof(Command));
+            set => Set(ref _command, value);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Aml.Toolkit.Operations
         public object CommandParameter
         {
             get => _commandParameter;
-            set => Set(ref _commandParameter, value, nameof(CommandParameter));
+            set => Set(ref _commandParameter, value);
         }
 
 
@@ -118,7 +118,7 @@ namespace Aml.Toolkit.Operations
         public Geometry IconData
         {
             get => _iconData;
-            set => Set(ref _iconData, value, nameof(IconData));
+            set => Set(ref _iconData, value);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Aml.Toolkit.Operations
         public bool IsActive
         {
             get => _isActive;
-            set => Set(ref _isActive, value, nameof(IsActive));
+            set => Set(ref _isActive, value);
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace Aml.Toolkit.Operations
         public bool IsChecked
         {
             get => _isChecked;
-            set => Set(ref _isChecked, value, nameof(IsChecked));
+            set => Set(ref _isChecked, value);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Aml.Toolkit.Operations
         public bool IsEnabled
         {
             get => _isEnabled;
-            set => Set(ref _isEnabled, value, nameof(IsEnabled));
+            set => Set(ref _isEnabled, value);
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace Aml.Toolkit.Operations
         public string Name
         {
             get => _name;
-            set => Set(ref _name, value, nameof(Name));
+            set => Set(ref _name, value);
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace Aml.Toolkit.Operations
         public string ToolTip
         {
             get => _toolTip;
-            set => Set(ref _toolTip, value, nameof(ToolTip));
+            set => Set(ref _toolTip, value);
         }
 
         #endregion Public Properties

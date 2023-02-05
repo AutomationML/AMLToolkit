@@ -73,7 +73,7 @@ namespace Aml.Toolkit.ViewModel
 
                 Graph.RemoveEdge(sourceVertex, targetVertex);
 
-                if (targetVertex.Item is AMLNodeWithClassReference acr && acr.ShowLinks && !acr.HasLinks)
+                if (targetVertex.Item is AMLNodeWithClassReference { ShowLinks: true, HasLinks: false } acr)
                 {
                     acr.ShowLinks = false;
                 }

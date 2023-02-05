@@ -1,7 +1,6 @@
 ﻿using Aml.Engine.CAEX;
 using Aml.Toolkit.View;
 using System;
-using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -42,7 +41,7 @@ namespace Aml.Toolkit.ViewModel.Graph
 
         static IlGraph ()
         {
-            Aml.Skins.AMLApp.ApplyColors = SetLinkColours;
+            Skins.AMLApp.ApplyColors = SetLinkColours;
         }
 
         #endregion Public Constructors
@@ -126,12 +125,12 @@ namespace Aml.Toolkit.ViewModel.Graph
         #region Private Fields
         private static List<Brush> _availableBrushes;
 
-        private static List<Brush> AvailableLinkBrushes 
+        private static List<Brush> AvailableLinkBrushes
         {
-              get => _availableBrushes ??= GenerateBrushes(Aml.Skins.AMLApp.ThemeColors);
+              get => _availableBrushes ??= GenerateBrushes(Skins.AMLApp.ThemeColors);
               set => _availableBrushes = value;
         }
-       
+
         //= new Brush[]
         //{
         //    (Brush)new BrushConverter().ConvertFrom("#ffaacc"),
@@ -172,11 +171,11 @@ namespace Aml.Toolkit.ViewModel.Graph
         /// <value>
         ///   <c>true</c> if this instance has vertices; otherwise, <c>false</c>.
         /// </value>
-        public bool HasVertices 
+        public bool HasVertices
         {
-            get 
+            get
             {
-                if ( Vertices != null && Vertices.Count > 0)
+                if ( Vertices is { Count: > 0 })
                 {
                     var keys = Vertices.Keys;
                     foreach (var node in keys)
@@ -646,7 +645,7 @@ namespace Aml.Toolkit.ViewModel.Graph
             }
         }
 
-        
+
 
         //    FrameworkElement container = item.AMLTreeViewModel.Parent as FrameworkElement;
         //    Rect bounds = item.TransformToAncestor(container).TransformBounds(new Rect(new Point(0, 0), new Size(item.DesiredSize.Width + widthOffset, item.DesiredSize.Height)));
@@ -671,10 +670,10 @@ namespace Aml.Toolkit.ViewModel.Graph
                     {
                         //edge.StartPoint?.Item?.RaisePropertyChanged("HasLinks");
                         //edge.EndPoint?.Item?.RaisePropertyChanged("HasLinks");
-                        
+
                         if (!IsSelected)
                         {
-                            
+
                             return false;
                         }
 
@@ -722,11 +721,11 @@ namespace Aml.Toolkit.ViewModel.Graph
             }
 
 
-            var a = (tFrom!=null) 
-                ? LocalPosToAncestorPos((ContentPresenter)tFrom.Template.FindName("PART_Header", tFrom), treeView) 
+            var a = (tFrom!=null)
+                ? LocalPosToAncestorPos((ContentPresenter)tFrom.Template.FindName("PART_Header", tFrom), treeView)
                 : new (0,0);
-            var d = (tTo !=null) 
-                ? LocalPosToAncestorPos((ContentPresenter)tTo.Template.FindName("PART_Header", tTo), treeView) 
+            var d = (tTo !=null)
+                ? LocalPosToAncestorPos((ContentPresenter)tTo.Template.FindName("PART_Header", tTo), treeView)
                 : new Point(0,0);
 
             if (tFrom == null)
@@ -734,15 +733,15 @@ namespace Aml.Toolkit.ViewModel.Graph
                 a.X= d.X;
                 var firstNode = ((AMLTreeViewModel) treeView.DataContext).FirstNode (from,to);
 
-                a.Y = firstNode.Equals(to) ? treeView.ActualHeight : -10;  
+                a.Y = firstNode.Equals(to) ? treeView.ActualHeight : -10;
             }
 
             if (tTo == null)
             {
-                d.X=a.X; 
+                d.X=a.X;
                 var firstNode = ((AMLTreeViewModel) treeView.DataContext).FirstNode (from,to);
 
-                d.Y = firstNode.Equals(from) ? treeView.ActualHeight : -10;  
+                d.Y = firstNode.Equals(from) ? treeView.ActualHeight : -10;
             }
 
             var b = new Point(a.X, a.Y);

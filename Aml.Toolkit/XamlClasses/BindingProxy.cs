@@ -14,7 +14,7 @@ namespace Aml.Toolkit.XamlClasses
         /// The data property
         /// </summary>
         public static readonly DependencyProperty DataProperty =
-            DependencyProperty.Register("Data", typeof(object), typeof(BindingProxy),
+            DependencyProperty.Register(nameof(Data), typeof(object), typeof(BindingProxy),
                 new PropertyMetadata(null, BindingChanged));
 
         #endregion Public Fields

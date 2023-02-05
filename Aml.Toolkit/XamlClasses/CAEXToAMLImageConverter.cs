@@ -25,7 +25,7 @@ namespace Aml.Toolkit.XamlClasses
             static object GetResourceValue(string keyName)
             {
                 // Search all dictionaries
-                return Application.Current.Resources[keyName];               
+                return Application.Current.Resources[keyName];
             }
 
             return caexName switch

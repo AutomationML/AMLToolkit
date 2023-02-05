@@ -213,13 +213,7 @@ namespace Aml.Toolkit.ViewModel
         /// </value>
         public override bool IsGroup => false;
 
-        /// <summary>
-        /// Gets a value indicating whether this instance is master.
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is master; otherwise, <c>false</c>.
-        /// </value>
-        public override bool IsMaster => false;
+
 
         /// <summary>
         /// Gets a value indicating whether this instance is mirror.
@@ -244,7 +238,7 @@ namespace Aml.Toolkit.ViewModel
         ///   <c>true</c> if this instance is role reference; otherwise, <c>false</c>.
         /// </value>
         public override bool IsRoleReference => false;
-        
+
         /// <summary>
         /// Gets and sets the Name
         /// </summary>
@@ -254,7 +248,7 @@ namespace Aml.Toolkit.ViewModel
         public override string Name
         {
             get => CAEXObject is IObjectWithRoleReference irole
-                ? AMLNodeGroupViewModel.ShortNameFromReference(irole.RoleReference)
+                ? ShortNameFromReference(irole.RoleReference)
                 : base.Name;
             set => base.Name = value;
         }

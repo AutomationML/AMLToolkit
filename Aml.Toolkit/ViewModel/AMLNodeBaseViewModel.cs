@@ -1,8 +1,5 @@
 ﻿using Aml.Editor.MVVMBase;
 using System;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace Aml.Toolkit.ViewModel
@@ -37,7 +34,7 @@ namespace Aml.Toolkit.ViewModel
         public bool IsSelected
         {
             get => _isSelected;
-            set => Set(ref _isSelected, value, nameof(IsSelected));
+            set => Set(ref _isSelected, value);
         }
 
         /// <summary>
@@ -46,7 +43,7 @@ namespace Aml.Toolkit.ViewModel
         public virtual bool IsVisible
         {
             get => _isVisible;
-            set => Set(ref _isVisible, value, nameof(IsVisible));
+            set => Set(ref _isVisible, value);
         }
 
         /// <summary>
@@ -56,7 +53,7 @@ namespace Aml.Toolkit.ViewModel
         public virtual bool IsExpanded
         {
             get => _isExpanded;
-            set => Set(ref _isExpanded, value, nameof(IsExpanded));
+            set => Set(ref _isExpanded, value);
         }
 
         /// <summary>
@@ -99,7 +96,7 @@ namespace Aml.Toolkit.ViewModel
         /// <param name="isSelected"></param>
         public void SetSelect(bool isSelected)
         {
-            this.IsSelected = isSelected;
+            IsSelected = isSelected;
         }
 
 
@@ -113,6 +110,6 @@ namespace Aml.Toolkit.ViewModel
         }
 
 
-     
+
     }
 }

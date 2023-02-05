@@ -107,7 +107,7 @@ namespace Aml.Toolkit.ViewModel
                 };
             }
             return HasDummyChild || Children.Any(n => IsVisible(n.CAEXNode)) ||
-                Tree.ModelChilds(this).Any(n => IsVisible(n));
+                Tree.ModelChilds(this, false).Any(IsVisible);
         }
 
         private bool NodeVisibleFilter(object obj)
@@ -119,10 +119,10 @@ namespace Aml.Toolkit.ViewModel
 
             return node switch
             {
-                AMLExpandableDummyNode _ => CanExpand(),
-                AMLNodeGroupViewModel group when group.IsRoleGroup => Tree.TreeViewLayout.ShowRoleGrouping && Tree.TreeViewLayout.ShowRoleReqNodes,
-                AMLNodeGroupViewModel _ => Tree.TreeViewLayout.ShowInterfaceGrouping,
-                AMLNodeWithoutName role when role.IsRoleReference => Tree.TreeViewLayout.ShowRoleReqNodes,
+                AMLExpandableDummyNode => CanExpand(),
+                AMLNodeGroupViewModel { IsRoleGroup: true } => Tree.TreeViewLayout.ShowRoleGrouping && Tree.TreeViewLayout.ShowRoleReqNodes,
+                AMLNodeGroupViewModel => Tree.TreeViewLayout.ShowInterfaceGrouping,
+                AMLNodeWithoutName { IsRoleReference: true } => Tree.TreeViewLayout.ShowRoleReqNodes,
                 _ => true,
             };
         }

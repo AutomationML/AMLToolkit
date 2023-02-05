@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace Aml.Toolkit.XamlClasses
 {
     /// <summary>
-    /// Behavior of a tree view item allows to bring the item into view, when the node 
+    /// Behavior of a tree view item allows to bring the item into view, when the node
     /// gets selected from a method call.
     /// </summary>
     public static class TreeViewItemBehavior

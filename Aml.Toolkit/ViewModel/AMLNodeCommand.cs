@@ -69,7 +69,7 @@ namespace Aml.Toolkit.ViewModel
         public ICommand Command
         {
             get => _command;
-            set => Set(ref _command, value, nameof(Command));
+            set => Set(ref _command, value);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Aml.Toolkit.ViewModel
         public string Info
         {
             get => _info;
-            set => Set(ref _info, value, nameof(Info));
+            set => Set(ref _info, value);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Aml.Toolkit.ViewModel
         public string InputGesture
         {
             get => _inputGesture;
-            set => Set(ref _inputGesture, value, nameof(InputGesture));
+            set => Set(ref _inputGesture, value);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Aml.Toolkit.ViewModel
         public bool IsEnabled
         {
             get => _isEnabled;
-            set => Set(ref _isEnabled, value, nameof(IsEnabled));
+            set => Set(ref _isEnabled, value);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Aml.Toolkit.ViewModel
         public string Name
         {
             get => _name;
-            set => Set(ref _name, value, nameof(Name));
+            set => Set(ref _name, value);
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace Aml.Toolkit.ViewModel
         public object Parameter
         {
             get => _parameter;
-            set => Set(ref _parameter, value, nameof(Parameter));
+            set => Set(ref _parameter, value);
         }
 
         #endregion Public Properties

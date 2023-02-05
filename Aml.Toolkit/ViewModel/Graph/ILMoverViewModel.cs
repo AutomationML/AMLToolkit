@@ -113,7 +113,7 @@ namespace Aml.Toolkit.ViewModel.Graph
                 _selectedLink = value;
                 if (_adornedElement is AMLTreeView view && value != null)
                 {
-                    view.RaiseSelectionEvent (new AMLNodeViewModel(null,_selectedLink.Node, false ) 
+                    view.RaiseSelectionEvent (new AMLNodeViewModel(null,_selectedLink.Node, false )
                     {
                         Tree = view.DataContext as AMLTreeViewModel
                     });
@@ -134,7 +134,7 @@ namespace Aml.Toolkit.ViewModel.Graph
         public bool IsSnapped
         {
             get => _isSnapped;
-            set => Set(ref _isSnapped, value, nameof(IsSnapped));
+            set => Set(ref _isSnapped, value);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace Aml.Toolkit.ViewModel.Graph
         public Brush LineBrush
         {
             get => _lineBrush;
-            set => Set(ref _lineBrush, value, nameof(LineBrush));
+            set => Set(ref _lineBrush, value);
         }
 
         /// <summary>
@@ -208,8 +208,7 @@ namespace Aml.Toolkit.ViewModel.Graph
             var node = _adornedElement.InputHitTest(point) as DependencyObject;
             var dropNode = VisualTreeUtilities.FindVisualParent<TreeViewItem>(node);
 
-            if (dropNode?.DataContext is AMLNodeWithClassReference tv &&
-                tv.CAEXObject is ExternalInterfaceType extInterface)
+            if (dropNode?.DataContext is AMLNodeWithClassReference { CAEXObject: ExternalInterfaceType extInterface } tv)
             {
                 // korrektur wenn bewegung nicht erkannt wurde
                 if (_movedInterface == null)

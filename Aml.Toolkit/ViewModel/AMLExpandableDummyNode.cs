@@ -8,7 +8,7 @@ namespace Aml.Toolkit.ViewModel
     /// <seealso cref="AMLNodeViewModel" />
     public class AMLExpandableDummyNode : AMLNodeViewModel
     {
-        #region Public Constructors        
+        #region Public Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="AMLExpandableDummyNode"/> class.
         /// </summary>

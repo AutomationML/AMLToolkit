@@ -59,21 +59,21 @@ namespace Aml.Toolkit.View
         ///     DependencyProperty as the backing store for IsMultipleSelection.
         /// </summary>
         public static readonly DependencyProperty IsMultipleSelectionProperty =
-            DependencyProperty.Register("IsMultipleSelection", typeof(bool), typeof(AMLTreeView),
+            DependencyProperty.Register(nameof(IsMultipleSelection), typeof(bool), typeof(AMLTreeView),
                 new PropertyMetadata(false));
 
         /// <summary>
         ///     Using a DependencyProperty as the backing store for TheTreeView.
         /// </summary>
         public static readonly DependencyProperty TheTreeViewProperty =
-            DependencyProperty.Register("TheTreeView", typeof(TreeView), typeof(AMLTreeView),
+            DependencyProperty.Register(nameof(TheTreeView), typeof(TreeView), typeof(AMLTreeView),
                 new PropertyMetadata(null));
 
         /// <summary>
         ///     Using a DependencyProperty as the backing store for TreeViewModel.
         /// </summary>
         public static readonly DependencyProperty TreeViewModelProperty =
-            DependencyProperty.Register("TreeViewModel", typeof(AMLTreeViewModel), typeof(AMLTreeView),
+            DependencyProperty.Register(nameof(TreeViewModel), typeof(AMLTreeViewModel), typeof(AMLTreeView),
                 new PropertyMetadata(null, OnTreeViewModelChanged));
 
         #endregion Public Fields
@@ -119,7 +119,7 @@ namespace Aml.Toolkit.View
         private void AMLTreeView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             TreeViewModel?.ConfigureContextMenu();
-            ContextMenu.GetBindingExpression(ContextMenu.ItemsSourceProperty).UpdateTarget();
+            ContextMenu?.GetBindingExpression(ItemsControl.ItemsSourceProperty)?.UpdateTarget();
         }
 
 
@@ -511,7 +511,7 @@ namespace Aml.Toolkit.View
 
         internal void RaiseSelectionEvent (AMLNodeViewModel node)
         {
-            if (TreeViewModel.SelectedElements != null && TreeViewModel.SelectedElements.Count == 0)
+            if (TreeViewModel.SelectedElements is { Count: 0 })
             {
                 TreeViewModel.SelectedElements.Add(node);
             }

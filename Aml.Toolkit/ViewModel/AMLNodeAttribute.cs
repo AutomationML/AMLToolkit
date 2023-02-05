@@ -85,7 +85,7 @@ namespace Aml.Toolkit.ViewModel
         /// <value>
         ///   <c>true</c> if this instance is mirror; otherwise, <c>false</c>.
         /// </value>
-        public override bool IsMirror => CAEXObject is AttributeType att && att.IsMirror && att.Master != null;
+        public override bool IsMirror => CAEXObject is AttributeType { IsMirror: true } att && att.Master != null;
 
         #endregion Public Properties
     }

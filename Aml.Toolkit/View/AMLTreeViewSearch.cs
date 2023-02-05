@@ -22,32 +22,36 @@ namespace Aml.Toolkit.View
         /// The aml TreeView property
         /// </summary>
         public static readonly DependencyProperty AmlTreeViewProperty =
-            DependencyProperty.Register("AmlTreeView", typeof(AMLTreeView), typeof(AMLTreeViewSearch),
+            DependencyProperty.Register(nameof(AmlTreeView), typeof(AMLTreeView), typeof(AMLTreeViewSearch),
                 new PropertyMetadata(default(AMLTreeView), OnTreeViewChanged));
 
-       
-        
+
+
         private static void OnTreeViewChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if ( e.NewValue is AMLTreeView tree )
+            if (e.NewValue is not AMLTreeView tree)
             {
-                if ( tree.DataContext is AMLTreeViewModel treeViewModel)
-                {                   
-                    treeViewModel.SelectionChanged += (o,s) => 
+                return;
+            }
+
+            if ( tree.DataContext is AMLTreeViewModel treeViewModel)
+            {
+                treeViewModel.SelectionChanged += (o,s) =>
+                {
+                    if (d is not AMLTreeViewSearch treeViewSearch)
                     {
-                        if (d is AMLTreeViewSearch treeViewSearch)
-                        {
-                            if (treeViewSearch._filterItemViewModel.InUse)
-                            {
-                                treeViewSearch._filterItemViewModel.Restart();
-                            }
-                        }
-                    };
-                }
+                        return;
+                    }
+
+                    if (treeViewSearch._filterItemViewModel.InUse)
+                    {
+                        treeViewSearch._filterItemViewModel.Restart();
+                    }
+                };
             }
         }
 
-       
+
 
 
         #endregion Public Fields
@@ -154,7 +158,7 @@ namespace Aml.Toolkit.View
         {
             _ = (Dispatcher?.BeginInvoke(DispatcherPriority.Background, new Action(() =>
               {
-                  AmlTreeView.TreeViewModel.NodeFilters.RemoveFilter(NodeIsInSearchresult);
+                  AmlTreeView.TreeViewModel.NodeFilters.RemoveFilter(NodeIsInSearchResult);
                   AmlTreeView.TreeViewModel.NodeFilters.Refresh();
 
                   if (string.IsNullOrEmpty(_filterItemViewModel.SearchText))
@@ -222,14 +226,14 @@ namespace Aml.Toolkit.View
              {
                  if (_filterItemViewModel.FilterTree)
                  {
-                     if (_searchresultList != null && _searchresultList.Count > 0)
+                     if (_searchresultList is { Count: > 0 })
                      {
-                         AmlTreeView.TreeViewModel.NodeFilters.AddFilter(NodeIsInSearchresult);
+                         AmlTreeView.TreeViewModel.NodeFilters.AddFilter(NodeIsInSearchResult);
                      }
                  }
                  else
                  {
-                     AmlTreeView.TreeViewModel.NodeFilters.RemoveFilter(NodeIsInSearchresult);
+                     AmlTreeView.TreeViewModel.NodeFilters.RemoveFilter(NodeIsInSearchResult);
                  }
 
                  AmlTreeView.TreeViewModel.NodeFilters.Refresh();
@@ -237,23 +241,16 @@ namespace Aml.Toolkit.View
 
              if (AmlTreeView != null)
              {
-                 if (AmlTreeView.TreeViewModel.SelectedNode != null)
-                 {
-                     _filterItemViewModel.SearchScope = AmlTreeView.TreeViewModel.SelectedNode.Name;
-                 }
-                 else
-                 {
-                     _filterItemViewModel.SearchScope = $"all {Hierarchy}";
-                 }
+                 _filterItemViewModel.SearchScope = AmlTreeView.TreeViewModel.SelectedNode != null ? AmlTreeView.TreeViewModel.SelectedNode.Name : $"all {Hierarchy}";
              }
          }));
         }
 
-        private bool NodeIsInSearchresult(AMLNodeViewModel node)
+        private bool NodeIsInSearchResult(AMLNodeViewModel node)
         {
             for (var i = 0; i < _searchresultList.Count; i++)
             {
-                if (node is AMLNodeGroupViewModel nodeGroup && nodeGroup.IsVisibleInLayout)
+                if (node is AMLNodeGroupViewModel { IsVisibleInLayout: true })
                 {
                     if (node.Children.Any(n => n.CAEXNode == _searchresultList[i]))
                     {
@@ -287,7 +284,7 @@ namespace Aml.Toolkit.View
             _searchresultList = _filterItemViewModel.Results.ToList();
             if (_searchresultList.Count > 0 && _filterItemViewModel.FilterTree)
             {
-                AmlTreeView.TreeViewModel.NodeFilters.AddFilter(NodeIsInSearchresult);
+                AmlTreeView.TreeViewModel.NodeFilters.AddFilter(NodeIsInSearchResult);
             }
 
             for (var i = 0; i < _searchresultList.Count; i++)

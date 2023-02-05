@@ -26,7 +26,7 @@ namespace Aml.Toolkit.ViewModel.Commands
         #region Public Methods
 
         /// <summary> Defines the method that determines whether the command can be executed in the
-        /// current state. 
+        /// current state.
         /// </summary>
         /// <param name="parameter">Data used by the command.</param>
         public abstract bool CanExecute(object parameter);

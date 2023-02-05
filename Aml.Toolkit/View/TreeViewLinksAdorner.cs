@@ -193,7 +193,7 @@ namespace Aml.Toolkit.View
             {
                 Debug.WriteLine (SelectedEdge.StartPoint.Item.Name);
                 Debug.WriteLine (SelectedEdge.EndPoint.Item.Name);
-                if (SelectedEdge.StartPoint.IsVisible(false) || 
+                if (SelectedEdge.StartPoint.IsVisible(false) ||
                     SelectedEdge.EndPoint.IsVisible(false))
                 {
                     HighlightEdge();
@@ -231,6 +231,11 @@ namespace Aml.Toolkit.View
             _visualChildren = null;
         }
 
+        /// <summary>
+        /// connect the source and target with an internal link line
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
         public void Connect(AMLNodeViewModel source, AMLNodeViewModel target)
         {
             if (source != target)
@@ -314,7 +319,7 @@ namespace Aml.Toolkit.View
                     }
 
                     Geometry line = new LineGeometry(edge.Points[0], edge.Points[1]);
-                    
+
 
                     var isSelected = line.FillContains(pt, Tolerance, ToleranceType.Absolute);
                     //isSelected = line.StrokeContains(edge.Pen, pt);
@@ -381,7 +386,7 @@ namespace Aml.Toolkit.View
                     }
 
                     if (a.CAEXObject != null && a.CAEXObject.Equals(internalLink.AInterface) &&
-                        b.CAEXObject != null && b.CAEXObject.Equals(internalLink.BInterface)) 
+                        b.CAEXObject != null && b.CAEXObject.Equals(internalLink.BInterface))
                     {
                         SelectedEdge = edge;
                         InvalidateVisual();
@@ -389,7 +394,7 @@ namespace Aml.Toolkit.View
                     }
 
                     if (a.CAEXObject != null && a.CAEXObject.Equals(internalLink.BInterface) &&
-                        b.CAEXObject != null && b.CAEXObject.Equals(internalLink.AInterface)) 
+                        b.CAEXObject != null && b.CAEXObject.Equals(internalLink.AInterface))
                     {
                         SelectedEdge = edge;
                         InvalidateVisual();
@@ -409,7 +414,7 @@ namespace Aml.Toolkit.View
 
         #endregion Internal Methods
 
-        #region Protected Methods    
+        #region Protected Methods
 
         /// <inheritdoc/>
         protected override Size ArrangeOverride(Size finalSize)
@@ -587,13 +592,9 @@ namespace Aml.Toolkit.View
                     }
 
                     verticalOffset = sv.VerticalOffset;
-
-                    Debug.WriteLine("Scroll");
                     break;
 
-                case TreeViewItem tv:
-                    Debug.WriteLine(((AMLNodeViewModel)tv.DataContext).Name);
-
+                case TreeViewItem:
                     break;
             }
 

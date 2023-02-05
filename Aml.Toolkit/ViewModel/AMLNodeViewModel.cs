@@ -68,7 +68,7 @@ namespace Aml.Toolkit.ViewModel
         private static readonly GroupComparer _groupComparer = new();
 
         /// <summary>
-        /// List with a Dummy Child, shared by all nodes that have 
+        /// List with a Dummy Child, shared by all nodes that have
         /// children but have not been expanded
         /// </summary>
         protected static readonly List<AMLNodeViewModel> _lazyLoadChildrenWithDummy;
@@ -349,7 +349,7 @@ namespace Aml.Toolkit.ViewModel
         public Brush BorderColor
         {
             get => _borderColor;
-            set => Set(ref _borderColor, value, nameof(BorderColor));
+            set => Set(ref _borderColor, value);
         }
 
         /// <summary>
@@ -372,7 +372,7 @@ namespace Aml.Toolkit.ViewModel
         public HashSet<string> CAEXTagNames
         {
             get => _caexTagNames ?? Parent?.CAEXTagNames;
-            protected set => Set(ref _caexTagNames, value, nameof(CAEXTagNames));
+            protected set => Set(ref _caexTagNames, value);
         }
 
         /// <summary>
@@ -392,7 +392,7 @@ namespace Aml.Toolkit.ViewModel
         /// <summary>
         /// 
         /// </summary>
-        IList<ITreeNode> ITreeNode.Children => Children as IList<ITreeNode>;
+        IList<ITreeNode> ITreeNode.Children => Children.Cast<ITreeNode>().ToList();
 
 
         /// <summary>
@@ -411,11 +411,11 @@ namespace Aml.Toolkit.ViewModel
         public string Description
         {
             get => _description;
-            set => Set(ref _description, value, nameof(Description));
+            set => Set(ref _description, value);
         }
 
 
-       
+
 
         /// <summary>
         /// </summary>
@@ -443,7 +443,7 @@ namespace Aml.Toolkit.ViewModel
         public object Extension
         {
             get => _extension;
-            set => Set(ref _extension, value, nameof(Extension));
+            set => Set(ref _extension, value);
         }
 
         //(this._expandAllCommand = AsyncCommand.Create(token => ExpandAllCommandExecute(token), ExpandAllCommandCanExecute) );
@@ -453,7 +453,7 @@ namespace Aml.Toolkit.ViewModel
         public bool HasChildrenBorder
         {
             get => _hasChildrenBorder;
-            set => Set(ref _hasChildrenBorder, value, nameof(HasChildrenBorder));
+            set => Set(ref _hasChildrenBorder, value);
         }
 
         /// <summary>
@@ -462,7 +462,7 @@ namespace Aml.Toolkit.ViewModel
         public bool HasChildrenOverlay
         {
             get => _hasChildrenOverlay;
-            set => Set(ref _hasChildrenOverlay, value, nameof(HasChildrenOverlay));
+            set => Set(ref _hasChildrenOverlay, value);
         }
 
         /// <summary>
@@ -512,7 +512,7 @@ namespace Aml.Toolkit.ViewModel
         ///   <c>true</c> if this instance is verified; otherwise, <c>false</c>.
         /// </value>
         public virtual bool IsVerified => Tree?.GetVerificationState(CAEXObject as CAEXObject) == true;
-            
+
 
         /// <summary>
         /// Gets a value indicating whether this instance is verified.
@@ -545,7 +545,7 @@ namespace Aml.Toolkit.ViewModel
                 }
 
                 _ = Expand(value);
-                RaisePropertyChanged(nameof( IsExpanded));
+                RaisePropertyChanged();
                 //RaisePropertyChanged(nameof( ChildrenView);
             }
         }
@@ -589,7 +589,7 @@ namespace Aml.Toolkit.ViewModel
                 }
 
                 _isInEditMode = value;
-                RaisePropertyChanged(nameof( IsInEditMode));
+                RaisePropertyChanged();
 
                 if (!_isInEditMode)
                 {
@@ -620,7 +620,10 @@ namespace Aml.Toolkit.ViewModel
         /// <value>
         ///     <c>true</c> if this instance is master; otherwise, <c>false</c>.
         /// </value>
-        public virtual bool IsMaster => false;
+        public bool IsMaster
+        {
+            get; set;
+        }
 
         /// <summary>
         ///     Gets a value indicating whether this instance is mirror.
@@ -668,13 +671,13 @@ namespace Aml.Toolkit.ViewModel
 
             set
             {
-                if (_mappedValue == value)
+                if (Math.Abs(_mappedValue - value) < double.Epsilon)
                 {
                     return;
                 }
 
                 _mappedValue = value;
-                RaisePropertyChanged(nameof( MappedValue));
+                RaisePropertyChanged();
             }
         }
 
@@ -704,7 +707,7 @@ namespace Aml.Toolkit.ViewModel
                 }
 
                 _name = value;
-                RaisePropertyChanged(nameof( Name));
+                RaisePropertyChanged();
             }
         }
 
@@ -720,7 +723,7 @@ namespace Aml.Toolkit.ViewModel
         public Brush OverlayColor
         {
             get => _overlayColor;
-            set => Set(ref _overlayColor, value, nameof(OverlayColor));
+            set => Set(ref _overlayColor, value);
         }
 
         /// <summary>
@@ -746,7 +749,7 @@ namespace Aml.Toolkit.ViewModel
         public ITreeNode[] SelectPathItem
         {
             get => _selectPathItem;
-            set => Set(ref _selectPathItem, value, nameof(SelectPathItem));
+            set => Set(ref _selectPathItem, value);
         }
 
         /// <summary>
@@ -758,7 +761,7 @@ namespace Aml.Toolkit.ViewModel
 
             set
             {
-                if (Set(ref _showInheritance, value, nameof(ShowInheritance)))
+                if (Set(ref _showInheritance, value))
                 {
                     RefreshTree(true);
                 }
@@ -774,7 +777,7 @@ namespace Aml.Toolkit.ViewModel
 
             set
             {
-                if (Set(ref _showMirrorData, value, nameof(ShowMirrorData)))
+                if (Set(ref _showMirrorData, value))
                 {
                     RefreshTree(true);
                 }
@@ -787,7 +790,7 @@ namespace Aml.Toolkit.ViewModel
         public bool ShowToolTip
         {
             get => _showToolTip;
-            set => Set(ref _showToolTip, value, nameof(ShowToolTip));
+            set => Set(ref _showToolTip, value);
         }
 
         /// <summary>
@@ -985,7 +988,7 @@ namespace Aml.Toolkit.ViewModel
         /// <value>
         /// The master element.
         /// </value>
-        public AMLNodeViewModel MasterElement => (Parent != null && Parent.IsMaster) ? Parent : Parent?.MasterElement ?? null;
+        public AMLNodeViewModel MasterElement => Parent is { IsMaster: true } ? Parent : Parent?.MasterElement;
 
         /// <summary>
         /// Gets the mirror element.
@@ -993,7 +996,7 @@ namespace Aml.Toolkit.ViewModel
         /// <value>
         /// The mirror element.
         /// </value>
-        public AMLNodeViewModel MirrorElement => (Parent != null && Parent.IsMirror) ? Parent : Parent?.MirrorElement ?? null;
+        public AMLNodeViewModel MirrorElement => Parent is { IsMirror: true } ? Parent : Parent?.MirrorElement;
 
         /// <summary>
         /// Gets the master.
@@ -1076,7 +1079,7 @@ namespace Aml.Toolkit.ViewModel
         /// </summary>
         public override void LoadChildren(bool raise = true)
         {
-            LoadChildren(Tree.ModelChilds(this).Distinct(), raise);
+            LoadChildren(Tree.ModelChilds(this, true).Distinct(), raise);
         }
 
         /// <summary>
@@ -1134,7 +1137,7 @@ namespace Aml.Toolkit.ViewModel
 
             if (expand)
             {
-                RefreshTree(expand);
+                RefreshTree(true);
             }
         }
 
@@ -1154,7 +1157,7 @@ namespace Aml.Toolkit.ViewModel
                 }
 
                 var rev = ((CAEXObject)CAEXObject).Revision;
-                var last = rev.Aggregate((i1,i2) => (i1.RevisionDate > i2.RevisionDate) && 
+                var last = rev.Aggregate((i1,i2) => (i1.RevisionDate > i2.RevisionDate) &&
                         !string.IsNullOrEmpty(i1.NewVersion)  ? i1 : i2);
 
                 if (!string.IsNullOrEmpty(last?.NewVersion))
@@ -1181,7 +1184,7 @@ namespace Aml.Toolkit.ViewModel
                 }
 
                 var rev = ((CAEXObject)CAEXObject).Revision;
-                var last = rev.Aggregate((i1,i2) => (i1.RevisionDate > i2.RevisionDate) && 
+                var last = rev.Aggregate((i1,i2) => (i1.RevisionDate > i2.RevisionDate) &&
                         !string.IsNullOrEmpty(i1.OldVersion)  ? i1 : i2);
 
                 if (!string.IsNullOrEmpty(last?.OldVersion))
@@ -1223,7 +1226,7 @@ namespace Aml.Toolkit.ViewModel
                     Tree.ExpandedLinkNodes = Tree.ExpandedLinks();
                 }
 
-                var modelChilds = Tree.ModelChilds(this).Distinct().ToList();
+                var modelChilds = Tree.ModelChilds(this, true).Distinct().ToList();
                 var obsoletes = children.Where(c => c.CAEXNode != null && !modelChilds.Contains(c.CAEXNode)).ToList();
 
                 foreach (var obsoleteChild in obsoletes)
@@ -1286,7 +1289,7 @@ namespace Aml.Toolkit.ViewModel
 
                         if (i == 0)
                         {
-                            if (groupNode != null && groupNode.IsVisible)
+                            if (groupNode is { IsVisible: true })
                             {
                                 groupNode.InsertNode(0, item);
                             }
@@ -1295,7 +1298,7 @@ namespace Aml.Toolkit.ViewModel
                                 InsertNode(0, item);
                             }
                         }
-                        else if (groupNode != null && groupNode.IsVisible)
+                        else if (groupNode is { IsVisible: true })
                         {
                             groupNode.InsertAfter(modelChilds[i - 1], item);
                         }
@@ -1331,7 +1334,7 @@ namespace Aml.Toolkit.ViewModel
                     }
                     else if (refreshChild )
                     {
-                        loadedChild.RefreshNodeInformation(false); 
+                        loadedChild.RefreshNodeInformation(false);
                     }
                 }
 
@@ -1733,7 +1736,7 @@ namespace Aml.Toolkit.ViewModel
             for (var index = 0; index < Children.Count; index++)
             {
                 var child = Children[index];
-                if (child is AMLNodeInheritable ih && ih.ShowLinks)
+                if (child is AMLNodeInheritable { ShowLinks: true })
                 {
                     _ = expanded.Add(child.CAEXNode);
                 }
@@ -1769,22 +1772,15 @@ namespace Aml.Toolkit.ViewModel
         /// <returns></returns>
         internal bool HasChilds
         {
-            get 
+            get
             { 
-                if (_hasChilds == null ) 
-                {
-                    _hasChilds = CAEXTagNames != null && Tree.ModelChilds(this).Any();
-                    return _hasChilds.Value;
-                }
+                _hasChilds ??= CAEXTagNames != null && Tree.ModelChilds(this, false).Any();
                 return _hasChilds.Value;
             }
 
-            set
-            {
-                _hasChilds = value;
-            }
+            set => _hasChilds = value;
         }
-        
+
 
         /// <summary>
         /// 
@@ -1929,10 +1925,13 @@ namespace Aml.Toolkit.ViewModel
         internal AMLNodeViewModel FirstNode(AMLNodeViewModel from, AMLNodeViewModel to)
         {
             
-            foreach (var child in LoadedChildren) 
+            foreach (var child in LoadedChildren)
             {
                 // child is not null here but checked
-                if (child == null) continue;
+                if (child == null)
+                {
+                    continue;
+                }
 
                 if (child.Equals(from))
                 {
@@ -1944,7 +1943,7 @@ namespace Aml.Toolkit.ViewModel
                 }
 
                 var firstChild = child.FirstNode (from, to);
-                if (firstChild != null) 
+                if (firstChild != null)
                 {
                     return firstChild;
                 }

@@ -669,6 +669,11 @@ namespace Aml.Toolkit.Tools
                     // Setup
                     _action = args.Action;
 
+                    if (wrapper == null)
+                    {
+                        return;
+                    }
+
                     switch (_action)
                     {
                         case NotifyCollectionChangedAction.Add:
@@ -730,6 +735,9 @@ namespace Aml.Toolkit.Tools
                         case NotifyCollectionChangedAction.Reset:
                             IsCountChanged = true;
                             wrapper.CollectionChanged = (s, e) => { AssertActionType(e); };
+                            break;
+
+                        default:
                             break;
                     }
                 };
@@ -799,14 +807,14 @@ namespace Aml.Toolkit.Tools
                         case NotifyCollectionChangedAction.Replace:
 #if !SILVERLIGHT
                             return new NotifyCollectionChangedEventArgs(_action.Value, _newItems, _oldItems);
-                        
+
 #else
                             return new NotifyCollectionChangedEventArgs(_action.Value, _newItems, _newIndex);
 #endif
-                         
+
                         default:
                             return new NotifyCollectionChangedEventArgs(_action.Value, _newItems, _oldItems);
-                        
+
                     }
                 }
             }

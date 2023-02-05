@@ -23,27 +23,27 @@ namespace Aml.Toolkit.View
         /// The image property
         /// </summary>
         public static readonly DependencyProperty ImageProperty =
-            DependencyProperty.Register("Image", typeof(ImageSource), typeof(NodeImage), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Image), typeof(ImageSource), typeof(NodeImage), new PropertyMetadata(null));
 
         /// <summary>
         /// The source datatemplate property
         /// </summary>
         public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.Register("Source", typeof(DataTemplate), typeof(NodeImage),
+            DependencyProperty.Register(nameof(Source), typeof(DataTemplate), typeof(NodeImage),
                 new PropertyMetadata(default(DataTemplate)));
 
         /// <summary>
         /// The text adorner property
         /// </summary>
         public static readonly DependencyProperty TextAdornerProperty =
-            DependencyProperty.Register("TextAdorner", typeof(string), typeof(NodeImage),
+            DependencyProperty.Register(nameof(TextAdorner), typeof(string), typeof(NodeImage),
                 new PropertyMetadata(null));
 
         /// <summary>
         /// The text adorner visibility property
         /// </summary>
         public static readonly DependencyProperty TextAdornerVisibilityProperty =
-            DependencyProperty.Register("TextAdornerVisibility", typeof(Visibility), typeof(NodeImage),
+            DependencyProperty.Register(nameof(TextAdornerVisibility), typeof(Visibility), typeof(NodeImage),
                 new PropertyMetadata(Visibility.Collapsed));
 
         #endregion Public Fields
@@ -72,8 +72,8 @@ namespace Aml.Toolkit.View
         /// <value>The image.</value>
         public ImageSource Image
         {
-            get { return (ImageSource)GetValue(ImageProperty); }
-            set { SetValue(ImageProperty, value); }
+            get => (ImageSource)GetValue(ImageProperty);
+            set => SetValue(ImageProperty, value);
         }
 
         /// <summary>

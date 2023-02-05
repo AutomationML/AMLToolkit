@@ -235,7 +235,7 @@ namespace Aml.Toolkit.ViewModel
         public bool AlwaysExpandLink
         {
             get => _alwaysExpandLink;
-            set => Set(ref _alwaysExpandLink, value, nameof(AlwaysExpandLink));
+            set => Set(ref _alwaysExpandLink, value);
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace Aml.Toolkit.ViewModel
         public bool DrawColoredLines
         {
             get => _drawColoredLines;
-            set => Set(ref _drawColoredLines, value, nameof(DrawColoredLines));
+            set => Set(ref _drawColoredLines, value);
         }
 
 
@@ -255,7 +255,7 @@ namespace Aml.Toolkit.ViewModel
         public bool DrawDashedLines
         {
             get => _drawDashedLines;
-            set => Set(ref _drawDashedLines, value, nameof(DrawDashedLines));
+            set => Set(ref _drawDashedLines, value);
         }
 
         /// <summary>
@@ -264,9 +264,9 @@ namespace Aml.Toolkit.ViewModel
         public bool HideExpander
         {
             get => _hideExpander;
-            set 
+            set
             {
-                if ( Set(ref _hideExpander, value, nameof(HideExpander)) )
+                if ( Set(ref _hideExpander, value) )
                 {
 
                 }
@@ -279,7 +279,7 @@ namespace Aml.Toolkit.ViewModel
         public bool HideInfo
         {
             get => _hideInfo;
-            set => Set(ref _hideInfo, value, nameof(HideInfo));
+            set => Set(ref _hideInfo, value);
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace Aml.Toolkit.ViewModel
         public int HorizontalLineOffset
         {
             get => _horizontalLineOffset;
-            set => Set(ref _horizontalLineOffset, value, nameof(HorizontalLineOffset));
+            set => Set(ref _horizontalLineOffset, value);
         }
 
         /// <summary>
@@ -297,7 +297,7 @@ namespace Aml.Toolkit.ViewModel
         public LineJumpModeEnum JumpMode
         {
             get => _jumpMode;
-            set => Set(ref _jumpMode, value, nameof(JumpMode));
+            set => Set(ref _jumpMode, value);
         }
 
         /// <summary>
@@ -306,7 +306,7 @@ namespace Aml.Toolkit.ViewModel
         public double MaxNameWidth
         {
             get => _maxNameWidth;
-            set => Set(ref _maxNameWidth, value, nameof(MaxNameWidth));
+            set => Set(ref _maxNameWidth, value);
         }
 
         /// <summary>
@@ -319,7 +319,7 @@ namespace Aml.Toolkit.ViewModel
         public ObservableCollection<string> NamesOfVisibleElements
         {
             get => _namesOfVisibleElements;
-            set => Set(ref _namesOfVisibleElements, value, nameof(NamesOfVisibleElements));
+            set => Set(ref _namesOfVisibleElements, value);
         }
 
         /// <summary>
@@ -328,7 +328,7 @@ namespace Aml.Toolkit.ViewModel
         public bool ShowAdditionalInformation
         {
             get => _showAdditionalInformation;
-            set => Set(ref _showAdditionalInformation, value, nameof(ShowAdditionalInformation));
+            set => Set(ref _showAdditionalInformation, value);
         }
 
         /// <summary>
@@ -340,7 +340,7 @@ namespace Aml.Toolkit.ViewModel
         public bool ResolveExternals
         {
             get => _resolveExternals;
-            set => Set(ref _resolveExternals, value, nameof(ResolveExternals));
+            set => Set(ref _resolveExternals, value);
         }
 
         /// <summary>
@@ -349,7 +349,7 @@ namespace Aml.Toolkit.ViewModel
         public bool ShowAttributeValue
         {
             get => _showAttributeValue;
-            set => Set(ref _showAttributeValue, value, nameof(ShowAttributeValue));
+            set => Set(ref _showAttributeValue, value);
         }
 
         /// <summary>
@@ -362,7 +362,7 @@ namespace Aml.Toolkit.ViewModel
         public bool ShowClassReference
         {
             get => _showClassReference;
-            set => Set(ref _showClassReference, value, nameof(ShowClassReference));
+            set => Set(ref _showClassReference, value);
         }
 
         /// <summary>
@@ -371,7 +371,7 @@ namespace Aml.Toolkit.ViewModel
         public bool ShowFullClassPath
         {
             get => _showFullClassPath;
-            set => Set(ref _showFullClassPath, value, nameof(ShowFullClassPath));
+            set => Set(ref _showFullClassPath, value);
         }
 
         /// <summary>
@@ -380,7 +380,7 @@ namespace Aml.Toolkit.ViewModel
         public bool ShowInterfaceGrouping
         {
             get => _showInterfaceGrouping;
-            set => Set(ref _showInterfaceGrouping, value, nameof(ShowInterfaceGrouping));
+            set => Set(ref _showInterfaceGrouping, value);
         }
 
         /// <summary>
@@ -389,7 +389,7 @@ namespace Aml.Toolkit.ViewModel
         public bool ShowLinkLines
         {
             get => _showLinkLInes;
-            set => Set(ref _showLinkLInes, value, nameof(ShowLinkLines));
+            set => Set(ref _showLinkLInes, value);
         }
 
         internal void Update(AMLLayout layout)
@@ -422,7 +422,7 @@ namespace Aml.Toolkit.ViewModel
         public bool ShowRoleGrouping
         {
             get => _showRoleGrouping;
-            set => Set(ref _showRoleGrouping, value, nameof(ShowRoleGrouping));
+            set => Set(ref _showRoleGrouping, value);
         }
 
         /// <summary>
@@ -435,7 +435,7 @@ namespace Aml.Toolkit.ViewModel
         public bool ShowRoleReference
         {
             get => _showRoleReference;
-            set => Set(ref _showRoleReference, value, nameof(ShowRoleReference));
+            set => Set(ref _showRoleReference, value);
         }
 
         /// <summary>
@@ -444,7 +444,7 @@ namespace Aml.Toolkit.ViewModel
         public bool ShowRoleReqNodes
         {
             get => _showRoleReqNodes;
-            set => Set(ref _showRoleReqNodes, value, nameof(ShowRoleReqNodes));
+            set => Set(ref _showRoleReqNodes, value);
         }
 
         /// <summary>
@@ -453,7 +453,7 @@ namespace Aml.Toolkit.ViewModel
         public bool ShowMirrorTree
         {
             get => _showMirrorTree;
-            set => Set(ref _showMirrorTree, value, nameof(ShowMirrorTree));
+            set => Set(ref _showMirrorTree, value);
         }
 
         /// <summary>
@@ -465,7 +465,7 @@ namespace Aml.Toolkit.ViewModel
             set => Set(ref _showLinkCardinality, value);
         }
 
-        
+
 
         /// <summary>
         ///     Gets and sets the VerticalLineOffset
@@ -473,7 +473,7 @@ namespace Aml.Toolkit.ViewModel
         public double VerticalLineOffset
         {
             get => _verticalLineOffset;
-            set => Set(ref _verticalLineOffset, value, nameof(VerticalLineOffset));
+            set => Set(ref _verticalLineOffset, value);
         }
 
 
@@ -483,8 +483,8 @@ namespace Aml.Toolkit.ViewModel
         /// <returns></returns>
         public AMLLayout Copy()
         {
-            var layout = (AMLLayout)this.MemberwiseClone();
-            layout.NamesOfVisibleElements = this.NamesOfVisibleElements;
+            var layout = (AMLLayout)MemberwiseClone();
+            layout.NamesOfVisibleElements = NamesOfVisibleElements;
 
             return layout;
         }

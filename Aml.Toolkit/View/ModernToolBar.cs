@@ -17,7 +17,7 @@ namespace Aml.Toolkit.View
         ///     Standard ToolBar Operations can be designed
         /// </summary>
         public static readonly DependencyProperty ToolBarOperationsProperty =
-            DependencyProperty.Register("ToolBarOperations",
+            DependencyProperty.Register(nameof(ToolBarOperations),
                 typeof(ItemOperations), typeof(ModernToolBar), new PropertyMetadata(null));
 
         #endregion Public Fields

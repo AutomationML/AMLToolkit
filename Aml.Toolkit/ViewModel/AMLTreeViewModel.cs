@@ -217,7 +217,7 @@ namespace Aml.Toolkit.ViewModel
         public CanDragDropPredicate CanDragDrop
         {
             get => _canDragDrop;
-            set => Set(ref _canDragDrop, value, nameof(CanDragDrop));
+            set => Set(ref _canDragDrop, value);
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace Aml.Toolkit.ViewModel
         public DoDragDropAction DoDragDrop
         {
             get => _doDragDrop;
-            set => Set(ref _doDragDrop, value, nameof(DoDragDrop));
+            set => Set(ref _doDragDrop, value);
         }
 
         /// <summary>
@@ -241,7 +241,7 @@ namespace Aml.Toolkit.ViewModel
         public AmlSearchViewModel FilterItemViewModel
         {
             get => _filterItemViewModel;
-            set => Set(ref _filterItemViewModel, value, nameof(FilterItemViewModel));
+            set => Set(ref _filterItemViewModel, value);
         }
 
         /// <summary>
@@ -250,7 +250,7 @@ namespace Aml.Toolkit.ViewModel
         public bool Focused
         {
             get => _focused;
-            set => Set(ref _focused, value, nameof(Focused));
+            set => Set(ref _focused, value);
         }
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace Aml.Toolkit.ViewModel
         public bool IsSearchEnabled
         {
             get => _isSearchEnabled;
-            set => Set(ref _isSearchEnabled, value, nameof(IsSearchEnabled));
+            set => Set(ref _isSearchEnabled, value);
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace Aml.Toolkit.ViewModel
         public virtual AMLNodeViewModel Root
         {
             get => _root;
-            set => Set(ref _root, value, nameof(Root));
+            set => Set(ref _root, value);
         }
 
         /// <summary>
@@ -350,7 +350,7 @@ namespace Aml.Toolkit.ViewModel
         public AMLLayout TreeViewLayout
         {
             get => _treeViewLayout;
-            set => Set(ref _treeViewLayout, value, nameof(TreeViewLayout));
+            set => Set(ref _treeViewLayout, value);
         }
 
         /// <summary>
@@ -400,7 +400,7 @@ namespace Aml.Toolkit.ViewModel
         /// </summary>
         public void ClearSelections()
         {
-            if (SelectedElements?.Count == 0)
+            if (SelectedElements==null || SelectedElements.Count == 0)
             {
                 return;
             }
@@ -486,25 +486,25 @@ namespace Aml.Toolkit.ViewModel
             {
                 yield break;
             }
-            AMLNodeViewModel amlTreeViewItem = null;
 
             for (var i = nodes.Count - 1; i >= 0; i--)
             {
                 var nextTreeViewItem = FindTreeViewItem(currentCollection, nodes[i]);
 
-                if (nextTreeViewItem != null)
+                if (nextTreeViewItem == null)
                 {
-                    amlTreeViewItem = nextTreeViewItem;
-                    yield return amlTreeViewItem;
+                    continue;
+                }
 
-                    if (i > 0)
+                yield return nextTreeViewItem;
+
+                if (i > 0)
+                {
+                    if (nextTreeViewItem.HasDummyChild)
                     {
-                        if (nextTreeViewItem.HasDummyChild)
-                        {
-                            continue;
-                        }
-                        currentCollection = nextTreeViewItem.Children?.ToList();
+                        continue;
                     }
+                    currentCollection = nextTreeViewItem.Children?.ToList();
                 }
             }
         }
@@ -513,15 +513,16 @@ namespace Aml.Toolkit.ViewModel
         /// gets the children of the node, which should appear in the list.
         /// </summary>
         /// <param name="node">The node.</param>
+        /// <param name="expand"></param>
         /// <returns></returns>
-        public virtual IEnumerable<XElement> ModelChilds(AMLNodeViewModel node)
+        public virtual IEnumerable<XElement> ModelChilds(AMLNodeViewModel node, bool expand)
         {
-            var names = node.CAEXTagNames; //.ToList();
+            var names = node.CAEXTagNames;
 
-            var childs = ModelChilds(node.CAEXObject, names, node.IsDerived, node.ShowMirrorData, node.ShowInheritance);
-            node.HasChilds = childs.Any();
+            var children = ModelChilds(node.CAEXObject, names, node.IsDerived, node.ShowMirrorData, node.ShowInheritance, expand);
+            node.HasChilds = children.Any();
 
-            return childs;
+            return children;
         }
 
         /// <summary>
@@ -556,7 +557,7 @@ namespace Aml.Toolkit.ViewModel
             {
                 for (var i = nodes.Count - 1; i >= 0; i--)
                 {
-                    
+
                     var nextTreeViewItem = FindTreeViewItem(currentCollection, nodes[i]);
                     if (amlTreeViewItem != null && nextTreeViewItem == null && expand)
                     {
@@ -581,11 +582,6 @@ namespace Aml.Toolkit.ViewModel
 
                             currentCollection = nextTreeViewItem.Children?.ToList();
                         }
-                    }
-
-                    if (nextTreeViewItem == null)
-                    {
-                        continue;
                     }
                 }
             }
@@ -699,7 +695,7 @@ namespace Aml.Toolkit.ViewModel
             // has no effect on link lines ???
             switch (e.PropertyName)
             {
-                case nameof(AMLLayout.JumpMode):    
+                case nameof(AMLLayout.JumpMode):
                 case nameof(AMLLayout.DrawDashedLines):
                 case nameof(AMLLayout.DrawColoredLines):
                 case nameof(AMLLayout.HideExpander):
@@ -804,8 +800,6 @@ namespace Aml.Toolkit.ViewModel
                     yield return citem;
                 }
             }
-
-            yield break;
         }
 
         #endregion Internal Methods
@@ -881,10 +875,10 @@ namespace Aml.Toolkit.ViewModel
 
         /// <summary>
         /// Gets the changed tree node according to the provided change event arguments, supplied by
-        /// the AML engine command manager 
+        /// the AML engine command manager
         /// </summary>
-        /// <param name="e">The <see cref="CAEXElementChangeEventArgs" /> instance containing 
-        /// the event data.</param> 
+        /// <param name="e">The <see cref="CAEXElementChangeEventArgs" /> instance containing
+        /// the event data.</param>
         /// <returns></returns>
         protected IEnumerable<AMLNodeViewModel> ChangedTreeNodes(CAEXElementChangeEventArgs e)
         {
@@ -912,15 +906,13 @@ namespace Aml.Toolkit.ViewModel
                         case RefURIAttributeType.REF_URI_ATTRIBUTE:
                             xElement = e.CAEXParent.Parent;
                         break;
-                            default: 
-                        break;
-                    }                    
+                    }
                 }
             }
 
             if (!CAEXTagNames.Contains(xElement.Name.LocalName))
             {
-                while (xElement != null && xElement.Name.LocalName == CAEX_CLASSModel_TagNames.ATTRIBUTE_STRING)
+                while (xElement is { Name.LocalName: CAEX_CLASSModel_TagNames.ATTRIBUTE_STRING })
                 {
                     xElement = xElement.Parent;
                 }
@@ -981,7 +973,7 @@ namespace Aml.Toolkit.ViewModel
                                   default:
                                       // some value changes are relevant for node layouts
                                       if (e.CAEXParent == null || !e.CAEXParent.IsAttribute() )
-                                      { 
+                                      {
                                             return;
                                       }
 
@@ -996,7 +988,7 @@ namespace Aml.Toolkit.ViewModel
                                       break;
                               }
                           }
-                          
+
                       }
                   }
 
@@ -1005,7 +997,7 @@ namespace Aml.Toolkit.ViewModel
                       return;
                   }
 
-                 
+
                   foreach (var treeNode in treeNodes.ToList())
                   {
                       if ((e.ChangeMode & TreeChangeModes) != CAEXElementChangeMode.None)
@@ -1019,7 +1011,7 @@ namespace Aml.Toolkit.ViewModel
                           {
                               treeNode.RefreshTree(e.ChangeMode.HasFlag(CAEXElementChangeMode.Added), true);
                               TreeUpdated?.Invoke(this, new AmlNodeEventArgs(treeNode));
-                          }                    
+                          }
                       }
                       else
                       {
@@ -1067,7 +1059,7 @@ namespace Aml.Toolkit.ViewModel
                                   }
                               }
                           }
-                      } 
+                      }
                       AmlTreeView?.InternalLinksAdorner?.InvalidateVisual();
                       //_ = Execute.OnUIThread(
                       //      () => AmlTreeView?.InternalLinksAdorner?.InvalidateVisual());
@@ -1228,7 +1220,7 @@ namespace Aml.Toolkit.ViewModel
         /// </summary>
         /// <param name="externalInterface"></param>
         /// <returns></returns>
-        private static IEnumerable<ExternalInterfaceType> GetInterfaces(CAEXObject externalInterface)
+        private static IEnumerable<ExternalInterfaceType> GetInterfaces(CAEXWrapper externalInterface)
         {
             if (externalInterface is not ExternalInterfaceType ie)
             {
@@ -1332,14 +1324,33 @@ namespace Aml.Toolkit.ViewModel
             }
         }
 
-        private static IEnumerable<XElement> GetModelElements (CAEXWrapper node, HashSet<string> names)
+        private static IEnumerable<XElement> GetModelElements (CAEXWrapper node, HashSet<string> names, bool expand)
         {
             if (ServiceLocator.GetService<IDatabaseService>() is IDatabaseService service)
             {
                 foreach (var name in names)
                 {
-                    service.Elements (node.Node,name,true);
+                    var elements = service.Elements (node.Node,name,expand);
+                    if (!expand && elements.Any())
+                    {
+                        return elements;
+                    }
                 }
+
+                if (!expand)
+                {
+                    return Enumerable.Empty<XElement>();
+                }
+            }
+
+            if (!expand)
+            {
+                var element = node.Node.Elements().FirstOrDefault(n => names.Contains(n.Name.LocalName));
+                if (element == null)
+                {
+                    return Enumerable.Empty<XElement>();
+                }
+                return new List<XElement> {element};
             }
             return node.Node.Elements().Where(n => names.Contains(n.Name.LocalName));
         }
@@ -1352,9 +1363,10 @@ namespace Aml.Toolkit.ViewModel
         /// <param name="isDerived"></param>
         /// <param name="showMirrorData"></param>
         /// <param name="showInheritance"></param>
+        /// <param name="expand"></param>
         /// <returns></returns>
         private IEnumerable<XElement> ModelChilds(CAEXWrapper node, HashSet<string> names,
-            bool isDerived, bool showMirrorData, bool showInheritance)
+            bool isDerived, bool showMirrorData, bool showInheritance, bool expand)
         {
             if (isDerived)
             {
@@ -1371,16 +1383,16 @@ namespace Aml.Toolkit.ViewModel
 
             var sort = false;
 
-            if (node is IMirror mirror && mirror.IsMirror && showMirrorData)
+            if (node is IMirror { IsMirror: true } mirror && showMirrorData)
             {
                 var master = mirror.Master;
                 if (master != null)
                 {
-                    return ModelChilds(master, names, isDerived, showMirrorData, showInheritance);
+                    return ModelChilds(master, names, false, true, showInheritance, expand);
                 }
             }
 
-            var items = AMLTreeViewModel.GetModelElements(node, names);
+            var items = GetModelElements(node, names, expand);
 
             if (node is SystemUnitFamilyType sucClass && showInheritance)
             {
@@ -1403,7 +1415,7 @@ namespace Aml.Toolkit.ViewModel
             if (node is AttributeFamilyType aft && showInheritance)
             {
                 // include inherited elements if Show Inheritance is set
-                var inheritedAttributes = aft.GetInheritedAttributes(true).Select(e => e.Node);
+                var inheritedAttributes = aft.GetInheritedAttributes().Select(e => e.Node);
                 var deleted = aft.Attribute.Where(a => a.ChangeMode == ChangeMode.Delete);
                 IEnumerable<AttributeType> elements = deleted.ToList();
                 if (elements.Any())
@@ -1413,22 +1425,21 @@ namespace Aml.Toolkit.ViewModel
 
                 if (!inheritedAttributes.Any())
                 {
-                    return sort ? items.Distinct().OrderBy(i => i.Name.LocalName) : items;
+                    return items;
                 }
 
                 items = items.Concat(inheritedAttributes);
-                sort = true;
             }
             else
             {
                 if (node is not IClassWithExternalInterface ieClass || !showInheritance)
                 {
-                    return sort ? items.Distinct().OrderBy(i => i.Name.LocalName) : items;
+                    return items;
                 }
 
                 {
                     // include inherited elements if Show Inheritance is set
-                    var inheritedInterfaces = ieClass.GetInheritedInterfaces(true).Select(e => e.Node);
+                    var inheritedInterfaces = ieClass.GetInheritedInterfaces().Select(e => e.Node);
                     var deleted = ieClass.ExternalInterface.Where(a => a.ChangeMode == ChangeMode.Delete);
                     IEnumerable<ExternalInterfaceType> elements = deleted.ToList();
                     if (elements.Any())
@@ -1442,7 +1453,6 @@ namespace Aml.Toolkit.ViewModel
                     }
 
                     items = items.Concat(inheritedInterfaces);
-                    sort = true;
                 }
             }
 

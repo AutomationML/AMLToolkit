@@ -46,7 +46,7 @@ namespace Aml.Toolkit.View
         ///     The associated object property. This Object is used to set the command parameter for the ToolBar Operations
         /// </summary>
         public static readonly DependencyProperty AssociatedObjectProperty =
-            DependencyProperty.Register("AssociatedObject", typeof(UIElement), typeof(StandardModernToolBar),
+            DependencyProperty.Register(nameof(AssociatedObject), typeof(UIElement), typeof(StandardModernToolBar),
                 new PropertyMetadata(null, AssociatedObjectChanged));
 
         // Using a DependencyProperty as the backing store for StandardOperations.  This enables animation, styling, binding, etc...
@@ -54,7 +54,7 @@ namespace Aml.Toolkit.View
         ///     The standard Operations property
         /// </summary>
         public static readonly DependencyProperty StandardOperationsProperty =
-            DependencyProperty.Register("StandardOperations", typeof(EditOperations), typeof(StandardModernToolBar),
+            DependencyProperty.Register(nameof(StandardOperations), typeof(EditOperations), typeof(StandardModernToolBar),
                 new PropertyMetadata(null));
 
         #endregion Public Fields

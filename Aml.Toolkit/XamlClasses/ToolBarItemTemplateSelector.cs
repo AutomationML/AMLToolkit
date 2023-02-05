@@ -1,6 +1,5 @@
 ﻿using Aml.Toolkit.Operations;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -27,7 +26,7 @@ namespace Aml.Toolkit.XamlClasses
 
         #endregion Private Fields
 
-        #region Public Events        
+        #region Public Events
         /// <summary>
         /// Occurs when a property value changes.
         /// </summary>
@@ -154,8 +153,10 @@ namespace Aml.Toolkit.XamlClasses
         ///<inheritdoc/>
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            var toolBarItem = (ItemOperationViewModel)item;
-            Debug.Assert(toolBarItem != null);
+            if (item is not ItemOperationViewModel toolBarItem)
+            {
+                return base.SelectTemplate(item, container);
+            }
 
             return toolBarItem.Identifier switch
             {

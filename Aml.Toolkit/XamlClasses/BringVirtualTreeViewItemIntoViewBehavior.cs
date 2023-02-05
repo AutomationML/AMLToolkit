@@ -99,7 +99,7 @@ namespace Aml.Toolkit.XamlClasses
 #endif
                 }
 
-                if (node == nodepath[nodepath.Length - 1])
+                if (node == nodepath[^1])
                 {
                     //newParent.IsSelected = true;
                     newParent.BringIntoView();
@@ -139,7 +139,7 @@ namespace Aml.Toolkit.XamlClasses
 
         #endregion ItemsControl.ItemsHost
 
-        
+
         #endregion Functions to get internal members using reflection
     }
 }

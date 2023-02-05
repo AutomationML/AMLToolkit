@@ -518,7 +518,7 @@ namespace Aml.Toolkit.View
             else
             {
                 var selectedItems = GetSelectedItems(treeView);
-                if (selectedItems != null && selectedItems.Count == 0)
+                if (selectedItems is { Count: 0 })
                 {
                     SetStartItem(treeView, null);
                 }
@@ -562,7 +562,7 @@ namespace Aml.Toolkit.View
         {
             switch (e.Action)
             {
-                case NotifyCollectionChangedAction.Add:
+                case NotifyCollectionChangedAction.Add when e.NewItems != null:
                     {
                         foreach (var item in e.NewItems.OfType<ITreeNode>())
                         {
@@ -574,7 +574,7 @@ namespace Aml.Toolkit.View
 
                         break;
                     }
-                case NotifyCollectionChangedAction.Remove:
+                case NotifyCollectionChangedAction.Remove when e.OldItems != null:
                     {
                         foreach (var item in e.OldItems.OfType<ITreeNode>())
                         {

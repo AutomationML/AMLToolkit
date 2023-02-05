@@ -96,7 +96,7 @@ namespace Aml.Toolkit.Tools
                 {
                     _manager.DeliverEventToList(sender, e, _listeners);
                 }
-                catch (Exception)
+                catch
                 {
                 }
                 finally

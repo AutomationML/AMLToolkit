@@ -21,15 +21,12 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Xml.Linq;
 using Aml.Editor.Plugin.Contracts;
 using Aml.Editor.Plugin.Contract.Commanding;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using System.Windows.Media;
 
 /// <summary>
@@ -70,7 +67,7 @@ namespace Aml.Toolkit.ViewModel
             _backgroundWorker.DoWork += PerformSearch;
             _backgroundWorker.RunWorkerCompleted += SearchprocessCompleted;
             
-            this.SearchCommand = new SimpleCommand<object>(
+            SearchCommand = new SimpleCommand<object>(
                 o => true,
                 x =>
                     {
@@ -168,12 +165,12 @@ namespace Aml.Toolkit.ViewModel
         /// <summary>
         ///     <see cref="GotoNextCommand" />
         /// </summary>
-        private RelayCommand<object> _gotoNextCommand;                
+        private RelayCommand<object> _gotoNextCommand;
 
         /// <summary>
         ///     <see cref="GotoPrevCommand" />
         /// </summary>
-        private RelayCommand<object> _gotoPrevCommand;               
+        private RelayCommand<object> _gotoPrevCommand;
 
         /// <summary>
         ///     The is busy
@@ -255,7 +252,7 @@ namespace Aml.Toolkit.ViewModel
         public List<TagnameFindViewModel> CaexTagnamesCollection
         {
             get => _tagnames;
-            set => Set(ref _tagnames, value, nameof(CaexTagnamesCollection));
+            set => Set(ref _tagnames, value);
         }
 
         /// <summary>
@@ -279,7 +276,7 @@ namespace Aml.Toolkit.ViewModel
         public bool CanMoveForward =>
             true; //return HasResult &&//    ((SearchResult != null && (SearchResult.CurrentPosition < SearchResult.Count)) ||//    (actualSelectedNode < SelectedNodes.Count - 1));
 
-       
+
 
         /// <summary>
         ///     The CloseCommand - Command
@@ -325,7 +322,7 @@ namespace Aml.Toolkit.ViewModel
         public ICommand GotoNextCommand => _gotoNextCommand ??= new RelayCommand<object>(GotoNextCommandExecute,
             GotoNextCommandCanExecute);
 
-       
+
         /// <summary>
         ///     The GotoPrevCommand - Command
         /// </summary>
@@ -337,7 +334,7 @@ namespace Aml.Toolkit.ViewModel
         ///     Gets a value indicating whether this instance has result.
         /// </summary>
         /// <value><c>true</c> if this instance has result; otherwise, <c>false</c>.</value>
-        public bool HasResult => SearchResult != null || SelectedNodes != null && SelectedNodes.Count > 0;
+        public bool HasResult => SearchResult != null || SelectedNodes is { Count: > 0 };
 
         /// <summary>
         ///     Gets or sets a value indicating whether this instance is busy.
@@ -360,8 +357,8 @@ namespace Aml.Toolkit.ViewModel
         /// </summary>
         public bool FilterTree
         {
-            get { return _filterTree; }
-            set { Set(ref _filterTree, value); }
+            get => _filterTree;
+            set => Set(ref _filterTree, value);
         }
 
 
@@ -394,7 +391,7 @@ namespace Aml.Toolkit.ViewModel
         public bool IsClosed
         {
             get => _isClosed;
-            set => Set(ref _isClosed, value, nameof(IsClosed));
+            set => Set(ref _isClosed, value);
         }
 
         /// <summary>
@@ -479,7 +476,7 @@ namespace Aml.Toolkit.ViewModel
         public ObservableCollection<object> SearchResultList
         {
             get => _searchResultList;
-            set => Set(ref _searchResultList, value, nameof(SearchResultList));
+            set => Set(ref _searchResultList, value);
         }
 
         /// <summary>
@@ -498,7 +495,7 @@ namespace Aml.Toolkit.ViewModel
 
                 if (! string.IsNullOrEmpty(value))
                 {
-                    _searchText = _searchText.Trim(new char[] { '\r', '\n' });
+                    _searchText = _searchText.Trim('\r', '\n');
                 }
 
                 else
@@ -523,7 +520,7 @@ namespace Aml.Toolkit.ViewModel
 
         /// <summary>
         ///  <see cref="SearchScope"/>
-        /// </summary>    
+        /// </summary>
         private string _searchScope="all";
 
         /// <summary>
@@ -533,10 +530,7 @@ namespace Aml.Toolkit.ViewModel
         {
             get => _searchScope;
 
-            set
-            {
-                Set(ref _searchScope, value, nameof(SearchScope));
-            }
+            set => Set(ref _searchScope, value);
         }
 
 
@@ -571,7 +565,7 @@ namespace Aml.Toolkit.ViewModel
         public string StatusText
         {
             get => _statusText;
-            set => Set(ref _statusText, value, nameof(StatusText));
+            set => Set(ref _statusText, value);
         }
 
         #endregion Public Properties
@@ -762,10 +756,7 @@ namespace Aml.Toolkit.ViewModel
         /// <summary>
         ///  Gets and sets the InUse
         /// </summary>
-        public bool InUse
-        {
-            get => !string.IsNullOrEmpty(SearchText);
-        }
+        public bool InUse => !string.IsNullOrEmpty(SearchText);
 
 
         /// <summary>
@@ -797,7 +788,7 @@ namespace Aml.Toolkit.ViewModel
             return true;
 
             //if ( GotoMode != "Go down" )
-            //{               
+            //{
             //    return GotoPrevCommandCanExecute (parameter);
             //}
 
@@ -832,7 +823,7 @@ namespace Aml.Toolkit.ViewModel
                 //this.SelectedNodes[actualSelectedNode].IsSelected = true;
                 SelectedNodes[_actualSelectedNode].IsMarked = false;
                 SelectedNodes[_actualSelectedNode].IsSelected = true;
-                SelectedNodes[_actualSelectedNode].BringIntoView(); 
+                SelectedNodes[_actualSelectedNode].BringIntoView();
                 // ShowPosition(true);
             }
             //else if (SearchCompleted != null)
@@ -877,7 +868,7 @@ namespace Aml.Toolkit.ViewModel
             RaisePropertyChanged(nameof(CanMoveBackward));
         }
 
-        
+
 
         /// <summary>
         ///     The <see cref="SearchCommand" /> Execution Action.
@@ -909,7 +900,7 @@ namespace Aml.Toolkit.ViewModel
         private void CancelCommandExecute(object parameter)
         {
             _backgroundWorker.CancelAsync();
-        }               
+        }
 
         /// <summary>
         ///     Test, if the <see cref="CloseCommand" /> can execute.
@@ -1069,7 +1060,7 @@ namespace Aml.Toolkit.ViewModel
             StatusText = $"no Matches for '{SearchText}'";
         }
 
-        
+
         ///// <summary>
         /////     Shows the position.
         ///// </summary>

@@ -787,14 +787,11 @@ namespace Aml.Toolkit.XamlClasses
             Trace.Write(indentStr);
             Trace.Write(root.GetType().Name);
 
-            if (root is FrameworkElement rootElement)
+            if (root is FrameworkElement { DataContext: { } } rootElement)
             {
-                if (rootElement.DataContext != null)
-                {
-                    Trace.Write(" [");
-                    Trace.Write(rootElement.DataContext.GetType().Name);
-                    Trace.Write("]");
-                }
+                Trace.Write(" [");
+                Trace.Write(rootElement.DataContext.GetType().Name);
+                Trace.Write("]");
             }
 
             Trace.WriteLine("");
