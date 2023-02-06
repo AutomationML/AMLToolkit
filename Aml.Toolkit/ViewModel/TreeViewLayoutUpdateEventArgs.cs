@@ -11,32 +11,31 @@
 
 using System;
 
-namespace Aml.Toolkit.ViewModel
+namespace Aml.Toolkit.ViewModel;
+
+/// <summary>
+///     Event arguments defining layout changes for a tree view
+/// </summary>
+public class TreeViewLayoutUpdateEventArgs : EventArgs
 {
     /// <summary>
-    /// Event arguments defining layout changes for a tree view
+    ///     Creates an instance
     /// </summary>
-    public class TreeViewLayoutUpdateEventArgs : EventArgs
+    /// <param name="oldLayout"></param>
+    /// <param name="newLayout"></param>
+    public TreeViewLayoutUpdateEventArgs(AMLLayout oldLayout, AMLLayout newLayout)
     {
-        /// <summary>
-        /// The old tree layout
-        /// </summary>
-        public AMLLayout OldLayout { get; }
-
-        /// <summary>
-        /// The newly assigned tree layout
-        /// </summary>
-        public AMLLayout NewLayout { get; }
-
-        /// <summary>
-        /// Creates an instance
-        /// </summary>
-        /// <param name="oldLayout"></param>
-        /// <param name="newLayout"></param>
-        public TreeViewLayoutUpdateEventArgs(AMLLayout oldLayout, AMLLayout newLayout)
-        {
-            OldLayout = oldLayout;
-            NewLayout = newLayout;
-        }
+        OldLayout = oldLayout;
+        NewLayout = newLayout;
     }
+
+    /// <summary>
+    ///     The old tree layout
+    /// </summary>
+    public AMLLayout OldLayout { get; }
+
+    /// <summary>
+    ///     The newly assigned tree layout
+    /// </summary>
+    public AMLLayout NewLayout { get; }
 }
