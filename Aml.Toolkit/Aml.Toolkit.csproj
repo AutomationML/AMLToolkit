@@ -22,14 +22,14 @@
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<SignAssembly>True</SignAssembly>
-		<AssemblyOriginatorKeyFile>Toolkit.pfx</AssemblyOriginatorKeyFile>
+		<AssemblyOriginatorKeyFile>AMLToolkit.snk</AssemblyOriginatorKeyFile>
 		<DelaySign>false</DelaySign>
 		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
-		<Version>4.0.4</Version>
+		<Version>4.0.5</Version>
 		<Platforms>AnyCPU;x64</Platforms>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<Configurations>Debug;Release;ReleaseTest</Configurations>
