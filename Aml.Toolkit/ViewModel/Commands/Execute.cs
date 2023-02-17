@@ -21,7 +21,10 @@ public static class Execute
 #else
         var dispatcher = Dispatcher.CurrentDispatcher;
 #endif
-        _asyncExecutor = action => dispatcher.BeginInvoke(DispatcherPriority.Background, action);
+        _asyncExecutor = action =>
+        {
+            return dispatcher.BeginInvoke(DispatcherPriority.Background, action);
+        };
 
         _syncExecutor = action =>
         {

@@ -947,16 +947,16 @@ public class AMLTreeViewModel : AMLNodeViewModel
     /// <param name="e">
     ///     The <see cref="CAEXElementChangeEventArgs" /> instance containing the event data.
     /// </param>
-    protected void ExecuteUpdate(object sender, CAEXElementChangeEventArgs e)
+    protected async void ExecuteUpdate(object sender, CAEXElementChangeEventArgs e)
     {
-        _ = Execute.OnUIThread(() =>
-        {
-            IEnumerable<AMLNodeViewModel> treeNodes;
-
-            if (Root == null)
+        if (Root == null)
             {
                 return;
             }
+
+        await Execute.OnUIThread(() =>
+        {
+            IEnumerable<AMLNodeViewModel> treeNodes;            
 
             if ((e.ChangeMode & AcceptedChangeModes) == CAEXElementChangeMode.None)
             {
@@ -1064,44 +1064,8 @@ public class AMLTreeViewModel : AMLNodeViewModel
                         }
                     }
                 }
-
                 AmlTreeView?.InternalLinksAdorner?.InvalidateVisual();
-                //_ = Execute.OnUIThread(
-                //      () => AmlTreeView?.InternalLinksAdorner?.InvalidateVisual());
-
-                //if ((e.ChangeMode & CAEXElementChangeMode.Added) != 0)
-                //{
-                //    AmlTreeView?.InvalidateVisual();
-                //}
             }
-
-            //var il = new InternalLinkType(e.CAEXElement);
-            //if (il.AInterface?.Node != null)
-            //{
-            //    foreach (var node in GetCaexNodesFromTree(il.AInterface.Node))
-            //    {
-            //        //var node = GetCaexNodeFromTree(il.AInterface.Node);
-            //        //if (node != null)
-            //        //{
-            //            node.RefreshNodeInformation(false);
-            //            UpdateMasterAnMirrorReferences(node, e);
-            //        //}
-            //    }
-            //}
-
-            //if (il.BInterface?.Node != null)
-            //{
-            //    foreach (var node in GetCaexNodesFromTree(il.BInterface.Node))
-            //    {
-            //        //var node = GetCaexNodeFromTree(il.BInterface.Node);
-            //        //if (node != null)
-            //        //{
-            //        node.RefreshNodeInformation(false);
-            //        UpdateMasterAnMirrorReferences(node, e);
-            //        //}
-            //    }
-            //}
-            //}
         });
     }
 
@@ -1734,14 +1698,14 @@ public class AMLTreeViewModel : AMLNodeViewModel
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="updateArgs"></param>
-    private void Updater_ReferenceUpdated(object sender, UpdateEventArgs updateArgs)
+    private async void Updater_ReferenceUpdated(object sender, UpdateEventArgs updateArgs)
     {
         if (Root == null)
         {
             return;
         }
 
-        Execute.OnUIThread(() =>
+        await Execute.OnUIThread(() =>
         {
             if (Root == null)
             {

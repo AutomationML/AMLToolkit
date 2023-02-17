@@ -12,16 +12,6 @@
 // <summary></summary>
 // ***********************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Xml.Linq;
 using Aml.Editor.Plugin.Contracts;
 using Aml.Engine.CAEX;
 using Aml.Engine.CAEX.Extensions;
@@ -30,6 +20,15 @@ using Aml.Engine.Services.Interfaces;
 using Aml.Engine.Xml.Extensions;
 using Aml.Toolkit.Tools;
 using Aml.Toolkit.ViewModel.Commands;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Xml.Linq;
 
 /// <summary>
 ///    The ViewModel namespace.
@@ -66,7 +65,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     }
 
     #endregion Private Constructors
-
 
     internal AMLNodeViewModel FirstNode(AMLNodeViewModel from, AMLNodeViewModel to)
     {
@@ -163,8 +161,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     ///     The dummy child
     /// </summary>
     private static readonly AMLNodeViewModel DummyChild = new AMLExpandableDummyNode(null, null, false)
-        { IsVisible = false };
-
+    { IsVisible = false };
 
     /// <summary>
     ///     <see cref="AdditionalInformation" />
@@ -326,14 +323,12 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
             IsEnabled = true
         });
 
-
         Commands.Add(new AMLNodeCommand(CollapseAllCommand)
         {
             Name = "Collapse all",
             Identifier = TOOLKIT,
             IsEnabled = true
         });
-
 
         EnabledCommands.Filter = o =>
         {
@@ -350,7 +345,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         //this.Commands.CollectionChanged += Commands_CollectionChanged;
         _mappedValue = 1;
     }
-
 
     private void VerificationChanged(object sender, EventArgs e)
     {
@@ -380,7 +374,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     ///     representation logic. Currently the <see cref="View.AMLTreeView" /> supports Text and Image Sources.
     ///     <example>
     ///         <code>
-    /// 
+    ///
     ///                           // display additional text
     ///                           AdditionalInformation = "Error";
     ///       </code>
@@ -461,7 +455,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// </summary>
     IList<ITreeNode> ITreeNode.Children => Children.Cast<ITreeNode>().ToList();
 
-
     /// <summary>
     ///     The Collection of Commands, which may be bound to the Context-Menu of any
     ///     AMLNode in the Tree. The Context-Menu will contain only the subset of
@@ -480,7 +473,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         get => _description;
         set => Set(ref _description, value);
     }
-
 
     /// <summary>
     /// </summary>
@@ -562,12 +554,10 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// </value>
     public virtual bool IsDeleted => (CAEXObject as CAEXBasicObject)?.ChangeMode == ChangeMode.Delete;
 
-
     /// <summary>
     ///     Gets a value indicating whether this instance is deleted in the current document.
     /// </summary>
     internal bool DeletedInDocument => CAEXObject.IsDeleted;
-
 
     /// <summary>
     ///     Gets a value indicating whether this instance is verified.
@@ -576,7 +566,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     ///     <c>true</c> if this instance is verified; otherwise, <c>false</c>.
     /// </value>
     public virtual bool IsVerified => Tree?.GetVerificationState(CAEXObject as CAEXObject) == true;
-
 
     /// <summary>
     ///     Gets a value indicating whether this instance is verified.
@@ -1133,7 +1122,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         RaisePropertyChanged(nameof(IsExpanded));
         //RaisePropertyChanged(nameof( ChildrenView);
     }
-
 
     /// <summary>
     ///     Invoked when the child items need to be loaded on demand. Subclasses can
@@ -1736,12 +1724,12 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     private void CollapseAllCommandExecute(object parameter)
     {
         LoadedChildren.Clear();
+        
         //Tree.AmlTreeView?.InternalLinksAdorner?.Clear();
         if (HasChilds)
         {
             _childrenCollection.Source = _lazyLoadChildrenWithDummy;
         }
-
 
         IsExpanded = false;
 
@@ -1750,35 +1738,34 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         RaisePropertyChanged(nameof(Children));
         RaisePropertyChanged(nameof(LoadedChildren));
         RaisePropertyChanged(nameof(IsVisible));
+        RaisePropertyChanged(nameof(VisibleChildren));
+        RefreshNodeInformation(false);
     }
 
     /// <summary>
     /// </summary>
     /// <param name="parameter"></param>
-    private void ExpandAllCommandExecute(object parameter /*CancellationToken token = new CancellationToken()*/)
+    private async void ExpandAllCommandExecute(object parameter /*CancellationToken token = new CancellationToken()*/)
     {
-        _ = ThreadPool.QueueUserWorkItem(delegate
+        await Execute.OnUIThread(() =>
         {
-            _ = Execute.OnUIThread(() =>
+            var resetUpdater = false;
+            IAutoUpdate updater;
+            if ((updater = ServiceLocator.GetService<IAutoUpdate>()) != null
+                && updater.IsAutoUpdateEnabled)
             {
-                var resetUpdater = false;
-                IAutoUpdate updater;
-                if ((updater = ServiceLocator.GetService<IAutoUpdate>()) != null
-                    && updater.IsAutoUpdateEnabled)
-                {
-                    updater.IsAutoUpdateEnabled = false;
-                    resetUpdater = true;
-                }
+                updater.IsAutoUpdateEnabled = false;
+                resetUpdater = true;
+            }
 
-                ExpandAllChildren();
-                if (resetUpdater)
-                {
-                    updater.IsAutoUpdateEnabled = true;
-                }
+            ExpandAllChildren();
+            if (resetUpdater)
+            {
+                updater.IsAutoUpdateEnabled = true;
+            }
 
-                RaisePropertyChanged(nameof(IsExpanded));
-                RaisePropertyChanged(nameof(ChildrenView));
-            });
+            RaisePropertyChanged(nameof(IsExpanded));
+            RaisePropertyChanged(nameof(ChildrenView));
         });
     }
 
@@ -1834,7 +1821,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
 
         set => _hasChilds = value;
     }
-
 
     /// <summary>
     /// </summary>
@@ -1924,7 +1910,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     }
 
     #endregion Private Methods
-
 
     //private AMLNodeViewModel PreviousSibling()
     //{
