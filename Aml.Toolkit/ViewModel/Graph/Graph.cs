@@ -718,7 +718,6 @@ public class IlGraph
             return false;
         }
 
-
         var a = tFrom != null
             ? LocalPosToAncestorPos((ContentPresenter)tFrom.Template.FindName("PART_Header", tFrom), treeView)
             : new Point(0, 0);

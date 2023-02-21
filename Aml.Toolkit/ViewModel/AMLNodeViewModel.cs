@@ -68,6 +68,10 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
 
     internal AMLNodeViewModel FirstNode(AMLNodeViewModel from, AMLNodeViewModel to)
     {
+        if (LoadedChildren == null)
+        {
+            return null;
+        }
         foreach (var child in LoadedChildren)
         {
             // child is not null here but checked
