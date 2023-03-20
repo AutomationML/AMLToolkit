@@ -887,6 +887,11 @@ public class AMLTreeViewModel : AMLNodeViewModel
     /// <returns></returns>
     protected IEnumerable<AMLNodeViewModel> ChangedTreeNodes(CAEXElementChangeEventArgs e)
     {
+        if (Root == null)
+        {
+            return Enumerable.Empty<AMLNodeViewModel>();
+        }
+
         if ((e.ChangeMode & CAEXElementChangeMode.ChangedEvent) == CAEXElementChangeMode.None)
         {
             return Enumerable.Empty<AMLNodeViewModel>();
