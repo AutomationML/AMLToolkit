@@ -18,7 +18,7 @@
 		<RepositoryUrl>https://github.com/AutomationML/AMLToolkit</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>AMLEngine; AMLEditor; CAEX; AMLEngine2.1; Aml.Engine; AutomationML; AML</PackageTags>
-		<PackageReleaseNotes>Fixed Bugs related to InternalLink Visualization.</PackageReleaseNotes>
+		<PackageReleaseNotes>Fixed an exception when a selected element was deleted.</PackageReleaseNotes>
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<SignAssembly>True</SignAssembly>
@@ -29,7 +29,7 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
-		<Version>4.0.6</Version>
+		<Version>4.0.7</Version>
 		<Platforms>AnyCPU;x64</Platforms>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<Configurations>Debug;Release;ReleaseTest</Configurations>
@@ -117,6 +117,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="MahApps.Metro" Version="2.4.9" />
+		<PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
 	</ItemGroup>
 
 

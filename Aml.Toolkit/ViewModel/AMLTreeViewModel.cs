@@ -952,15 +952,23 @@ public class AMLTreeViewModel : AMLNodeViewModel
     /// <param name="e">
     ///     The <see cref="CAEXElementChangeEventArgs" /> instance containing the event data.
     /// </param>
-    protected async void ExecuteUpdate(object sender, CAEXElementChangeEventArgs e)
+    protected void ExecuteUpdate(object sender, CAEXElementChangeEventArgs e)
     {
         if (Root == null)
             {
                 return;
             }
 
-        await Execute.OnUIThread(() =>
+        Execute.OnUIThread(() =>
         {
+            SelectedElements.ToList().ForEach(s => 
+            { 
+                if (s.CAEXObject?.IsDeleted==true)
+                {
+                    SelectedElements.Remove(s); 
+                }
+            });
+
             IEnumerable<AMLNodeViewModel> treeNodes;            
 
             if ((e.ChangeMode & AcceptedChangeModes) == CAEXElementChangeMode.None)
@@ -1703,20 +1711,19 @@ public class AMLTreeViewModel : AMLNodeViewModel
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="updateArgs"></param>
-    private async void Updater_ReferenceUpdated(object sender, UpdateEventArgs updateArgs)
+    private void Updater_ReferenceUpdated(object sender, UpdateEventArgs updateArgs)
     {
         if (Root == null)
         {
             return;
         }
 
-        await Execute.OnUIThread(() =>
+        Execute.OnUIThread (() =>
         {
             if (Root == null)
             {
                 return;
             }
-
             AMLNodeViewModel treeNode = null;
 
             if (updateArgs.ReferencedElement?.Document != null)
@@ -1772,7 +1779,6 @@ public class AMLTreeViewModel : AMLNodeViewModel
                                 _ = registeredPartners.RemoveAll(p => redirected.Contains(p));
                             }
                         }
-
                         Tree.AmlTreeView.InternalLinksAdorner.InvalidateVisual();
                     }
 
@@ -1781,34 +1787,26 @@ public class AMLTreeViewModel : AMLNodeViewModel
                     {
                         aRef.UpdateLinks(true, true, true);
                     }
-
-
                     // aRef.ShowLinks = true;
                 }
-
                 // check for overwriding children if inheritance has changed
                 else if (updateArgs.Reference is XAttribute att && att.IsInheritanceAttribute())
                 {
                     treeNode.RefreshChildNodeInformation(false);
                 }
-
                 treeNode.RefreshNodeInformation(false);
             }
-
             if (updateArgs.Reference?.Parent == null ||
                 (treeNode = FindTreeViewItemInTree(Root.Children, updateArgs.Reference?.Parent)) == null)
             {
                 return;
             }
-
             if (treeNode.CAEXNode.Document == null)
             {
                 return;
             }
-
             treeNode.RefreshNodeInformation(false);
         });
     }
-
     #endregion Private Methods
 }

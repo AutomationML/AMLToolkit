@@ -556,7 +556,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// <value>
     ///     <c>true</c> if this instance is deleted; otherwise, <c>false</c>.
     /// </value>
-    public virtual bool IsDeleted => (CAEXObject as CAEXBasicObject)?.ChangeMode == ChangeMode.Delete;
+    public virtual bool IsDeleted => CAEXObject is CAEXBasicObject { ChangeMode: ChangeMode.Delete };
 
     /// <summary>
     ///     Gets a value indicating whether this instance is deleted in the current document.
@@ -1749,9 +1749,9 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// <summary>
     /// </summary>
     /// <param name="parameter"></param>
-    private async void ExpandAllCommandExecute(object parameter /*CancellationToken token = new CancellationToken()*/)
+    private void ExpandAllCommandExecute(object parameter /*CancellationToken token = new CancellationToken()*/)
     {
-        await Execute.OnUIThread(() =>
+        Execute.OnUIThread(() =>
         {
             var resetUpdater = false;
             IAutoUpdate updater;

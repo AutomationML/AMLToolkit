@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using ControlzEx;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -15,11 +16,17 @@ public class AdditionalInformationTemplateSelector : DataTemplateSelector
     /// <inheritdoc />
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
-        return item switch
+        switch (item)
         {
-            string => TextTemplate,
-            _ => item is ImageSource ? ImageTemplate : base.SelectTemplate(item, container)
-        };
+            case string:
+                return TextTemplate;
+            case ImageSource:
+                return ImageTemplate;
+            case MahApps.Metro.IconPacks.PackIconBase:
+                return MetroIconTemplate;
+            default:
+                return base.SelectTemplate(item, container);
+        }
     }
 
     #endregion Public Methods
@@ -32,9 +39,9 @@ public class AdditionalInformationTemplateSelector : DataTemplateSelector
     public DataTemplate ImageTemplate { get; set; }
 
     /// <summary>
-    ///     Gets or sets the template if no representation is selected.
+    ///     Gets or sets the template for the representation of metro icons from metro icon pack.
     /// </summary>
-    public DataTemplate NullTemplate { get; set; }
+    public DataTemplate MetroIconTemplate { get; set; }
 
     /// <summary>
     ///     Gets or sets the template for the representation of text objects.

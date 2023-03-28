@@ -281,12 +281,22 @@
         </Border>
     </DataTemplate>
 
-    <DataTemplate x:Key="NullTemplate" />
+
+    <DataTemplate x:Key="MetroIconTemplate">
+        <ContentControl
+            Margin="0,0,1,0"
+            VerticalAlignment="Center"
+            Content="{Binding Path=DataContext.AdditionalInformation, RelativeSource={RelativeSource AncestorType={x:Type TreeViewItem}}}">
+            <ContentControl.RenderTransform>
+                <ScaleTransform ScaleX="0.8" ScaleY="0.8" />
+            </ContentControl.RenderTransform>
+        </ContentControl>
+    </DataTemplate>
 
     <xaml:AdditionalInformationTemplateSelector
         x:Key="ADSelector"
         ImageTemplate="{StaticResource ImageTemplate}"
-        NullTemplate="{StaticResource NullTemplate}"
+        MetroIconTemplate="{StaticResource MetroIconTemplate}"
         TextTemplate="{StaticResource TextTemplate}" />
 
     <StackPanel
@@ -999,9 +1009,8 @@
 
                         <ContentPresenter
                             x:Name="AddDataIcon"
-                            Width="12"
-                            Height="12"
-                            Margin="-8,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
                             Content="{Binding AdditionalInformation}"
                             ContentTemplateSelector="{StaticResource ADSelector}"
                             Focusable="False">
@@ -1018,7 +1027,6 @@
                         <Image
                             Name="DeleteAdorner"
                             Width="10"
-                            Margin="0,0,3,0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             Focusable="False"
@@ -1064,8 +1072,8 @@
 
                         <Image
                             x:Name="TreeViewIcon"
-                            Width="12"
-                            Height="12"
+                            Width="13"
+                            Height="13"
                             Margin="0,0,2,0"
                             VerticalAlignment="Center"
                             Focusable="False"
@@ -1073,7 +1081,6 @@
 
                         <Label
                             Name="FacetLabel"
-                            Margin="-3,0,0,0"
                             Padding="0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Bottom"
@@ -1086,7 +1093,6 @@
 
                         <Label
                             Name="TextLabel"
-                            Margin="-3,0,0,0"
                             Padding="0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Bottom"
@@ -1099,7 +1105,6 @@
 
                         <Label
                             Name="PortLabel"
-                            Margin="-3,0,0,0"
                             Padding="0"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Bottom"
