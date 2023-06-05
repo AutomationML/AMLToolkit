@@ -26,20 +26,20 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Properties\**" />
+	  <EmbeddedResource Remove="Properties\**" />
+	  <None Remove="Properties\**" />
+	  <Page Remove="Properties\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Resources\appbar.flag.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Aml.Toolkit\Aml.Toolkit.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Properties\" />
-	</ItemGroup>
-
-	<ItemGroup>
+	  <ProjectReference Include="..\Aml.Toolkit\Aml.Toolkit.csproj" />	
 	  <ProjectReference Include="..\..\AMLEditorSkins\Aml.Skins.csproj" />
-	  <ProjectReference Include="..\..\AMLEngine\Aml.Engine\Aml.Engine.csproj" />
+	  <ProjectReference Include="..\..\Aml.Engine\Aml.Engine\Aml.Engine.csproj" />
 	</ItemGroup>
 		
 	<ItemGroup>

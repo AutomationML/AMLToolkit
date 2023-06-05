@@ -154,7 +154,7 @@ public static class TreeViewDragOverHighlighter
                 _currentItem = null;
                 oldItem.InvalidateProperty(IsPossibleDropTargetProperty);
 
-                Debug.WriteLine("leave set to null " + sender);
+                //Debug.WriteLine("leave set to null " + sender);
             }
 
             if (sender is not TreeViewItem tvi)

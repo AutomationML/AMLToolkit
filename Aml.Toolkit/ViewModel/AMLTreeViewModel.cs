@@ -237,6 +237,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
         set => Set(ref _doDragDrop, value);
     }
 
+    
     /// <summary>
     ///     Gets the filtered classes.
     /// </summary>

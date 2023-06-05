@@ -59,20 +59,20 @@
         <Setter Property="MaxWidth" Value="{Binding Tree.TreeViewLayout.MaxNameWidth}" />
         <Style.Triggers>
             <Trigger Property="Text" Value="{x:Static sys:String.Empty}">
-                <Setter Property="Background" Value="{DynamicResource CueBannerBrush}" />
+                <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
                 <Setter Property="Width" Value="60" />
                 <Setter Property="TextAlignment" Value="Center" />
             </Trigger>
             <Trigger Property="Text" Value="{x:Null}">
-                <Setter Property="Background" Value="{DynamicResource CueBannerBrush}" />
+                <Setter Property="Background" Value="{StaticResource CueBannerBrush}" />
                 <Setter Property="Width" Value="60" />
                 <Setter Property="TextAlignment" Value="Center" />
             </Trigger>
             <DataTrigger Binding="{Binding IsReadonly}" Value="True">
-                <Setter Property="Foreground" Value="{DynamicResource ReadOnlyForegroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource ReadOnlyForegroundBrush}" />
             </DataTrigger>
             <DataTrigger Binding="{Binding IsMirrored}" Value="True">
-                <Setter Property="Foreground" Value="{DynamicResource MirrorItemForegroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource MirrorItemForegroundBrush}" />
             </DataTrigger>
         </Style.Triggers>
     </Style>
@@ -156,7 +156,7 @@
                             x:Name="ExpandPath"
                             Data="{StaticResource TreeArrow}"
                             Fill="Transparent"
-                            Stroke="{DynamicResource MahApps.Brushes.ThemeForeground}">
+                            Stroke="{StaticResource MahApps.Brushes.ThemeForeground}">
                             <Path.RenderTransform>
                                 <RotateTransform Angle="135" CenterX="3" CenterY="3" />
                             </Path.RenderTransform>
@@ -174,7 +174,7 @@
                                 </Setter.Value>
                             </Setter>
                             <Setter TargetName="ExpandPath" Property="Fill" Value="#FF595959" />
-                            <Setter TargetName="ExpandPath" Property="Stroke" Value="{DynamicResource MahApps.Brushes.ThemeForeground}" />
+                            <Setter TargetName="ExpandPath" Property="Stroke" Value="{StaticResource MahApps.Brushes.ThemeForeground}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -237,6 +237,22 @@
             }
         </TextBlock>
     </StackPanel>
+
+    <StackPanel
+        x:Key="VersionText"
+        x:Shared="False"
+        Style="{StaticResource TreeNodePanel}">
+
+        <TextBlock
+            x:Name="Version"
+            Margin="4,0"
+            TextWrapping="Wrap">
+            {<Run FontWeight="Bold" Text="Version: " />
+            <Run Text="{Binding Version, Mode=OneWay}" />
+            }</TextBlock>
+
+    </StackPanel>
+
 
     <DataTemplate x:Key="TextTemplate">
         <TextBlock
@@ -363,12 +379,27 @@
         </local:EditableTreeNodeHeader>
     </StackPanel>
 
+
+    <StackPanel
+        x:Key="EditableNameTemplateWithVersion"
+        x:Shared="False"
+        Orientation="Horizontal">
+        <local:EditableTreeNodeHeader>
+            <local:EditableTreeNodeHeader.Content>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource NodeNameStyle}" />
+                    <ContentPresenter Content="{StaticResource VersionText}" />
+                </StackPanel>
+            </local:EditableTreeNodeHeader.Content>
+        </local:EditableTreeNodeHeader>
+    </StackPanel>
+
     <DataTemplate x:Key="IE" x:Shared="True">
-        <Image Source="{DynamicResource IEImage}" />
+        <Image Source="{StaticResource IEImage}" />
     </DataTemplate>
 
     <DataTemplate x:Key="SUCLib" x:Shared="True">
-        <Image Source="{DynamicResource SUCLibImage}" />
+        <Image Source="{StaticResource SUCLibImage}" />
     </DataTemplate>
 
     <DataTemplate x:Key="ICLib" x:Shared="True">
@@ -455,7 +486,7 @@
     <HierarchicalDataTemplate x:Key="IHTemplate" ItemsSource="{Binding ChildrenView}">
         <StackPanel Style="{StaticResource TreeNodePanel}">
             <local:NodeImage Image="{StaticResource IHImage}" />
-            <ContentPresenter Content="{StaticResource EditableNameTemplate}" />
+            <ContentPresenter Content="{StaticResource EditableNameTemplateWithVersion}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
@@ -595,14 +626,14 @@
     <HierarchicalDataTemplate x:Key="ICLibTemplate" ItemsSource="{Binding ChildrenView}">
         <StackPanel Style="{StaticResource TreeNodePanel}">
             <local:NodeImage Image="{StaticResource ICLibImage}" />
-            <ContentPresenter Content="{StaticResource EditableNameTemplate}" />
+            <ContentPresenter Content="{StaticResource EditableNameTemplateWithVersion}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate x:Key="ATLibTemplate" ItemsSource="{Binding ChildrenView}">
         <StackPanel Style="{StaticResource TreeNodePanel}">
             <local:NodeImage Image="{StaticResource ATLibImage}" />
-            <ContentPresenter Content="{StaticResource EditableNameTemplate}" />
+            <ContentPresenter Content="{StaticResource EditableNameTemplateWithVersion}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
@@ -623,7 +654,7 @@
     <HierarchicalDataTemplate x:Key="RCLibTemplate" ItemsSource="{Binding ChildrenView}">
         <StackPanel Style="{StaticResource TreeNodePanel}">
             <local:NodeImage Image="{StaticResource RCLibImage}" />
-            <ContentPresenter Content="{StaticResource EditableNameTemplate}" />
+            <ContentPresenter Content="{StaticResource EditableNameTemplateWithVersion}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
@@ -637,7 +668,7 @@
     <HierarchicalDataTemplate x:Key="SUCLibTemplate" ItemsSource="{Binding ChildrenView}">
         <StackPanel Style="{StaticResource TreeNodePanel}">
             <local:NodeImage Image="{StaticResource SUCLibImage}" />
-            <ContentPresenter Content="{StaticResource EditableNameTemplate}" />
+            <ContentPresenter Content="{StaticResource EditableNameTemplateWithVersion}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
@@ -690,7 +721,7 @@
                     Margin="1,0"
                     VerticalAlignment="Center"
                     Data="M 0 4 L 11 4 L 8 0 M 11 4 L 8 8"
-                    Stroke="{DynamicResource MahApps.Brushes.ThemeForeground}" />
+                    Stroke="{StaticResource MahApps.Brushes.ThemeForeground}" />
 
                 <TextBlock
                     Grid.Column="2"
@@ -730,7 +761,7 @@
                     Margin="1,0"
                     VerticalAlignment="Center"
                     Data="M 0 4 L 11 4 L 8 0 M 11 4 L 8 8"
-                    Stroke="{DynamicResource MahApps.Brushes.ThemeForeground}" />
+                    Stroke="{StaticResource MahApps.Brushes.ThemeForeground}" />
 
                 <TextBlock
                     Grid.Column="2"
@@ -745,14 +776,14 @@
     <HierarchicalDataTemplate x:Key="RRQTemplate" ItemsSource="{Binding ChildrenView}">
         <StackPanel Style="{StaticResource TreeNodePanel}">
             <local:NodeImage Image="{StaticResource RRImage}" />
-            <TextBlock Style="{DynamicResource ShortNodeNameStyle}" />
+            <TextBlock Style="{StaticResource ShortNodeNameStyle}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
     <HierarchicalDataTemplate x:Key="SRCTemplate" ItemsSource="{Binding ChildrenView}">
         <StackPanel Style="{StaticResource TreeNodePanel}">
             <local:NodeImage Image="{StaticResource SRCImage}" />
-            <TextBlock Style="{DynamicResource ShortNodeNameStyle}" />
+            <TextBlock Style="{StaticResource ShortNodeNameStyle}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
@@ -778,41 +809,6 @@
         SystemUnitClassTemplate="{StaticResource SUCTemplate}"
         VirtEITemplate="{StaticResource VirtEITemplate}"
         VirtRRTemplate="{StaticResource VirtRRTemplate}" />
-
-    <!--<DataTemplate x:Key="buttonTemplate" DataType="{x:Type op:ItemOperationViewModel}">
-		<Button IconData="{Binding IconData}" Style="{StaticResource ModernToolBarItemStyle}" />
-	</DataTemplate>
-
-	<DataTemplate x:Key="CutTemplate" DataType="{x:Type op:ItemOperationViewModel}">
-		<Button IconData="M 530.439,335.5C 564.405,335.5 591.939,361.356 591.939,393.25C 591.939,425.144 564.405,451 530.439,451C 496.474,451 468.939,425.144 468.939,393.25C 468.939,361.356 496.474,335.5 530.439,335.5 Z M 530.439,351.13C 555.212,351.13 575.295,369.988 575.295,393.25C 575.295,416.512 555.212,435.37 530.439,435.37C 505.666,435.37 485.584,416.512 485.584,393.25C 485.584,369.988 505.666,351.13 530.439,351.13 Z M 665.084,335.5C 699.049,335.5 726.584,361.356 726.584,393.25C 726.584,425.144 699.049,451 665.084,451C 631.118,451 603.584,425.144 603.584,393.25C 603.584,361.356 631.118,335.5 665.084,335.5 Z M 665.084,351.13C 689.857,351.13 709.939,369.988 709.939,393.25C 709.939,416.512 689.857,435.37 665.084,435.37C 640.311,435.37 620.228,416.512 620.228,393.25C 620.228,369.988 640.311,351.13 665.084,351.13 Z M 642.21,80.3006L 533.999,326.606L 555.718,340.398L 663.93,94.0923L 642.21,80.3006 Z M 642.21,340.398L 533.999,94.0923L 555.718,80.3007L 663.93,326.606L 642.21,340.398 Z M 597.762,200.843C 602.318,200.843 606.012,204.536 606.012,209.093C 606.012,213.649 602.318,217.343 597.762,217.343C 593.205,217.343 589.512,213.649 589.512,209.093C 589.512,204.536 593.205,200.843 597.762,200.843 Z M 537.512,322.593C 542.068,322.593 545.762,326.286 545.762,330.842C 545.762,335.399 542.068,339.092 537.512,339.092C 532.955,339.092 529.262,335.399 529.262,330.842C 529.262,326.286 532.955,322.593 537.512,322.593 Z M 661.512,324.092C 666.068,324.092 669.762,327.786 669.762,332.342C 669.762,336.899 666.068,340.592 661.512,340.592C 656.955,340.592 653.262,336.899 653.262,332.342C 653.262,327.786 656.955,324.092 661.512,324.092 Z" Style="{StaticResource ModernToolBarItemStyle}" />
-	</DataTemplate>
-
-	<DataTemplate x:Key="CopyTemplate" DataType="{x:Type op:ItemOperationViewModel}">
-		<Button IconData="F1 M 27,20L 38.75,20L 37.75,19L 24,19L 24,50L 27,50L 27,20 Z M 46.25,20L 59,32.75L 59,59L 27,59L 27,54L 20,54L 20,15L 39.25,15L 44.25,20L 46.25,20 Z M 31,24L 31,55L 55,55L 55,37L 42,37L 42,24L 31,24 Z M 46,25.25L 46,33L 53.75,33L 46,25.25 Z" Style="{StaticResource ModernToolBarItemStyle}" />
-	</DataTemplate>
-
-	<DataTemplate x:Key="PasteTemplate" DataType="{x:Type op:ItemOperationViewModel}">
-		<Button IconData="F1 M 34.0001,60C 32.3433,60 31.0001,58.6569 31.0001,57L 31.0001,54.0001L 23,54.0001C 21.3431,54.0001 20,52.6569 20,51.0001L 20,24.0001C 20,22.3432 21.3431,21.0001 23,21.0001L 26.5001,20.9999C 26.5001,20.9999 27.4999,20.8807 27.4999,19.5C 27.4999,18.1193 29.1191,17 30.4999,17L 38.4998,17.0001C 39.8798,17.0001 41.4988,18.6176 41.5,19.9979L 41.4998,19.5024C 41.5009,20.881 42.5,21 42.5,21L 46,21.0001C 47.6569,21.0001 49,22.3432 49,24.0001L 49,31L 56,38L 56.0001,57C 56.0001,58.6569 54.657,60 53.0001,60L 34.0001,60 Z M 33.9999,31.0001L 33.9999,57.0001L 53.0001,57L 53.0001,43L 42.0002,43L 42.0001,31L 33.9999,31.0001 Z M 53,40.0001L 45,32.0001L 45.0001,40L 53,40.0001 Z M 28.5,25L 40.5,25C 40.5,25 39.4998,23.8809 39.4998,22.5002C 39.4998,21.1194 38.3805,20.0002 36.9998,20.0002L 31.9998,20.0002C 30.6191,20.0002 29.4998,21.1194 29.4998,22.5002C 29.4998,23.8809 28.5,25 28.5,25 Z" Style="{StaticResource ModernToolBarItemStyle}" />
-	</DataTemplate>
-
-	<DataTemplate x:Key="UndoTemplate" DataType="{x:Type op:ItemOperationViewModel}">
-		<Button IconData="F1 M 25.3362,20.5864L 25.3348,29.2137C 28.5107,25.8499 33.0116,23.7507 38.0029,23.7507C 47.6232,23.7507 55.422,31.5494 55.422,41.1698C 55.422,45.9799 53.4723,50.3347 50.32,53.4869L 46.401,49.5679C 48.5503,47.4187 49.8796,44.4495 49.8796,41.1699C 49.8796,34.6106 44.5623,29.2932 38.003,29.2932C 34.4855,29.2932 31.3251,30.8224 29.1504,33.2522L 38.0029,33.2531L 33.2529,38.0031L 20.5862,38.0031L 20.5862,25.3364L 25.3362,20.5864 Z" Style="{StaticResource ModernToolBarItemStyle}" />
-	</DataTemplate>
-
-	<DataTemplate x:Key="RedoTemplate" DataType="{x:Type op:ItemOperationViewModel}">
-		<Button IconData="F1 M 50.672,20.5864L 55.4219,25.3364L 55.422,38.0031L 42.7553,38.0031L 38.0053,33.2531L 46.8578,33.2522C 44.6831,30.8224 41.5227,29.2932 38.0052,29.2932C 31.4459,29.2932 26.1285,34.6106 26.1285,41.1699C 26.1285,44.4495 27.4579,47.4187 29.6071,49.5679L 25.6881,53.4869C 22.5359,50.3347 20.5862,45.9799 20.5862,41.1698C 20.5862,31.5494 28.385,23.7507 38.0053,23.7507C 42.9966,23.7507 47.4975,25.8499 50.6734,29.2137L 50.672,20.5864 Z" Style="{StaticResource ModernToolBarItemStyle}" />
-	</DataTemplate>
-
-	<DataTemplate x:Key="DeleteTemplate" DataType="{x:Type op:ItemOperationViewModel}">
-		<Button IconData="F1 M 25.3333,23.75L 50.6667,23.75C 51.5411,23.75 51.8541,27.3125 51.8541,27.3125L 24.1458,27.3125C 24.1458,27.3125 24.4589,23.75 25.3333,23.75 Z M 35.625,19.7917L 40.375,19.7917C 40.8122,19.7917 41.9583,20.9378 41.9583,21.375C 41.9583,21.8122 40.8122,22.9584 40.375,22.9584L 35.625,22.9584C 35.1878,22.9584 34.0416,21.8122 34.0416,21.375C 34.0416,20.9378 35.1878,19.7917 35.625,19.7917 Z M 27.7083,28.5L 48.2916,28.5C 49.1661,28.5 49.875,29.2089 49.875,30.0834L 48.2916,53.8334C 48.2916,54.7078 47.5828,55.4167 46.7083,55.4167L 29.2917,55.4167C 28.4172,55.4167 27.7083,54.7078 27.7083,53.8334L 26.125,30.0834C 26.125,29.2089 26.8339,28.5 27.7083,28.5 Z M 30.0833,31.6667L 30.4792,52.25L 33.25,52.25L 32.8542,31.6667L 30.0833,31.6667 Z M 36.4167,31.6667L 36.4167,52.25L 39.5833,52.25L 39.5833,31.6667L 36.4167,31.6667 Z M 43.1458,31.6667L 42.75,52.25L 45.5208,52.25L 45.9167,31.6667L 43.1458,31.6667 Z" Style="{StaticResource ModernToolBarItemStyle}" />
-	</DataTemplate>
-
-	<DataTemplate x:Key="Clean" DataType="{x:Type op:ItemOperationViewModel}">
-		<Button
-			x:Name="CleanButton"
-			IconData="F1 M 58.5833,45.9167L 58.5833,57L 19,57L 19,45.9167L 28.8998,45.9167C 31.0306,47.2793 33.6795,48.4476 36.6434,49.2418C 40.3467,50.2341 44.7079,50.4746 47.6249,50.0692L 47.6249,45.9167L 58.5833,45.9167 Z M 56.2083,48.2917L 53.4374,48.2917L 53.4374,53.0417L 56.2082,53.0417L 56.2083,48.2917 Z M 45.7433,48.2824C 43.1578,48.6418 39.9938,48.0327 36.7113,47.1532C 31.1866,45.6728 26.8965,42.7258 25.5163,39.7952L 32.2902,33.0213L 45.7433,38.0663L 45.7433,48.2824 Z M 39.2905,28.1719C 39.6351,28.1719 39.9737,28.1941 40.3047,28.2368L 46.0048,17.0498L 49.0712,18.6122L 43.5443,29.4594C 45.1454,30.5622 46.1735,32.2733 46.1735,34.1946C 46.1735,35.0197 45.9839,35.806 45.6407,36.5221L 33.4151,31.7762C 34.4796,29.6541 36.4722,28.1719 39.2905,28.1719 Z"
-			Style="{DynamicResource ModernToolBarItemStyle}" />
-	</DataTemplate>-->
 
     <DataTemplate x:Key="separatorTemplate">
         <Rectangle
@@ -849,16 +845,7 @@
         </Grid>
     </ControlTemplate>
 
-    <!--<xaml:ToolBarItemTemplateSelector
-		x:Key="toolBarItemTemplateSelector"
-		ButtonTemplate="{StaticResource buttonTemplate}"
-		CopyButtonTemplate="{StaticResource CopyTemplate}"
-		CutButtonTemplate="{StaticResource CutTemplate}"
-		DeleteButtonTemplate="{StaticResource DeleteTemplate}"
-		PasteButtonTemplate="{StaticResource PasteTemplate}"
-		RedoButtonTemplate="{StaticResource RedoTemplate}"
-		SeparatorTemplate="{StaticResource separatorTemplate}"
-		UndoButtonTemplate="{StaticResource UndoTemplate}" />-->
+
 
     <Style TargetType="{x:Type local:ModernToolBar}">
 
@@ -875,7 +862,7 @@
                         <Border
                             Grid.Row="0"
                             Margin="0,0,0,8"
-                            BorderBrush="{DynamicResource WindowBorder}"
+                            BorderBrush="{StaticResource WindowBorder}"
                             BorderThickness="0,1">
 
                             <ItemsControl
@@ -1378,8 +1365,8 @@
                                                     <Condition Binding="{Binding Tree.IsActive}" Value="False" />
                                                     <Condition Binding="{Binding IsSelected}" Value="True" />
                                                 </MultiDataTrigger.Conditions>
-                                                <Setter Property="mah:ItemHelper.ActiveSelectionBackgroundBrush" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Background.Inactive}" />
-                                                <Setter Property="mah:ItemHelper.SelectedBackgroundBrush" Value="{DynamicResource MahApps.Brushes.DataGrid.Selection.Background.Inactive}" />
+                                                <Setter Property="mah:ItemHelper.ActiveSelectionBackgroundBrush" Value="{StaticResource MahApps.Brushes.DataGrid.Selection.Background.Inactive}" />
+                                                <Setter Property="mah:ItemHelper.SelectedBackgroundBrush" Value="{StaticResource MahApps.Brushes.DataGrid.Selection.Background.Inactive}" />
                                             </MultiDataTrigger>
 
                                             <DataTrigger Binding="{Binding IsOverridden}" Value="True">
@@ -1392,20 +1379,20 @@
 
                                             <DataTrigger Binding="{Binding IsMarked}" Value="True">
                                                 <Setter Property="Opacity" Value="0.8" />
-                                                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
-                                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+                                                <Setter Property="Background" Value="{StaticResource {x:Static SystemColors.HighlightBrushKey}}" />
+                                                <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.HighlightTextBrushKey}}" />
                                             </DataTrigger>
 
                                             <Trigger Property="xaml:TreeViewDragOverHighlighter.IsPossibleDropTarget" Value="True">
                                                 <Setter Property="Opacity" Value="0.8" />
-                                                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
-                                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+                                                <Setter Property="Background" Value="{StaticResource {x:Static SystemColors.HighlightBrushKey}}" />
+                                                <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.HighlightTextBrushKey}}" />
                                             </Trigger>
 
                                             <Trigger Property="Tag" Value="drop">
                                                 <Setter Property="Opacity" Value="0.8" />
-                                                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
-                                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+                                                <Setter Property="Background" Value="{StaticResource {x:Static SystemColors.HighlightBrushKey}}" />
+                                                <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.HighlightTextBrushKey}}" />
                                             </Trigger>
 
                                         </Style.Triggers>

@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -562,16 +563,22 @@ public class AMLTreeView : Control
     {
         try
         {
+            //Debug.WriteLine($"Drag over { TreeViewModel.Root.Name}");
             e.Effects = DragDropEffects.None;
+
+            AMLNodeViewModel targetItem;
 
             // Verify that this is a valid drop and then store the drop target
             var item = VisualTreeUtilities.FindVisualParent<TreeViewItem>(e.OriginalSource as DependencyObject);
             if (item == null)
             {
-                return;
+                // check, if the treeview could be used as a drop target
+                targetItem = TreeViewModel;
             }
-
-            var targetItem = item.DataContext as AMLNodeViewModel;
+            else
+            {
+                targetItem = item.DataContext as AMLNodeViewModel;
+            }
 
             if (e.Data?.GetData(typeof(AMLNodeViewModel)) is AMLNodeViewModel draggedItem &&
                 TreeViewModel.CanDragDrop != null &&
@@ -603,22 +610,34 @@ public class AMLTreeView : Control
     {
         try
         {
+            //Debug.WriteLine($"Drop {TreeViewModel.Root.Name}");
+
             // Verify that this is a valid drop and then store the drop target
-            var TargetItem =
+            var item =
                 VisualTreeUtilities.FindVisualParent<TreeViewItem>(e.OriginalSource as DependencyObject);
 
-            if (TargetItem != null && e.Data?.GetData(typeof(AMLNodeViewModel)) is AMLNodeViewModel draggedItem)
+            AMLNodeViewModel targetItem;
+
+            if (item == null)
+            {
+                // check, if the treeview could be used as a drop target
+                targetItem = TreeViewModel;
+            }
+            else
+            {
+                targetItem = item.DataContext as AMLNodeViewModel;
+            }
+
+
+            if (targetItem != null && e.Data?.GetData(typeof(AMLNodeViewModel)) is AMLNodeViewModel draggedItem)
             {
                 e.Handled = true;
-
-                if (TargetItem.DataContext is AMLNodeViewModel targetItem)
+                
+                if (TreeViewModel.CanDragDrop != null &&
+                    TreeViewModel.CanDragDrop(TreeViewModel, draggedItem, targetItem))
                 {
-                    if (TreeViewModel.CanDragDrop != null &&
-                        TreeViewModel.CanDragDrop(TreeViewModel, draggedItem, targetItem))
-                    {
-                        TreeViewModel.DoDragDrop?.Invoke(TreeViewModel, draggedItem, targetItem);
-                        _lastMouseDown = new Point(0, 0);
-                    }
+                    TreeViewModel.DoDragDrop?.Invoke(TreeViewModel, draggedItem, targetItem);
+                    _lastMouseDown = new Point(0, 0);
                 }
             }
 
@@ -639,6 +658,8 @@ public class AMLTreeView : Control
     /// </param>
     private void TheTreeView_MouseDown(object sender, MouseButtonEventArgs e)
     {
+        //Debug.WriteLine($"Mouse down {TreeViewModel.Root.Name}");
+
         if (TreeViewModel == null)
         {
             return;
@@ -757,8 +778,8 @@ public class AMLTreeView : Control
 
         TreeViewModel.IsDragging = true;
         var dragData = new DataObject(typeof(AMLNodeViewModel), _draggedItem);
-        _ = DragDrop.DoDragDrop(TheTreeView, dragData, DragDropEffects.Move);
-        e.Handled = true;
+        var effects  = DragDrop.DoDragDrop(TheTreeView, dragData, DragDropEffects.Move);
+        e.Handled = effects != DragDropEffects.None;
     }
 
     private void Tree_KeyUp(object sender, KeyEventArgs e)

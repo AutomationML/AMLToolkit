@@ -91,16 +91,23 @@ public class IlGraph
 
     private static List<Brush> GenerateBrushes(ResourceDictionary dictionary)
     {
-        List<Brush> brushes = new();
-        foreach (var key in dictionary.Keys.OfType<string>().OrderBy(s => s))
+        try
         {
-            if (key.StartsWith("LINK"))
+            List<Brush> brushes = new();
+            foreach (var key in dictionary.Keys.OfType<string>().OrderBy(s => s))
             {
-                brushes.Add((Brush)dictionary[key]);
+                if (key.StartsWith("LINK"))
+                {
+                    brushes.Add((Brush)dictionary[key]);
+                }
             }
-        }
 
-        return brushes;
+            return brushes;
+        }
+        catch
+        { 
+            return null;
+        }
     }
 
     static IlGraph()
