@@ -139,6 +139,7 @@
     </PathGeometry>
 
     <xaml:NullToBoolConverter x:Key="IsNullConverter" />
+    <xaml:IsNotNullConverter x:Key="IsNotNullConverter" />
 
     <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Focusable" Value="False" />

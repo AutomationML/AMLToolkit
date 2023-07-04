@@ -1474,6 +1474,8 @@ public class AMLTreeViewModel : AMLNodeViewModel
                     }
                 }
 
+
+
                 RaisePropertyChanged(nameof(SelectedCAEXObject));
                 RaisePropertyChanged(nameof(SelectedElement));
                 RaisePropertyChanged(nameof(SelectedNode));
