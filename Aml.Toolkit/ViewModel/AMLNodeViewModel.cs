@@ -447,8 +447,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// <value>
     ///     <c>true</c> if this instance has new version; otherwise, <c>false</c>.
     /// </value>
-    public virtual bool HasNewVersion => CAEXObject is CAEXObject caex && caex.Revision.Exists &&
-                                         caex.Revision.Any(r => !string.IsNullOrEmpty(r.NewVersion));
+    public virtual bool HasNewVersion => CAEXObject is CAEXBasicObject caex && caex.HasNewVersion();
 
     /// <summary>
     ///     Gets a value indicating whether this instance has old version.
@@ -456,8 +455,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// <value>
     ///     <c>true</c> if this instance has old version; otherwise, <c>false</c>.
     /// </value>
-    public virtual bool HasOldVersion => !HasNewVersion && CAEXObject is CAEXObject caex && caex.Revision.Exists &&
-                                         caex.Revision.Any(r => !string.IsNullOrEmpty(r.OldVersion));
+    public virtual bool HasOldVersion => !HasNewVersion && CAEXObject is CAEXBasicObject caex && caex.HasOldVersion();
 
     /// <summary>
     ///     Gets a value indicating whether this instance is deleted.
@@ -760,7 +758,9 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
 
             if (!string.IsNullOrEmpty(last?.OldVersion))
             {
-                return $"This is a new version for {last.OldVersion}.";
+                return (last?.Comment == "Extension")
+                    ? $"This is an extended version for {last.OldVersion}."
+                    : $"This is a new version for {last.OldVersion}.";
             }
 
             return "New version";
