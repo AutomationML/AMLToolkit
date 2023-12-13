@@ -44,30 +44,122 @@ namespace Aml.Toolkit.ViewModel;
 /// </summary>
 public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
 {
-
-    #region Fields
-
-    /// <summary>
-    ///     Empty list and view shared by all nodes that don't have children
-    /// </summary>
-    protected static readonly List<AMLNodeViewModel> _emptyChildren;
-
-    /// <summary>
-    ///     List with a Dummy Child, shared by all nodes that have
-    ///     children but have not been expanded
-    /// </summary>
-    protected static readonly List<AMLNodeViewModel> _lazyLoadChildrenWithDummy;
+    #region Protected Fields
 
     /// <summary>
     ///     The children
     /// </summary>
     protected ObservableCollection<AMLNodeViewModel> _children;
 
+    #endregion Protected Fields
+
+    #region Private Constructors
+
+    /// <summary>
+    ///     This is used to create the DummyChild instance. Prevents a default instance
+    ///     of the <see cref="AMLNodeViewModel" /> class from being created.
+    /// </summary>
+    private AMLNodeViewModel()
+    {
+        _mappedValue = 0;
+    }
+
+    #endregion Private Constructors
+
+    internal AMLNodeViewModel FirstNode(AMLNodeViewModel from, AMLNodeViewModel to)
+    {
+        if (LoadedChildren == null)
+        {
+            return null;
+        }
+        foreach (var child in LoadedChildren)
+        {
+            // child is not null here but checked
+            if (child == null)
+            {
+                continue;
+            }
+
+            if (child.Equals(from))
+            {
+                return from;
+            }
+
+            if (child.Equals(to))
+            {
+                return to;
+            }
+
+            var firstChild = child.FirstNode(from, to);
+            if (firstChild != null)
+            {
+                return firstChild;
+            }
+        }
+
+        return null;
+    }
+
+    #region Private Classes
+
+    /// <summary>
+    /// </summary>
+    private class GroupComparer : IEqualityComparer<AMLNodeViewModel>
+    {
+        #region Public Methods
+
+        /// <summary>
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public bool Equals(AMLNodeViewModel x, AMLNodeViewModel y)
+        {
+            if (x is AMLNodeGroupViewModel gx && y is AMLNodeGroupViewModel gy)
+            {
+                return gx.GroupName == gy.GroupName;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public int GetHashCode(AMLNodeViewModel obj)
+        {
+            if (obj is AMLNodeGroupViewModel gx)
+            {
+                return gx.GroupName.GetHashCode();
+            }
+
+            return obj.GetHashCode();
+        }
+
+        #endregion Public Methods
+    }
+
+    #endregion Private Classes
+
+    #region Private Fields
+
     /// <summary>
     /// </summary>
     private const short TOOLKIT = 1121;
 
+    /// <summary>
+    ///     Empty list and view shared by all nodes that don't have children
+    /// </summary>
+    protected static readonly List<AMLNodeViewModel> _emptyChildren;
+
     private static readonly GroupComparer _groupComparer = new();
+
+    /// <summary>
+    ///     List with a Dummy Child, shared by all nodes that have
+    ///     children but have not been expanded
+    /// </summary>
+    protected static readonly List<AMLNodeViewModel> _lazyLoadChildrenWithDummy;
 
     /// <summary>
     ///     The dummy child
@@ -94,8 +186,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     ///     <see cref="CAEXTagNames" />
     /// </summary>
     private HashSet<string> _caexTagNames;
-
-    private RelayCommand<object> _collapseAllCommand;
 
     private ObservableCollection<AMLNodeCommand> _commands;
 
@@ -126,8 +216,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// </summary>
     private bool _hasChildrenOverlay;
 
-    private bool? _hasChilds;
-
     /// <summary>
     ///     <see cref="IsInEditMode" />
     /// </summary>
@@ -137,8 +225,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     ///     <see cref="IsMarked" />
     /// </summary>
     private bool _isMarked;
-
-    private bool _isUpdating;
 
     /// <summary>
     ///     <see cref="MappedValue" />
@@ -162,8 +248,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// </summary>
     private bool _showInheritance;
 
-    private bool _showMirrorData;
-
     ///// <summary>
     /////    <see cref="NumberOfVisualDescendants"/>
     ///// </summary>
@@ -179,10 +263,12 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     private object _toolTip;
 
     private AMLTreeViewModel _tree;
+    private RelayCommand<object> _collapseAllCommand;
+    private bool _showMirrorData;
 
-    #endregion Fields
+    #endregion Private Fields
 
-    #region Constructors
+    #region Public Constructors
 
     /// <summary>
     /// </summary>
@@ -264,6 +350,12 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         _mappedValue = 1;
     }
 
+    private void VerificationChanged(object sender, EventArgs e)
+    {
+        RaisePropertyChanged(nameof(IsVerified));
+        RaisePropertyChanged(nameof(IsVerified));
+    }
+
     /// <summary>
     ///     Initializes a new instance of the <see cref="AMLNodeViewModel" /> class.
     /// </summary>
@@ -275,18 +367,9 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     {
     }
 
-    /// <summary>
-    ///     This is used to create the DummyChild instance. Prevents a default instance
-    ///     of the <see cref="AMLNodeViewModel" /> class from being created.
-    /// </summary>
-    private AMLNodeViewModel()
-    {
-        _mappedValue = 0;
-    }
+    #endregion Public Constructors
 
-    #endregion Constructors
-
-    #region Properties
+    #region Public Properties
 
     /// <summary>
     ///     Gets or sets the additional information which will be visible in the View
@@ -316,6 +399,14 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         get => _additionalInformationDescription;
         set => Set(ref _additionalInformationDescription, value);
     }
+
+    /// <summary>
+    ///     Gets a value indicating whether this instance is a role reference.
+    /// </summary>
+    /// <value>
+    ///     <c>true</c> if this instance is role reference; otherwise, <c>false</c>.
+    /// </value>
+    public virtual bool IsRoleReference => false;
 
     /// <summary>
     ///     Gets and sets the BorderColor
@@ -362,17 +453,11 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// </summary>
     /// <value>The children.</value>
     public ObservableCollection<AMLNodeViewModel> Children => _children ??
-                                                              new ObservableCollection<AMLNodeViewModel>();
+                                                              [];
 
     /// <summary>
     /// </summary>
     IList<ITreeNode> ITreeNode.Children => Children.Cast<ITreeNode>().ToList();
-
-    /// <summary>
-    ///     Previously expanded nodes are collapsed an unloaded
-    /// </summary>
-    public ICommand CollapseAllCommand => _collapseAllCommand ??= new RelayCommand<object>(CollapseAllCommandExecute,
-        CollapseAllCommandCanExecute);
 
     /// <summary>
     ///     The Collection of Commands, which may be bound to the Context-Menu of any
@@ -406,6 +491,12 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// <value>The expand all command.</value>
     public ICommand ExpandAllCommand => _expandAllCommand ??= new RelayCommand<object>(ExpandAllCommandExecute,
         ExpandAllCommandCanExecute);
+
+    /// <summary>
+    ///     Previously expanded nodes are collapsed an unloaded
+    /// </summary>
+    public ICommand CollapseAllCommand => _collapseAllCommand ??= new RelayCommand<object>(CollapseAllCommandExecute,
+        CollapseAllCommandCanExecute);
 
     /// <summary>
     ///     Gets and sets the Extension which can be used to add additional properties for customized visualizations
@@ -447,7 +538,8 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// <value>
     ///     <c>true</c> if this instance has new version; otherwise, <c>false</c>.
     /// </value>
-    public virtual bool HasNewVersion => CAEXObject is CAEXBasicObject caex && caex.HasNewVersion();
+    public virtual bool HasNewVersion => CAEXObject is CAEXObject caex && caex.Revision.Exists &&
+                                         caex.Revision.Any(r => !string.IsNullOrEmpty(r.NewVersion));
 
     /// <summary>
     ///     Gets a value indicating whether this instance has old version.
@@ -455,7 +547,8 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// <value>
     ///     <c>true</c> if this instance has old version; otherwise, <c>false</c>.
     /// </value>
-    public virtual bool HasOldVersion => !HasNewVersion && CAEXObject is CAEXBasicObject caex && caex.HasOldVersion();
+    public virtual bool HasOldVersion => !HasNewVersion && CAEXObject is CAEXObject caex && caex.Revision.Exists &&
+                                         caex.Revision.Any(r => !string.IsNullOrEmpty(r.OldVersion));
 
     /// <summary>
     ///     Gets a value indicating whether this instance is deleted.
@@ -463,7 +556,28 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// <value>
     ///     <c>true</c> if this instance is deleted; otherwise, <c>false</c>.
     /// </value>
-    public virtual bool IsDeleted => CAEXObject is CAEXBasicObject { ChangeMode: ChangeMode.Delete };
+    public virtual bool IsDeleted => (CAEXObject as CAEXBasicObject)?.ChangeMode == ChangeMode.Delete;
+
+    /// <summary>
+    ///     Gets a value indicating whether this instance is deleted in the current document.
+    /// </summary>
+    internal bool DeletedInDocument => CAEXObject.IsDeleted;
+
+    /// <summary>
+    ///     Gets a value indicating whether this instance is verified.
+    /// </summary>
+    /// <value>
+    ///     <c>true</c> if this instance is verified; otherwise, <c>false</c>.
+    /// </value>
+    public virtual bool IsVerified => Tree?.GetVerificationState(CAEXObject as CAEXObject) == true;
+
+    /// <summary>
+    ///     Gets a value indicating whether this instance is verified.
+    /// </summary>
+    /// <value>
+    ///     <c>true</c> if this instance is verified; otherwise, <c>false</c>.
+    /// </value>
+    public virtual bool IsNotVerified => Tree?.GetVerificationState(CAEXObject as CAEXObject) == false;
 
     /// <summary>
     ///     Gets a value indicating whether this instance is derived.
@@ -574,19 +688,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     public virtual bool IsMirror => false;
 
     /// <summary>
-    ///     Gets a value indicating whether this instance is a mirrored item.
-    /// </summary>
-    public bool IsMirrored => Parent != null && (Parent.IsMirror || Parent.IsMirrored);
-
-    /// <summary>
-    ///     Gets a value indicating whether this instance is verified.
-    /// </summary>
-    /// <value>
-    ///     <c>true</c> if this instance is verified; otherwise, <c>false</c>.
-    /// </value>
-    public virtual bool IsNotVerified => Tree?.GetVerificationState(CAEXObject as CAEXObject) == false;
-
-    /// <summary>
     ///     Gets a value indicating whether this instance is overridden.
     /// </summary>
     /// <value>
@@ -611,20 +712,9 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     public virtual bool IsReadonly => IsDerived || IsFacetted;
 
     /// <summary>
-    ///     Gets a value indicating whether this instance is a role reference.
+    ///     Gets a value indicating whether this instance is a mirrored item.
     /// </summary>
-    /// <value>
-    ///     <c>true</c> if this instance is role reference; otherwise, <c>false</c>.
-    /// </value>
-    public virtual bool IsRoleReference => false;
-
-    /// <summary>
-    ///     Gets a value indicating whether this instance is verified.
-    /// </summary>
-    /// <value>
-    ///     <c>true</c> if this instance is verified; otherwise, <c>false</c>.
-    /// </value>
-    public virtual bool IsVerified => Tree?.GetVerificationState(CAEXObject as CAEXObject) == true;
+    public bool IsMirrored => Parent != null && (Parent.IsMirror || Parent.IsMirrored);
 
     /// <summary>
     ///     Gets and sets the MappedValue
@@ -644,30 +734,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
             RaisePropertyChanged();
         }
     }
-
-    /// <summary>
-    ///     Gets the master.
-    /// </summary>
-    /// <value>
-    ///     The master.
-    /// </value>
-    public CAEXObject Master => CAEXObject is IMirror mirror ? mirror.Master : null;
-
-    /// <summary>
-    ///     Gets the master element.
-    /// </summary>
-    /// <value>
-    ///     The master element.
-    /// </value>
-    public AMLNodeViewModel MasterElement => Parent is { IsMaster: true } ? Parent : Parent?.MasterElement;
-
-    /// <summary>
-    ///     Gets the mirror element.
-    /// </summary>
-    /// <value>
-    ///     The mirror element.
-    /// </value>
-    public AMLNodeViewModel MirrorElement => Parent is { IsMirror: true } ? Parent : Parent?.MirrorElement;
 
     /// <summary>
     ///     Gets and sets the Name
@@ -700,72 +766,10 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     }
 
     /// <summary>
-    ///     Creates new revision.
-    /// </summary>
-    /// <value>
-    ///     The new revision.
-    /// </value>
-    public string NewRevision
-    {
-        get
-        {
-            if (!HasNewVersion)
-            {
-                return string.Empty;
-            }
-
-            var rev = ((CAEXObject)CAEXObject).Revision;
-            var last = rev.Aggregate((i1, i2) => i1.RevisionDate > i2.RevisionDate &&
-                                                 !string.IsNullOrEmpty(i1.NewVersion)
-                ? i1
-                : i2);
-
-            if (!string.IsNullOrEmpty(last?.NewVersion))
-            {
-                return $"{last.NewVersion} is a new version for this.";
-            }
-
-            return "A new version exists";
-        }
-    }
-
-    /// <summary>
     ///     Gets the Index of the node.
     /// </summary>
     /// <value>The index of the node.</value>
     public int NodeIndex { get; private set; }
-
-    /// <summary>
-    ///     Gets the old revision.
-    /// </summary>
-    /// <value>
-    ///     The old revision.
-    /// </value>
-    public string OldRevision
-    {
-        get
-        {
-            if (!HasOldVersion)
-            {
-                return string.Empty;
-            }
-
-            var rev = ((CAEXObject)CAEXObject).Revision;
-            var last = rev.Aggregate((i1, i2) => i1.RevisionDate > i2.RevisionDate &&
-                                                 !string.IsNullOrEmpty(i1.OldVersion)
-                ? i1
-                : i2);
-
-            if (!string.IsNullOrEmpty(last?.OldVersion))
-            {
-                return (last?.Comment == "Extension")
-                    ? $"This is an extended version for {last.OldVersion}."
-                    : $"This is a new version for {last.OldVersion}.";
-            }
-
-            return "New version";
-        }
-    }
 
     /// <summary>
     ///     Gets and sets the OverlayColor
@@ -949,12 +953,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     }
 
     /// <summary>
-    ///     Gets the Version
-    /// </summary>
-    /// <value>The version.</value>
-    public string Version => (CAEXObject as CAEXBasicObject)?.Version;
-
-    /// <summary>
     ///     Gets the virtual children.
     /// </summary>
     /// <value>
@@ -1031,32 +1029,41 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         }
     }
 
-    /// <summary>
-    ///     Gets a value indicating whether this instance is deleted in the current document.
-    /// </summary>
-    internal bool DeletedInDocument => CAEXObject.IsDeleted;
+    #endregion Public Properties
 
-    /// <summary>
-    /// </summary>
-    /// <returns></returns>
-    internal bool HasChilds
-    {
-        get
-        {
-            _hasChilds ??= CAEXTagNames != null && Tree.ModelChilds(this, false).Any();
-            return _hasChilds.Value;
-        }
-
-        set => _hasChilds = value;
-    }
+    #region Internal Properties
 
     /// <summary>
     /// </summary>
     internal IList<AMLNodeViewModel> LoadedChildren => _childrenCollection.Source as IList<AMLNodeViewModel>;
 
-    #endregion Properties
+    /// <summary>
+    ///     Gets the master element.
+    /// </summary>
+    /// <value>
+    ///     The master element.
+    /// </value>
+    public AMLNodeViewModel MasterElement => Parent is { IsMaster: true } ? Parent : Parent?.MasterElement;
 
-    #region Methods
+    /// <summary>
+    ///     Gets the mirror element.
+    /// </summary>
+    /// <value>
+    ///     The mirror element.
+    /// </value>
+    public AMLNodeViewModel MirrorElement => Parent is { IsMirror: true } ? Parent : Parent?.MirrorElement;
+
+    /// <summary>
+    ///     Gets the master.
+    /// </summary>
+    /// <value>
+    ///     The master.
+    /// </value>
+    public CAEXObject Master => CAEXObject is IMirror mirror ? mirror.Master : null;
+
+    #endregion Internal Properties
+
+    #region Public Methods
 
     /// <summary>
     ///     Adds the node.
@@ -1173,6 +1180,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         RaisePropertyChanged(nameof(NewRevision));
         RaisePropertyChanged(nameof(OldRevision));
         RaisePropertyChanged(nameof(Version));
+
         RaisePropertyChanged(nameof(IsVerified));
         RaisePropertyChanged(nameof(IsNotVerified));
         RaisePropertyChanged(nameof(IsMirrored));
@@ -1185,6 +1193,75 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         if (expand)
         {
             RefreshTree(true);
+        }
+    }
+
+    /// <summary>
+    ///     Creates new revision.
+    /// </summary>
+    /// <value>
+    ///     The new revision.
+    /// </value>
+    public string NewRevision
+    {
+        get
+        {
+            if (!HasNewVersion)
+            {
+                return string.Empty;
+            }
+
+            var rev = ((CAEXObject)CAEXObject).Revision;
+            var last = rev.Aggregate((i1, i2) => i1.RevisionDate > i2.RevisionDate &&
+                                                 !string.IsNullOrEmpty(i1.NewVersion)
+                ? i1
+                : i2);
+
+            if (!string.IsNullOrEmpty(last?.NewVersion))
+            {
+                return $"{last.NewVersion} is a new version for this.";
+            }
+
+            return "A new version exists";
+        }
+    }
+
+    /// <summary>
+    /// The CAEX objects version
+    /// </summary>
+    public string Version => (CAEXObject as CAEXObject)?.Version;
+
+    /// <summary>
+    ///     Gets the old revision.
+    /// </summary>
+    /// <value>
+    ///     The old revision.
+    /// </value>
+    public string OldRevision
+    {
+        get
+        {
+            if (!HasOldVersion)
+            {
+                return string.Empty;
+            }
+
+            var rev = ((CAEXObject)CAEXObject).Revision;
+            var last = rev.Aggregate((i1, i2) => i1.RevisionDate > i2.RevisionDate &&
+                                                 !string.IsNullOrEmpty(i1.OldVersion)
+                ? i1
+                : i2);
+
+            if (!string.IsNullOrEmpty(last?.OldVersion))
+            {
+                if (CAEXObject is ICAEXLibrary lib && lib.IsExtendedVersion())
+                {
+                    return $"This is an extended version of {last.OldVersion}.";
+                }
+                return $"This is a new version for {last.OldVersion}.";
+            }
+
+            return "New version";
         }
     }
 
@@ -1405,39 +1482,9 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         RaisePropertyChanged(nameof(HasDummyChild));
     }
 
-    internal AMLNodeViewModel FirstNode(AMLNodeViewModel from, AMLNodeViewModel to)
-    {
-        if (LoadedChildren == null)
-        {
-            return null;
-        }
-        foreach (var child in LoadedChildren)
-        {
-            // child is not null here but checked
-            if (child == null)
-            {
-                continue;
-            }
+    #endregion Public Methods
 
-            if (child.Equals(from))
-            {
-                return from;
-            }
-
-            if (child.Equals(to))
-            {
-                return to;
-            }
-
-            var firstChild = child.FirstNode(from, to);
-            if (firstChild != null)
-            {
-                return firstChild;
-            }
-        }
-
-        return null;
-    }
+    #region Internal Methods
 
     /// <summary>
     ///     Gets the group node from the children of this instance which groups elements with the provided element name. If no
@@ -1470,6 +1517,17 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
 
     /// <summary>
     /// </summary>
+    internal void RefreshTreeNodes()
+    {
+        RefreshNodeInformation(false);
+        foreach (var node in Children)
+        {
+            node.RefreshTreeNodes();
+        }
+    }
+
+    /// <summary>
+    /// </summary>
     internal void RefreshHierarchy()
     {
         RefreshTree(false);
@@ -1482,16 +1540,9 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         }
     }
 
-    /// <summary>
-    /// </summary>
-    internal void RefreshTreeNodes()
-    {
-        RefreshNodeInformation(false);
-        foreach (var node in Children)
-        {
-            node.RefreshTreeNodes();
-        }
-    }
+    #endregion Internal Methods
+
+    #region Protected Methods
 
     /// <summary>
     ///     Creates a new node for this element
@@ -1547,6 +1598,21 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         return nodeViewModel;
     }
 
+    ///// <summary>
+    /////    Counts the ordinal number.
+    ///// </summary>
+    ///// <param name="nodeIndex">Index of the node.</param>
+    //protected void CountOrdinalNumber(int nodeIndex)
+    //{
+    //    //RaisePropertyChanged(nameof( OrdinalNumber);
+    //    //while (nodeIndex < LoadedChildren.Count)
+    //    //{
+    //    //    var node = Children[nodeIndex++];
+    //    //    if (!node.HasDummyChild)
+    //    //          node.CountOrdinalNumber(0);
+    //    //}
+    //}
+
     /// <summary>
     ///     Expands all children.
     /// </summary>
@@ -1571,20 +1637,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         RaisePropertyChanged(nameof(ChildrenView));
     }
 
-    ///// <summary>
-    /////    Counts the ordinal number.
-    ///// </summary>
-    ///// <param name="nodeIndex">Index of the node.</param>
-    //protected void CountOrdinalNumber(int nodeIndex)
-    //{
-    //    //RaisePropertyChanged(nameof( OrdinalNumber);
-    //    //while (nodeIndex < LoadedChildren.Count)
-    //    //{
-    //    //    var node = Children[nodeIndex++];
-    //    //    if (!node.HasDummyChild)
-    //    //          node.CountOrdinalNumber(0);
-    //    //}
-    //}
     /// <summary>
     ///     Loads the children.
     /// </summary>
@@ -1609,6 +1661,10 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         }
     }
 
+    #endregion Protected Methods
+
+    #region Private Methods
+
     /// <summary>
     /// </summary>
     /// <param name="node"></param>
@@ -1617,37 +1673,6 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     {
         var list = new List<AMLNodeViewModel> { node };
         return node.Parent != null ? GetAncestors(node.Parent).Concat(list) : list;
-    }
-
-    /// <summary>
-    /// </summary>
-    /// <param name="parameter"></param>
-    /// <returns></returns>
-    private bool CollapseAllCommandCanExecute(object parameter) =>
-        CAEXObject is not CAEXFileType && LoadedChildren?.Count > 0;
-
-    /// <summary>
-    /// </summary>
-    /// <param name="parameter"></param>
-    private void CollapseAllCommandExecute(object parameter)
-    {
-        LoadedChildren.Clear();
-
-        //Tree.AmlTreeView?.InternalLinksAdorner?.Clear();
-        if (HasChilds)
-        {
-            _childrenCollection.Source = _lazyLoadChildrenWithDummy;
-        }
-
-        IsExpanded = false;
-
-        RaisePropertyChanged(nameof(HasDummyChild));
-        RaisePropertyChanged(nameof(ChildrenView));
-        RaisePropertyChanged(nameof(Children));
-        RaisePropertyChanged(nameof(LoadedChildren));
-        RaisePropertyChanged(nameof(IsVisible));
-        RaisePropertyChanged(nameof(VisibleChildren));
-        RefreshNodeInformation(false);
     }
 
     /// <summary>
@@ -1703,9 +1728,40 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// <summary>
     /// </summary>
     /// <param name="parameter"></param>
-    private void ExpandAllCommandExecute(object parameter /*CancellationToken token = new CancellationToken()*/)
+    /// <returns></returns>
+    private bool CollapseAllCommandCanExecute(object parameter) =>
+        CAEXObject is not CAEXFileType && LoadedChildren?.Count > 0;
+
+    /// <summary>
+    /// </summary>
+    /// <param name="parameter"></param>
+    private void CollapseAllCommandExecute(object parameter)
     {
-        Execute.OnUIThread(() =>
+        LoadedChildren.Clear();
+        
+        //Tree.AmlTreeView?.InternalLinksAdorner?.Clear();
+        if (HasChilds)
+        {
+            _childrenCollection.Source = _lazyLoadChildrenWithDummy;
+        }
+
+        IsExpanded = false;
+
+        RaisePropertyChanged(nameof(HasDummyChild));
+        RaisePropertyChanged(nameof(ChildrenView));
+        RaisePropertyChanged(nameof(Children));
+        RaisePropertyChanged(nameof(LoadedChildren));
+        RaisePropertyChanged(nameof(IsVisible));
+        RaisePropertyChanged(nameof(VisibleChildren));
+        RefreshNodeInformation(false);
+    }
+
+    /// <summary>
+    /// </summary>
+    /// <param name="parameter"></param>
+    private async void ExpandAllCommandExecute(object parameter /*CancellationToken token = new CancellationToken()*/)
+    {
+        await Execute.OnUIThread(() =>
         {
             var resetUpdater = false;
             IAutoUpdate updater;
@@ -1761,6 +1817,23 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
 
         return GetGroupNode(elementName) ??
                AMLNodeGroupViewModel.Create(this, AMLNodeGroupViewModel.GroupingPropertyname(elementName));
+    }
+
+    private bool? _hasChilds;
+    private bool _isUpdating;
+
+    /// <summary>
+    /// </summary>
+    /// <returns></returns>
+    internal bool HasChilds
+    {
+        get
+        {
+            _hasChilds ??= CAEXTagNames != null && Tree.ModelChilds(this, false).Any();
+            return _hasChilds.Value;
+        }
+
+        set => _hasChilds = value;
     }
 
     /// <summary>
@@ -1850,57 +1923,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         return updated;
     }
 
-    private void VerificationChanged(object sender, EventArgs e)
-    {
-        RaisePropertyChanged(nameof(IsVerified));
-        RaisePropertyChanged(nameof(IsVerified));
-    }
-
-    #endregion Methods
-
-    #region Classes
-
-    /// <summary>
-    /// </summary>
-    private class GroupComparer : IEqualityComparer<AMLNodeViewModel>
-    {
-
-        #region Methods
-
-        /// <summary>
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public bool Equals(AMLNodeViewModel x, AMLNodeViewModel y)
-        {
-            if (x is AMLNodeGroupViewModel gx && y is AMLNodeGroupViewModel gy)
-            {
-                return gx.GroupName == gy.GroupName;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public int GetHashCode(AMLNodeViewModel obj)
-        {
-            if (obj is AMLNodeGroupViewModel gx)
-            {
-                return gx.GroupName.GetHashCode();
-            }
-
-            return obj.GetHashCode();
-        }
-
-        #endregion Methods
-
-    }
-
-    #endregion Classes
+    #endregion Private Methods
 
     //private AMLNodeViewModel PreviousSibling()
     //{

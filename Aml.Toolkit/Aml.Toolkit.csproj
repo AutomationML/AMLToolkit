@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-windows;net7.0-windows</TargetFrameworks>
+		<TargetFrameworks>net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
 		<Authors>AutomationML, Josef Prinz</Authors>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>disable</Nullable>
@@ -18,7 +18,7 @@
 		<RepositoryUrl>https://github.com/AutomationML/AMLToolkit</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>AMLEngine; AMLEditor; CAEX; AMLEngine2.1; Aml.Engine; AutomationML; AML</PackageTags>
-		<PackageReleaseNotes>Fixed an exception when a selected element was deleted.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added version name to library nodes. supports .net8</PackageReleaseNotes>
 		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<SignAssembly>True</SignAssembly>
@@ -29,7 +29,7 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
-		<Version>4.1.0</Version>
+		<Version>5.0.0</Version>
 		<Platforms>AnyCPU;x64</Platforms>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<Configurations>Debug;Release;ReleaseTest</Configurations>
@@ -39,26 +39,32 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|AnyCPU'">
 		<NoWarn>1701;1702;1587</NoWarn>
+		<WarningLevel>7</WarningLevel>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|AnyCPU'">
 		<NoWarn>1701;1702;1587</NoWarn>
+		<WarningLevel>7</WarningLevel>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseTest|net6.0-windows|AnyCPU'">
 		<NoWarn>1701;1702;1587</NoWarn>
+		<WarningLevel>7</WarningLevel>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|x64'">
 		<NoWarn>1701;1702;1587</NoWarn>
+		<WarningLevel>7</WarningLevel>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|x64'">
 		<NoWarn>1701;1702;1587</NoWarn>
+		<WarningLevel>7</WarningLevel>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseTest|net6.0-windows|x64'">
 		<NoWarn>1701;1702;1587</NoWarn>
+		<WarningLevel>7</WarningLevel>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-windows|AnyCPU'">
@@ -83,6 +89,36 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseTest|net7.0-windows|x64'">
 		<NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows|AnyCPU'">
+	  <WarningLevel>7</WarningLevel>
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows|x64'">
+	  <WarningLevel>7</WarningLevel>
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows|AnyCPU'">
+	  <WarningLevel>7</WarningLevel>
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows|x64'">
+	  <WarningLevel>7</WarningLevel>
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseTest|net8.0-windows|AnyCPU'">
+	  <WarningLevel>7</WarningLevel>
+	  <NoWarn>1701;1702;1587</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseTest|net8.0-windows|x64'">
+	  <WarningLevel>7</WarningLevel>
+	  <NoWarn>1701;1702;1587</NoWarn>
 	</PropertyGroup>
 
 
