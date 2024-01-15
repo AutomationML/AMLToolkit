@@ -1211,18 +1211,18 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
                 return string.Empty;
             }
 
-            var rev = ((CAEXObject)CAEXObject).Revision;
-            var last = rev.Aggregate((i1, i2) => i1.RevisionDate > i2.RevisionDate &&
-                                                 !string.IsNullOrEmpty(i1.NewVersion)
-                ? i1
-                : i2);
+            //var rev = ((CAEXObject)CAEXObject).Revision;
+            //var last = rev.Aggregate((i1, i2) => i1.RevisionDate > i2.RevisionDate &&
+            //                                     !string.IsNullOrEmpty(i1.NewVersion)
+            //    ? i1
+            //    : i2);
 
-            if (!string.IsNullOrEmpty(last?.NewVersion))
-            {
-                return $"{last.NewVersion} is a new version for this.";
-            }
+            //if (!string.IsNullOrEmpty(last?.NewVersion))
+            //{
+            //    return $"{last.NewVersion} is a new version for this.";
+            //}
 
-            return "A new version exists";
+            return "New version available";
         }
     }
 
@@ -1256,12 +1256,11 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
             {
                 if (CAEXObject is ICAEXLibrary lib && lib.IsExtendedVersion())
                 {
-                    return $"This is an extended version of {last.OldVersion}.";
+                    return $"Extended version of {last.OldVersion}.";
                 }
-                return $"This is a new version for {last.OldVersion}.";
             }
 
-            return "New version";
+            return "Most recent version";
         }
     }
 
