@@ -888,6 +888,20 @@ public class AMLTreeViewModel : AMLNodeViewModel
     /// <returns></returns>
     protected IEnumerable<AMLNodeViewModel> ChangedTreeNodes(CAEXElementChangeEventArgs e)
     {
+        XElement NodeParent (XElement xElement, XElement parent)
+        {
+            var element = xElement;
+            while (element.Name.LocalName == CAEX_CLASSModel_TagNames.REVISION_STRING)
+            {
+                element = element.Parent;
+                if (element == null)
+                {
+                    return parent ?? xElement;
+                }
+            }
+            return element;
+        }
+
         if (Root == null)
         {
             return Enumerable.Empty<AMLNodeViewModel>();
@@ -921,6 +935,19 @@ public class AMLTreeViewModel : AMLNodeViewModel
             }
         }
 
+        if (xElement.Name.LocalName == CAEX_CLASSModel_TagNames.REVISION_NEWVERSION_STRING ||
+            xElement.Name.LocalName == CAEX_CLASSModel_TagNames.REVISION_OLDVERSION_STRING)
+        {
+            if (xElement.Parent != null && e.CAEXParent != null)
+                xElement = NodeParent(xElement.Parent, e.CAEXParent);
+            else
+                ;
+        }
+        else
+        {
+            xElement = NodeParent(xElement, e.CAEXParent);
+        }
+
         if (!CAEXTagNames.Contains(xElement.Name.LocalName))
         {
             while (xElement is { Name.LocalName: CAEX_CLASSModel_TagNames.ATTRIBUTE_STRING })
@@ -939,7 +966,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
         {
             return Root.CAEXNode == e.CAEXParent
                 ? new List<AMLNodeViewModel> { Root }
-                : FindTreeViewItemsInTree(Root.Children, e.CAEXParent);
+                : FindTreeViewItemsInTree(Root.Children, NodeParent(e.CAEXParent, e.CAEXParent));
         }
 
         return FindTreeViewItemsInTree(Root.Children, xElement);
@@ -1022,11 +1049,13 @@ public class AMLTreeViewModel : AMLNodeViewModel
                     if ((e.ChangeMode & CAEXElementChangeMode.Moved) != 0)
                     {
                         treeNode.Parent.RefreshTree(true);
+                        treeNode.RefreshNodeInformation(false);
                         TreeUpdated?.Invoke(this, new AmlNodeEventArgs(treeNode.Parent));
                     }
                     else
                     {
                         treeNode.RefreshTree(e.ChangeMode.HasFlag(CAEXElementChangeMode.Added), true);
+                        treeNode.RefreshNodeInformation(false);
                         TreeUpdated?.Invoke(this, new AmlNodeEventArgs(treeNode));
                     }
                 }
