@@ -86,7 +86,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
 
 
     private readonly Stack<AMLNodeViewModel> _selectionNotifications = new();
-    private readonly List<AMLNodeViewModel> registeredPartners = new();
+    private readonly List<AMLNodeViewModel> registeredPartners = [];
 
     /// <summary>
     ///     <see cref="CanDragDrop" />
@@ -338,7 +338,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
     /// </summary>
     /// <value>The selected elements.</value>
     public ObservableCollection<AMLNodeViewModel> SelectedElements { get; } =
-        new();
+        [];
 
     /// <summary>
     ///     Gets the selected tree view node.
@@ -526,7 +526,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
     {
         var names = node.CAEXTagNames;
 
-        var children = ModelChilds(node.CAEXObject, names, node.IsDerived, node.ShowMirrorData, node.ShowInheritance,
+        var children = AMLTreeViewModel.ModelChilds(node.CAEXObject, names, node.IsDerived, node.ShowMirrorData, node.ShowInheritance,
             expand);
         node.HasChilds = children.Any();
 
@@ -888,7 +888,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
     /// <returns></returns>
     protected IEnumerable<AMLNodeViewModel> ChangedTreeNodes(CAEXElementChangeEventArgs e)
     {
-        XElement NodeParent (XElement xElement, XElement parent)
+        static XElement NodeParent (XElement xElement, XElement parent)
         {
             var element = xElement;
             while (element.Name.LocalName == CAEX_CLASSModel_TagNames.REVISION_STRING)
@@ -1380,7 +1380,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
     /// <param name="showInheritance"></param>
     /// <param name="expand"></param>
     /// <returns></returns>
-    private IEnumerable<XElement> ModelChilds(CAEXWrapper node, HashSet<string> names,
+    private static IEnumerable<XElement> ModelChilds(CAEXWrapper node, HashSet<string> names,
         bool isDerived, bool showMirrorData, bool showInheritance, bool expand)
     {
         if (isDerived)
@@ -1403,7 +1403,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
             var master = mirror.Master;
             if (master != null)
             {
-                return ModelChilds(master, names, false, true, showInheritance, expand);
+                return AMLTreeViewModel.ModelChilds(master, names, false, true, showInheritance, expand);
             }
         }
 

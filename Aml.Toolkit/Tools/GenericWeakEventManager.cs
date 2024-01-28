@@ -403,7 +403,7 @@ public sealed class GenericWeakEventManager : WeakEventManager
         {
             if (base[source] is not Dictionary<EventDescriptor, WeakEventListenerRecord> dictionary)
             {
-                dictionary = new Dictionary<EventDescriptor, WeakEventListenerRecord>();
+                dictionary = [];
                 base[source] = dictionary;
             }
 

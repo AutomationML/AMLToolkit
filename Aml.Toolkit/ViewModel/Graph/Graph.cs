@@ -24,8 +24,8 @@ public class IlGraph
 
     internal IlGraph()
     {
-        Vertices = new Dictionary<AMLNodeViewModel, Vertex>();
-        Edges = new List<List<Edge>>();
+        Vertices = [];
+        Edges = [];
     }
 
     #endregion Internal Constructors
@@ -93,7 +93,7 @@ public class IlGraph
     {
         try
         {
-            List<Brush> brushes = new();
+            List<Brush> brushes = [];
             foreach (var key in dictionary.Keys.OfType<string>().OrderBy(s => s))
             {
                 if (key.StartsWith("LINK"))
@@ -120,12 +120,12 @@ public class IlGraph
     #region Internal Fields
 
     internal static readonly Dictionary<string, (int, Brush)> InterfaceBrushes =
-        new();
+        [];
 
     internal static double PenThickness = 0.8;
     internal static Pen defaultPen;
     internal static bool useColor;
-    internal readonly Dictionary<Edge, Range<double>> Ranges = new();
+    internal readonly Dictionary<Edge, Range<double>> Ranges = [];
 
     #endregion Internal Fields
 
@@ -284,7 +284,7 @@ public class IlGraph
     {
         var v = new Vertex { Item = item, Index = Edges.Count };
         Vertices.Add(item, v);
-        Edges.Add(new List<Edge>());
+        Edges.Add([]);
         foreach (var edge in Edges)
         {
             while (edge.Count < Edges.Count)

@@ -39,7 +39,7 @@ public class AmlNodeGroupFilter
     /// </summary>
     public AmlNodeGroupFilter()
     {
-        _filters = new List<Predicate<AMLNodeViewModel>>();
+        _filters = [];
         Filter = InternalFilter;
     }
 

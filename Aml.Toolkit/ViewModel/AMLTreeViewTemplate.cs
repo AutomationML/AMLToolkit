@@ -42,12 +42,11 @@ public static class AMLTreeViewTemplate
     ///     </list>
     /// </summary>
     public static readonly HashSet<string> AttributeTypeLibTree =
-        new()
-        {
+        [
             CAEX_CLASSModel_TagNames.ATTRIBUTETYPELIB_STRING,
             CAEX_CLASSModel_TagNames.ATTRIBUTETYPE_STRING,
             CAEX_CLASSModel_TagNames.ATTRIBUTE_STRING
-        };
+        ];
 
     /// <summary>
     ///     The complete InstanceHierarchyTree contains the following Element-Names:
@@ -82,8 +81,7 @@ public static class AMLTreeViewTemplate
     ///     </list>
     /// </summary>
     public static readonly HashSet<string> CompleteInstanceHierarchyTree =
-        new()
-        {
+        [
             CAEX_CLASSModel_TagNames.INSTANCEHIERARCHY_STRING,
             CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING,
             CAEX_CLASSModel_TagNames.INTERNALLINK_STRING,
@@ -94,7 +92,7 @@ public static class AMLTreeViewTemplate
             CAEX_CLASSModel_TagNames.MAPPINGOBJECT_ATTRIBUTENAME_STRING,
             CAEX_CLASSModel_TagNames.MAPPINGOBJECT_INTERFACENAME_STRING,
             CAEX_CLASSModel_TagNames.MAPPINGOBJECT_INTERFACEID_STRING
-        };
+        ];
 
     /// <summary>
     ///     The complete SystemUnitClassLibrary-Tree contains the following
@@ -133,8 +131,7 @@ public static class AMLTreeViewTemplate
     ///     </list>
     /// </summary>
     public static readonly HashSet<string> CompleteSystemUnitClassLibTree =
-        new()
-        {
+        [
             CAEX_CLASSModel_TagNames.SYSTEMUNITCLASSLIB_STRING,
             CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING,
             CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING,
@@ -146,7 +143,7 @@ public static class AMLTreeViewTemplate
             CAEX_CLASSModel_TagNames.MAPPINGOBJECT_ATTRIBUTENAME_STRING,
             CAEX_CLASSModel_TagNames.MAPPINGOBJECT_INTERFACENAME_STRING,
             CAEX_CLASSModel_TagNames.MAPPINGOBJECT_INTERFACEID_STRING
-        };
+        ];
 
     /// <summary>
     ///     The extended InstanceHierarchyTree, which is a subset of the
@@ -170,15 +167,14 @@ public static class AMLTreeViewTemplate
     ///     </list>
     /// </summary>
     public static readonly HashSet<string> ExtendedInstanceHierarchyTree =
-        new()
-        {
+        [
             CAEX_CLASSModel_TagNames.INSTANCEHIERARCHY_STRING,
             CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING,
             CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING,
             CAEX_CLASSModel_TagNames.ROLEREQUIREMENTS_STRING,
             CAEX_CLASSModel_TagNames.SUPPORTEDROLECLASS_STRING,
             CAEX_CLASSModel_TagNames.MAPPINGOBJECT_STRING
-        };
+        ];
 
     /// <summary>
     ///     The extended RoleClassLibrary-Tree contains the following Element-Names:
@@ -194,12 +190,12 @@ public static class AMLTreeViewTemplate
     ///         </item>
     ///     </list>
     /// </summary>
-    public static readonly HashSet<string> ExtendedRoleClassLibTree = new()
-    {
+    public static readonly HashSet<string> ExtendedRoleClassLibTree =
+    [
         CAEX_CLASSModel_TagNames.ROLECLASSLIB_STRING,
         CAEX_CLASSModel_TagNames.ROLECLASS_STRING,
         CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING
-    };
+    ];
 
     /// <summary>
     ///     The extended SystemUnitClassLibrary-Tree contains the following
@@ -219,15 +215,15 @@ public static class AMLTreeViewTemplate
     ///         </item>
     ///     </list>
     /// </summary>
-    public static readonly HashSet<string> ExtendedSystemUnitClassLibTree = new()
-    {
+    public static readonly HashSet<string> ExtendedSystemUnitClassLibTree =
+    [
         CAEX_CLASSModel_TagNames.SYSTEMUNITCLASSLIB_STRING,
         CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING,
         CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING,
         CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING,
         CAEX_CLASSModel_TagNames.SUPPORTEDROLECLASS_STRING,
         CAEX_CLASSModel_TagNames.MAPPINGOBJECT_STRING
-    };
+    ];
 
     /// <summary>
     ///     The InterfaceClassLibrary-Tree contains the following Element-Names:
@@ -240,12 +236,12 @@ public static class AMLTreeViewTemplate
     ///         </item>
     ///     </list>
     /// </summary>
-    public static readonly HashSet<string> InterfaceClassLibTree = new()
-    {
+    public static readonly HashSet<string> InterfaceClassLibTree =
+    [
         CAEX_CLASSModel_TagNames.INTERFACECLASSLIB_STRING,
         CAEX_CLASSModel_TagNames.INTERFACECLASS_STRING,
         CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING
-    };
+    ];
 
     /// <summary>
     ///     The simple InstanceHierarchyTree, which is a subset of the
@@ -263,11 +259,10 @@ public static class AMLTreeViewTemplate
     ///     </list>
     /// </summary>
     public static readonly HashSet<string> SimpleInstanceHierarchyTree =
-        new()
-        {
+        [
             CAEX_CLASSModel_TagNames.INSTANCEHIERARCHY_STRING,
             CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING
-        };
+        ];
 
     /// <summary>
     ///     The simple RoleClassLibrary-Tree contains the following Element-Names:
@@ -281,11 +276,10 @@ public static class AMLTreeViewTemplate
     ///     </list>
     /// </summary>
     public static readonly HashSet<string> SimpleRoleClassLibTree =
-        new()
-        {
+        [
             CAEX_CLASSModel_TagNames.ROLECLASSLIB_STRING,
             CAEX_CLASSModel_TagNames.ROLECLASS_STRING
-        };
+        ];
 
     /// <summary>
     ///     The simple SystemUnitClassLibrary-Tree contains the following
@@ -300,11 +294,10 @@ public static class AMLTreeViewTemplate
     ///     </list>
     /// </summary>
     public static readonly HashSet<string> SimpleSystemUnitClassLibTree =
-        new()
-        {
+        [
             CAEX_CLASSModel_TagNames.SYSTEMUNITCLASSLIB_STRING,
             CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING
-        };
+        ];
 
     #endregion Public Fields
 }

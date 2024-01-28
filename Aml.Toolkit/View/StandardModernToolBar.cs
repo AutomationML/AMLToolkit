@@ -33,7 +33,7 @@ public class StandardModernToolBar : ModernToolBar
     /// </summary>
     public StandardModernToolBar()
     {
-        StandardOperations = new EditOperations();
+        StandardOperations = [];
         ToolBarOperations = StandardOperations;
     }
 

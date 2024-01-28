@@ -77,7 +77,7 @@ public class AMLNodeCommand : ViewModelBase
     ///     Gets the sub commands for this command
     /// </summary>
     public ObservableCollection<AMLNodeCommand> Commands =>
-        _commands ??= new ObservableCollection<AMLNodeCommand>();
+        _commands ??= [];
 
     /// <summary>
     ///     Gets or sets the identifier.

@@ -58,8 +58,8 @@ public class AmlSearchViewModel : ViewModelBase
         IsClosed = true;
         IsCaseSensitive = true;
         IsBusy = false;
-        LastRecentSearchStringsCollection = new ConcurrentBag<string>();
-        CaexTagnamesCollection = new List<TagnameFindViewModel>();
+        LastRecentSearchStringsCollection = [];
+        CaexTagnamesCollection = [];
         CompleteWordOnly = false;
         FilterOn = false;
         FilterTree = false;
@@ -154,7 +154,7 @@ public class AmlSearchViewModel : ViewModelBase
     /// <value>
     ///     The goto modes.
     /// </value>
-    public List<string> GotoModes { get; } = new() { "Go down", "Go up" };
+    public List<string> GotoModes { get; } = ["Go down", "Go up"];
 
     /// <summary>
     ///     Gets the goto icon.
@@ -968,7 +968,7 @@ public class AmlSearchViewModel : ViewModelBase
 
         // SearchResultIterators = new ConcurrentBag<XPathNodeIterator>();
 
-        _searchResultIterators = new ConcurrentBag<IEnumerable<XElement>>();
+        _searchResultIterators = [];
 
         // var NodeNavigators = new ConcurrentBag<XPathNavigator>();
         var nodeNavigators = new ConcurrentBag<XElement>();
@@ -997,7 +997,7 @@ public class AmlSearchViewModel : ViewModelBase
             LastRecentSearchStringsCollection.Add(SearchText);
         }
 
-        SelectedNodes = new List<AMLNodeViewModel>();
+        SelectedNodes = [];
         _actualSelectedNode = -1;
 
         _ = Parallel.ForEach(CaexTagnamesCollection, tag =>
@@ -1054,7 +1054,7 @@ public class AmlSearchViewModel : ViewModelBase
     {
         if (SearchCompleted != null && HasResult)
         {
-            SearchResultList = new ObservableCollection<object>();
+            SearchResultList = [];
 
             //Matches = 0;
             //foreach (var result in SearchResultIterators)

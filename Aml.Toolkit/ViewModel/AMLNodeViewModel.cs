@@ -274,11 +274,11 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// </summary>
     static AMLNodeViewModel()
     {
-        _emptyChildren = new List<AMLNodeViewModel>();
-        _lazyLoadChildrenWithDummy = new List<AMLNodeViewModel>
-        {
+        _emptyChildren = [];
+        _lazyLoadChildrenWithDummy =
+        [
             DummyChild
-        };
+        ];
     }
 
     /// <summary>
@@ -467,7 +467,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     ///     Commands only.
     /// </summary>
     public ObservableCollection<AMLNodeCommand> Commands =>
-        _commands ??= new ObservableCollection<AMLNodeCommand>();
+        _commands ??= [];
 
     /// <summary>
     ///     Gets and sets the Description
@@ -556,7 +556,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// <value>
     ///     <c>true</c> if this instance is deleted; otherwise, <c>false</c>.
     /// </value>
-    public virtual bool IsDeleted => (CAEXObject as CAEXBasicObject)?.ChangeMode == ChangeMode.Delete;
+    public virtual bool IsDeleted => CAEXObject is CAEXBasicObject { ChangeMode: ChangeMode.Delete };
 
     /// <summary>
     ///     Gets a value indicating whether this instance is deleted in the current document.
@@ -1080,7 +1080,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
 
         if (HasDummyChild || _children == null)
         {
-            _children = new ObservableCollection<AMLNodeViewModel>();
+            _children = [];
             _childrenCollection.Source = _children;
 
             // RaisePropertyChanged(nameof( ChildrenView));
@@ -1505,7 +1505,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     {
         if (HasDummyChild || _children == null)
         {
-            _children = new ObservableCollection<AMLNodeViewModel>();
+            _children = [];
             _childrenCollection.Source = _children;
 
             RaisePropertyChanged(nameof(ChildrenView));
