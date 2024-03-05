@@ -42,6 +42,7 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
         base(tree, parent, CaexNode, lazyLoadChildren)
     {
         SetClassPathReferenceAttribute(this);
+        RefreshNodeInformation(false);
     }
 
     /// <summary>
@@ -242,7 +243,7 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     private void SetIsMaster()
     {
         IsMaster = CAEXNode.IsInternalElement()
-            ? new InternalElementType(CAEXNode).IsMaster()
+            ? ((InternalElementType)CAEXObject).IsMaster()
             : CAEXNode.IsExternalInterface() && new ExternalInterfaceType(CAEXNode).IsMaster();
     }
 
@@ -521,7 +522,7 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     {
         if (il.AInterface == null || il.BInterface == null || Tree?.Root == null)
         {
-            return Enumerable.Empty<AMLNodeWithClassReference>();
+            return [];
         }
 
         var partner = il.AInterface.Equals(CAEXObject) ? il.BInterface : il.AInterface;

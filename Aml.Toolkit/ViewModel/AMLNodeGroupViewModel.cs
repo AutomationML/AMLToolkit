@@ -77,11 +77,9 @@ public class AMLNodeGroupViewModel : AMLNodeViewModel
 
     #region Private Fields
 
-    private static readonly IEnumerable<string> InterfaceGroup = new List<string>
-        { CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING };
+    private static readonly IEnumerable<string> InterfaceGroup = [CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING];
 
-    private static readonly IEnumerable<string> RoleRefGroup = new List<string>
-        { CAEX_CLASSModel_TagNames.SUPPORTEDROLECLASS_STRING, CAEX_CLASSModel_TagNames.ROLEREQUIREMENTS_STRING };
+    private static readonly IEnumerable<string> RoleRefGroup = [CAEX_CLASSModel_TagNames.SUPPORTEDROLECLASS_STRING, CAEX_CLASSModel_TagNames.ROLEREQUIREMENTS_STRING];
 
     #endregion Private Fields
 
@@ -101,7 +99,7 @@ public class AMLNodeGroupViewModel : AMLNodeViewModel
     public IEnumerable<XElement> GroupItems =>
         Parent.IsMirror && Parent.ShowMirrorData && Parent.Master != null
             ? Parent.Master.Node.Elements().Where(e => ElementNames.Contains(e.Name.LocalName))
-            : CAEXNode?.Elements().Where(e => ElementNames.Contains(e.Name.LocalName)) ?? Enumerable.Empty<XElement>();
+            : CAEXNode?.Elements().Where(e => ElementNames.Contains(e.Name.LocalName)) ?? [];
 
     /// <summary>
     ///     Gets the name of the group.

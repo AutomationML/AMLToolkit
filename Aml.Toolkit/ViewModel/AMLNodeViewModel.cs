@@ -997,7 +997,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     ///     The visible children.
     /// </value>
     public IEnumerable<AMLNodeViewModel> VisibleChildren =>
-        LoadedChildren?.Where(n => n.IsVisible) ?? Enumerable.Empty<AMLNodeViewModel>();
+        LoadedChildren?.Where(n => n.IsVisible) ?? [];
 
     /// <summary>
     ///     Gets the index of the visible node.
@@ -1144,7 +1144,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     {
         if (LoadedChildren == null)
         {
-            return new List<AMLNodeViewModel>();
+            return [];
         }
 
         return LoadedChildren.Any(x => x is AMLNodeGroupViewModel) ? VirtualChildren.ToList() : LoadedChildren;

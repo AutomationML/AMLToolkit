@@ -88,7 +88,7 @@ public class TagnameFindViewModel : ViewModelBase
 
         if (string.IsNullOrEmpty(searchText))
         {
-            return Enumerable.Empty<XElement>();
+            return [];
         }
 
         return TagName switch
@@ -153,7 +153,7 @@ public class TagnameFindViewModel : ViewModelBase
                 root.Descendants(root.XName(CAEX_CLASSModel_TagNames.ATTRIBUTE_STRING)).Where(lo =>
                     lo.Element(lo.XName(CAEX_CLASSModel_TagNames.ATTRIBUTE_VALUE_STRING))?.Value == searchText),
 
-            _ => Enumerable.Empty<XElement>()
+            _ => []
         };
     }
 

@@ -904,12 +904,12 @@ public class AMLTreeViewModel : AMLNodeViewModel
 
         if (Root == null)
         {
-            return Enumerable.Empty<AMLNodeViewModel>();
+            return [];
         }
 
         if ((e.ChangeMode & CAEXElementChangeMode.ChangedEvent) == CAEXElementChangeMode.None)
         {
-            return Enumerable.Empty<AMLNodeViewModel>();
+            return [];
         }
 
         if (e.CAEXElement.Name.LocalName == CAEX_CLASSModel_TagNames.INTERNALLINK_STRING)
@@ -957,7 +957,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
 
             if (xElement == null || !CAEXTagNames.Contains(xElement.Name.LocalName))
             {
-                return Enumerable.Empty<AMLNodeViewModel>();
+                return [];
             }
         }
 
@@ -965,7 +965,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
             e.ChangeMode.HasFlag(CAEXElementChangeMode.Added))
         {
             return Root.CAEXNode == e.CAEXParent
-                ? new List<AMLNodeViewModel> { Root }
+                ? [Root]
                 : FindTreeViewItemsInTree(Root.Children, NodeParent(e.CAEXParent, e.CAEXParent));
         }
 
@@ -1352,7 +1352,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
 
             if (!expand)
             {
-                return Enumerable.Empty<XElement>();
+                return [];
             }
         }
 
@@ -1361,10 +1361,10 @@ public class AMLTreeViewModel : AMLNodeViewModel
             var element = node.Node.Elements().FirstOrDefault(n => names.Contains(n.Name.LocalName));
             if (element == null)
             {
-                return Enumerable.Empty<XElement>();
+                return [];
             }
 
-            return new List<XElement> { element };
+            return [element];
         }
 
         return node.Node.Elements().Where(n => names.Contains(n.Name.LocalName));
@@ -1392,7 +1392,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
             //}
             //else
             //{
-            return Enumerable.Empty<XElement>();
+            return [];
             //}
         }
 

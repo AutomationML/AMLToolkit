@@ -458,7 +458,7 @@ public class TreeViewMultipleSelectionAttached
             return;
         }
 
-        ICollection<TreeViewItem> allItems = new List<TreeViewItem>();
+        ICollection<TreeViewItem> allItems = [];
         GetAllItems(treeView, null, allItems);
         DeSelectAllItems(treeView, null);
         var isBetween = false;
