@@ -452,8 +452,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     ///     Returns the loaded children of this object.
     /// </summary>
     /// <value>The children.</value>
-    public ObservableCollection<AMLNodeViewModel> Children => _children ??
-                                                              [];
+    public ObservableCollection<AMLNodeViewModel> Children => _children ?? [];
 
     /// <summary>
     /// </summary>

@@ -939,9 +939,9 @@ public class AMLTreeViewModel : AMLNodeViewModel
             xElement.Name.LocalName == CAEX_CLASSModel_TagNames.REVISION_OLDVERSION_STRING)
         {
             if (xElement.Parent != null && e.CAEXParent != null)
+            {
                 xElement = NodeParent(xElement.Parent, e.CAEXParent);
-            else
-                ;
+            }
         }
         else
         {

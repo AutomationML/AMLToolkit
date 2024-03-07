@@ -34,14 +34,14 @@ public class NameValidationRule : CAEXValidationRule
 
         var strValue = Convert.ToString(value);
 
-        var (IsValid, Message) = validator.NameValidation(AssignedObject.CaexObject as CAEXObject, strValue);
+        var (isValid, message) = validator.NameValidation(AssignedObject.CaexObject as CAEXObject, strValue);
 
         if (unregister)
         {
             ValidatorService.UnRegister();
         }
 
-        return new ValidationResult(IsValid, Message);
+        return new ValidationResult(isValid, message);
     }
 
     #endregion Public Methods
