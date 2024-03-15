@@ -936,6 +936,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
         }
 
         if (xElement.Name.LocalName == CAEX_CLASSModel_TagNames.REVISION_NEWVERSION_STRING ||
+            xElement.Name.LocalName == CAEX_CLASSModel_TagNames.VERSION_STRING ||
             xElement.Name.LocalName == CAEX_CLASSModel_TagNames.REVISION_OLDVERSION_STRING)
         {
             if (xElement.Parent != null && e.CAEXParent != null)
@@ -1016,6 +1017,13 @@ public class AMLTreeViewModel : AMLNodeViewModel
                             return;
 
                         default:
+
+                            if (e.CAEXElement.Name.LocalName == CAEX_CLASSModel_TagNames.VERSION_STRING ||
+                                e.CAEXElement.Name.LocalName == CAEX_CLASSModel_TagNames.REVISION_NEWVERSION_STRING ||
+                                e.CAEXElement.Name.LocalName == CAEX_CLASSModel_TagNames.REVISION_OLDVERSION_STRING )
+                            {
+                                break;
+                            }
                             // some value changes are relevant for node layouts
                             if (e.CAEXParent == null || !e.CAEXParent.IsAttribute())
                             {
