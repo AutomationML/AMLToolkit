@@ -43,6 +43,16 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     {
         SetClassPathReferenceAttribute(this);
         RefreshNodeInformation(false);
+
+        if (tree != null)
+        {
+            tree.TreeViewLayoutUpdated += TreeViewLayoutUpdated;
+        }
+    }
+
+    protected virtual void TreeViewLayoutUpdated(object sender, TreeViewLayoutUpdateEventArgs e)
+    {
+        RaisePropertyChanged (nameof(HasClassOrVersionReference));
     }
 
     /// <summary>
@@ -65,6 +75,8 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     /// </summary>
     /// <value>The class path reference attribute.</value>
     public string ClassPathReferenceAttribute { get; set; }
+
+
 
     /// <summary>
     ///     Gets and sets the ClassReference
@@ -95,7 +107,7 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     /// <value>
     ///     The class reference label.
     /// </value>
-    public string ClassReferenceLabel => IsMirror ? "Master:" : CAEXObject is AttributeType ? "Type:" : "Class:";
+    public string ClassReferenceLabel => IsMirror ? "Master:" : CAEXObject is AttributeTypeType ? "Type:" : "Class:";
 
     /// <summary>
     ///     Gets a value indicating whether this instance has external data.
@@ -316,6 +328,13 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
         }
     }
 
+
+    protected bool ShowVersion => !string.IsNullOrEmpty(Version) && Tree?.TreeViewLayout.ShowClassVersion == true;
+
+    protected bool ShowClassRef => !string.IsNullOrEmpty(ClassReference) && Tree?.TreeViewLayout.ShowClassReference == true;
+
+    public bool HasClassOrVersionReference => ShowVersion || ShowClassRef;
+
     /// <summary>
     ///     Refreshes the node information. This Method can be overridden in derived
     ///     classes. The Method should be called, if the CAEX-Elements Data has changed
@@ -334,12 +353,16 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
         RaisePropertyChanged(nameof(HasLinks));
         RaisePropertyChanged(nameof(HasCardinality));
         RaisePropertyChanged(nameof(ClassReference));
+        RaisePropertyChanged(nameof(ClassReferenceLabel));
         RaisePropertyChanged(nameof(HasExternalData));
         RaisePropertyChanged(nameof(MaxCardinality));
         RaisePropertyChanged(nameof(MinCardinality));
 
         RaisePropertyChanged(nameof(MaxCardinalityWarn));
         RaisePropertyChanged(nameof(MinCardinalityWarn));
+
+
+        RaisePropertyChanged(nameof(HasClassOrVersionReference));
         //Tree.TreeViewLayout.RaisePropertyChanged("HideExpander");
 
         if (!HasLinks)

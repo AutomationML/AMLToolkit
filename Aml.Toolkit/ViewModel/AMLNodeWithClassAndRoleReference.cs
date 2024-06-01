@@ -153,7 +153,15 @@ public class AMLNodeWithClassAndRoleReference : AMLNodeInheritable
     /// <value>
     ///     <c>true</c> if this instance has a reference; otherwise, <c>false</c>.
     /// </value>
-    public bool HasReference => !string.IsNullOrEmpty(RoleReference) || !string.IsNullOrEmpty(ClassReference);
+    public bool HasReference => ShowRoleRef  || ShowClassRef || ShowVersion;
+
+    private bool ShowRoleRef => !string.IsNullOrEmpty(RoleReference) && Tree?.TreeViewLayout.ShowRoleReference == true;
+
+    override protected void TreeViewLayoutUpdated(object sender, TreeViewLayoutUpdateEventArgs e)
+    {
+        RaisePropertyChanged(nameof(HasReference));
+        base.TreeViewLayoutUpdated(sender, e);
+    }
 
     /// <summary>
     ///     Returns <c>true</c>, if this is a facet.

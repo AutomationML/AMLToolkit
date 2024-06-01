@@ -26,7 +26,15 @@ namespace Aml.Toolkit.ViewModel;
 ///         cref="AMLNodeAttribute.AttributeValue" />
 ///     for these Elements.
 /// </summary>
-public class AMLNodeInheritable : AMLNodeWithClassReference
+/// <remarks>
+///     Initializes a new instance of the <see cref="AMLNodeInheritable" /> class.
+/// </remarks>
+/// <param name="tree">The TreeViewModel, containing the node</param>
+/// <param name="parent">The parent.</param>
+/// <param name="CaexNode">The caex node.</param>
+/// <param name="lazyLoadChildren">if set to <c>true</c> [lazy load children].</param>
+public class AMLNodeInheritable(AMLTreeViewModel tree, AMLNodeViewModel parent, XElement CaexNode,
+    bool lazyLoadChildren) : AMLNodeWithClassReference(tree, parent, CaexNode, lazyLoadChildren)
 {
     #region Public Methods
 
@@ -56,19 +64,6 @@ public class AMLNodeInheritable : AMLNodeWithClassReference
     /// <param name="lazyLoadChildren">if set to <c>true</c> [lazy load children].</param>
     public AMLNodeInheritable(AMLNodeViewModel parent, XElement CaexNode, bool lazyLoadChildren) :
         this(null, parent, CaexNode, lazyLoadChildren)
-    {
-    }
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="AMLNodeInheritable" /> class.
-    /// </summary>
-    /// <param name="tree">The TreeViewModel, containing the node</param>
-    /// <param name="parent">The parent.</param>
-    /// <param name="CaexNode">The caex node.</param>
-    /// <param name="lazyLoadChildren">if set to <c>true</c> [lazy load children].</param>
-    public AMLNodeInheritable(AMLTreeViewModel tree, AMLNodeViewModel parent, XElement CaexNode,
-        bool lazyLoadChildren) :
-        base(tree, parent, CaexNode, lazyLoadChildren)
     {
     }
 

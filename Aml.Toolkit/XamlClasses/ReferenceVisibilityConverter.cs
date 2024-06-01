@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Documents;
 
 namespace Aml.Toolkit.XamlClasses;
 
@@ -30,6 +32,8 @@ public class InverseBoolToVisibilityConverter : IValueConverter
 
     #endregion Public Methods
 }
+
+
 
 /// <summary>
 ///     Converter to set the visibility of reference strings in tree view node headers

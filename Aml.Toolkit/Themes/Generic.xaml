@@ -194,6 +194,7 @@
             <MultiBinding Converter="{StaticResource obtvc}">
                 <Binding Path="Tree.TreeViewLayout.ShowRoleReference" />
                 <Binding Path="Tree.TreeViewLayout.ShowClassReference" />
+                <Binding Path="Tree.TreeViewLayout.ShowClassVersion" />
             </MultiBinding>
         </StackPanel.Visibility>
         <TextBlock Margin="4,0,0,0" Visibility="{Binding HasReference, FallbackValue=Collapsed, Converter={StaticResource btvc}}">
@@ -201,10 +202,27 @@
         </TextBlock>
 
         <TextBlock
+            x:Name="VersionInfo"
+            Margin="1,0,1,0"
+            TextWrapping="Wrap">
+            <Run FontWeight="Medium" Text="Version" />
+            <Run Text="{Binding Version, Mode=OneWay}" />
+
+            <TextBlock.Visibility>
+                <MultiBinding Converter="{StaticResource ReferenceVisibilityConverter}">
+                    <MultiBinding.Bindings>
+                        <Binding Path="Tree.TreeViewLayout.ShowClassVersion" />
+                        <Binding Path="Version" />
+                    </MultiBinding.Bindings>
+                </MultiBinding>
+            </TextBlock.Visibility>
+        </TextBlock>
+
+        <TextBlock
             x:Name="ClassRef"
             Margin="1,0,1,0"
             TextWrapping="Wrap">
-            <Run FontWeight="Bold" Text="{Binding ClassReferenceLabel, Mode=OneWay}" />
+            <Run FontWeight="Medium" Text="{Binding ClassReferenceLabel, Mode=OneWay}" />
             <Run Text="{Binding ClassReference, Mode=OneWay}" />
 
             <TextBlock.Visibility>
@@ -221,7 +239,7 @@
             x:Name="RoleRef"
             Margin="1,0,1,0"
             TextWrapping="Wrap">
-            <Run FontWeight="Bold" Text="Role: " />
+            <Run FontWeight="Medium" Text="Role: " />
             <Run Text="{Binding RoleReference, Mode=OneWay}" />
 
             <TextBlock.Visibility>
@@ -324,19 +342,77 @@
         <local:EditableTreeNodeHeader>
             <StackPanel Orientation="Horizontal">
                 <TextBlock Style="{StaticResource NodeNameStyle}" />
-                <TextBlock Style="{StaticResource NodeNameStyle}">
+
+                <TextBlock Margin="1,0,1,0" TextWrapping="Wrap">
                     <TextBlock.Visibility>
                         <MultiBinding Converter="{StaticResource ReferenceVisibilityConverter}">
                             <Binding Path="Tree.TreeViewLayout.ShowClassReference" />
                             <Binding Path="ClassReference" />
                         </MultiBinding>
                     </TextBlock.Visibility>
-                    {<Run FontWeight="Bold" Text="{Binding ClassReferenceLabel, Mode=OneWay}" />
+                    {<Run FontWeight="Medium" Text="{Binding ClassReferenceLabel, Mode=OneWay}" />
                     <Run Text="{Binding ClassReference, Mode=OneWay}" />
                     }</TextBlock>
 
                 <!--<TextBlock Margin="4,0" Text="{Binding NumberOfVisualDescendants}" />
 			<TextBlock  Margin="4,0"  Text="{Binding OrdinalNumber}" />-->
+            </StackPanel>
+        </local:EditableTreeNodeHeader>
+    </StackPanel>
+
+    <StackPanel
+        x:Key="ClassReferenceTemplateWithVersion"
+        x:Shared="False"
+        Orientation="Horizontal">
+
+        <local:EditableTreeNodeHeader>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource NodeNameStyle}" />
+
+                <StackPanel Style="{StaticResource TreeNodePanel}">
+                    <StackPanel.Visibility>
+                        <MultiBinding Converter="{StaticResource obtvc}">
+                            <Binding Path="Tree.TreeViewLayout.ShowClassReference" />
+                            <Binding Path="Tree.TreeViewLayout.ShowClassVersion" />
+                        </MultiBinding>
+                    </StackPanel.Visibility>
+
+                    <TextBlock Margin="4,0,0,0" Visibility="{Binding HasClassOrVersionReference, FallbackValue=Collapsed, Converter={StaticResource btvc}}">
+                        {
+                    </TextBlock>
+                    <TextBlock
+                        x:Name="ClassVersionInfo"
+                        Margin="1,0,1,0"
+                        TextWrapping="Wrap">
+                        <Run FontWeight="Medium" Text="Version" />
+                        <Run Text="{Binding Version, Mode=OneWay}" />
+
+                        <TextBlock.Visibility>
+                            <MultiBinding Converter="{StaticResource ReferenceVisibilityConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding Path="Tree.TreeViewLayout.ShowClassVersion" />
+                                    <Binding Path="Version" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </TextBlock.Visibility>
+                    </TextBlock>
+                    <TextBlock Margin="1,0,1,0" TextWrapping="Wrap">
+                        <TextBlock.Visibility>
+                            <MultiBinding Converter="{StaticResource ReferenceVisibilityConverter}">
+                                <Binding Path="Tree.TreeViewLayout.ShowClassReference" />
+                                <Binding Path="ClassReference" />
+                            </MultiBinding>
+                        </TextBlock.Visibility>
+                        <Run FontWeight="Medium" Text="{Binding ClassReferenceLabel, Mode=OneWay}" />
+                        <Run Text="{Binding ClassReference, Mode=OneWay}" />
+                    </TextBlock>
+                    <TextBlock Margin="0,0,1,0" Visibility="{Binding HasClassOrVersionReference, FallbackValue=Collapsed, Converter={StaticResource btvc}}">
+                        }
+                    </TextBlock>
+                </StackPanel>
+
+                <!--<TextBlock Margin="4,0" Text="{Binding NumberOfVisualDescendants}" />
+		<TextBlock  Margin="4,0"  Text="{Binding OrdinalNumber}" />-->
             </StackPanel>
         </local:EditableTreeNodeHeader>
     </StackPanel>
@@ -357,7 +433,7 @@
                                 <Binding Path="ClassReference" />
                             </MultiBinding>
                         </TextBlock.Visibility>
-                        {<Run FontWeight="Bold" Text="{Binding ClassReferenceLabel, Mode=OneWay}" />
+                        {<Run FontWeight="Medium" Text="{Binding ClassReferenceLabel, Mode=OneWay}" />
                         <Run Text="{Binding ClassReference, Mode=OneWay}" />
                         }</TextBlock>
 
@@ -558,7 +634,7 @@
     <HierarchicalDataTemplate x:Key="ICTemplate" ItemsSource="{Binding ChildrenView}">
         <StackPanel Style="{StaticResource TreeNodePanel}">
             <local:NodeImage Image="{StaticResource ICImage}" />
-            <ContentPresenter Content="{StaticResource ClassReferenceTemplate}" />
+            <ContentPresenter Content="{StaticResource ClassReferenceTemplateWithVersion}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
@@ -641,7 +717,7 @@
     <HierarchicalDataTemplate x:Key="AttributeTemplate" ItemsSource="{Binding ChildrenView}">
         <StackPanel Style="{StaticResource TreeNodePanel}">
             <local:NodeImage Image="{StaticResource AttributeImage}" />
-            <ContentPresenter Content="{StaticResource TypeReferenceTemplate}" />
+            <ContentPresenter Content="{StaticResource ClassReferenceTemplate}" />
             <TextBlock
                 Padding="1,0,0,1"
                 VerticalAlignment="Center"
@@ -662,7 +738,7 @@
     <HierarchicalDataTemplate x:Key="RCTemplate" ItemsSource="{Binding ChildrenView}">
         <StackPanel Style="{StaticResource TreeNodePanel}">
             <local:NodeImage Image="{StaticResource RCImage}" />
-            <ContentPresenter Content="{StaticResource ClassReferenceTemplate}" />
+            <ContentPresenter Content="{StaticResource ClassReferenceTemplateWithVersion}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 
@@ -689,7 +765,7 @@
     <HierarchicalDataTemplate x:Key="ATTemplate" ItemsSource="{Binding ChildrenView}">
         <StackPanel Style="{StaticResource TreeNodePanel}">
             <local:NodeImage Image="{StaticResource ATImage}" />
-            <ContentPresenter Content="{StaticResource TypeReferenceTemplate}" />
+            <ContentPresenter Content="{StaticResource ClassReferenceTemplateWithVersion}" />
         </StackPanel>
     </HierarchicalDataTemplate>
 

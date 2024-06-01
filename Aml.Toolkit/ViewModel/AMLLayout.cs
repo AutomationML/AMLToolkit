@@ -81,7 +81,7 @@ public class AMLLayout : ViewModelBase
     /// </summary>
     /// <returns></returns>
     public static AMLLayout CloneFromDefault() =>
-        new AMLLayout
+        new()
         {
             NamesOfVisibleElements = new ObservableCollection<string>(
                 AMLTreeViewTemplate.CompleteInstanceHierarchyTree.Concat(
@@ -359,6 +359,23 @@ public class AMLLayout : ViewModelBase
         set => Set(ref _showClassReference, value);
     }
 
+
+
+    /// <summary>
+    ///  <see cref="ShowClassVersion"/>
+    /// </summary>    
+    private bool _showClassVersion;
+
+    /// <summary>
+    ///  Gets and sets the ShowClassVersion
+    /// </summary>
+    public bool ShowClassVersion
+    {
+        get => _showClassVersion;
+        set => Set(ref _showClassVersion, value);
+    }
+
+
     /// <summary>
     ///     Gets and sets the ShowFullClassPath
     /// </summary>
@@ -391,6 +408,7 @@ public class AMLLayout : ViewModelBase
         ShowAdditionalInformation = layout.ShowAdditionalInformation;
         ShowAttributeValue = layout.ShowAttributeValue;
         ShowClassReference = layout.ShowClassReference;
+        ShowClassVersion = layout.ShowClassVersion;
         ShowFullClassPath = layout.ShowFullClassPath;
         ShowInterfaceGrouping = layout.ShowInterfaceGrouping;
         ShowLinkLines = layout.ShowLinkLines;
