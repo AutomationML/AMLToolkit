@@ -157,6 +157,11 @@ public class AMLNodeWithClassAndRoleReference : AMLNodeInheritable
 
     private bool ShowRoleRef => !string.IsNullOrEmpty(RoleReference) && Tree?.TreeViewLayout.ShowRoleReference == true;
 
+    /// <summary>
+    /// Event handler called when treeview layout is updated
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     override protected void TreeViewLayoutUpdated(object sender, TreeViewLayoutUpdateEventArgs e)
     {
         RaisePropertyChanged(nameof(HasReference));

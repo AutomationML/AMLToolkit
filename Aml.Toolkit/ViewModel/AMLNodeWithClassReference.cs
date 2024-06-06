@@ -50,6 +50,9 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
         }
     }
 
+    /// <summary>
+    /// Event handler called when treeview layout is updated
+    /// </summary>
     protected virtual void TreeViewLayoutUpdated(object sender, TreeViewLayoutUpdateEventArgs e)
     {
         RaisePropertyChanged (nameof(HasClassOrVersionReference));
@@ -328,11 +331,19 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
         }
     }
 
-
+    /// <summary>
+    /// Determines, if the version string is visible
+    /// </summary>
     protected bool ShowVersion => !string.IsNullOrEmpty(Version) && Tree?.TreeViewLayout.ShowClassVersion == true;
 
+    /// <summary>
+    /// Determines, if the class reference string is visible
+    /// </summary>
     protected bool ShowClassRef => !string.IsNullOrEmpty(ClassReference) && Tree?.TreeViewLayout.ShowClassReference == true;
-
+    
+    /// <summary>
+    /// Determines, if a version or class reference string is visible
+    /// </summary>
     public bool HasClassOrVersionReference => ShowVersion || ShowClassRef;
 
     /// <summary>
