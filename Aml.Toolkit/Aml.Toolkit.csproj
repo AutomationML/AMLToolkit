@@ -155,7 +155,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="MahApps.Metro" Version="3.0.0-alpha0492" />
-		<PackageReference Include="MahApps.Metro.IconPacks" Version="4.11.0" />
+		<PackageReference Include="MahApps.Metro.IconPacks" Version="5.0.0" />
 	</ItemGroup>
 
 
