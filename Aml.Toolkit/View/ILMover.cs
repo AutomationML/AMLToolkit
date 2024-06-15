@@ -1,8 +1,8 @@
-﻿using System.Windows;
+﻿using Aml.Toolkit.ViewModel.Graph;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using Aml.Toolkit.ViewModel.Graph;
 
 namespace Aml.Toolkit.View;
 

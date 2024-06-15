@@ -11,9 +11,9 @@
 //    </summary>
 // ***********************************************************************
 
+using Aml.Editor.MVVMBase;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Aml.Editor.MVVMBase;
 
 /// <summary>
 ///    The ViewModel namespace.

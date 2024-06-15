@@ -9,10 +9,10 @@
 //    </summary>
 // ***********************************************************************
 
-using System.Windows;
-using System.Windows.Controls;
 using Aml.Engine.CAEX;
 using Aml.Toolkit.ViewModel;
+using System.Windows;
+using System.Windows.Controls;
 
 /// <summary>
 ///    The XamlClasses namespace.

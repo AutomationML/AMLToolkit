@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Aml.Engine.CAEX;
+using Aml.Toolkit.ViewModel;
+using Aml.Toolkit.ViewModel.ValidationRules;
+using Aml.Toolkit.XamlClasses;
+using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -6,10 +10,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using Aml.Engine.CAEX;
-using Aml.Toolkit.ViewModel;
-using Aml.Toolkit.ViewModel.ValidationRules;
-using Aml.Toolkit.XamlClasses;
 
 namespace Aml.Toolkit.View;
 

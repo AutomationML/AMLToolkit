@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Aml.Editor.MVVMBase;
+using System;
 using System.Windows.Data;
-using Aml.Editor.MVVMBase;
 
 namespace Aml.Toolkit.ViewModel;
 

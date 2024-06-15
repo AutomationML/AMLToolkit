@@ -68,12 +68,7 @@ public static class DraggableMarkupHelper
     /// <exception cref="ArgumentNullException">element</exception>
     public static bool GetScrollOnDragDrop(DependencyObject element)
     {
-        if (element == null)
-        {
-            throw new ArgumentNullException(nameof(element));
-        }
-
-        return (bool)element.GetValue(ScrollOnDragDropProperty);
+        return element == null ? throw new ArgumentNullException(nameof(element)) : (bool)element.GetValue(ScrollOnDragDropProperty);
     }
 
     /// <summary>

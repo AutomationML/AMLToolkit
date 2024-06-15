@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
+﻿using Aml.Toolkit.ViewModel;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Controls;
-using Aml.Toolkit.ViewModel;
 
 namespace Aml.Toolkit.XamlClasses;
 
@@ -79,7 +79,7 @@ public class BringVirtualTreeViewItemIntoViewBehavior
                     // This can be tricky, because Binding an ObservableDictionary to the treeview will
                     // require that we need an array of KeyValuePairs<K,T>[] here :-(
 #if DEBUG
-                        throw new System.InvalidOperationException("Node '" + node + "' cannot be fount in container");
+                    throw new System.InvalidOperationException("Node '" + node + "' cannot be fount in container");
 #else
                     return;
 #endif
@@ -92,8 +92,8 @@ public class BringVirtualTreeViewItemIntoViewBehavior
             if (newParent == null)
             {
 #if DEBUG
-                    throw new System.InvalidOperationException("Tree view item cannot be found or created for node '" + node +
-                                                        "'");
+                throw new System.InvalidOperationException("Tree view item cannot be found or created for node '" + node +
+                                                    "'");
 #else
                 return;
 #endif

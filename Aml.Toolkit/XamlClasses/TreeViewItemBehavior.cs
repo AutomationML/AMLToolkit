@@ -34,7 +34,7 @@ public static class TreeViewItemBehavior
             return;
         }
 
-        if (e.NewValue is bool == false)
+        if ((e.NewValue is bool) == false)
         {
             return;
         }
@@ -56,12 +56,7 @@ public static class TreeViewItemBehavior
     /// <returns></returns>
     public static bool GetBringIntoViewWhenSelected(DependencyObject treeViewItem)
     {
-        if (treeViewItem == null)
-        {
-            return false;
-        }
-
-        return (bool)treeViewItem.GetValue(BringIntoViewWhenSelectedProperty);
+        return treeViewItem != null && (bool)treeViewItem.GetValue(BringIntoViewWhenSelectedProperty);
     }
 
     /// <summary>

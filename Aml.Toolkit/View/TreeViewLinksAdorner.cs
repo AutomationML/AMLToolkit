@@ -9,6 +9,9 @@
 // </summary>
 // ***********************************************************************
 
+using Aml.Engine.CAEX;
+using Aml.Toolkit.ViewModel;
+using Aml.Toolkit.ViewModel.Graph;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,9 +19,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
-using Aml.Engine.CAEX;
-using Aml.Toolkit.ViewModel;
-using Aml.Toolkit.ViewModel.Graph;
 
 namespace Aml.Toolkit.View;
 

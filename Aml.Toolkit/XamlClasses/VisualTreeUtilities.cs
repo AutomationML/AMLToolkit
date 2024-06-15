@@ -20,12 +20,7 @@ public static class VisualTreeUtilities
     /// </summary>
     public static FrameworkElement CreateVisual(Type type, FrameworkElement element, object dataContext)
     {
-        var template = FindTemplateForType<DataTemplate>(type, element);
-        if (template == null)
-        {
-            throw new ApplicationException("Failed to find DataTemplate for type " + type.Name);
-        }
-
+        var template = FindTemplateForType<DataTemplate>(type, element) ?? throw new ApplicationException("Failed to find DataTemplate for type " + type.Name);
         var visual = (FrameworkElement)template.LoadContent();
         visual.Resources = element.Resources;
         visual.DataContext = dataContext;
@@ -71,17 +66,14 @@ public static class VisualTreeUtilities
         }
 
         var visualParent = VisualTreeHelper.GetParent(element);
-        if (visualParent == null)
-        {
-            return null;
-        }
-
-        return visualParent switch
-        {
-            T visualAncestor => visualAncestor,
-            FrameworkElement visualElement => FindAncestor<T>(visualElement),
-            _ => null
-        };
+        return visualParent == null
+            ? null
+            : visualParent switch
+            {
+                T visualAncestor => visualAncestor,
+                FrameworkElement visualElement => FindAncestor<T>(visualElement),
+                _ => null
+            };
     }
 
     /// <summary>
@@ -389,17 +381,11 @@ public static class VisualTreeUtilities
         }
 
         parent = (FrameworkElement)childElement.TemplatedParent;
-        if (parent == null)
-        {
-            return null;
-        }
-
-        if (parent.DataContext is not DataContextT)
-        {
-            return FindParentWithDataContextAndName<DataContextT>(parent, name);
-        }
-
-        return parent.Name == name ? parent : FindParentWithDataContextAndName<DataContextT>(parent, name);
+        return parent == null
+            ? null
+            : parent.DataContext is not DataContextT
+            ? FindParentWithDataContextAndName<DataContextT>(parent, name)
+            : parent.Name == name ? parent : FindParentWithDataContextAndName<DataContextT>(parent, name);
     }
 
     /// <summary>
@@ -413,12 +399,7 @@ public static class VisualTreeUtilities
     {
         if (VisualTreeHelper.GetParent(childElement) is { } parentElement)
         {
-            if (parentElement is ParentT parent)
-            {
-                return parent;
-            }
-
-            return FindParentWithType<ParentT>(parentElement);
+            return parentElement is ParentT parent ? parent : FindParentWithType<ParentT>(parentElement);
         }
 
         if (childElement is not FrameworkElement fe || fe.TemplatedParent == null)
@@ -455,53 +436,41 @@ public static class VisualTreeUtilities
     {
         if (childElement.Parent != null)
         {
-            if (childElement.Parent is ParentT parent)
+            if (childElement.Parent is ParentT cparent)
             {
-                if (parent.DataContext == dataContext)
+                if (cparent.DataContext == dataContext)
                 {
-                    return parent;
+                    return cparent;
                 }
             }
 
-            parent = FindParentWithTypeAndDataContext<ParentT>((FrameworkElement)childElement.Parent, dataContext);
-            if (parent != null)
+            cparent = FindParentWithTypeAndDataContext<ParentT>((FrameworkElement)childElement.Parent, dataContext);
+            if (cparent != null)
             {
-                return parent;
+                return cparent;
             }
         }
 
         if (childElement.TemplatedParent != null)
         {
-            if (childElement.TemplatedParent is ParentT parent)
+            if (childElement.TemplatedParent is ParentT tparent)
             {
-                if (parent.DataContext == dataContext)
+                if (tparent.DataContext == dataContext)
                 {
-                    return parent;
+                    return tparent;
                 }
             }
 
-            parent = FindParentWithTypeAndDataContext<ParentT>((FrameworkElement)childElement.TemplatedParent,
+            tparent = FindParentWithTypeAndDataContext<ParentT>((FrameworkElement)childElement.TemplatedParent,
                 dataContext);
-            if (parent != null)
+            if (tparent != null)
             {
-                return parent;
+                return tparent;
             }
         }
 
         var parentElement = (FrameworkElement)VisualTreeHelper.GetParent(childElement);
-        if (parentElement == null)
-        {
-            return null;
-        }
-
-        {
-            if (parentElement is ParentT parent)
-            {
-                return parent;
-            }
-
-            return FindParentWithType<ParentT>(parentElement);
-        }
+        return parentElement == null ? null : parentElement is ParentT parent ? parent : FindParentWithType<ParentT>(parentElement);
     }
 
     /// <summary>
@@ -562,17 +531,7 @@ public static class VisualTreeUtilities
             return null;
         }
 
-        DependencyObject parent;
-
-        if (child is Visual || child is Visual3D)
-        {
-            parent = VisualTreeHelper.GetParent(child) as UIElement;
-        }
-        else
-        {
-            parent = LogicalTreeHelper.GetParent(child);
-        }
-
+        DependencyObject parent = child is Visual or Visual3D ? VisualTreeHelper.GetParent(child) as UIElement : LogicalTreeHelper.GetParent(child);
         while (parent != null)
         {
             switch (parent)
@@ -629,7 +588,7 @@ public static class VisualTreeUtilities
             // Hit test filter.
             null,
             // Hit test result.
-            delegate(HitTestResult result)
+            delegate (HitTestResult result)
             {
                 frameworkElement = result.VisualHit as ElementT;
                 if (frameworkElement == null)
@@ -663,7 +622,7 @@ public static class VisualTreeUtilities
             // Hit test filter.
             null,
             // Hit test result.
-            delegate(HitTestResult result)
+            delegate (HitTestResult result)
             {
                 frameworkElement = result.VisualHit as ElementT;
                 if (frameworkElement == null)
@@ -672,12 +631,9 @@ public static class VisualTreeUtilities
                 }
 
                 data = frameworkElement.DataContext as DataContextT;
-                if (data == null)
-                {
-                    return HitTestResultBehavior.Continue;
-                }
-
-                return frameworkElement.Name == name ? HitTestResultBehavior.Stop : HitTestResultBehavior.Continue;
+                return data == null
+                    ? HitTestResultBehavior.Continue
+                    : frameworkElement.Name == name ? HitTestResultBehavior.Stop : HitTestResultBehavior.Continue;
             },
             new PointHitTestParameters(point));
 
@@ -756,13 +712,10 @@ public static class VisualTreeUtilities
     public static Point TransformPointToAncestor<T>(FrameworkElement element, Point point) where T : Visual
     {
         var ancestor = FindAncestor<T>(element);
-        if (ancestor == null)
-        {
-            throw new ApplicationException("Find to find '" + typeof(T).Name + "' for element '" +
-                                           element.GetType().Name + "'.");
-        }
-
-        return TransformPointToAncestor(ancestor, element, point);
+        return ancestor == null
+            ? throw new ApplicationException("Find to find '" + typeof(T).Name + "' for element '" +
+                                           element.GetType().Name + "'.")
+            : TransformPointToAncestor(ancestor, element, point);
     }
 
     /// <summary>

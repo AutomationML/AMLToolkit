@@ -1,5 +1,5 @@
-﻿using System.Windows.Input;
-using Aml.Toolkit.Properties;
+﻿using Aml.Toolkit.Properties;
+using System.Windows.Input;
 
 namespace Aml.Toolkit.Operations;
 

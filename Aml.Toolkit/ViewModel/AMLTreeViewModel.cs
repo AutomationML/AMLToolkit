@@ -9,15 +9,6 @@
 // </summary>
 // ***********************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Xml.Linq;
 using Aml.Editor.Plugin.Contracts;
 using Aml.Engine.AmlObjects;
 using Aml.Engine.CAEX;
@@ -28,6 +19,15 @@ using Aml.Engine.Services.Interfaces;
 using Aml.Engine.Xml.Extensions;
 using Aml.Toolkit.View;
 using Aml.Toolkit.ViewModel.Commands;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Xml.Linq;
 
 namespace Aml.Toolkit.ViewModel;
 
@@ -237,7 +237,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
         set => Set(ref _doDragDrop, value);
     }
 
-    
+
     /// <summary>
     ///     Gets the filtered classes.
     /// </summary>
@@ -863,18 +863,12 @@ public class AMLTreeViewModel : AMLNodeViewModel
             }
         }
 
-        if (!CAEXTagNames.Contains(xElement.Name.LocalName))
-        {
-            return null;
-        }
-
-        if (e.ChangeMode.HasFlag(CAEXElementChangeMode.Deleted) ||
-            e.ChangeMode.HasFlag(CAEXElementChangeMode.Added))
-        {
-            return Root.CAEXNode == e.CAEXParent ? Root : FindTreeViewItemInTree(Root.Children, e.CAEXParent);
-        }
-
-        return FindTreeViewItemInTree(Root.Children, xElement);
+        return !CAEXTagNames.Contains(xElement.Name.LocalName)
+            ? null
+            : e.ChangeMode.HasFlag(CAEXElementChangeMode.Deleted) ||
+            e.ChangeMode.HasFlag(CAEXElementChangeMode.Added)
+            ? Root.CAEXNode == e.CAEXParent ? Root : FindTreeViewItemInTree(Root.Children, e.CAEXParent)
+            : FindTreeViewItemInTree(Root.Children, xElement);
     }
 
     /// <summary>
@@ -888,7 +882,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
     /// <returns></returns>
     protected IEnumerable<AMLNodeViewModel> ChangedTreeNodes(CAEXElementChangeEventArgs e)
     {
-        static XElement NodeParent (XElement xElement, XElement parent)
+        static XElement NodeParent(XElement xElement, XElement parent)
         {
             var element = xElement;
             while (element.Name.LocalName == CAEX_CLASSModel_TagNames.REVISION_STRING)
@@ -935,9 +929,9 @@ public class AMLTreeViewModel : AMLNodeViewModel
             }
         }
 
-        if (xElement.Name.LocalName == CAEX_CLASSModel_TagNames.REVISION_NEWVERSION_STRING ||
-            xElement.Name.LocalName == CAEX_CLASSModel_TagNames.VERSION_STRING ||
-            xElement.Name.LocalName == CAEX_CLASSModel_TagNames.REVISION_OLDVERSION_STRING)
+        if (xElement.Name.LocalName is CAEX_CLASSModel_TagNames.REVISION_NEWVERSION_STRING or
+            CAEX_CLASSModel_TagNames.VERSION_STRING or
+            CAEX_CLASSModel_TagNames.REVISION_OLDVERSION_STRING)
         {
             if (xElement.Parent != null && e.CAEXParent != null)
             {
@@ -962,15 +956,12 @@ public class AMLTreeViewModel : AMLNodeViewModel
             }
         }
 
-        if (e.ChangeMode.HasFlag(CAEXElementChangeMode.Deleted) ||
-            e.ChangeMode.HasFlag(CAEXElementChangeMode.Added))
-        {
-            return Root.CAEXNode == e.CAEXParent
+        return e.ChangeMode.HasFlag(CAEXElementChangeMode.Deleted) ||
+            e.ChangeMode.HasFlag(CAEXElementChangeMode.Added)
+            ? Root.CAEXNode == e.CAEXParent
                 ? [Root]
-                : FindTreeViewItemsInTree(Root.Children, NodeParent(e.CAEXParent, e.CAEXParent));
-        }
-
-        return FindTreeViewItemsInTree(Root.Children, xElement);
+                : FindTreeViewItemsInTree(Root.Children, NodeParent(e.CAEXParent, e.CAEXParent))
+            : FindTreeViewItemsInTree(Root.Children, xElement);
     }
 
 
@@ -984,21 +975,21 @@ public class AMLTreeViewModel : AMLNodeViewModel
     protected void ExecuteUpdate(object sender, CAEXElementChangeEventArgs e)
     {
         if (Root == null)
-            {
-                return;
-            }
+        {
+            return;
+        }
 
         Execute.OnUIThread(() =>
         {
-            SelectedElements.ToList().ForEach(s => 
-            { 
-                if (s.CAEXObject?.IsDeleted==true)
+            SelectedElements.ToList().ForEach(s =>
+            {
+                if (s.CAEXObject?.IsDeleted == true)
                 {
-                    SelectedElements.Remove(s); 
+                    SelectedElements.Remove(s);
                 }
             });
 
-            IEnumerable<AMLNodeViewModel> treeNodes;            
+            IEnumerable<AMLNodeViewModel> treeNodes;
 
             if ((e.ChangeMode & AcceptedChangeModes) == CAEXElementChangeMode.None)
             {
@@ -1007,9 +998,9 @@ public class AMLTreeViewModel : AMLNodeViewModel
                     return;
                 }
 
-                if (e.CAEXAttributeName != CAEX_CLASSModel_TagNames.CHANGEMODE_ATTRIBUTE &&
-                    e.CAEXAttributeName != CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REF_PARTNER_SIDE_A &&
-                    e.CAEXAttributeName != CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REF_PARTNER_SIDE_B)
+                if (e.CAEXAttributeName is not CAEX_CLASSModel_TagNames.CHANGEMODE_ATTRIBUTE and
+                    not CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REF_PARTNER_SIDE_A and
+                    not CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REF_PARTNER_SIDE_B)
                 {
                     switch (e.ChangeMode & CAEXElementChangeMode.ValueChanged)
                     {
@@ -1018,9 +1009,9 @@ public class AMLTreeViewModel : AMLNodeViewModel
 
                         default:
 
-                            if (e.CAEXElement.Name.LocalName == CAEX_CLASSModel_TagNames.VERSION_STRING ||
-                                e.CAEXElement.Name.LocalName == CAEX_CLASSModel_TagNames.REVISION_NEWVERSION_STRING ||
-                                e.CAEXElement.Name.LocalName == CAEX_CLASSModel_TagNames.REVISION_OLDVERSION_STRING )
+                            if (e.CAEXElement.Name.LocalName is CAEX_CLASSModel_TagNames.VERSION_STRING or
+                                CAEX_CLASSModel_TagNames.REVISION_NEWVERSION_STRING or
+                                CAEX_CLASSModel_TagNames.REVISION_OLDVERSION_STRING)
                             {
                                 break;
                             }
@@ -1149,46 +1140,46 @@ public class AMLTreeViewModel : AMLNodeViewModel
         switch (e.Action)
         {
             case NotifyCollectionChangedAction.Reset:
-            {
-                foreach (var node in SelectedElements)
                 {
-                    node.IsSelected = false;
-                }
+                    foreach (var node in SelectedElements)
+                    {
+                        node.IsSelected = false;
+                    }
 
-                break;
-            }
+                    break;
+                }
             case NotifyCollectionChangedAction.Add when e.NewItems != null:
-            {
-                foreach (var node in e.NewItems.OfType<AMLNodeViewModel>())
                 {
-                    node.IsSelected = true;
-                }
+                    foreach (var node in e.NewItems.OfType<AMLNodeViewModel>())
+                    {
+                        node.IsSelected = true;
+                    }
 
-                break;
-            }
+                    break;
+                }
             case NotifyCollectionChangedAction.Replace when e.NewItems != null && e.OldItems != null:
-            {
-                foreach (var node in e.NewItems.OfType<AMLNodeViewModel>())
                 {
-                    node.IsSelected = true;
-                }
+                    foreach (var node in e.NewItems.OfType<AMLNodeViewModel>())
+                    {
+                        node.IsSelected = true;
+                    }
 
-                foreach (var node in e.OldItems.OfType<AMLNodeViewModel>())
-                {
-                    node.IsSelected = false;
-                }
+                    foreach (var node in e.OldItems.OfType<AMLNodeViewModel>())
+                    {
+                        node.IsSelected = false;
+                    }
 
-                break;
-            }
+                    break;
+                }
             case NotifyCollectionChangedAction.Remove when e.OldItems != null:
-            {
-                foreach (var node in e.OldItems.OfType<AMLNodeViewModel>())
                 {
-                    node.IsSelected = false;
-                }
+                    foreach (var node in e.OldItems.OfType<AMLNodeViewModel>())
+                    {
+                        node.IsSelected = false;
+                    }
 
-                break;
-            }
+                    break;
+                }
         }
 
         if (!IsDragging)
@@ -1367,12 +1358,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
         if (!expand)
         {
             var element = node.Node.Elements().FirstOrDefault(n => names.Contains(n.Name.LocalName));
-            if (element == null)
-            {
-                return [];
-            }
-
-            return [element];
+            return element == null ? ([]) : ([element]);
         }
 
         return node.Node.Elements().Where(n => names.Contains(n.Name.LocalName));
@@ -1758,7 +1744,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
             return;
         }
 
-        Execute.OnUIThread (() =>
+        Execute.OnUIThread(() =>
         {
             if (Root == null)
             {

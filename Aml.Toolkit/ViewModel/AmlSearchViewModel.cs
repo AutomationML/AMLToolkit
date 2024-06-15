@@ -12,6 +12,10 @@
 // <summary></summary>
 // ***********************************************************************
 
+using Aml.Editor.MVVMBase;
+using Aml.Editor.Plugin.Contract.Commanding;
+using Aml.Editor.Plugin.Contracts;
+using Aml.Engine.CAEX;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -25,10 +29,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Linq;
-using Aml.Editor.MVVMBase;
-using Aml.Editor.Plugin.Contract.Commanding;
-using Aml.Editor.Plugin.Contracts;
-using Aml.Engine.CAEX;
 
 /// <summary>
 /// The ViewModels namespace.
@@ -981,15 +981,15 @@ public class AmlSearchViewModel : ViewModelBase
                 nodeNavigators.Add(startNode1);
                 break;
             case List<XElement> list:
-            {
-                foreach (var startNode in list)
                 {
-                    nodeNavigators.Add(startNode);
-                }
-                // NodeNavigators.Add(startNode.CreateNavigator());
+                    foreach (var startNode in list)
+                    {
+                        nodeNavigators.Add(startNode);
+                    }
+                    // NodeNavigators.Add(startNode.CreateNavigator());
 
-                break;
-            }
+                    break;
+                }
         }
 
         if (!LastRecentSearchStringsCollection.Contains(SearchText))

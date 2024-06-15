@@ -9,13 +9,16 @@
 //    </summary>
 // ***********************************************************************
 
+using Aml.Engine.CAEX.Commands;
+using Aml.Toolkit.ViewModel;
+using Aml.Toolkit.ViewModel.Commands;
+using Aml.Toolkit.XamlClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
+
+/* Unmerged change from project 'Aml.Toolkit (net8.0-windows)'
+Before:
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -23,7 +26,41 @@ using System.Windows.Threading;
 using Aml.Engine.CAEX.Commands;
 using Aml.Toolkit.ViewModel;
 using Aml.Toolkit.ViewModel.Commands;
-using Aml.Toolkit.XamlClasses;
+After:
+using System.Diagnostics;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using Aml.Engine.Documents;
+using Aml.Toolkit.Input;
+using System.Windows.Media;
+*/
+
+/* Unmerged change from project 'Aml.Toolkit (net6.0-windows)'
+Before:
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Threading;
+using Aml.Engine.CAEX.Commands;
+using Aml.Toolkit.ViewModel;
+using Aml.Toolkit.ViewModel.Commands;
+After:
+using System.Diagnostics;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using Aml.Engine.Documents;
+using Aml.Toolkit.Input;
+using System.Windows.Media;
+*/
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Threading;
 
 /// <summary>
 ///    The Aml.Toolkit namespace.
@@ -66,14 +103,7 @@ public class AMLTreeView : Control
             }
 
             var border = VisualTreeHelper.GetChild(TheTreeView, 0);
-            if (border is ScrollViewer viewer)
-            {
-                _scrollViewer = viewer;
-            }
-            else
-            {
-                _scrollViewer = VisualTreeHelper.GetChild(border, 0) as ScrollViewer;
-            }
+            _scrollViewer = border is ScrollViewer viewer ? viewer : VisualTreeHelper.GetChild(border, 0) as ScrollViewer;
 
             return _scrollViewer;
         }
@@ -632,7 +662,7 @@ public class AMLTreeView : Control
             if (targetItem != null && e.Data?.GetData(typeof(AMLNodeViewModel)) is AMLNodeViewModel draggedItem)
             {
                 e.Handled = true;
-                
+
                 if (TreeViewModel.CanDragDrop != null &&
                     TreeViewModel.CanDragDrop(TreeViewModel, draggedItem, targetItem))
                 {
@@ -697,7 +727,7 @@ public class AMLTreeView : Control
                 // Hit test filter.
                 null,
                 // Hit test result.
-                delegate(HitTestResult result)
+                delegate (HitTestResult result)
                 {
                     frameworkElement = result.VisualHit as FrameworkElement;
                     if (frameworkElement is TreeViewItem)
@@ -778,7 +808,7 @@ public class AMLTreeView : Control
 
         TreeViewModel.IsDragging = true;
         var dragData = new DataObject(typeof(AMLNodeViewModel), _draggedItem);
-        var effects  = DragDrop.DoDragDrop(TheTreeView, dragData, DragDropEffects.Move);
+        var effects = DragDrop.DoDragDrop(TheTreeView, dragData, DragDropEffects.Move);
         e.Handled = effects != DragDropEffects.None;
     }
 

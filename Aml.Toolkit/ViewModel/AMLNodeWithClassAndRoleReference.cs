@@ -9,13 +9,13 @@
 //    </summary>
 // ***********************************************************************
 
+using Aml.Engine.AmlObjects;
+using Aml.Engine.CAEX;
+using Aml.Engine.Xml.Extensions;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 using System.Xml.Linq;
-using Aml.Engine.AmlObjects;
-using Aml.Engine.CAEX;
-using Aml.Engine.Xml.Extensions;
 
 /// <summary>
 ///    The ViewModel namespace.
@@ -113,20 +113,16 @@ public class AMLNodeWithClassAndRoleReference : AMLNodeInheritable
 
     private bool NodeVisibleFilter(object obj)
     {
-        if (obj is not AMLNodeBaseViewModel node)
-        {
-            return false;
-        }
-
-        return node switch
-        {
-            AMLExpandableDummyNode => CanExpand(),
-            AMLNodeGroupViewModel { IsRoleGroup: true } => Tree.TreeViewLayout.ShowRoleGrouping &&
-                                                           Tree.TreeViewLayout.ShowRoleReqNodes,
-            AMLNodeGroupViewModel => Tree.TreeViewLayout.ShowInterfaceGrouping,
-            AMLNodeWithoutName { IsRoleReference: true } => Tree.TreeViewLayout.ShowRoleReqNodes,
-            _ => true
-        };
+        return obj is AMLNodeBaseViewModel node
+&& node switch
+{
+    AMLExpandableDummyNode => CanExpand(),
+    AMLNodeGroupViewModel { IsRoleGroup: true } => Tree.TreeViewLayout.ShowRoleGrouping &&
+                                                   Tree.TreeViewLayout.ShowRoleReqNodes,
+    AMLNodeGroupViewModel => Tree.TreeViewLayout.ShowInterfaceGrouping,
+    AMLNodeWithoutName { IsRoleReference: true } => Tree.TreeViewLayout.ShowRoleReqNodes,
+    _ => true
+};
     }
 
     /// <summary>
@@ -153,7 +149,7 @@ public class AMLNodeWithClassAndRoleReference : AMLNodeInheritable
     /// <value>
     ///     <c>true</c> if this instance has a reference; otherwise, <c>false</c>.
     /// </value>
-    public bool HasReference => ShowRoleRef  || ShowClassRef || ShowVersion;
+    public bool HasReference => ShowRoleRef || ShowClassRef || ShowVersion;
 
     private bool ShowRoleRef => !string.IsNullOrEmpty(RoleReference) && Tree?.TreeViewLayout.ShowRoleReference == true;
 
@@ -162,7 +158,7 @@ public class AMLNodeWithClassAndRoleReference : AMLNodeInheritable
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    override protected void TreeViewLayoutUpdated(object sender, TreeViewLayoutUpdateEventArgs e)
+    protected override void TreeViewLayoutUpdated(object sender, TreeViewLayoutUpdateEventArgs e)
     {
         RaisePropertyChanged(nameof(HasReference));
         base.TreeViewLayoutUpdated(sender, e);

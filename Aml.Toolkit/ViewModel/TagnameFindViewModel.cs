@@ -12,13 +12,13 @@
 // <summary></summary>
 // ***********************************************************************
 
+using Aml.Editor.MVVMBase;
+using Aml.Engine.CAEX;
+using Aml.Engine.Xml.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Aml.Editor.MVVMBase;
-using Aml.Engine.CAEX;
-using Aml.Engine.Xml.Extensions;
 
 /// <summary>
 /// The ViewModels namespace.
@@ -75,169 +75,156 @@ public class TagnameFindViewModel : ViewModelBase
     /// <returns>System.String.</returns>
     internal IEnumerable<XElement> Query(XElement root, bool onlyWords, bool isCaseSensitive, string searchText)
     {
-        Func<string, string, bool, bool> compare;
+        Func<string, string, bool, bool> compare = onlyWords ? Equivalence : Contains;
+        return string.IsNullOrEmpty(searchText)
+            ? ([])
+            : TagName switch
+            {
+                ILReference or
+                    CAEX_CLASSModel_TagNames.INTERNALLINK_STRING =>
+                    root.Descendants(root.XName(CAEX_CLASSModel_TagNames.INTERNALLINK_STRING)).Where(lo =>
+                        compare(lo?.Attribute("Name")?.Value, searchText, !isCaseSensitive)),
 
-        if (onlyWords)
-        {
-            compare = Equivalence;
-        }
-        else
-        {
-            compare = Contains;
-        }
+                CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING or
+                    CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING or
+                    CAEX_CLASSModel_TagNames.ROLECLASS_STRING or
+                    CAEX_CLASSModel_TagNames.ATTRIBUTETYPE_STRING or
+                    CAEX_CLASSModel_TagNames.INTERFACECLASS_STRING or
+                    CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING =>
+                    root.Descendants(root.XName(TagName))
+                        .Where(lo => compare(lo?.Attribute("Name")?.Value, searchText, !isCaseSensitive)),
 
-        if (string.IsNullOrEmpty(searchText))
-        {
-            return [];
-        }
+                RRReference or
+                    CAEX_CLASSModel_TagNames.ROLEREQUIREMENTS_STRING =>
+                    root.Descendants(root.XName(CAEX_CLASSModel_TagNames.ROLEREQUIREMENTS_STRING)).Where(lo =>
+                        compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASEROLECLASSPATH)?.Value,
+                            searchText, !isCaseSensitive)),
 
-        return TagName switch
-        {
-            ILReference or
-                CAEX_CLASSModel_TagNames.INTERNALLINK_STRING =>
-                root.Descendants(root.XName(CAEX_CLASSModel_TagNames.INTERNALLINK_STRING)).Where(lo =>
-                    compare(lo?.Attribute("Name")?.Value, searchText, !isCaseSensitive)),
+                SRReference or CAEX_CLASSModel_TagNames.SUPPORTEDROLECLASS_STRING =>
+                    root.Descendants(root.XName(CAEX_CLASSModel_TagNames.SUPPORTEDROLECLASS_STRING)).Where(lo =>
+                        compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFROLECLASSPATH)?.Value, searchText,
+                            !isCaseSensitive)),
 
-            CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING or
-                CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING or
-                CAEX_CLASSModel_TagNames.ROLECLASS_STRING or
-                CAEX_CLASSModel_TagNames.ATTRIBUTETYPE_STRING or
-                CAEX_CLASSModel_TagNames.INTERFACECLASS_STRING or
-                CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING =>
-                root.Descendants(root.XName(TagName))
-                    .Where(lo => compare(lo?.Attribute("Name")?.Value, searchText, !isCaseSensitive)),
+                IEClassReference =>
+                    root.Descendants(root.XName(CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING)).Where(lo =>
+                        compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASESYSTEMUNITPATH)?.Value,
+                            searchText, !isCaseSensitive)),
 
-            RRReference or
-                CAEX_CLASSModel_TagNames.ROLEREQUIREMENTS_STRING =>
-                root.Descendants(root.XName(CAEX_CLASSModel_TagNames.ROLEREQUIREMENTS_STRING)).Where(lo =>
-                    compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASEROLECLASSPATH)?.Value,
-                        searchText, !isCaseSensitive)),
+                EIClassReference =>
+                    root.Descendants(root.XName(CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING)).Where(lo =>
+                        compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH)?.Value, searchText,
+                            !isCaseSensitive)),
 
-            SRReference or CAEX_CLASSModel_TagNames.SUPPORTEDROLECLASS_STRING =>
-                root.Descendants(root.XName(CAEX_CLASSModel_TagNames.SUPPORTEDROLECLASS_STRING)).Where(lo =>
-                    compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFROLECLASSPATH)?.Value, searchText,
-                        !isCaseSensitive)),
+                SUCInheritenceRel =>
+                    root.Descendants(root.XName(CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING)).Where(lo =>
+                        compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH)?.Value, searchText,
+                            !isCaseSensitive)),
 
-            IEClassReference =>
-                root.Descendants(root.XName(CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING)).Where(lo =>
-                    compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASESYSTEMUNITPATH)?.Value,
-                        searchText, !isCaseSensitive)),
+                RCInheritenceRel =>
+                    root.Descendants(root.XName(CAEX_CLASSModel_TagNames.ROLECLASS_STRING)).Where(lo =>
+                        compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH)?.Value, searchText,
+                            !isCaseSensitive)),
 
-            EIClassReference =>
-                root.Descendants(root.XName(CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING)).Where(lo =>
-                    compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH)?.Value, searchText,
-                        !isCaseSensitive)),
+                ICInheritenceRel =>
+                    root.Descendants(root.XName(CAEX_CLASSModel_TagNames.INTERFACECLASS_STRING)).Where(lo =>
+                        compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH)?.Value, searchText,
+                            !isCaseSensitive)),
 
-            SUCInheritenceRel =>
-                root.Descendants(root.XName(CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING)).Where(lo =>
-                    compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH)?.Value, searchText,
-                        !isCaseSensitive)),
-
-            RCInheritenceRel =>
-                root.Descendants(root.XName(CAEX_CLASSModel_TagNames.ROLECLASS_STRING)).Where(lo =>
-                    compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH)?.Value, searchText,
-                        !isCaseSensitive)),
-
-            ICInheritenceRel =>
-                root.Descendants(root.XName(CAEX_CLASSModel_TagNames.INTERFACECLASS_STRING)).Where(lo =>
-                    compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH)?.Value, searchText,
-                        !isCaseSensitive)),
-
-            ATInheritenceRel =>
-                root.Descendants(root.XName(CAEX_CLASSModel_TagNames.ATTRIBUTETYPE_STRING)).Where(lo =>
-                    compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFATTRIBUTETYPE)?.Value, searchText,
-                        !isCaseSensitive)),
+                ATInheritenceRel =>
+                    root.Descendants(root.XName(CAEX_CLASSModel_TagNames.ATTRIBUTETYPE_STRING)).Where(lo =>
+                        compare(lo?.Attribute(CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFATTRIBUTETYPE)?.Value, searchText,
+                            !isCaseSensitive)),
 
 
-            ATvalue =>
-                root.Descendants(root.XName(CAEX_CLASSModel_TagNames.ATTRIBUTE_STRING)).Where(lo =>
-                    lo.Element(lo.XName(CAEX_CLASSModel_TagNames.ATTRIBUTE_VALUE_STRING))?.Value == searchText),
+                ATvalue =>
+                    root.Descendants(root.XName(CAEX_CLASSModel_TagNames.ATTRIBUTE_STRING)).Where(lo =>
+                        lo.Element(lo.XName(CAEX_CLASSModel_TagNames.ATTRIBUTE_VALUE_STRING))?.Value == searchText),
 
-            _ => []
-        };
+                _ => []
+            };
     }
 
-//        /// <summary>
-//        ///     xes the path query.
-//        /// </summary>
-//        /// <param name="onlyWords">if set to <c>true</c> [only words].</param>
-//        /// <param name="isCaseSensitive">if set to <c>true</c> [is case sensitive].</param>
-//        /// <param name="searchText">The search text.</param>
-//        /// <returns>System.String.</returns>
-//        internal string XPathQuery(bool onlyWords, bool isCaseSensitive, string searchText)
-//        {
-//            if (!isCaseSensitive)
-//            {
-//                searchText = searchText.ToUpper();
-//            }
+    //        /// <summary>
+    //        ///     xes the path query.
+    //        /// </summary>
+    //        /// <param name="onlyWords">if set to <c>true</c> [only words].</param>
+    //        /// <param name="isCaseSensitive">if set to <c>true</c> [is case sensitive].</param>
+    //        /// <param name="searchText">The search text.</param>
+    //        /// <returns>System.String.</returns>
+    //        internal string XPathQuery(bool onlyWords, bool isCaseSensitive, string searchText)
+    //        {
+    //            if (!isCaseSensitive)
+    //            {
+    //                searchText = searchText.ToUpper();
+    //            }
 
-//            searchText = Purge(searchText);
+    //            searchText = Purge(searchText);
 
-//            if (onlyWords)
-//            {
-//                searchText = ".//{0}[{1} = '" + searchText + "']";
-//            }
-//            else
-//            {
-//                searchText = ".//{0}[contains ({1}, '" + searchText + "')]";
-//            }
+    //            if (onlyWords)
+    //            {
+    //                searchText = ".//{0}[{1} = '" + searchText + "']";
+    //            }
+    //            else
+    //            {
+    //                searchText = ".//{0}[contains ({1}, '" + searchText + "')]";
+    //            }
 
-//            if (!isCaseSensitive)
-//            {
-//                searchText = string.Format(searchText, "{0}",
-//                    @"translate({1},'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')");
-//            }
+    //            if (!isCaseSensitive)
+    //            {
+    //                searchText = string.Format(searchText, "{0}",
+    //                    @"translate({1},'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')");
+    //            }
 
-//            return TagName switch
-//            {
-//                ILReference or CAEX_CLASSModel_TagNames.INTERNALLINK_STRING => string.Format(searchText,
-//                                        Queryname(CAEX_CLASSModel_TagNames.INTERNALLINK_STRING),
-//                                        "@Name"),
-//                CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING => string.Format(searchText,
-//       Queryname(CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING),
-//       "@Name"),
-//                CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING => string.Format(searchText,
-//       Queryname(CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING),
-//       "@Name"),
-//                CAEX_CLASSModel_TagNames.ROLECLASS_STRING => string.Format(searchText,
-//       Queryname(CAEX_CLASSModel_TagNames.ROLECLASS_STRING),
-//       "@Name"),
-//                CAEX_CLASSModel_TagNames.ATTRIBUTETYPE_STRING => string.Format(searchText,
-//       Queryname(CAEX_CLASSModel_TagNames.ATTRIBUTETYPE_STRING),
-//       "@Name"),
-//                CAEX_CLASSModel_TagNames.INTERFACECLASS_STRING => string.Format(searchText,
-//       Queryname(CAEX_CLASSModel_TagNames.INTERFACECLASS_STRING),
-//       "@Name"),
-//                CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING => string.Format(searchText,
-//       Queryname(CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING),
-//       "@Name"),
-//                RRReference or CAEX_CLASSModel_TagNames.ROLEREQUIREMENTS_STRING => string.Format(searchText,
-//       Queryname(CAEX_CLASSModel_TagNames.ROLEREQUIREMENTS_STRING),
-//       "@" + CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASEROLECLASSPATH),
-//                SRReference or CAEX_CLASSModel_TagNames.SUPPORTEDROLECLASS_STRING => string.Format(searchText,
-//Queryname(CAEX_CLASSModel_TagNames.SUPPORTEDROLECLASS_STRING),
-//"@" + CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFROLECLASSPATH),
-//                IEClassReference => string.Format(searchText,
-//Queryname(CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING),
-//"@" + CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASESYSTEMUNITPATH),
-//                EIClassReference => string.Format(searchText,
-//Queryname(CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING),
-//"@" + CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH),
-//                SUCInheritenceRel => string.Format(searchText,
-//Queryname(CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING),
-//"@" + CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH),
-//                RCInheritenceRel => string.Format(searchText,
-//Queryname(CAEX_CLASSModel_TagNames.ROLECLASS_STRING),
-//"@" + CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH),
-//                ICInheritenceRel => string.Format(searchText,
-//Queryname(CAEX_CLASSModel_TagNames.INTERFACECLASS_STRING),
-//"@" + CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH),
-//                ATInheritenceRel => string.Format(searchText,
-//Queryname(CAEX_CLASSModel_TagNames.ATTRIBUTETYPE_STRING),
-//"@" + CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFATTRIBUTETYPE),
-//                _ => "",
-//            };
-//        }
+    //            return TagName switch
+    //            {
+    //                ILReference or CAEX_CLASSModel_TagNames.INTERNALLINK_STRING => string.Format(searchText,
+    //                                        Queryname(CAEX_CLASSModel_TagNames.INTERNALLINK_STRING),
+    //                                        "@Name"),
+    //                CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING => string.Format(searchText,
+    //       Queryname(CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING),
+    //       "@Name"),
+    //                CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING => string.Format(searchText,
+    //       Queryname(CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING),
+    //       "@Name"),
+    //                CAEX_CLASSModel_TagNames.ROLECLASS_STRING => string.Format(searchText,
+    //       Queryname(CAEX_CLASSModel_TagNames.ROLECLASS_STRING),
+    //       "@Name"),
+    //                CAEX_CLASSModel_TagNames.ATTRIBUTETYPE_STRING => string.Format(searchText,
+    //       Queryname(CAEX_CLASSModel_TagNames.ATTRIBUTETYPE_STRING),
+    //       "@Name"),
+    //                CAEX_CLASSModel_TagNames.INTERFACECLASS_STRING => string.Format(searchText,
+    //       Queryname(CAEX_CLASSModel_TagNames.INTERFACECLASS_STRING),
+    //       "@Name"),
+    //                CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING => string.Format(searchText,
+    //       Queryname(CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING),
+    //       "@Name"),
+    //                RRReference or CAEX_CLASSModel_TagNames.ROLEREQUIREMENTS_STRING => string.Format(searchText,
+    //       Queryname(CAEX_CLASSModel_TagNames.ROLEREQUIREMENTS_STRING),
+    //       "@" + CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASEROLECLASSPATH),
+    //                SRReference or CAEX_CLASSModel_TagNames.SUPPORTEDROLECLASS_STRING => string.Format(searchText,
+    //Queryname(CAEX_CLASSModel_TagNames.SUPPORTEDROLECLASS_STRING),
+    //"@" + CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFROLECLASSPATH),
+    //                IEClassReference => string.Format(searchText,
+    //Queryname(CAEX_CLASSModel_TagNames.INTERNALELEMENT_STRING),
+    //"@" + CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASESYSTEMUNITPATH),
+    //                EIClassReference => string.Format(searchText,
+    //Queryname(CAEX_CLASSModel_TagNames.EXTERNALINTERFACE_STRING),
+    //"@" + CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH),
+    //                SUCInheritenceRel => string.Format(searchText,
+    //Queryname(CAEX_CLASSModel_TagNames.SYSTEMUNITCLASS_STRING),
+    //"@" + CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH),
+    //                RCInheritenceRel => string.Format(searchText,
+    //Queryname(CAEX_CLASSModel_TagNames.ROLECLASS_STRING),
+    //"@" + CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH),
+    //                ICInheritenceRel => string.Format(searchText,
+    //Queryname(CAEX_CLASSModel_TagNames.INTERFACECLASS_STRING),
+    //"@" + CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFBASECLASSPATH),
+    //                ATInheritenceRel => string.Format(searchText,
+    //Queryname(CAEX_CLASSModel_TagNames.ATTRIBUTETYPE_STRING),
+    //"@" + CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REFATTRIBUTETYPE),
+    //                _ => "",
+    //            };
+    //        }
 
     #endregion Internal Methods
 
@@ -374,27 +361,13 @@ public class TagnameFindViewModel : ViewModelBase
 
     private bool Contains(string s1, string s2, bool ignoreCase)
     {
-        if (string.IsNullOrEmpty(s1) || string.IsNullOrEmpty(s2))
-        {
-            return false;
-        }
-
-        if (ignoreCase)
-        {
-            return s1.Contains(s2, StringComparison.OrdinalIgnoreCase);
-        }
-
-        return s1.Contains(s2);
+        return !string.IsNullOrEmpty(s1) && !string.IsNullOrEmpty(s2)
+&& (ignoreCase ? s1.Contains(s2, StringComparison.OrdinalIgnoreCase) : s1.Contains(s2));
     }
 
     private bool Equivalence(string s1, string s2, bool ignoreCase)
     {
-        if (string.IsNullOrEmpty(s1) || string.IsNullOrEmpty(s2))
-        {
-            return false;
-        }
-
-        return string.Compare(s1, s2, ignoreCase) == 0;
+        return !string.IsNullOrEmpty(s1) && !string.IsNullOrEmpty(s2) && string.Compare(s1, s2, ignoreCase) == 0;
     }
 
     ///// <summary>

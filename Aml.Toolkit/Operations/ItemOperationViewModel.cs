@@ -12,12 +12,12 @@
 // <summary></summary>
 // ***********************************************************************
 
+using Aml.Editor.MVVMBase;
 using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Aml.Editor.MVVMBase;
 
 /// <summary>
 /// The ViewModels namespace.

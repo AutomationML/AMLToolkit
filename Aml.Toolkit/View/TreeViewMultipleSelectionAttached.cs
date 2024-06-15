@@ -14,6 +14,8 @@
 // </summary>
 // ***********************************************************************
 
+using Aml.Toolkit.ViewModel;
+using Aml.Toolkit.XamlClasses;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -21,8 +23,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Aml.Toolkit.ViewModel;
-using Aml.Toolkit.XamlClasses;
 
 /// <summary>
 /// The CustomControls namespace.
@@ -549,29 +549,29 @@ public class TreeViewMultipleSelectionAttached
         switch (e.Action)
         {
             case NotifyCollectionChangedAction.Add when e.NewItems != null:
-            {
-                foreach (var item in e.NewItems.OfType<ITreeNode>())
                 {
-                    if (!item.IsSelected)
+                    foreach (var item in e.NewItems.OfType<ITreeNode>())
                     {
-                        item.IsSelected = true;
+                        if (!item.IsSelected)
+                        {
+                            item.IsSelected = true;
+                        }
                     }
-                }
 
-                break;
-            }
+                    break;
+                }
             case NotifyCollectionChangedAction.Remove when e.OldItems != null:
-            {
-                foreach (var item in e.OldItems.OfType<ITreeNode>())
                 {
-                    if (item.IsSelected)
+                    foreach (var item in e.OldItems.OfType<ITreeNode>())
                     {
-                        item.IsSelected = false;
+                        if (item.IsSelected)
+                        {
+                            item.IsSelected = false;
+                        }
                     }
-                }
 
-                break;
-            }
+                    break;
+                }
             case NotifyCollectionChangedAction.Reset:
                 DeSelectAllItems(tree, null);
                 break;

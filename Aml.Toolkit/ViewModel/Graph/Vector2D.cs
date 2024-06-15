@@ -50,7 +50,7 @@ internal class Vector2D
 
     public static Vector2D operator -(Vector2D v, Vector2D w) => new Vector2D(v.X - w.X, v.Y - w.Y);
 
-    public static double operator *(Vector2D v, Vector2D w) => v.X * w.X + v.Y * w.Y;
+    public static double operator *(Vector2D v, Vector2D w) => (v.X * w.X) + (v.Y * w.Y);
 
     public static Vector2D operator *(Vector2D v, double mult) => new Vector2D(v.X * mult, v.Y * mult);
 
@@ -68,7 +68,7 @@ internal class Vector2D
 
     internal static bool IsZero(double d) => Math.Abs(d) < Epsilon;
 
-    internal double Cross(Vector2D v) => X * v.Y - Y * v.X;
+    internal double Cross(Vector2D v) => (X * v.Y) - (Y * v.X);
 
     #endregion Internal Methods
 }

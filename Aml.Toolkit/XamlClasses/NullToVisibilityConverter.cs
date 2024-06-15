@@ -40,22 +40,9 @@ public class NullToVisibilityConverter : IValueConverter
     /// <returns>Ein konvertierter Wert. Wenn die Methode null zurückgibt, wird der gültige NULL-Wert verwendet.</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is string @string)
-        {
-            if (string.IsNullOrEmpty(@string))
-            {
-                return Visibility.Collapsed;
-            }
-
-            return Visibility.Visible;
-        }
-
-        if (value == null)
-        {
-            return Visibility.Collapsed;
-        }
-
-        return Visibility.Visible;
+        return value is string @string
+            ? string.IsNullOrEmpty(@string) ? Visibility.Collapsed : (object)Visibility.Visible
+            : value == null ? Visibility.Collapsed : (object)Visibility.Visible;
     }
 
     /// <summary>

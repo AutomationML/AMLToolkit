@@ -92,13 +92,15 @@ public sealed class ObservableCollectionEx<T> : Collection<T>, INotifyCollection
 
 #if FRAMEWORK
 
-    [field: NonSerialized] private
+    [field: NonSerialized]
+    private
 #endif
         Action FireCountAndIndexerChanged = delegate { };
 
 #if FRAMEWORK
 
-    [field: NonSerialized] private
+    [field: NonSerialized]
+    private
 #endif
         Action FireIndexerChanged = delegate { };
 

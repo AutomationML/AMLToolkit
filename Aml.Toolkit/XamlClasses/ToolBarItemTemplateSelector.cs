@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
+﻿using Aml.Toolkit.Operations;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using Aml.Toolkit.Operations;
 
 namespace Aml.Toolkit.XamlClasses;
 
@@ -26,22 +26,19 @@ public class ToolBarItemTemplateSelector : DataTemplateSelector, INotifyProperty
     /// <inheritdoc />
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
-        if (item is not ItemOperationViewModel toolBarItem)
-        {
-            return base.SelectTemplate(item, container);
-        }
-
-        return toolBarItem.Identifier switch
-        {
-            EditOperations.Copy => CopyButtonTemplate,
-            EditOperations.Cut => CutButtonTemplate,
-            EditOperations.Delete => DeleteButtonTemplate,
-            EditOperations.Paste => PasteButtonTemplate,
-            EditOperations.Redo => RedoButtonTemplate,
-            EditOperations.Undo => UndoButtonTemplate,
-            SeparatorItem.Separator => SeparatorTemplate,
-            _ => toolBarItem.ItemTemplate ?? ButtonTemplate
-        };
+        return item is not ItemOperationViewModel toolBarItem
+            ? base.SelectTemplate(item, container)
+            : toolBarItem.Identifier switch
+            {
+                EditOperations.Copy => CopyButtonTemplate,
+                EditOperations.Cut => CutButtonTemplate,
+                EditOperations.Delete => DeleteButtonTemplate,
+                EditOperations.Paste => PasteButtonTemplate,
+                EditOperations.Redo => RedoButtonTemplate,
+                EditOperations.Undo => UndoButtonTemplate,
+                SeparatorItem.Separator => SeparatorTemplate,
+                _ => toolBarItem.ItemTemplate ?? ButtonTemplate
+            };
     }
 
     #endregion Public Methods

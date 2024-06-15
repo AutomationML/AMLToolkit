@@ -1,5 +1,5 @@
-﻿using System.Xml.Linq;
-using Aml.Engine.CAEX;
+﻿using Aml.Engine.CAEX;
+using System.Xml.Linq;
 
 /// <summary>
 ///    The ViewModel namespace.
@@ -63,14 +63,11 @@ public class AMLNodeMappingElement : AMLNodeWithoutName
     {
         get
         {
-            if (CAEXObject is IMappingElementType me)
-            {
-                return me is InterfaceIDMappingType im && im.RoleInterface != null
+            return CAEXObject is IMappingElementType me
+                ? me is InterfaceIDMappingType im && im.RoleInterface != null
                     ? im.RoleInterface.Name
-                    : me.RoleClassElementIdentifier;
-            }
-
-            return "";
+                    : me.RoleClassElementIdentifier
+                : "";
         }
     }
 
@@ -81,14 +78,11 @@ public class AMLNodeMappingElement : AMLNodeWithoutName
     {
         get
         {
-            if (CAEXObject is IMappingElementType me)
-            {
-                return me is InterfaceIDMappingType im && im.SystemUnitInterface != null
+            return CAEXObject is IMappingElementType me
+                ? me is InterfaceIDMappingType im && im.SystemUnitInterface != null
                     ? im.SystemUnitInterface.Name
-                    : me.SystemUnitClassElementIdentifier;
-            }
-
-            return "";
+                    : me.SystemUnitClassElementIdentifier
+                : "";
         }
     }
 

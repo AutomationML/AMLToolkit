@@ -38,17 +38,8 @@ public class Range<T> where T : IComparable
     {
         // <0 => Min < Max
         // >0 => Min > Max
-        if (Min.CompareTo(otherRange.Max) >= 0) // below
-        {
-            return false;
-        }
-
-        if (Max.CompareTo(otherRange.Min) <= 0) // above
-        {
-            return false;
-        }
-
-        return Min.CompareTo(otherRange.Min) < 0 || Max.CompareTo(otherRange.Max) > 0;
+        return Min.CompareTo(otherRange.Max) < 0
+&& Max.CompareTo(otherRange.Min) > 0 && (Min.CompareTo(otherRange.Min) < 0 || Max.CompareTo(otherRange.Max) > 0);
     }
 
     #endregion Public Methods

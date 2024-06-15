@@ -115,12 +115,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         /// <returns></returns>
         public bool Equals(AMLNodeViewModel x, AMLNodeViewModel y)
         {
-            if (x is AMLNodeGroupViewModel gx && y is AMLNodeGroupViewModel gy)
-            {
-                return gx.GroupName == gy.GroupName;
-            }
-
-            return false;
+            return x is AMLNodeGroupViewModel gx && y is AMLNodeGroupViewModel gy && gx.GroupName == gy.GroupName;
         }
 
         /// <summary>
@@ -129,12 +124,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         /// <returns></returns>
         public int GetHashCode(AMLNodeViewModel obj)
         {
-            if (obj is AMLNodeGroupViewModel gx)
-            {
-                return gx.GroupName.GetHashCode();
-            }
-
-            return obj.GetHashCode();
+            return obj is AMLNodeGroupViewModel gx ? gx.GroupName.GetHashCode() : obj.GetHashCode();
         }
 
         #endregion Public Methods
@@ -336,12 +326,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
 
         EnabledCommands.Filter = o =>
         {
-            if (o is AMLNodeCommand cmd)
-            {
-                return cmd.IsEnabled;
-            }
-
-            return false;
+            return o is AMLNodeCommand cmd && cmd.IsEnabled;
         };
 
         _childrenCollection.Source = lazyLoadChildren ? _lazyLoadChildrenWithDummy : _emptyChildren;
@@ -1141,12 +1126,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// <returns></returns>
     public IList<AMLNodeViewModel> LoadedChildrenNotVirtual()
     {
-        if (LoadedChildren == null)
-        {
-            return [];
-        }
-
-        return LoadedChildren.Any(x => x is AMLNodeGroupViewModel) ? VirtualChildren.ToList() : LoadedChildren;
+        return LoadedChildren == null ? ([]) : LoadedChildren.Any(x => x is AMLNodeGroupViewModel) ? VirtualChildren.ToList() : LoadedChildren;
     }
 
     /// <summary>
@@ -1736,7 +1716,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     private void CollapseAllCommandExecute(object parameter)
     {
         LoadedChildren.Clear();
-        
+
         //Tree.AmlTreeView?.InternalLinksAdorner?.Clear();
         if (HasChilds)
         {
@@ -1808,12 +1788,9 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// <returns></returns>
     private AMLNodeGroupViewModel GroupNode(string elementName)
     {
-        if (CAEXNode.Name.LocalName == elementName)
-        {
-            return null;
-        }
-
-        return GetGroupNode(elementName) ??
+        return CAEXNode.Name.LocalName == elementName
+            ? null
+            : GetGroupNode(elementName) ??
                AMLNodeGroupViewModel.Create(this, AMLNodeGroupViewModel.GroupingPropertyname(elementName));
     }
 

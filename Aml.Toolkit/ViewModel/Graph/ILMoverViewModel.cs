@@ -1,10 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using Aml.Editor.MVVMBase;
+﻿using Aml.Editor.MVVMBase;
 using Aml.Editor.Plugin.Contracts;
 using Aml.Engine.CAEX;
 using Aml.Engine.CAEX.Extensions;
@@ -12,6 +6,12 @@ using Aml.Engine.Services;
 using Aml.Engine.Xml.Extensions;
 using Aml.Toolkit.View;
 using Aml.Toolkit.XamlClasses;
+using System;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Aml.Toolkit.ViewModel.Graph;
 
@@ -211,25 +211,9 @@ public class ILMoverViewModel : ViewModelBase
         if (dropNode?.DataContext is AMLNodeWithClassReference { CAEXObject: ExternalInterfaceType extInterface } tv)
         {
             // korrektur wenn bewegung nicht erkannt wurde
-            if (_movedInterface == null)
-            {
-                if (extInterface == SelectedLink.AInterface)
-                {
-                    _movedInterface = tv;
-                }
-                else if (extInterface.Equals(SelectedLink.BInterface))
-                {
-                    _movedInterface = tv;
-                }
-                else if (moveTarget)
-                {
-                    _movedInterface = SelectedEdge.EndPoint.Item;
-                }
-                else
-                {
-                    _movedInterface = SelectedEdge.StartPoint.Item;
-                }
-            }
+            _movedInterface ??= extInterface == SelectedLink.AInterface
+                    ? tv
+                    : extInterface.Equals(SelectedLink.BInterface) ? tv : moveTarget ? SelectedEdge.EndPoint.Item : SelectedEdge.StartPoint.Item;
 
             if (IsConnectible(extInterface))
             {
@@ -424,22 +408,10 @@ public class ILMoverViewModel : ViewModelBase
 
     private bool IsConnectible(ExternalInterfaceType selectedInterface)
     {
-        if (SelectedLink == null)
-        {
-            return false;
-        }
-
-        if (selectedInterface == null)
-        {
-            return false;
-        }
-
-        if (selectedInterface.Equals(SelectedLink.AInterface))
-        {
-            return false;
-        }
-
-        return !selectedInterface.Equals(SelectedLink.BInterface) &&
+        return SelectedLink != null
+&& selectedInterface != null
+&& !selectedInterface.Equals(SelectedLink.AInterface)
+&& !selectedInterface.Equals(SelectedLink.BInterface) &&
                CanLinkInterfaces(selectedInterface, UnMovedInterface);
     }
 

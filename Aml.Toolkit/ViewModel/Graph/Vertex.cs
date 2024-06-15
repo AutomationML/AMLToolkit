@@ -74,7 +74,7 @@ internal class Vertex
         //if (item.IsVisible)
         //    return item;
 
-        if (!(item.Parent is { } treeViewItem))
+        if (item.Parent is not { } treeViewItem)
         {
             return null;
         }
@@ -89,12 +89,7 @@ internal class Vertex
             treeViewItem = treeViewItem.Parent;
         }
 
-        if (treeViewItem == null)
-        {
-            return null;
-        }
-
-        return IsVisible(treeViewItem) ? treeViewItem : VisibleParent(treeViewItem);
+        return treeViewItem == null ? null : IsVisible(treeViewItem) ? treeViewItem : VisibleParent(treeViewItem);
     }
 
     #endregion Private Methods

@@ -12,22 +12,9 @@ public class LinkCardinalityVisibilityConverter : IMultiValueConverter
     /// <inheritdoc />
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        if (values.Length == 2)
-        {
-            if (!(bool)values[0])
-            {
-                return Visibility.Collapsed;
-            }
-
-            if (!(bool)values[1])
-            {
-                return Visibility.Collapsed;
-            }
-
-            return Visibility.Visible;
-        }
-
-        return Visibility.Collapsed;
+        return values.Length == 2
+            ? !(bool)values[0] ? Visibility.Collapsed : !(bool)values[1] ? Visibility.Collapsed : (object)Visibility.Visible
+            : Visibility.Collapsed;
     }
 
     /// <inheritdoc />

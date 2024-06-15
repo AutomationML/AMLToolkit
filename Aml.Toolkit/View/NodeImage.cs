@@ -1,7 +1,7 @@
-﻿using System.Windows;
+﻿using Aml.Toolkit.ViewModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Aml.Toolkit.ViewModel;
 
 namespace Aml.Toolkit.View;
 

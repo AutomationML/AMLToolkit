@@ -13,8 +13,8 @@
 //    </summary>
 // ***********************************************************************
 
-using System.Collections.Generic;
 using Aml.Engine.CAEX;
+using System.Collections.Generic;
 
 /// <summary>
 ///    The ViewModel namespace.

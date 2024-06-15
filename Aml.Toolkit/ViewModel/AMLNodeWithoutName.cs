@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using System.Xml.Linq;
-using Aml.Engine.CAEX;
+﻿using Aml.Engine.CAEX;
 using Aml.Engine.Xml.Extensions;
+using System.Linq;
+using System.Xml.Linq;
 
 /// <summary>
 ///    The ViewModel namespace.
@@ -135,20 +135,20 @@ public class AMLNodeWithoutName : AMLNodeViewModel
                     return "Mapping";
 
                 case CAEX_CLASSModel_TagNames.CAEX_FILE:
-                {
-                    var name = CAEXNode.Attribute(NameSubstituteAttribute)?.Value;
-                    return string.IsNullOrEmpty(name) ? CAEXNode.Name.LocalName : name;
-                }
+                    {
+                        var name = CAEXNode.Attribute(NameSubstituteAttribute)?.Value;
+                        return string.IsNullOrEmpty(name) ? CAEXNode.Name.LocalName : name;
+                    }
 
                 case CAEX_CLASSModel_TagNames.SUPPORTEDROLECLASS_STRING:
                 case CAEX_CLASSModel_TagNames.ROLEREQUIREMENTS_STRING:
                 case CAEX_CLASSModel_TagNames.MAPPINGOBJECT_ATTRIBUTENAME_STRING:
                 case CAEX_CLASSModel_TagNames.MAPPINGOBJECT_INTERFACENAME_STRING:
                 case CAEX_CLASSModel_TagNames.MAPPINGOBJECT_INTERFACEID_STRING:
-                {
-                    var name = CAEXNode.Attribute(NameSubstituteAttribute)?.Value;
-                    return string.IsNullOrEmpty(name) ? "" : name;
-                }
+                    {
+                        var name = CAEXNode.Attribute(NameSubstituteAttribute)?.Value;
+                        return string.IsNullOrEmpty(name) ? "" : name;
+                    }
             }
 
             return CAEXNode.Name.LocalName;

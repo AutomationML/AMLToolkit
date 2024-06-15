@@ -1,5 +1,5 @@
-﻿using System.Xml.Linq;
-using Aml.Engine.CAEX;
+﻿using Aml.Engine.CAEX;
+using System.Xml.Linq;
 
 /// <summary>
 ///    The ViewModel namespace.
@@ -69,12 +69,7 @@ public class AMLNodeAttribute : AMLNodeInheritable
     {
         get
         {
-            if (CAEXObject is AttributeTypeType att && !string.IsNullOrEmpty(att.Value))
-            {
-                return $"{att.Value} {att.Unit}";
-            }
-
-            return string.Empty;
+            return CAEXObject is AttributeTypeType att && !string.IsNullOrEmpty(att.Value) ? $"{att.Value} {att.Unit}" : string.Empty;
         }
     }
 

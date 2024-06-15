@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using Aml.Toolkit.Operations;
+using System.Windows;
 using System.Windows.Controls;
-using Aml.Toolkit.Operations;
 
 namespace Aml.Toolkit.View;
 

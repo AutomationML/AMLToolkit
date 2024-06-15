@@ -1,9 +1,9 @@
-﻿using System;
-using System.Globalization;
-using System.Windows.Controls;
-using Aml.Engine.CAEX;
+﻿using Aml.Engine.CAEX;
 using Aml.Engine.Services;
 using Aml.Engine.Services.Interfaces;
+using System;
+using System.Globalization;
+using System.Windows.Controls;
 
 namespace Aml.Toolkit.ViewModel.ValidationRules;
 

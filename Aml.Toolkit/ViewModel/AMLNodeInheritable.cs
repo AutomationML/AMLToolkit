@@ -9,10 +9,10 @@
 // </copyright>
 // ***********************************************************************
 
-using System.Xml.Linq;
 using Aml.Engine.AmlObjects.Extensions;
 using Aml.Engine.CAEX;
 using Aml.Engine.CAEX.Extensions;
+using System.Xml.Linq;
 
 /// <summary>
 ///    The ViewModel namespace.

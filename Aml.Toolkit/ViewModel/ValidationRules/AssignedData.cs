@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using Aml.Engine.CAEX;
+﻿using Aml.Engine.CAEX;
+using System.Windows;
 
 namespace Aml.Toolkit.ViewModel.ValidationRules;
 

@@ -12,9 +12,9 @@
 // <summary></summary>
 // ***********************************************************************
 
+using Aml.Toolkit.Operations;
 using System;
 using System.Windows;
-using Aml.Toolkit.Operations;
 
 /// <summary>
 /// The UserControls namespace.

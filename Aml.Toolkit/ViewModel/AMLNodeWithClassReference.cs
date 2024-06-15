@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
-using Aml.Engine.AmlObjects;
+﻿using Aml.Engine.AmlObjects;
 using Aml.Engine.CAEX;
 using Aml.Engine.CAEX.Extensions;
 using Aml.Engine.Services;
 using Aml.Engine.Xml.Extensions;
+using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 
 /// <summary>
 ///    The ViewModel namespace.
@@ -55,7 +55,7 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     /// </summary>
     protected virtual void TreeViewLayoutUpdated(object sender, TreeViewLayoutUpdateEventArgs e)
     {
-        RaisePropertyChanged (nameof(HasClassOrVersionReference));
+        RaisePropertyChanged(nameof(HasClassOrVersionReference));
     }
 
     /// <summary>
@@ -170,12 +170,7 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     {
         get
         {
-            if (CAEXObject is ExternalInterfaceType ie)
-            {
-                return ie.MinCardinality()?.ToString() ?? "0";
-            }
-
-            return "";
+            return CAEXObject is ExternalInterfaceType ie ? ie.MinCardinality()?.ToString() ?? "0" : "";
         }
     }
 
@@ -189,12 +184,7 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     {
         get
         {
-            if (CAEXObject is ExternalInterfaceType ie)
-            {
-                return ie.MaxCardinalityViolation() ? "!" : "";
-            }
-
-            return "";
+            return CAEXObject is ExternalInterfaceType ie ? ie.MaxCardinalityViolation() ? "!" : "" : "";
         }
     }
 
@@ -208,12 +198,7 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     {
         get
         {
-            if (CAEXObject is ExternalInterfaceType ie)
-            {
-                return ie.MinCardinalityViolation() ? "!" : "";
-            }
-
-            return "";
+            return CAEXObject is ExternalInterfaceType ie ? ie.MinCardinalityViolation() ? "!" : "" : "";
         }
     }
 
@@ -227,12 +212,7 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     {
         get
         {
-            if (CAEXObject is ExternalInterfaceType ie)
-            {
-                return ie.MaxCardinality()?.ToString() ?? "n";
-            }
-
-            return "";
+            return CAEXObject is ExternalInterfaceType ie ? ie.MaxCardinality()?.ToString() ?? "n" : "";
         }
     }
 
@@ -246,12 +226,7 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     {
         get
         {
-            if (CAEXObject is ExternalInterfaceType ie)
-            {
-                return ie.HasVerifiableCardinality();
-            }
-
-            return false;
+            return CAEXObject is ExternalInterfaceType ie && ie.HasVerifiableCardinality();
         }
     }
 
@@ -340,7 +315,7 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     /// Determines, if the class reference string is visible
     /// </summary>
     protected bool ShowClassRef => !string.IsNullOrEmpty(ClassReference) && Tree?.TreeViewLayout.ShowClassReference == true;
-    
+
     /// <summary>
     /// Determines, if a version or class reference string is visible
     /// </summary>
@@ -469,20 +444,14 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
 
     internal InternalLinkType GetInternalLink(AMLNodeWithClassReference partner)
     {
-        if (CAEXObject is not ExternalInterfaceType ie)
-        {
-            return null;
-        }
-
-        if (ie.AssociatedObject is SystemUnitClassType)
-        {
-            return ie.InternalLinksToInterface().FirstOrDefault(il => (il.AInterface?.Node == CAEXNode &&
+        return CAEXObject is not ExternalInterfaceType ie
+            ? null
+            : ie.AssociatedObject is SystemUnitClassType
+            ? ie.InternalLinksToInterface().FirstOrDefault(il => (il.AInterface?.Node == CAEXNode &&
                                                                        il.BInterface?.Node == partner.CAEXNode) ||
                                                                       (il.AInterface?.Node == partner.CAEXNode &&
-                                                                       il.BInterface?.Node == CAEXNode));
-        }
-
-        return null;
+                                                                       il.BInterface?.Node == CAEXNode))
+            : null;
     }
 
     internal IEnumerable<ExternalInterfaceType> GetPartners()

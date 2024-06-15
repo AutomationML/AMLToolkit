@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Aml.Engine.CAEX;
+using Aml.Skins;
+using Aml.Toolkit.View;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -7,9 +10,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Aml.Engine.CAEX;
-using Aml.Skins;
-using Aml.Toolkit.View;
 
 namespace Aml.Toolkit.ViewModel.Graph;
 
@@ -105,7 +105,7 @@ public class IlGraph
             return brushes;
         }
         catch
-        { 
+        {
             return null;
         }
     }
@@ -225,12 +225,8 @@ public class IlGraph
         {
             // 1. If either  0 <= (q - p) * r <= r * r or 0 <= (p - q) * s <= * s
             // then the two lines are overlapping,
-            if (!considerCollinearOverlapAsIntersect)
-            {
-                return false;
-            }
-
-            return (0 <= (q - p) * r && (q - p) * r <= r * r) || (0 <= (p - q) * s && (p - q) * s <= s * s);
+            return considerCollinearOverlapAsIntersect
+&& ((0 <= (q - p) * r && (q - p) * r <= r * r) || (0 <= (p - q) * s && (p - q) * s <= s * s));
 
             // 2. If neither 0 <= (q - p) * r = r * r nor 0 <= (p - q) * s <= s * s
             // then the two lines are collinear but disjoint.
@@ -258,7 +254,7 @@ public class IlGraph
         }
 
         // We can calculate the intersection point using either t or u.
-        intersection = p + t * r;
+        intersection = p + (t * r);
 
         // An intersection was found.
         return true;

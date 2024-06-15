@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 
 namespace Aml.Toolkit.XamlClasses;
 
@@ -18,12 +16,27 @@ public class InverseBoolToVisibilityConverter : IValueConverter
     /// <inheritdoc />
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value != null && (bool)value)
-        {
-            return Visibility.Collapsed;
-        }
+        return value != null && (bool)value
+ /* Unmerged change from project 'Aml.Toolkit (net8.0-windows)'
+ Before:
+             return Visibility.Collapsed;
+         }
 
-        return Visibility.Visible;
+         return Visibility.Visible;
+ After:
+             return Visibility.Collapsed : (object)Visibility.Visible;
+ */
+
+ /* Unmerged change from project 'Aml.Toolkit (net6.0-windows)'
+ Before:
+             return Visibility.Collapsed;
+         }
+
+         return Visibility.Visible;
+ After:
+             return Visibility.Collapsed : (object)Visibility.Visible;
+ */
+ ? Visibility.Collapsed : (object)Visibility.Visible;
     }
 
     /// <inheritdoc />
@@ -46,12 +59,9 @@ public class ReferenceVisibilityConverter : IMultiValueConverter
     /// <inheritdoc />
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        if (values[0] is bool show && values[1] is string name && show && !string.IsNullOrEmpty(name))
-        {
-            return Visibility.Visible;
-        }
-
-        return Visibility.Collapsed;
+        return values[0] is bool show && values[1] is string name && show && !string.IsNullOrEmpty(name)
+            ? Visibility.Visible
+            : (object)Visibility.Collapsed;
     }
 
     /// <inheritdoc />

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Aml.Engine.CAEX;
+using Aml.Toolkit.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,8 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
 using System.Xml.Linq;
-using Aml.Engine.CAEX;
-using Aml.Toolkit.ViewModel;
 
 namespace Aml.Toolkit.View;
 
@@ -41,27 +41,15 @@ public class AMLTreeViewSearch : Control
                 return "Instance Hierarchies";
             }
 
-            if (AmlTreeView.TreeViewModel.CAEXTagNames.Contains(CAEX_CLASSModel_TagNames.SYSTEMUNITCLASSLIB_STRING))
-            {
-                return "SystemUnitClass Libraries";
-            }
-
-            if (AmlTreeView.TreeViewModel.CAEXTagNames.Contains(CAEX_CLASSModel_TagNames.ROLECLASSLIB_STRING))
-            {
-                return "RoleClass Libraries";
-            }
-
-            if (AmlTreeView.TreeViewModel.CAEXTagNames.Contains(CAEX_CLASSModel_TagNames.INTERFACECLASSLIB_STRING))
-            {
-                return "InterfaceClass Libraries";
-            }
-
-            if (AmlTreeView.TreeViewModel.CAEXTagNames.Contains(CAEX_CLASSModel_TagNames.ATTRIBUTETYPELIB_STRING))
-            {
-                return "AttributeType Libraries";
-            }
-
-            return "elements";
+            return AmlTreeView.TreeViewModel.CAEXTagNames.Contains(CAEX_CLASSModel_TagNames.SYSTEMUNITCLASSLIB_STRING)
+                ? "SystemUnitClass Libraries"
+                : AmlTreeView.TreeViewModel.CAEXTagNames.Contains(CAEX_CLASSModel_TagNames.ROLECLASSLIB_STRING)
+                ? "RoleClass Libraries"
+                : AmlTreeView.TreeViewModel.CAEXTagNames.Contains(CAEX_CLASSModel_TagNames.INTERFACECLASSLIB_STRING)
+                ? "InterfaceClass Libraries"
+                : AmlTreeView.TreeViewModel.CAEXTagNames.Contains(CAEX_CLASSModel_TagNames.ATTRIBUTETYPELIB_STRING)
+                ? "AttributeType Libraries"
+                : "elements";
         }
     }
 
@@ -112,8 +100,8 @@ public class AMLTreeViewSearch : Control
             else
             {
                 var hierarchies = (from hierarchy in AmlTreeView.TreeViewModel.Root.VisibleChildren
-                    where hierarchy is not AMLNodeGroupViewModel
-                    select hierarchy.CAEXNode).ToList();
+                                   where hierarchy is not AMLNodeGroupViewModel
+                                   select hierarchy.CAEXNode).ToList();
 
                 if (hierarchies.Count > 0)
                 {

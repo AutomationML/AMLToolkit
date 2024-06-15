@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using Aml.Editor.MVVMBase;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Aml.Editor.MVVMBase;
 
 namespace Aml.Toolkit.ViewModel;
 

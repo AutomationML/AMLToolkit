@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using Aml.Toolkit.View;
+﻿using Aml.Toolkit.View;
 using Aml.Toolkit.ViewModel.Graph;
+using System.Linq;
 
 namespace Aml.Toolkit.ViewModel;
 

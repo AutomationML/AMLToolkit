@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using Aml.Toolkit.Operations;
+﻿using Aml.Toolkit.Operations;
+using System.Windows;
 
 namespace Aml.Toolkit.View;
 
