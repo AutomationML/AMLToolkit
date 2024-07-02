@@ -6,17 +6,12 @@
     xmlns:rule="clr-namespace:Aml.Toolkit.ViewModel.ValidationRules"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:xaml="clr-namespace:Aml.Toolkit.XamlClasses">
-
-    <!--  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"  -->
-
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Aml.Skins;component/Resources/Icons.xaml" />
         <ResourceDictionary Source="/Aml.Skins;component/Themes/Light.Styles.xaml" />
     </ResourceDictionary.MergedDictionaries>
-
     <BooleanToVisibilityConverter x:Key="btvc" />
     <xaml:InverseBoolToVisibilityConverter x:Key="ibtvc" />
-
     <xaml:RoleGroupNameConverter x:Key="RoleGroupNameConverter" />
     <xaml:InterfaceGroupNameConverter x:Key="InterfaceGroupNameConverter" />
     <xaml:NameToImageConverter x:Key="NameToImageConverter" />
