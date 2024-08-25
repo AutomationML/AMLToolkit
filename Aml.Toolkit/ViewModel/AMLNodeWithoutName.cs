@@ -1,4 +1,5 @@
-﻿using Aml.Engine.CAEX;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using Aml.Engine.CAEX;
 using Aml.Engine.Xml.Extensions;
 using System.Linq;
 using System.Xml.Linq;

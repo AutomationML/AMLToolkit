@@ -1,4 +1,5 @@
-﻿using Aml.Engine.CAEX;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using Aml.Engine.CAEX;
 using Aml.Toolkit.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -36,12 +37,9 @@ public class AMLTreeViewSearch : Control
     {
         get
         {
-            if (AmlTreeView.TreeViewModel.CAEXTagNames.Contains(CAEX_CLASSModel_TagNames.INSTANCEHIERARCHY_STRING))
-            {
-                return "Instance Hierarchies";
-            }
-
-            return AmlTreeView.TreeViewModel.CAEXTagNames.Contains(CAEX_CLASSModel_TagNames.SYSTEMUNITCLASSLIB_STRING)
+            return AmlTreeView.TreeViewModel.CAEXTagNames.Contains(CAEX_CLASSModel_TagNames.INSTANCEHIERARCHY_STRING)
+                ? "Instance Hierarchies"
+                : AmlTreeView.TreeViewModel.CAEXTagNames.Contains(CAEX_CLASSModel_TagNames.SYSTEMUNITCLASSLIB_STRING)
                 ? "SystemUnitClass Libraries"
                 : AmlTreeView.TreeViewModel.CAEXTagNames.Contains(CAEX_CLASSModel_TagNames.ROLECLASSLIB_STRING)
                 ? "RoleClass Libraries"

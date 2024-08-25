@@ -1,17 +1,4 @@
-﻿// ***********************************************************************
-// Assembly         : Aml.Toolkit
-// Author           : Josef Prinz
-// Created          : 07-21-2015
-//
-// Last Modified By : Josef Prinz
-// Last Modified On : 07-21-2015
-// ***********************************************************************
-// <copyright file="AmlNodeGroupFilter.cs" company="AutomationML e.V.">
-//     Copyright © AutomationML e.V. 2015
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
-
+﻿// Copyright (c) 2017 AutomationML e.V.
 using System;
 using System.Collections.Generic;
 using System.Linq;

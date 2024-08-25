@@ -1,4 +1,5 @@
-﻿namespace Aml.Toolkit.ViewModel.Graph;
+﻿// Copyright (c) 2017 AutomationML e.V.
+namespace Aml.Toolkit.ViewModel.Graph;
 
 internal class Vertex
 {

@@ -1,4 +1,5 @@
-﻿using Aml.Editor.MVVMBase;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using Aml.Editor.MVVMBase;
 using Aml.Editor.Plugin.Contracts;
 using Aml.Engine.CAEX;
 using Aml.Engine.CAEX.Extensions;

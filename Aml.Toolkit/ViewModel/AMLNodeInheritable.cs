@@ -1,14 +1,4 @@
-﻿// ***********************************************************************
-// Assembly : Aml.Toolkit
-// Author   : Josef Prinz Created : 03-09-2015
-//
-// Last Modified By : Josef Prinz Last Modified On : 03-09-2015
-// ***********************************************************************
-// <copyright file="AMLNodeWithClassReference.cs" company="inpro">
-//    Copyright (c) AutomationML e.V.. All rights reserved.
-// </copyright>
-// ***********************************************************************
-
+﻿// Copyright (c) 2017 AutomationML e.V.
 using Aml.Engine.AmlObjects.Extensions;
 using Aml.Engine.CAEX;
 using Aml.Engine.CAEX.Extensions;

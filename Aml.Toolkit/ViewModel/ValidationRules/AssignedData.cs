@@ -1,4 +1,5 @@
-﻿using Aml.Engine.CAEX;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using Aml.Engine.CAEX;
 using System.Windows;
 
 namespace Aml.Toolkit.ViewModel.ValidationRules;

@@ -1,4 +1,6 @@
-﻿//----------------------------------------------------------------------------
+﻿// Copyright (c) 2017 AutomationML e.V.
+
+//----------------------------------------------------------------------------
 //
 // Description: Implementation of an Collection<T> implementing INotifyCollectionChanged
 //              to notify listeners of dynamic changes of the list. In addition these
@@ -367,7 +369,7 @@ public sealed class ObservableCollectionEx<T> : Collection<T>, INotifyCollection
     /// </summary>
     /// <returns>ObservableCollectionEx</returns>
     public ObservableCollectionEx<T> DelayNotifications() =>
-        new ObservableCollectionEx<T>(null == _notifyInfo ? this : _notifyInfo.RootCollection, true);
+        new(null == _notifyInfo ? this : _notifyInfo.RootCollection, true);
 
     /// <summary>
     ///     Returns a wrapper instance of an ObservableCollectionEx class.
@@ -376,7 +378,7 @@ public sealed class ObservableCollectionEx<T> : Collection<T>, INotifyCollection
     /// </summary>
     /// <returns>ObservableCollectionEx</returns>
     public ObservableCollectionEx<T> DisableNotifications() =>
-        new ObservableCollectionEx<T>(null == _notifyInfo ? this : _notifyInfo.RootCollection, false);
+        new(null == _notifyInfo ? this : _notifyInfo.RootCollection, false);
 
     #endregion Public Methods
 

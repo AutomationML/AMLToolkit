@@ -1,17 +1,4 @@
-﻿// ***********************************************************************
-// Assembly         : AMLEditorUIControls
-// Author           : Josef Prinz
-// Created          : 04-21-2016
-//
-// Last Modified By : Josef Prinz
-// Last Modified On : 04-21-2016
-// ***********************************************************************
-// <copyright file="ItemOperations.cs" company="inpro">
-//     Copyright © inpro 2016
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
-
+﻿// Copyright (c) 2017 AutomationML e.V.
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;

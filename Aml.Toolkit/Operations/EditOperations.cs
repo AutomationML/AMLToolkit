@@ -1,4 +1,5 @@
-﻿using Aml.Toolkit.Properties;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using Aml.Toolkit.Properties;
 using System.Windows.Input;
 
 namespace Aml.Toolkit.Operations;

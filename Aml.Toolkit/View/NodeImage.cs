@@ -1,4 +1,5 @@
-﻿using Aml.Toolkit.ViewModel;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using Aml.Toolkit.ViewModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;

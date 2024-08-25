@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using System.Collections.Generic;
 
 namespace Aml.Toolkit.ViewModel;
 

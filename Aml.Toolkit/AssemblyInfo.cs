@@ -1,3 +1,4 @@
+// Copyright (c) 2017 AutomationML e.V.
 using System.Windows;
 using System.Windows.Markup;
 

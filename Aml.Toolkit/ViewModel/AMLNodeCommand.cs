@@ -1,4 +1,5 @@
-﻿using Aml.Editor.MVVMBase;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using Aml.Editor.MVVMBase;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 

@@ -1,4 +1,5 @@
-﻿using Aml.Toolkit.ViewModel.Graph;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using Aml.Toolkit.ViewModel.Graph;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;

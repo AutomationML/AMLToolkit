@@ -12,7 +12,7 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Description>The Aml.Toolkit provides basic UI controls based on WPF to visualize AutomationML data. The Toolkit is used in the AutomationML Editor and is available to implement PlugIns for the AutomationML Editor.</Description>
 		<Company>AutomationML</Company>
-		<Copyright>AutomationML e.V. 2017-2022</Copyright>
+		<Copyright>AutomationML e.V. 2017</Copyright>
 		<PackageProjectUrl>https://www.automationml.org</PackageProjectUrl>
 		<PackageIcon>AML.png</PackageIcon>
 		<RepositoryUrl>https://github.com/AutomationML/AMLToolkit</RepositoryUrl>

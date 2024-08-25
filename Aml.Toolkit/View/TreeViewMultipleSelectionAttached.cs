@@ -1,19 +1,4 @@
-﻿// ***********************************************************************
-// Assembly         : AMLEditorUIControls
-// Author           : Josef Prinz
-// Created          : 05-04-2016
-//
-// Last Modified By : Josef Prinz
-// Last Modified On : 05-04-2016
-// ***********************************************************************
-// <copyright file="MultipleSelectionTreeView.cs" company="inpro">
-//     Copyright © inpro 2016
-// </copyright>
-// <summary>This solution is copied from this
-// <a href="http://chrigas.blogspot.de/2014/08/wpf-treeview-with-multiple-selection.html">blog</a>.
-// </summary>
-// ***********************************************************************
-
+﻿// Copyright (c) 2017 AutomationML e.V.
 using Aml.Toolkit.ViewModel;
 using Aml.Toolkit.XamlClasses;
 using System.Collections;

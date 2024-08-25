@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using System;
 
 namespace Aml.Toolkit.ViewModel.Graph;
 

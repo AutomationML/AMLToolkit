@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using System.Runtime.CompilerServices;
 
 namespace Aml.Toolkit.View;
 

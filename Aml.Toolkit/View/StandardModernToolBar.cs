@@ -1,17 +1,4 @@
-﻿// ***********************************************************************
-// Assembly         : WPFUIControls
-// Author           : prinz
-// Created          : 06-27-2014
-//
-// Last Modified By : prinz
-// Last Modified On : 06-27-2014
-// ***********************************************************************
-// <copyright file="StandardModernToolBar.cs" company="inpro">
-//     Copyright (c) inpro. All rights reserved.
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
-
+﻿// Copyright (c) 2017 AutomationML e.V.
 using Aml.Toolkit.Operations;
 using System;
 using System.Windows;

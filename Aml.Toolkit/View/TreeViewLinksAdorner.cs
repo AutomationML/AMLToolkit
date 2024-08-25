@@ -1,14 +1,4 @@
-﻿// *********************************************************************** Assembly : Aml.Toolkit
-// Author : Josef Prinz Created : 03-10-2015
-//
-// Last Modified By : Josef Prinz Last Modified On : 04-23-2015 ***********************************************************************
-// <copyright file="AMLTreeView.cs" company="AutomationML e.V.">
-//     Copyright © AutomationML e.V. 2015
-// </copyright>
-// <summary>
-// </summary>
-// ***********************************************************************
-
+﻿// Copyright (c) 2017 AutomationML e.V.
 using Aml.Engine.CAEX;
 using Aml.Toolkit.ViewModel;
 using Aml.Toolkit.ViewModel.Graph;

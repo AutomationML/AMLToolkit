@@ -1,17 +1,4 @@
-﻿// ***********************************************************************
-// Assembly         : AMLEditor
-// Author           : Josef Prinz
-// Created          : 01-23-2015
-//
-// Last Modified By : Josef Prinz
-// Last Modified On : 01-24-2015
-// ***********************************************************************
-// <copyright file="AmlSearchViewModel.cs" organization="AutomationML e.V.">
-//     Copyright (c) AutomationML e.V.  All rights reserved.
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
-
+﻿// Copyright (c) 2017 AutomationML e.V.
 using Aml.Editor.MVVMBase;
 using Aml.Editor.Plugin.Contract.Commanding;
 using Aml.Editor.Plugin.Contracts;

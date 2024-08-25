@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using System.Windows;
 
 namespace Aml.Toolkit.XamlClasses;
 

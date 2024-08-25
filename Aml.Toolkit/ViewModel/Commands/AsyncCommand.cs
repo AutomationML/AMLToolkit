@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -58,7 +59,7 @@ public static class AsyncCommand
     /// <param name="action">The Action.</param>
     /// <returns></returns>
     public static AsyncCommand<TResult> Create<TResult>(Func<CancellationToken, Task<TResult>> action) =>
-        new AsyncCommand<TResult>(action);
+        new(action);
 
     #endregion Public Methods
 }

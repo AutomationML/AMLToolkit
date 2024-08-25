@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using System.Xml.Linq;
 
 namespace Aml.Toolkit.ViewModel;
 

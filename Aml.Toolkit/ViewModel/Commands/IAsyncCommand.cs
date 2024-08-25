@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Aml.Toolkit.ViewModel.Commands;

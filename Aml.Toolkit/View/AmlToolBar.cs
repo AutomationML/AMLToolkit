@@ -1,4 +1,5 @@
-﻿using Aml.Toolkit.Operations;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using Aml.Toolkit.Operations;
 using System.Windows;
 
 namespace Aml.Toolkit.View;

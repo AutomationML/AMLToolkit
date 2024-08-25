@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using System.Windows.Controls;
 
 namespace Aml.Toolkit.ViewModel.ValidationRules;
 

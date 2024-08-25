@@ -1,16 +1,4 @@
-﻿// ***********************************************************************
-// Assembly :
-// Aml.Toolkit Author : Josef Prinz Created : 03-09-2015
-//
-// Last Modified By : Josef Prinz Last Modified On : 03-09-2015
-// ***********************************************************************
-// <copyright file="AMLLayout.cs" company="inpro">
-//    Copyright (c) AutomationML e.V.. All rights reserved.
-// </copyright>
-// <summary>
-//    </summary>
-// ***********************************************************************
-
+﻿// Copyright (c) 2017 AutomationML e.V.
 using Aml.Editor.MVVMBase;
 using System.Collections.ObjectModel;
 using System.Linq;

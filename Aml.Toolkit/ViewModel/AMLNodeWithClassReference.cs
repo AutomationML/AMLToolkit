@@ -1,4 +1,5 @@
-﻿using Aml.Engine.AmlObjects;
+﻿// Copyright (c) 2017 AutomationML e.V.
+using Aml.Engine.AmlObjects;
 using Aml.Engine.CAEX;
 using Aml.Engine.CAEX.Extensions;
 using Aml.Engine.Services;
