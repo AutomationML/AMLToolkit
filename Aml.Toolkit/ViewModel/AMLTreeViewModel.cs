@@ -661,7 +661,8 @@ public class AMLTreeViewModel : AMLNodeViewModel
     /// <param name="node"></param>
     public static void SetVerified(AMLNodeViewModel node)
     {
-        node?.RefreshNodeInformation(false);
+        node?.RaisePropertyChanged(nameof(IsVerified)); 
+        node?.RaisePropertyChanged(nameof(IsNotVerified));
     }
 
 
@@ -755,7 +756,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
                 continue;
             }
 
-            var foundInTree = FindTreeViewItemInTree(item.Children.ToList(), XElement);
+            var foundInTree = FindTreeViewItemInTree([.. item.Children], XElement);
             if (foundInTree != null)
             {
                 return foundInTree;
@@ -808,7 +809,11 @@ public class AMLTreeViewModel : AMLNodeViewModel
     /// </summary>
     /// <param name="caexObject"></param>
     /// <returns></returns>
-    protected internal virtual bool? GetVerificationState(CAEXObject caexObject) => null;
+    protected internal virtual bool? GetVerificationState(CAEXObject caexObject, out string service)
+    {
+        service = null;
+        return null;
+    }
 
     /// <summary>
     ///     Selects the link.
@@ -1074,7 +1079,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
                 if (e.CAEXElement.IsInternalLink())
                 {
                     var refs = e.CAEXElement.IDReferenceAttributes();
-                    if (refs.Any())
+                    if (refs.Length>0)
                     {
                         foreach (var reference in refs)
                         {

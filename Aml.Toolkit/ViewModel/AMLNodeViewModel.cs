@@ -540,7 +540,33 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// <value>
     ///     <c>true</c> if this instance is verified; otherwise, <c>false</c>.
     /// </value>
-    public virtual bool IsVerified => Tree?.GetVerificationState(CAEXObject as CAEXObject) == true;
+    public virtual bool IsVerified
+    {
+        get
+        {
+            string service = "";
+            var isVerified = Tree?.GetVerificationState(CAEXObject as CAEXObject, out service) == true;
+            VerifiedToolTip = $"Object is signed and digital verified by {service}.";
+            return isVerified;
+        }
+    }
+
+
+
+    /// <summary>
+    ///  <see cref="VerifiedToolTip"/>
+    /// </summary>    
+    private string _verifiedToolTip;
+
+    /// <summary>
+    ///  Gets and sets the VerifiedToolTip
+    /// </summary>
+    public string VerifiedToolTip
+    {
+        get => _verifiedToolTip;
+        set => Set(ref _verifiedToolTip, value);
+    }
+
 
     /// <summary>
     ///     Gets a value indicating whether this instance is verified.
@@ -548,7 +574,14 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// <value>
     ///     <c>true</c> if this instance is verified; otherwise, <c>false</c>.
     /// </value>
-    public virtual bool IsNotVerified => Tree?.GetVerificationState(CAEXObject as CAEXObject) == false;
+    public virtual bool IsNotVerified
+    {
+        get
+        {
+            var isNotVerified = Tree?.GetVerificationState(CAEXObject as CAEXObject, out _) == false;
+            return isNotVerified;
+        }
+    }
 
     /// <summary>
     ///     Gets a value indicating whether this instance is derived.

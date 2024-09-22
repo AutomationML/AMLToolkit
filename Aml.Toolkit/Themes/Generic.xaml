@@ -1052,7 +1052,7 @@
                             VerticalAlignment="Top"
                             Focusable="False"
                             Source="/Aml.Toolkit;component/Resource/verified.png"
-                            ToolTip="Object is signed and digital verified."
+                            ToolTip="{Binding VerifiedToolTip}"
                             Visibility="{Binding IsVerified, FallbackValue=Collapsed, Converter={StaticResource btvc}}" />
 
                         <Image
@@ -1063,7 +1063,7 @@
                             Focusable="False"
                             Opacity="0.9"
                             Source="/Aml.Toolkit;component/Resource/notverified.png"
-                            ToolTip="Object signature not verified."
+                            ToolTip="Digital Signature not verified as valid."
                             Visibility="{Binding IsNotVerified, FallbackValue=Collapsed, Converter={StaticResource btvc}}" />
 
                         <ContentPresenter
