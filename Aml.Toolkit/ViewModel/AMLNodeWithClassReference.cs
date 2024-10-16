@@ -143,6 +143,11 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     {
         get
         {
+            if (IsDerived)
+            {
+                return false;
+            }
+
             if (CAEXObject is ExternalInterfaceType { AssociatedObject: SystemUnitClassType } ie)
             {
                 // ToDo check if any class is visible
@@ -371,6 +376,10 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     /// <param name="withMirrors"></param>
     public void UpdateLinks(bool show, bool invalidate = false, bool force = false, bool withMirrors = true)
     {
+        if (IsDerived)
+        {
+            return;
+        }
         //_ = new Action(() =>
         //      {
         RaisePropertyChanged(nameof(MinCardinalityWarn));

@@ -516,7 +516,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
     {
         var names = node.CAEXTagNames;
 
-        var children = AMLTreeViewModel.ModelChilds(node.CAEXObject, names, node.IsDerived, node.ShowMirrorData, node.ShowInheritance,
+        var children = ModelChilds(node.CAEXObject, names, node.IsDerived, node.ShowMirrorData, node.ShowInheritance,
             expand);
         node.HasChilds = children.Any();
 
@@ -808,6 +808,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
     /// <summary>
     /// </summary>
     /// <param name="caexObject"></param>
+    /// <param name="service"></param>
     /// <returns></returns>
     protected internal virtual bool? GetVerificationState(CAEXObject caexObject, out string service)
     {
@@ -1392,7 +1393,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
             var master = mirror.Master;
             if (master != null)
             {
-                return AMLTreeViewModel.ModelChilds(master, names, false, true, showInheritance, expand);
+                return ModelChilds(master, names, false, true, showInheritance, expand);
             }
         }
 
