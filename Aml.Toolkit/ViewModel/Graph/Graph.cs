@@ -732,7 +732,7 @@ public class IlGraph
         if (tFrom == null)
         {
             a.X = d.X;
-            var firstNode = ((AMLTreeViewModel)treeView.DataContext).FirstNode(from, to);
+            var firstNode = treeView.TreeViewModel.FirstNode(from, to);
 
             a.Y = firstNode.Equals(to) ? treeView.ActualHeight : -10;
         }
@@ -740,7 +740,7 @@ public class IlGraph
         if (tTo == null)
         {
             d.X = a.X;
-            var firstNode = ((AMLTreeViewModel)treeView.DataContext).FirstNode(from, to);
+            var firstNode = treeView.TreeViewModel.FirstNode(from, to);
 
             d.Y = firstNode.Equals(from) ? treeView.ActualHeight : -10;
         }

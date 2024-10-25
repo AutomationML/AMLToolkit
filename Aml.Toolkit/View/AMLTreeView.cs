@@ -225,7 +225,11 @@ public class AMLTreeView : Control
     public AMLTreeViewModel TreeViewModel
     {
         get => (AMLTreeViewModel)GetValue(TreeViewModelProperty);
-        set => SetValue(TreeViewModelProperty, value);
+        set
+        {
+            SetValue(TreeViewModelProperty, value);
+            DataContext = value;
+        }
     }
 
     #endregion Public Properties
@@ -561,6 +565,7 @@ public class AMLTreeView : Control
             //PropertyChangedEventManager.AddHandler(aMLTreeViewModel.TreeViewLayout, TreeViewLayoutChanged, nameof(AMLLayout.ShowLinkLines));
 
             aMLTreeViewModel.View = this;
+            //DataContext = aMLTreeViewModel;
         }
         else
         {
