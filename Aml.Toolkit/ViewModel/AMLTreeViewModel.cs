@@ -1036,6 +1036,12 @@ public class AMLTreeViewModel : AMLNodeViewModel
                 return;
             }
 
+            if (e.CAEXAttributeName is CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REF_PARTNER_SIDE_A or
+                    CAEX_CLASSModel_TagNames.ATTRIBUTE_NAME_REF_PARTNER_SIDE_B)
+            { 
+               ;
+            }
+
 
             foreach (var treeNode in treeNodes.ToList())
             {

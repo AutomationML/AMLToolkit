@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-windows;net7.0-windows</TargetFrameworks>
+		<TargetFrameworks>net6.0-windows;net8.0-windows</TargetFrameworks>
 		<Authors>Josef Prinz</Authors>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>disable</Nullable>
@@ -35,15 +35,14 @@
 	<ItemGroup>
 	  <None Remove="Resources\appbar.flag.png" />
 	</ItemGroup>
-
+		
 	<ItemGroup>
-	  <ProjectReference Include="..\Aml.Toolkit\Aml.Toolkit.csproj" />	
-	  <ProjectReference Include="..\..\AMLEditorSkins\Aml.Skins.csproj" />
-	  <ProjectReference Include="..\..\Aml.Engine\Aml.Engine\Aml.Engine.csproj" />
+	  <PackageReference Include="MahApps.Metro" Version="3.0.0-alpha0513" />
+	  <PackageReference Include="System.Text.Json" Version="8.0.5" />
 	</ItemGroup>
 		
 	<ItemGroup>
-	  <PackageReference Include="MahApps.Metro" Version="3.0.0-alpha0492" />
+	  <ProjectReference Include="..\Aml.Toolkit\Aml.Toolkit.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

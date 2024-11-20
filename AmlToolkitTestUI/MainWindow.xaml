@@ -9,9 +9,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-       
+        </Grid.RowDefinitions>       
 
         <ToolBar >
             <Button Click="Undo_Click" IsEnabled="{Binding CanUndo}">Undo</Button>

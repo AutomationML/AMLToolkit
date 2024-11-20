@@ -29,7 +29,7 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
-		<Version>5.1.0</Version>
+		<Version>5.2.0</Version>
 		<Platforms>AnyCPU;x64</Platforms>
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<Configurations>Debug;Release;ReleaseTest</Configurations>
@@ -131,18 +131,15 @@
 		</None>
 	</ItemGroup>
 
-
 	<ItemGroup>
-		<PackageReference Include="MahApps.Metro" Version="3.0.0-alpha0492" />
-		<PackageReference Include="MahApps.Metro.IconPacks" Version="5.0.0" />
+		<PackageReference Include="MahApps.Metro.IconPacks" Version="5.1.0" />
 	</ItemGroup>
 
-
 	<ItemGroup>
-		<ProjectReference Include="..\..\Aml.Editor.API\Aml.Editor.Plugin\Aml.Editor.Plugin.Contract.csproj" />
-		<ProjectReference Include="..\..\AMLEditorSkins\Aml.Skins.csproj" />
-		<ProjectReference Include="..\..\Aml.Engine\Aml.Engine.Services\Aml.Engine.Services.csproj" />
-		<ProjectReference Include="..\..\Aml.Engine\Aml.Engine\Aml.Engine.csproj" />
+	  <ProjectReference Include="..\..\Aml.Editor.API\Aml.Editor.Plugin\Aml.Editor.Plugin.Contract.csproj" />
+	  <ProjectReference Include="..\..\Aml.Engine\Aml.Engine.Services\Aml.Engine.Services.csproj" />
+	  <ProjectReference Include="..\..\Aml.Engine\Aml.Engine\Aml.Engine.csproj" />
+	  <ProjectReference Include="..\..\AMLEditorSkins\Aml.Skins.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Forms.Integration;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml.Linq;
@@ -1299,7 +1300,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
 
             foreach (var obsoleteChild in obsoletes)
             {
-                RemoveNode(obsoleteChild);
+                obsoleteChild.RemoveNode();
                 treeChanged = true;
             }
 
@@ -1451,33 +1452,42 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         _isUpdating = false;
     }
 
+    private void RemoveVertex ()
+    {
+        Tree.AmlTreeView?.InternalLinksAdorner?.RemoveVertex(this);
+        foreach (var child in Children)
+        {
+            child.RemoveVertex();
+        }
+    }
+
     /// <summary>
     ///     Removes the node.
     /// </summary>
-    /// <param name="node">The node.</param>
-    public void RemoveNode(AMLNodeViewModel node)
+    public void RemoveNode()
     {
-        if (node.IsSelected)
+        if (IsSelected)
         {
-            _ = Tree.SelectedElements.Remove(node);
-            node.IsSelected = false;
+            _ = Tree.SelectedElements.Remove(this);
         }
 
-        _ = node.Parent.Children.Remove(node);
-        if (node.Parent is AMLNodeGroupViewModel && node.Parent.Children.Count == 0)
+        
+        RemoveVertex();
+        _ = Parent?.Children.Remove(this);
+        Tree.AmlTreeView?.InternalLinksAdorner?.InvalidateMeasure();
+        if (Parent is AMLNodeGroupViewModel && Parent.Children.Count == 0)
         {
-            node.Parent.IsVisible = false;
+            Parent.IsVisible = false;
         }
 
-        Tree.AmlTreeView?.InternalLinksAdorner?.RemoveVertex(node);
 
-        if (!node.Parent.HasChilds)
+        if (Parent?.HasChilds == false)
         {
             //node.Parent._childrenCollection.Source = _emptyChildren;
-            Children.Clear();
+            Parent?.Children.Clear();
         }
 
-        RaisePropertyChanged(nameof(HasDummyChild));
+        Parent?.RaisePropertyChanged(nameof(HasDummyChild));
     }
 
     #endregion Public Methods

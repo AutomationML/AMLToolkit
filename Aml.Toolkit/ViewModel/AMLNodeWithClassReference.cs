@@ -306,6 +306,7 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
             }
 
             _showLinks = false;
+            //UpdateLinks(false, true);
             RaisePropertyChanged(nameof(ShowLinks));
             //      }
             //).OnUIThread();
