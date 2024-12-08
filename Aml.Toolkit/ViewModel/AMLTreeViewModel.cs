@@ -1824,8 +1824,8 @@ public class AMLTreeViewModel : AMLNodeViewModel
                 }
                 treeNode.RefreshNodeInformation(false);
             }
-            if (updateArgs.Reference?.Parent == null ||
-                (treeNode = FindTreeViewItemInTree(Root.Children, updateArgs.Reference?.Parent)) == null)
+            if (updateArgs.CaexReference?.CaexObject == null ||
+                (treeNode = FindTreeViewItemInTree(Root.Children, updateArgs.CaexReference?.CaexObject?.Node)) == null)
             {
                 return;
             }
