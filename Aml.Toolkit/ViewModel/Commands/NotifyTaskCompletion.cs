@@ -9,7 +9,11 @@ namespace Aml.Toolkit.ViewModel.Commands;
 ///     This class was originally published at   https://msdn.microsoft.com/magazine/dn605875
 /// </summary>
 /// <typeparam name="TResult"></typeparam>
-public sealed class NotifyTaskCompletion<TResult> : INotifyPropertyChanged
+/// <remarks>
+///     Initializes a new instance of the <see cref="NotifyTaskCompletion{TResult}" /> class.
+/// </remarks>
+/// <param name="task">The task.</param>
+public sealed class NotifyTaskCompletion<TResult>(Task<TResult> task) : INotifyPropertyChanged
 {
     #region Public Events
 
@@ -19,21 +23,7 @@ public sealed class NotifyTaskCompletion<TResult> : INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
 
     #endregion Public Events
-
     #region Public Constructors
-
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="NotifyTaskCompletion{TResult}" /> class.
-    /// </summary>
-    /// <param name="task">The task.</param>
-    public NotifyTaskCompletion(Task<TResult> task)
-    {
-        Task = task;
-        //if (!task.IsCompleted)
-        //{
-        //    var _ = WatchTaskAsync(task);
-        //}
-    }
 
     /// <summary>
     ///     Async activation of the task
@@ -146,7 +136,7 @@ public sealed class NotifyTaskCompletion<TResult> : INotifyPropertyChanged
     /// <value>
     ///     The task.
     /// </value>
-    public Task<TResult> Task { get; }
+    public Task<TResult> Task { get; } = task;
 
     /// <summary>
     ///     Gets the task completion.
