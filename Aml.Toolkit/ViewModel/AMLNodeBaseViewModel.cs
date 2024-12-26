@@ -2,6 +2,7 @@
 using Aml.Editor.MVVMBase;
 using System;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Aml.Toolkit.ViewModel;
 
@@ -62,6 +63,7 @@ public abstract class AMLNodeBaseViewModel : ViewModelBase
         set => Set(ref _isExpanded, value);
     }
 
+   
     /// <summary>
     ///     Gets or sets a value indicating whether this instance should always expand all children.
     /// </summary>

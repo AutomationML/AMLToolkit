@@ -606,6 +606,11 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
                 return;
             }
 
+            if (IsInEditMode)
+            {
+                return;
+            }
+
             _ = Expand(value);
             RaisePropertyChanged();
             //RaisePropertyChanged(nameof( ChildrenView);
