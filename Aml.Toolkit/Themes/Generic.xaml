@@ -1338,6 +1338,11 @@
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.Gray9}" />
             </Trigger>
+
+            <DataTrigger Binding="{Binding Root}" Value="{x:Null}">
+                <Setter Property="Background" Value="Gray" />
+                <Setter Property="Opacity" Value="0.2" />
+            </DataTrigger>
         </Style.Triggers>
     </Style>
 
@@ -1452,6 +1457,9 @@
                                             <DataTrigger Binding="{Binding IsDerived}" Value="True">
                                                 <Setter Property="ToolTip" Value="This object is inherited from a base class." />
                                             </DataTrigger>
+
+
+
 
                                             <DataTrigger Binding="{Binding IsMarked}" Value="True">
                                                 <Setter Property="Opacity" Value="0.8" />
