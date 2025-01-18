@@ -1381,7 +1381,6 @@
 
                                     <Style BasedOn="{StaticResource MahApps.Styles.TreeViewItem}" TargetType="{x:Type TreeViewItem}">
                                         <Setter Property="Focusable" Value="True" />
-                                        <EventSetter Event="MouseLeftButtonDown" Handler="OnMouseLeftButtonDown" />
                                         <EventSetter Event="MouseDoubleClick" Handler="OnMouseDoubleClick" />
                                         <!--<EventSetter Event="MouseLeftButtonDown" Handler="OnMouseLeftButtonDown"></EventSetter>-->
                                         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
