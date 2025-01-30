@@ -10,6 +10,7 @@ using Aml.Toolkit.ViewModel.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.Design.Serialization;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -53,6 +54,9 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     }
 
     #endregion Private Constructors
+
+
+
 
     internal AMLNodeViewModel FirstNode(AMLNodeViewModel from, AMLNodeViewModel to)
     {
@@ -390,6 +394,23 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         set => Set(ref _borderColor, value);
     }
 
+
+
+    /// <summary>
+    ///  <see cref="IsExtension"/>
+    /// </summary>    
+    private bool _isExtension;
+
+    /// <summary>
+    ///  Gets and sets the IsExtension
+    /// </summary>
+    public bool IsExtension
+    {
+        get => _isExtension;
+        set => Set(ref _isExtension, value);
+    }
+
+
     /// <summary>
     ///     Gets the CAEXNode
     /// </summary>
@@ -502,7 +523,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     ///     Returns true if this object's Children have not yet been populated.
     /// </summary>
     /// <value><c>true</c> if this instance has dummy child; otherwise, <c>false</c>.</value>
-    public bool HasDummyChild => ReferenceEquals(_childrenCollection.Source, _lazyLoadChildrenWithDummy);
+    public bool HasDummyChild => !IsExtension && ReferenceEquals(_childrenCollection.Source, _lazyLoadChildrenWithDummy);
 
     /// <summary>
     ///     Gets a value indicating whether this instance has new version.
@@ -719,7 +740,7 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
     /// <value>
     ///     <c>true</c> if this instance is read only; otherwise, <c>false</c>.
     /// </value>
-    public virtual bool IsReadonly => IsDerived || IsFacetted;
+    public virtual bool IsReadonly => IsExtension || IsDerived || IsFacetted;
 
     /// <summary>
     ///     Gets a value indicating whether this instance is a mirrored item.
@@ -1699,8 +1720,14 @@ public class AMLNodeViewModel : AMLNodeBaseViewModel, ITreeNode
         //vm.IsFiltered = true;
         vm.Tree = Tree;
         vm.NodeIndex = index++;
+        //vm.IsExtension = (node.Document != CAEXNode.Document);
         //vm.IsVisible = vm.IsVisible && Tree.NodeFilters.Filter(vm);
         //vm.IsFiltered = false;
+        //if (vm.IsExtension)
+        //{
+        //    vm.HasChilds = false;
+            
+        //}
         return vm;
     }
 

@@ -81,6 +81,7 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     public string ClassPathReferenceAttribute { get; set; }
 
 
+    protected string NormalizedReference (string reference) => CAEXPathBuilder.NormalizePath(reference, out _, CAEXObject.CAEXSchema());
 
     /// <summary>
     ///     Gets and sets the ClassReference
@@ -101,7 +102,9 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
             }
 
             var reference = CAEXNode.Attribute(ClassPathReferenceAttribute)?.Value;
-            return !string.IsNullOrEmpty(reference) ? reference.Split('/').Last() : null;
+
+            
+            return !string.IsNullOrEmpty(reference) ? NormalizedReference(reference.Split('/').Last()) : null;
         }
     }
 

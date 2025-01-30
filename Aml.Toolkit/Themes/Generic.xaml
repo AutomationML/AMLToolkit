@@ -64,9 +64,24 @@
                 <Setter Property="Width" Value="60" />
                 <Setter Property="TextAlignment" Value="Center" />
             </Trigger>
-            <DataTrigger Binding="{Binding IsReadonly}" Value="True">
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsReadonly}" Value="True" />
+                    <Condition Binding="{Binding IsExtension}" Value="False" />
+                </MultiDataTrigger.Conditions>
                 <Setter Property="Foreground" Value="{StaticResource ReadOnlyForegroundBrush}" />
-            </DataTrigger>
+            </MultiDataTrigger>
+
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsReadonly}" Value="True" />
+                    <Condition Binding="{Binding IsExtension}" Value="True" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Opacity" Value="0.6" />
+            </MultiDataTrigger>
+
             <DataTrigger Binding="{Binding IsMirrored}" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource MirrorItemForegroundBrush}" />
             </DataTrigger>
@@ -1383,6 +1398,7 @@
                                         <Setter Property="Focusable" Value="True" />
                                         <EventSetter Event="MouseDoubleClick" Handler="OnMouseDoubleClick" />
                                         <!--<EventSetter Event="MouseLeftButtonDown" Handler="OnMouseLeftButtonDown"></EventSetter>-->
+
                                         <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                                         <Setter Property="VerticalAlignment" Value="Center" />

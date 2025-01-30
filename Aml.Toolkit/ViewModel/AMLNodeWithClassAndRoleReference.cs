@@ -185,7 +185,7 @@ public class AMLNodeWithClassAndRoleReference : AMLNodeInheritable
 
             var refs = suc.RoleReferences.Select(r =>
                     r.RoleReference != null
-                        ? r.RoleReference.Substring(r.RoleReference.LastIndexOf('/') + 1)
+                        ? NormalizedReference( r.RoleReference.Substring(r.RoleReference.LastIndexOf('/') + 1))
                         : "")
                 .Distinct();
 

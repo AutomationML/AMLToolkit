@@ -1,5 +1,6 @@
 ﻿// Copyright (c) 2017 AutomationML e.V.
 using Aml.Engine.CAEX;
+using Aml.Engine.CAEX.Extensions;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -232,7 +233,7 @@ public class AMLNodeGroupViewModel : AMLNodeViewModel
     public override string Name
     {
         get => CAEXObject is IObjectWithRoleReference irole
-            ? ShortNameFromReference(irole.RoleReference)
+            ?  ShortNameFromReference(irole.RoleReference)
             : base.Name;
         set => base.Name = value;
     }
@@ -381,7 +382,8 @@ public class AMLNodeGroupViewModel : AMLNodeViewModel
     /// </summary>
     /// <param name="reference"></param>
     /// <returns></returns>
-    private static string ShortNameFromReference(string reference) => Path.GetFileNameWithoutExtension(reference);
+    private string ShortNameFromReference(string reference) =>
+       CAEXPathBuilder.NormalizePath(Path.GetFileNameWithoutExtension(reference), out _, CAEXObject.CAEXSchema());
 
     #endregion Private Methods
 }
