@@ -1484,32 +1484,32 @@ public class AMLTreeViewModel : AMLNodeViewModel
 
         //return;
 
-        lock (_selectionNotifications)
-        {
-            if (_selectionNotifications.Count == 0)
-            {
-                if (SelectionChanged != null)
-                {
-                    var operation = Execute.OnUIThread(() =>
-                        SelectionChanged?.Invoke(this, new AmlNodeEventArgs(aMLNodeViewModel)));
-                    if (operation != null)
-                    {
-                        _selectionNotifications.Push(aMLNodeViewModel);
-                        operation.Completed += SelectionOperationCompleted;
-                    }
-                }
+        SelectionChanged?.Invoke(this, new AmlNodeEventArgs(aMLNodeViewModel));
 
+        //lock (_selectionNotifications)
+        //{
+        //    if (_selectionNotifications.Count == 0)
+        //    {
+        //        if (SelectionChanged != null)
+        //        {
+        //            var operation = Execute.OnUIThread(() =>
+        //                SelectionChanged?.Invoke(this, new AmlNodeEventArgs(aMLNodeViewModel)));
+        //            if (operation != null)
+        //            {
+        //                _selectionNotifications.Push(aMLNodeViewModel);
+        //                operation.Completed += SelectionOperationCompleted;
+        //            }
+        //        }
 
-
-                RaisePropertyChanged(nameof(SelectedCAEXObject));
-                RaisePropertyChanged(nameof(SelectedElement));
-                RaisePropertyChanged(nameof(SelectedNode));
-            }
-            else if (_selectionNotifications.Count > 0)
-            {
-                _selectionNotifications.Push(aMLNodeViewModel);
-            }
-        }
+        //        RaisePropertyChanged(nameof(SelectedCAEXObject));
+        //        RaisePropertyChanged(nameof(SelectedElement));
+        //        RaisePropertyChanged(nameof(SelectedNode));
+        //    }
+        //    else if (_selectionNotifications.Count > 0)
+        //    {
+        //        _selectionNotifications.Push(aMLNodeViewModel);
+        //    }
+        //}
     }
 
     /// <summary>
