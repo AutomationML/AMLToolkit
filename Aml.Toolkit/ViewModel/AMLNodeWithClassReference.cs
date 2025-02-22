@@ -207,7 +207,7 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     {
         get
         {
-            return CAEXObject is ExternalInterfaceType ie ? ie.MinCardinalityViolation() ? "!" : "" : "";
+            return CAEXObject is ExternalInterfaceType ie ? ie.MinCardinalityViolation() ? "!" : null : null;
         }
     }
 
@@ -221,8 +221,18 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     {
         get
         {
-            return CAEXObject is ExternalInterfaceType ie ? ie.MaxCardinality()?.ToString() ?? "n" : "";
+            return CAEXObject is ExternalInterfaceType ie 
+                ? CardinalityString(ie.MaxCardinality()) : "";
         }
+    }
+
+    private string CardinalityString (int? value)
+    {
+        if (value == int.MaxValue )
+        {
+            return "n";
+        }
+        return value?.ToString() ?? null;
     }
 
     /// <summary>

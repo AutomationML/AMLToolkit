@@ -356,12 +356,13 @@ public class AMLTreeView : Control
 
             var parents = new Stack<AMLNodeViewModel>();
 
-            if (node == null)
+            if (node == null || node.Tree == null)
             {
                 return;
             }
 
-            while (node.Tree.Root != node.Parent)
+            while (node != null && node.Tree != null && 
+                node.Tree.Root != node.Parent)
             {
                 parents.Push(node);
                 node = node.Parent;

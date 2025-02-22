@@ -79,11 +79,11 @@ public class BringVirtualTreeViewItemIntoViewBehavior
                     // This is raised when the item in the path array is not part of the tree collection
                     // This can be tricky, because Binding an ObservableDictionary to the treeview will
                     // require that we need an array of KeyValuePairs<K,T>[] here :-(
-#if DEBUG
-                    throw new System.InvalidOperationException("Node '" + node + "' cannot be fount in container");
-#else
+//#if DEBUG
+//                    throw new System.InvalidOperationException("Node '" + node + "' cannot be fount in container");
+//#else
                     return;
-#endif
+//#endif
                 }
 
                 virtualizingPanel?.BringIndexIntoViewPublic(index);
@@ -92,12 +92,12 @@ public class BringVirtualTreeViewItemIntoViewBehavior
 
             if (newParent == null)
             {
-#if DEBUG
-                throw new System.InvalidOperationException("Tree view item cannot be found or created for node '" + node +
-                                                    "'");
-#else
+//#if DEBUG
+//                throw new System.InvalidOperationException("Tree view item cannot be found or created for node '" + node +
+//                                                    "'");
+//#else
                 return;
-#endif
+//#endif
             }
 
             if (node == nodepath[^1])
