@@ -636,8 +636,9 @@ public class AMLTreeViewModel : AMLNodeViewModel
     ///     Sets the root for this TreeView
     /// </summary>
     /// <param name="rootNode">The root node.</param>
-    public void SetRoot(AMLNodeViewModel rootNode)
+    public void SetRoot(AMLNodeViewModel rootNode, bool notifySelection=true)
     {
+        RaiseNotifySelection = notifySelection;
         ClearAll();
 
         if (rootNode == null)
@@ -654,6 +655,8 @@ public class AMLTreeViewModel : AMLNodeViewModel
 
         Root.LoadChildren();
         Root.IsExpanded = true;
+
+        RaiseNotifySelection = true;
     }
 
     /// <summary>
