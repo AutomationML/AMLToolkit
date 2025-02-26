@@ -683,6 +683,25 @@
                     </MultiBinding>
                 </TextBlock.Visibility>
             </TextBlock>
+
+
+            <TextBlock
+                Margin="1,-3,0,0"
+                FontSize="12"
+                FontWeight="Bold"
+                Foreground="Red"
+                Text="{Binding DirectionWarn, Mode=OneWay}"
+                Visibility="{Binding HasDirectionError, Converter={StaticResource btvc}, FallbackValue=Collapsed}" />
+
+            <TextBlock
+                Margin="1,-3,0,0"
+                FontSize="12"
+                FontWeight="Bold"
+                Foreground="Red"
+                Text="{Binding CategoryWarn, Mode=OneWay}"
+                Visibility="{Binding HasCategoryError, Converter={StaticResource btvc}, FallbackValue=Collapsed}" />
+
+
             <ToggleButton IsChecked="{Binding ShowLinks}">
                 <ToggleButton.Style>
                     <Style BasedOn="{StaticResource ExpandCollapseToggleStyle}" TargetType="ToggleButton">

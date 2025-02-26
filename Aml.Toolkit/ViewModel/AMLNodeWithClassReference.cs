@@ -211,6 +211,38 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
         }
     }
 
+
+    /// <summary>
+    ///     Gets a warning when the Category is violated.
+    /// </summary>
+    /// <value>
+    ///     The Category warn.
+    /// </value>
+    public string CategoryWarn
+    {
+        get
+        {
+            return CAEXObject is ExternalInterfaceType ie 
+                        ? $"[{ie.Categories().FirstOrDefault()}] !" : null;
+        }
+    }
+
+    /// <summary>
+    ///     Gets a warning when the direction is violated.
+    /// </summary>
+    /// <value>
+    ///     The directon warn.
+    /// </value>
+    public string DirectionWarn
+    {
+        get
+        {
+            return CAEXObject is ExternalInterfaceType ie ? 
+                $">{ie.Direction()}> !" : null;
+        }
+    }
+
+
     /// <summary>
     ///     Gets the maximum cardinality.
     /// </summary>
@@ -248,6 +280,39 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
             return CAEXObject is ExternalInterfaceType ie && ie.HasVerifiableCardinality();
         }
     }
+
+
+    /// <summary>
+    ///     Gets a value indicating whether this instance has an assigned direction attribute.
+    /// </summary>
+    /// <value>
+    ///     <c>true</c> if this instance has direction; otherwise, <c>false</c>.
+    /// </value>
+    public bool HasDirectionError
+    {
+        get
+        {
+            return CAEXObject is ExternalInterfaceType ie && ie.DirectionViolation(out _);
+        }
+    }
+
+
+
+    /// <summary>
+    ///     Gets a value indicating whether this instance has an assigned Category attribute.
+    /// </summary>
+    /// <value>
+    ///     <c>true</c> if this instance has Category; otherwise, <c>false</c>.
+    /// </value>
+    public bool HasCategoryError
+    {
+        get
+        {
+            return CAEXObject is ExternalInterfaceType ie && ie.CategoryViolation();
+        }
+    }
+
+
 
     private void SetIsMaster()
     {
@@ -366,6 +431,10 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
 
         RaisePropertyChanged(nameof(MaxCardinalityWarn));
         RaisePropertyChanged(nameof(MinCardinalityWarn));
+        RaisePropertyChanged(nameof(HasCategoryError));
+        RaisePropertyChanged(nameof(HasDirectionError));
+        RaisePropertyChanged(nameof(CategoryWarn));
+        RaisePropertyChanged(nameof(DirectionWarn));
 
 
         RaisePropertyChanged(nameof(HasClassOrVersionReference));

@@ -364,8 +364,12 @@ public class AMLTreeViewModel : AMLNodeViewModel
     /// <summary>
     ///     Clears all content from the tree view
     /// </summary>
-    public virtual void ClearAll()
+    public virtual void ClearAll(bool raiseNotification=true)
     {
+        if (!raiseNotification)
+        {
+            RaiseNotifySelection = false;
+        }
         ClearSelections();
         Commands.Clear();
 
@@ -376,6 +380,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
 
         AmlTreeView?.InternalLinksAdorner?.Clear();
         Root = null;
+        RaiseNotifySelection = true;
     }
 
     /// <summary>
@@ -921,6 +926,8 @@ public class AMLTreeViewModel : AMLNodeViewModel
                 {
                     case AutomationMLBaseAttributeTypeLib.MinOccurrenceAttribute:
                     case AutomationMLBaseAttributeTypeLib.MaxOccurrenceAttribute:
+                    case AutomationMLBaseAttributeTypeLib.DirectionAttribute:
+                    case AutomationMLBaseAttributeTypeLib.CategoryAttribute:
                     case RefURIAttributeType.REF_URI_ATTRIBUTE:
                         xElement = e.CAEXParent.Parent;
                         break;
@@ -1024,6 +1031,8 @@ public class AMLTreeViewModel : AMLNodeViewModel
                             {
                                 case AutomationMLBaseAttributeTypeLib.MinOccurrenceAttribute:
                                 case AutomationMLBaseAttributeTypeLib.MaxOccurrenceAttribute:
+                                case AutomationMLBaseAttributeTypeLib.DirectionAttribute:
+                                case AutomationMLBaseAttributeTypeLib.CategoryAttribute:
                                 case RefURIAttributeType.REF_URI_ATTRIBUTE:
                                     break;
                                 default: return;
