@@ -3,6 +3,7 @@ using Aml.Editor.MVVMBase;
 using Aml.Editor.Plugin.Contract.Commanding;
 using Aml.Editor.Plugin.Contracts;
 using Aml.Engine.CAEX;
+using MahApps.Metro.Controls;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -69,6 +70,12 @@ public class AmlSearchViewModel : ViewModelBase
                     SearchText = s;
                     Reset();
                     SearchCommandExecute(s);
+                }
+
+                else if (x is SplitButton && !string.IsNullOrEmpty(SearchText))
+                {
+                    Reset();
+                    SearchCommandExecute(SearchText);
                 }
 
                 else
@@ -149,7 +156,7 @@ public class AmlSearchViewModel : ViewModelBase
     /// <value>
     ///     The goto icon.
     /// </value>
-    public ImageSource GotoIcon => GotoMode == "Go down" ? GotoNextIcon : GotoPrevIcon;
+    public string GotoIcon => GotoMode == "Go down" ? "ArrowDown" : "ArrowUp";
 
     #region Private Fields
 

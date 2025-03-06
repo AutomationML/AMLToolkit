@@ -58,6 +58,10 @@
 	  <NoWarn>1701;1702;1587</NoWarn>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <Compile Remove="View\TreeViewMultipleSelectionAttached.cs" />
+	</ItemGroup>
+
 
 	<ItemGroup>
 		<None Remove="Resource\case.png" />

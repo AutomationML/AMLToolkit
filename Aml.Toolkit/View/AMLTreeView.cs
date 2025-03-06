@@ -246,10 +246,9 @@ public class AMLTreeView : Control
             return;
         }
 
-        TreeViewMultipleSelectionAttached.DeSelectAllItems(TheTreeView, null);
-
-        if (TreeViewModel?.SelectedElements.Count > 0)
+        if ( TreeViewModel?.SelectedNode != null )
         {
+            TreeViewModel.SelectedNode.IsSelected = false;
             TreeViewModel.SelectedElements?.Clear();
         }
 

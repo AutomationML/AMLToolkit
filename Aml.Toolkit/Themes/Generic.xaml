@@ -2,6 +2,7 @@
     x:Class="Aml.Toolkit.Themes.Generic"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:iconPack="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:local="clr-namespace:Aml.Toolkit.View"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:rule="clr-namespace:Aml.Toolkit.ViewModel.ValidationRules"
@@ -1531,9 +1532,9 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
 
-                        <Grid>
+                        <Grid Height="26">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="150" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
@@ -1558,13 +1559,17 @@
                                 x:Name="ElementChoiceButton"
                                 Grid.Column="2"
                                 Height="22"
+                                Margin="1,0"
+                                Padding="0"
+                                Command="{Binding SearchCommand, Mode=OneWay}"
                                 DisplayMemberPath="DisplayName"
                                 ItemsSource="{Binding CaexTagnames}"
                                 Style="{StaticResource ToolBarSplitButtonStyle}"
                                 ToolTip="Select CAEX-Elements to search">
 
                                 <mah:SplitButton.Icon>
-                                    <Image Source="{StaticResource SearchTextIcon}" />
+                                    <iconPack:PackIconMaterialDesign Height="12" Kind="Search" />
+                                    <!--<Image Source="{StaticResource SearchTextIcon}" />-->
                                 </mah:SplitButton.Icon>
 
                                 <mah:SplitButton.ItemContainerStyle>
@@ -1605,18 +1610,38 @@
                                 x:Name="GotoButton"
                                 Grid.Column="3"
                                 Height="22"
+                                Margin="1,0"
+                                Padding="0"
                                 Command="{Binding GotoNextCommand}"
                                 ItemsSource="{Binding GotoModes}"
                                 SelectedItem="{Binding GotoMode, Mode=TwoWay}"
                                 Style="{StaticResource ToolBarSplitButtonStyle}">
 
                                 <mah:SplitButton.Icon>
-                                    <Image Width="18" Source="{Binding GotoIcon}" />
+                                    <iconPack:PackIconVaadinIcons Height="12">
+                                        <iconPack:PackIconVaadinIcons.Style>
+                                            <Style TargetType="iconPack:PackIconVaadinIcons">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding GotoMode}" Value="Go down">
+                                                        <Setter Property="Kind" Value="ArrowDown" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding GotoMode}" Value="Go up">
+                                                        <Setter Property="Kind" Value="ArrowUp" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </iconPack:PackIconVaadinIcons.Style>
+                                    </iconPack:PackIconVaadinIcons>
+
+                                    <!--<Image Width="18" Source="{Binding GotoIcon}" />-->
                                 </mah:SplitButton.Icon>
                             </mah:SplitButton>
 
                             <ToggleButton
                                 Grid.Column="4"
+                                Height="22"
+                                Margin="2,0"
+                                Padding="0"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
                                 IsChecked="{Binding IsCaseSensitive}"
@@ -1643,14 +1668,17 @@
 
                             <ToggleButton
                                 Grid.Column="5"
+                                Height="22"
+                                Margin="2,0"
+                                Padding="0"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
                                 IsChecked="{Binding FilterTree}"
                                 Style="{StaticResource MahApps.Styles.ToggleButton.ToolBar}"
                                 ToolTip="hide / show only nodes found">
                                 <Image
-                                    Width="13"
-                                    Height="13"
+                                    Width="16"
+                                    Height="16"
                                     Source="{StaticResource IHImage}" />
                             </ToggleButton>
 
