@@ -641,6 +641,7 @@ public class AMLTreeViewModel : AMLNodeViewModel
     ///     Sets the root for this TreeView
     /// </summary>
     /// <param name="rootNode">The root node.</param>
+    /// <param name="notifySelection">Raises notify selection when true</param>
     public void SetRoot(AMLNodeViewModel rootNode, bool notifySelection=true)
     {
         RaiseNotifySelection = notifySelection;

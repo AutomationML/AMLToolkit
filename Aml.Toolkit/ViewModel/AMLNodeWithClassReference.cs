@@ -81,6 +81,11 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
     public string ClassPathReferenceAttribute { get; set; }
 
 
+    /// <summary>
+    /// Normalized reference
+    /// </summary>
+    /// <param name="reference"></param>
+    /// <returns></returns>
     protected string NormalizedReference (string reference) => CAEXPathBuilder.NormalizePath(reference, out _, CAEXObject.CAEXSchema());
 
     /// <summary>
