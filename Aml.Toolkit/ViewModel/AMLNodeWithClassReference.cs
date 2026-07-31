@@ -468,8 +468,9 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
         {
             return;
         }
-        //_ = new Action(() =>
-        //      {
+       
+        RaisePropertyChanged(nameof(MinCardinality));
+        RaisePropertyChanged(nameof(MaxCardinality));
         RaisePropertyChanged(nameof(MinCardinalityWarn));
         RaisePropertyChanged(nameof(MaxCardinalityWarn));
 
@@ -523,17 +524,11 @@ public class AMLNodeWithClassReference : AMLNodeViewModel
         }
 
         if (invalidate && Tree.AmlTreeView?.InternalLinksAdorner != null)
-        {
-            //_ = Execute.OnUIThread(
-            //    () =>
-            //    {
-            Tree.AmlTreeView.InternalLinksAdorner.Redraw();
-            //});
+        {            
+            Tree.AmlTreeView.InternalLinksAdorner.Redraw();           
         }
 
-        RaisePropertyChanged(nameof(ShowLinks));
-        //}
-        //).OnUIThread();
+        RaisePropertyChanged(nameof(ShowLinks));        
     }
 
     #endregion Public Methods

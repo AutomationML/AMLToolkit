@@ -917,20 +917,39 @@ public class AMLTreeViewModel : AMLNodeViewModel
         }
 
         var xElement = e.CAEXElement;
+        var resolvedFromAttributeWalkUp = false;
 
-        if ((e.ChangeMode & CAEXElementChangeMode.ValueChanged) != CAEXElementChangeMode.None)
+        // some value changes are relevant for node layouts. This also covers the first-time
+        // assignment of a value, which raises an Added (not ValueChanged) event for the newly
+        // created Value element (e.g. setting MinOccur/MaxOccur on a Cardinality attribute for
+        // the first time on an externalInterface).
+        if ((e.ChangeMode & (CAEXElementChangeMode.ValueChanged | CAEXElementChangeMode.Added |
+                CAEXElementChangeMode.Deleted)) != CAEXElementChangeMode.None)
         {
-            // some value changes are relevant for node layouts
-            if (e.CAEXParent != null && e.CAEXParent.IsAttribute())
+            var attributeParent = e.CAEXParent != null && e.CAEXParent.IsAttribute()
+                ? e.CAEXParent
+                : xElement != null && xElement.IsAttribute()
+                    ? xElement
+                    : null;
+
+            if (attributeParent != null)
             {
-                switch (e.CAEXParent.Attribute("Name").Value)
+                switch (attributeParent.Attribute("Name")?.Value)
                 {
                     case AutomationMLBaseAttributeTypeLib.MinOccurrenceAttribute:
                     case AutomationMLBaseAttributeTypeLib.MaxOccurrenceAttribute:
                     case AutomationMLBaseAttributeTypeLib.DirectionAttribute:
                     case AutomationMLBaseAttributeTypeLib.CategoryAttribute:
                     case RefURIAttributeType.REF_URI_ATTRIBUTE:
-                        xElement = e.CAEXParent.Parent;
+                        // Walk up through *all* nested Attribute ancestors (e.g. Cardinality/MinOccur)
+                        // to reach the actual owning element (e.g. the externalInterface),
+                        // not just the immediate parent Attribute node.
+                        xElement = attributeParent.Parent;
+                        while (xElement is { Name.LocalName: CAEX_CLASSModel_TagNames.ATTRIBUTE_STRING })
+                        {
+                            xElement = xElement.Parent;
+                        }
+                        resolvedFromAttributeWalkUp = true;
                         break;
                 }
             }
@@ -963,12 +982,14 @@ public class AMLTreeViewModel : AMLNodeViewModel
             }
         }
 
-        return e.ChangeMode.HasFlag(CAEXElementChangeMode.Deleted) ||
-            e.ChangeMode.HasFlag(CAEXElementChangeMode.Added)
+        var result = (e.ChangeMode.HasFlag(CAEXElementChangeMode.Deleted) ||
+            e.ChangeMode.HasFlag(CAEXElementChangeMode.Added)) && !resolvedFromAttributeWalkUp
             ? Root.CAEXNode == e.CAEXParent
                 ? [Root]
                 : FindTreeViewItemsInTree(Root.Children, NodeParent(e.CAEXParent, e.CAEXParent))
             : FindTreeViewItemsInTree(Root.Children, xElement);
+
+        return result.ToList();
     }
 
 
@@ -1036,7 +1057,8 @@ public class AMLTreeViewModel : AMLNodeViewModel
                                 case AutomationMLBaseAttributeTypeLib.CategoryAttribute:
                                 case RefURIAttributeType.REF_URI_ATTRIBUTE:
                                     break;
-                                default: return;
+                                default:
+                                    return;
                             }
 
                             break;

@@ -1144,11 +1144,14 @@ public class AmlSearchViewModel : ViewModelBase
 
     internal void Restart()
     {
-        if (!IsBusy && !string.IsNullOrEmpty(SearchText))
+        if (IsBusy || string.IsNullOrWhiteSpace(SearchText))
         {
-            var search = SearchText;
-            SearchText = search;
+            return;
         }
+
+        // Keep text, but force a fresh search in current scope
+        Reset();
+        StartFilterRequest?.Invoke(this, EventArgs.Empty);
     }
 
     #endregion Private Methods

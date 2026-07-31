@@ -457,7 +457,7 @@ public class AMLLayout : ViewModelBase
     }
 
     /// <summary>
-    ///     Gets and sets the ShowLinkCardianlity
+    /// Gets and sets the ShowLinkCardinality
     /// </summary>
     public bool ShowLinkCardinality
     {
